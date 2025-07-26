@@ -8,6 +8,7 @@ import NotFound from "@/pages/not-found";
 import Landing from "@/pages/landing";
 import Dashboard from "@/pages/dashboard";
 import Insights from "@/pages/insights";
+import Account from "@/pages/account";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -20,6 +21,7 @@ function Router() {
         <>
           <Route path="/" component={Dashboard} />
           <Route path="/insights" component={Insights} />
+          <Route path="/account" component={Account} />
         </>
       )}
       <Route component={NotFound} />

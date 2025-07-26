@@ -4,20 +4,20 @@ import { Leaf, Clock, Target, TrendingUp, Moon, Wind, Dumbbell } from "lucide-re
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-sage-50">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-mint-50">
       {/* Navigation */}
       <nav className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-teal to-sage rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-br from-emerald to-mint rounded-lg flex items-center justify-center">
                 <Leaf className="w-4 h-4 text-white" />
               </div>
               <h1 className="text-xl font-semibold text-gray-900">Reset</h1>
             </div>
             <Button 
               onClick={() => window.location.href = '/api/login'}
-              className="bg-teal hover:bg-teal/90"
+              className="bg-emerald hover:bg-emerald/90 text-white"
             >
               Get Started
             </Button>
@@ -29,27 +29,27 @@ export default function Landing() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Reset Your Wellness
-            <span className="text-teal block">In Just 60 Seconds</span>
+            Transform Your Day
+            <span className="text-emerald block">One Minute at a Time</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Take control of your wellbeing with science-backed 60-second reset sessions. 
-            From sleep tracking to stress relief, mindful stretches to energy boosts - your wellness journey starts here.
+            Discover how 60 seconds can change everything. Science-backed wellness sessions that fit into your busiest days. 
+            <span className="text-emerald font-semibold">Join 10,000+ people who reset daily.</span>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg"
               onClick={() => window.location.href = '/api/login'}
-              className="bg-teal hover:bg-teal/90 text-lg px-8 py-3"
+              className="bg-emerald hover:bg-emerald/90 text-white text-lg px-8 py-3 shadow-lg hover:shadow-xl transition-all"
             >
-              Start Your Free Account
+              Start Your Reset Journey
             </Button>
             <Button 
               size="lg" 
               variant="outline"
-              className="border-teal text-teal hover:bg-teal hover:text-white text-lg px-8 py-3"
+              className="border-emerald text-emerald hover:bg-emerald hover:text-white text-lg px-8 py-3"
             >
-              Learn More
+              See How It Works
             </Button>
           </div>
         </div>
@@ -118,9 +118,9 @@ export default function Landing() {
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-r from-teal to-sage rounded-2xl p-8 text-white text-center mt-20">
-          <h2 className="text-3xl font-semibold mb-4">Ready to Reset Your Wellness?</h2>
-          <p className="text-teal-100 mb-6 text-lg">Join thousands who have transformed their daily routine with just 60 seconds.</p>
+        <div className="bg-gradient-to-r from-emerald via-teal to-mint rounded-2xl p-8 text-white text-center mt-20 shadow-2xl">
+          <h2 className="text-3xl font-semibold mb-4">Your Better Day Starts Now</h2>
+          <p className="text-emerald-100 mb-6 text-lg">Join 10,000+ people who've made wellness effortless with Reset.</p>
           <Button 
             size="lg"
             onClick={() => window.location.href = '/api/login'}

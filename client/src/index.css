@@ -24,9 +24,11 @@
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
-  /* Custom wellness colors */
-  --teal: hsl(180, 29%, 43%);
-  --sage: hsl(100, 26%, 56%);
+  /* Custom wellness colors - Enhanced green theme */
+  --teal: hsl(174, 72%, 56%);
+  --sage: hsl(123, 38%, 57%);
+  --emerald: hsl(160, 84%, 39%);
+  --mint: hsl(151, 55%, 53%);
   --warm: hsl(48, 100%, 62%);
 }
 
@@ -52,9 +54,11 @@
   --ring: hsl(240, 4.9%, 83.9%);
   --radius: 0.5rem;
   
-  /* Custom wellness colors for dark mode */
-  --teal: hsl(180, 29%, 43%);
-  --sage: hsl(100, 26%, 56%);
+  /* Custom wellness colors for dark mode - Enhanced green theme */
+  --teal: hsl(174, 72%, 56%);
+  --sage: hsl(123, 38%, 57%);
+  --emerald: hsl(160, 84%, 39%);
+  --mint: hsl(151, 55%, 53%);
   --warm: hsl(48, 100%, 62%);
 }
 
@@ -71,6 +75,27 @@
 @layer utilities {
   .text-teal {
     color: hsl(var(--teal));
+  }
+  .bg-teal {
+    background-color: hsl(var(--teal));
+  }
+  .text-sage {
+    color: hsl(var(--sage));
+  }
+  .bg-sage {
+    background-color: hsl(var(--sage));
+  }
+  .text-emerald {
+    color: hsl(var(--emerald));
+  }
+  .bg-emerald {
+    background-color: hsl(var(--emerald));
+  }
+  .text-mint {
+    color: hsl(var(--mint));
+  }
+  .bg-mint {
+    background-color: hsl(var(--mint));
   }
   
   .bg-teal {

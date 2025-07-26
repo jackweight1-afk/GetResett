@@ -135,6 +135,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // User stats route (for account page)
+  app.get('/api/user/stats', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const stats = await storage.getUserSessionStats(userId);
+      res.json(stats);
+    } catch (error) {
+      console.error("Error fetching user stats:", error);
+      res.status(500).json({ message: "Failed to fetch user stats" });
+    }
+  });
+
+  // Account deletion route
+  app.delete('/api/user/delete', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      await storage.deleteUser(userId);
+      res.json({ message: "Account deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      res.status(500).json({ message: "Failed to delete account" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
@@ -157,10 +181,22 @@ async function initializeSessionTypes() {
           color: "blue",
         },
         {
-          name: "Quick Stretch",
-          description: "Targeted stretches for neck, back, or shoulders to release tension.",
+          name: "Upper Body Stretch",
+          description: "Release tension in neck, shoulders, and arms to feel refreshed.",
           icon: "fas fa-street-view",
           color: "sage",
+        },
+        {
+          name: "Lower Body Stretch",
+          description: "Stretch hips, hamstrings, and calves to improve mobility.",
+          icon: "fas fa-street-view",
+          color: "mint",
+        },
+        {
+          name: "Full Body Flow",
+          description: "Complete head-to-toe stretching sequence for total body relief.",
+          icon: "fas fa-street-view",
+          color: "emerald",
         },
         {
           name: "Energy Boost",

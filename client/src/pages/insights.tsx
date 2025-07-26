@@ -28,6 +28,12 @@ interface UserInsights {
   stressImprovement: number;
   favoriteSessionType: string;
   peakTime: string;
+  correlations: {
+    sleepExercise: string;
+    stressSleep: string;
+    moodStreaks: string;
+    timeOfDay: string;
+  };
 }
 
 export default function Insights() {
@@ -242,6 +248,49 @@ export default function Insights() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Actionable Insights */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="text-emerald">Your Personal Insights</CardTitle>
+            <p className="text-gray-600">Discover patterns in your wellness journey</p>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {insightsLoading ? (
+                Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-full"></div>
+                  </div>
+                ))
+              ) : insights?.correlations ? (
+                <>
+                  <div className="p-4 bg-emerald/5 rounded-lg border border-emerald/20">
+                    <h4 className="font-semibold text-emerald mb-2">💤 Sleep & Movement</h4>
+                    <p className="text-sm text-gray-700">{insights.correlations.sleepExercise}</p>
+                  </div>
+                  <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <h4 className="font-semibold text-blue-600 mb-2">😌 Stress & Sleep</h4>
+                    <p className="text-sm text-gray-700">{insights.correlations.stressSleep}</p>
+                  </div>
+                  <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
+                    <h4 className="font-semibold text-orange-600 mb-2">🔥 Consistency Impact</h4>
+                    <p className="text-sm text-gray-700">{insights.correlations.moodStreaks}</p>
+                  </div>
+                  <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+                    <h4 className="font-semibold text-purple-600 mb-2">⏰ Timing Patterns</h4>
+                    <p className="text-sm text-gray-700">{insights.correlations.timeOfDay}</p>
+                  </div>
+                </>
+              ) : (
+                <div className="col-span-2 text-center py-8">
+                  <p className="text-gray-500">Complete a few more sessions to unlock personalized insights</p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Session History */}
         <Card>
