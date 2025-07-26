@@ -316,7 +316,7 @@ export default function Dashboard() {
                 <p className="text-2xl font-bold text-teal mb-2">
                   {insightsLoading ? "..." : `${insights?.consistencyScore || 0}%`}
                 </p>
-                <p className="text-sm text-gray-600">You're maintaining great daily habits!</p>
+                <p className="text-sm text-gray-700">You're maintaining great daily habits!</p>
               </CardContent>
             </Card>
 
@@ -329,7 +329,7 @@ export default function Dashboard() {
                 <p className="text-2xl font-bold text-sage mb-2">
                   {insightsLoading ? "..." : `${(insights?.stressImprovement || 0) > 0 ? '+' : ''}${insights?.stressImprovement || 0}%`}
                 </p>
-                <p className="text-sm text-gray-600">Change since last week</p>
+                <p className="text-sm text-gray-700">Change since last week</p>
               </CardContent>
             </Card>
 
@@ -342,7 +342,7 @@ export default function Dashboard() {
                 <p className="text-2xl font-bold text-purple-600 mb-2">
                   {insightsLoading ? "..." : `${insights?.averageSleepQuality || 0}/10`}
                 </p>
-                <p className="text-sm text-gray-600">Average this week</p>
+                <p className="text-sm text-gray-700">Average this week</p>
               </CardContent>
             </Card>
           </div>
