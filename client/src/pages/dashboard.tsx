@@ -123,35 +123,35 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <div className="bg-gradient-to-r from-teal to-sage rounded-2xl p-8 text-white relative overflow-hidden">
+          <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl p-8 text-black relative overflow-hidden">
             <div className="relative z-10">
-              <h2 className="text-3xl font-semibold mb-2">
+              <h2 className="text-3xl font-semibold mb-2 text-gray-900">
                 Welcome back, {user?.firstName || "there"}
               </h2>
-              <p className="text-white/90 mb-4">Ready for your next 60-second reset? You're doing great!</p>
+              <p className="text-gray-900 font-medium mb-4">Ready for your next 60-second reset? You're doing great!</p>
               <div className="flex items-center space-x-6">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-white">
+                  <div className="text-2xl font-bold text-gray-900">
                     {statsLoading ? "..." : stats?.currentStreak || 0}
                   </div>
-                  <div className="text-sm text-white/80">Day Streak</div>
+                  <div className="text-sm text-gray-800">Day Streak</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-white">
+                  <div className="text-2xl font-bold text-gray-900">
                     {statsLoading ? "..." : stats?.totalSessions || 0}
                   </div>
-                  <div className="text-sm text-white/80">Sessions</div>
+                  <div className="text-sm text-gray-800">Sessions</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-white">
+                  <div className="text-2xl font-bold text-gray-900">
                     {statsLoading ? "..." : stats?.totalMinutes || 0}
                   </div>
-                  <div className="text-sm text-white/80">Minutes</div>
+                  <div className="text-sm text-gray-800">Minutes</div>
                 </div>
               </div>
             </div>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
-            <div className="absolute bottom-0 right-0 w-20 h-20 bg-white opacity-5 rounded-full -mr-10 -mb-10"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-black opacity-5 rounded-full -mr-16 -mt-16"></div>
+            <div className="absolute bottom-0 right-0 w-20 h-20 bg-black opacity-10 rounded-full -mr-10 -mb-10"></div>
           </div>
         </div>
 

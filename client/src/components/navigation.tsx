@@ -15,8 +15,8 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-4">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-emerald to-mint rounded-lg flex items-center justify-center">
-                <Leaf className="w-4 h-4 text-white" />
+              <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-purple-700 rounded-lg flex items-center justify-center">
+                <Leaf className="w-4 h-4 text-black" />
               </div>
               <h1 className="text-xl font-semibold text-gray-900">Reset</h1>
             </Link>
@@ -27,8 +27,8 @@ export default function Navigation() {
               href="/" 
               className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all ${
                 location === "/" 
-                  ? "bg-emerald/15 text-emerald font-semibold border border-emerald/20" 
-                  : "text-gray-700 hover:text-emerald hover:bg-emerald/8"
+                  ? "bg-purple-100 text-purple-700 font-semibold border border-purple-300" 
+                  : "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
               }`}
             >
               <Activity className="w-4 h-4" />
@@ -38,8 +38,8 @@ export default function Navigation() {
               href="/insights" 
               className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all ${
                 location === "/insights" 
-                  ? "bg-emerald/15 text-emerald font-semibold border border-emerald/20" 
-                  : "text-gray-700 hover:text-emerald hover:bg-emerald/8"
+                  ? "bg-purple-100 text-purple-700 font-semibold border border-purple-300" 
+                  : "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
               }`}
             >
               <TrendingUp className="w-4 h-4" />
@@ -49,8 +49,8 @@ export default function Navigation() {
               href="/account" 
               className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all ${
                 location === "/account" 
-                  ? "bg-emerald/15 text-emerald font-semibold border border-emerald/20" 
-                  : "text-gray-700 hover:text-emerald hover:bg-emerald/8"
+                  ? "bg-purple-100 text-purple-700 font-semibold border border-purple-300" 
+                  : "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
               }`}
             >
               <User className="w-4 h-4" />
@@ -75,11 +75,11 @@ export default function Navigation() {
                 <img 
                   src={user.profileImageUrl} 
                   alt="User profile" 
-                  className="w-8 h-8 rounded-full object-cover border-2 border-emerald-200" 
+                  className="w-8 h-8 rounded-full object-cover border-2 border-purple-300" 
                 />
               ) : (
-                <div className="w-8 h-8 rounded-full bg-emerald flex items-center justify-center border-2 border-emerald-200 shadow-sm">
-                  <span className="text-white font-semibold text-sm">
+                <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center border-2 border-purple-300 shadow-sm">
+                  <span className="text-black font-semibold text-sm">
                     {user?.firstName?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || "U"}
                   </span>
                 </div>
@@ -99,8 +99,8 @@ export default function Navigation() {
                 href="/" 
                 className={`flex items-center space-x-3 px-3 py-3 rounded-lg transition-all ${
                   location === "/" 
-                    ? "bg-emerald/15 text-emerald font-semibold border border-emerald/20" 
-                    : "text-gray-700 hover:text-emerald hover:bg-emerald/8"
+                    ? "bg-purple-100 text-purple-700 font-semibold border border-purple-300" 
+                    : "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -111,8 +111,8 @@ export default function Navigation() {
                 href="/insights" 
                 className={`flex items-center space-x-3 px-3 py-3 rounded-lg transition-all ${
                   location === "/insights" 
-                    ? "bg-emerald/15 text-emerald font-semibold border border-emerald/20" 
-                    : "text-gray-700 hover:text-emerald hover:bg-emerald/8"
+                    ? "bg-purple-100 text-purple-700 font-semibold border border-purple-300" 
+                    : "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -123,8 +123,8 @@ export default function Navigation() {
                 href="/account" 
                 className={`flex items-center space-x-3 px-3 py-3 rounded-lg transition-all ${
                   location === "/account" 
-                    ? "bg-emerald/15 text-emerald font-semibold border border-emerald/20" 
-                    : "text-gray-700 hover:text-emerald hover:bg-emerald/8"
+                    ? "bg-purple-100 text-purple-700 font-semibold border border-purple-300" 
+                    : "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
