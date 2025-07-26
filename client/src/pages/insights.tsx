@@ -266,21 +266,21 @@ export default function Insights() {
                 ))
               ) : insights?.correlations ? (
                 <>
-                  <div className="p-4 bg-emerald/5 rounded-lg border border-emerald/20">
+                  <div className="p-4 bg-emerald/10 rounded-lg border border-emerald/30">
                     <h4 className="font-semibold text-emerald mb-2">💤 Sleep & Movement</h4>
-                    <p className="text-sm text-gray-700">{insights.correlations.sleepExercise}</p>
+                    <p className="text-sm text-gray-800">{insights.correlations.sleepExercise}</p>
                   </div>
                   <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <h4 className="font-semibold text-blue-600 mb-2">😌 Stress & Sleep</h4>
-                    <p className="text-sm text-gray-700">{insights.correlations.stressSleep}</p>
+                    <h4 className="font-semibold text-blue-700 mb-2">😌 Stress & Sleep</h4>
+                    <p className="text-sm text-gray-800">{insights.correlations.stressSleep}</p>
                   </div>
                   <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
-                    <h4 className="font-semibold text-orange-600 mb-2">🔥 Consistency Impact</h4>
-                    <p className="text-sm text-gray-700">{insights.correlations.moodStreaks}</p>
+                    <h4 className="font-semibold text-orange-700 mb-2">🔥 Consistency Impact</h4>
+                    <p className="text-sm text-gray-800">{insights.correlations.moodStreaks}</p>
                   </div>
                   <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-                    <h4 className="font-semibold text-purple-600 mb-2">⏰ Timing Patterns</h4>
-                    <p className="text-sm text-gray-700">{insights.correlations.timeOfDay}</p>
+                    <h4 className="font-semibold text-purple-700 mb-2">⏰ Timing Patterns</h4>
+                    <p className="text-sm text-gray-800">{insights.correlations.timeOfDay}</p>
                   </div>
                 </>
               ) : (

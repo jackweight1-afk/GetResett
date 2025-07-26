@@ -1,11 +1,13 @@
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
-import { Leaf, Activity, TrendingUp, User } from "lucide-react";
+import { Leaf, Activity, TrendingUp, User, Menu, X } from "lucide-react";
+import { useState } from "react";
 
 export default function Navigation() {
   const { user } = useAuth();
   const [location] = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200">
@@ -25,8 +27,8 @@ export default function Navigation() {
               href="/" 
               className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all ${
                 location === "/" 
-                  ? "bg-emerald/10 text-emerald font-medium" 
-                  : "text-gray-600 hover:text-emerald hover:bg-emerald/5"
+                  ? "bg-emerald/15 text-emerald font-semibold border border-emerald/20" 
+                  : "text-gray-700 hover:text-emerald hover:bg-emerald/8"
               }`}
             >
               <Activity className="w-4 h-4" />
@@ -36,8 +38,8 @@ export default function Navigation() {
               href="/insights" 
               className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all ${
                 location === "/insights" 
-                  ? "bg-emerald/10 text-emerald font-medium" 
-                  : "text-gray-600 hover:text-emerald hover:bg-emerald/5"
+                  ? "bg-emerald/15 text-emerald font-semibold border border-emerald/20" 
+                  : "text-gray-700 hover:text-emerald hover:bg-emerald/8"
               }`}
             >
               <TrendingUp className="w-4 h-4" />
@@ -47,8 +49,8 @@ export default function Navigation() {
               href="/account" 
               className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all ${
                 location === "/account" 
-                  ? "bg-emerald/10 text-emerald font-medium" 
-                  : "text-gray-600 hover:text-emerald hover:bg-emerald/5"
+                  ? "bg-emerald/15 text-emerald font-semibold border border-emerald/20" 
+                  : "text-gray-700 hover:text-emerald hover:bg-emerald/8"
               }`}
             >
               <User className="w-4 h-4" />
@@ -57,6 +59,17 @@ export default function Navigation() {
           </div>
 
           <div className="flex items-center space-x-4">
+            {/* Mobile menu button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="md:hidden"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
+            
+            {/* User profile */}
             <Link href="/account" className="flex items-center space-x-2">
               {user?.profileImageUrl ? (
                 <img 
@@ -65,18 +78,62 @@ export default function Navigation() {
                   className="w-8 h-8 rounded-full object-cover border-2 border-emerald-200" 
                 />
               ) : (
-                <div className="w-8 h-8 rounded-full bg-emerald/20 flex items-center justify-center border-2 border-emerald-200">
-                  <span className="text-emerald font-medium text-sm">
-                    {user?.firstName?.[0] || user?.email?.[0] || "U"}
+                <div className="w-8 h-8 rounded-full bg-emerald flex items-center justify-center border-2 border-emerald-200 shadow-sm">
+                  <span className="text-white font-semibold text-sm">
+                    {user?.firstName?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || "U"}
                   </span>
                 </div>
               )}
-              <span className="hidden sm:block text-sm text-gray-700">
+              <span className="hidden sm:block text-sm text-gray-800 font-medium">
                 {user?.firstName || 'User'}
               </span>
             </Link>
           </div>
         </div>
+        
+        {/* Mobile Navigation Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden border-t border-gray-200 bg-white">
+            <div className="px-4 py-3 space-y-2">
+              <Link 
+                href="/" 
+                className={`flex items-center space-x-3 px-3 py-3 rounded-lg transition-all ${
+                  location === "/" 
+                    ? "bg-emerald/15 text-emerald font-semibold border border-emerald/20" 
+                    : "text-gray-700 hover:text-emerald hover:bg-emerald/8"
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Activity className="w-5 h-5" />
+                <span>Resets</span>
+              </Link>
+              <Link 
+                href="/insights" 
+                className={`flex items-center space-x-3 px-3 py-3 rounded-lg transition-all ${
+                  location === "/insights" 
+                    ? "bg-emerald/15 text-emerald font-semibold border border-emerald/20" 
+                    : "text-gray-700 hover:text-emerald hover:bg-emerald/8"
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <TrendingUp className="w-5 h-5" />
+                <span>Insights</span>
+              </Link>
+              <Link 
+                href="/account" 
+                className={`flex items-center space-x-3 px-3 py-3 rounded-lg transition-all ${
+                  location === "/account" 
+                    ? "bg-emerald/15 text-emerald font-semibold border border-emerald/20" 
+                    : "text-gray-700 hover:text-emerald hover:bg-emerald/8"
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <User className="w-5 h-5" />
+                <span>Account</span>
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );

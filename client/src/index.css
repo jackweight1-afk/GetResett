@@ -24,12 +24,12 @@
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
-  /* Custom wellness colors - Enhanced green theme */
-  --teal: hsl(174, 72%, 56%);
-  --sage: hsl(123, 38%, 57%);
-  --emerald: hsl(160, 84%, 39%);
-  --mint: hsl(151, 55%, 53%);
-  --warm: hsl(48, 100%, 62%);
+  /* Custom wellness colors - Enhanced green theme with better contrast */
+  --teal: hsl(174, 65%, 45%);
+  --sage: hsl(123, 35%, 45%);
+  --emerald: hsl(160, 84%, 35%);
+  --mint: hsl(151, 50%, 45%);
+  --warm: hsl(48, 100%, 52%);
 }
 
 .dark {
@@ -55,10 +55,10 @@
   --radius: 0.5rem;
   
   /* Custom wellness colors for dark mode - Enhanced green theme */
-  --teal: hsl(174, 72%, 56%);
-  --sage: hsl(123, 38%, 57%);
-  --emerald: hsl(160, 84%, 39%);
-  --mint: hsl(151, 55%, 53%);
+  --teal: hsl(174, 65%, 55%);
+  --sage: hsl(123, 35%, 55%);
+  --emerald: hsl(160, 80%, 45%);
+  --mint: hsl(151, 50%, 55%);
   --warm: hsl(48, 100%, 62%);
 }
 

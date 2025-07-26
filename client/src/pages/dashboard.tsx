@@ -44,25 +44,25 @@ const iconMap = {
 };
 
 const colorMap = {
-  purple: "bg-purple-100 text-purple-600",
-  blue: "bg-blue-100 text-blue-600",
-  sage: "bg-sage/20 text-sage",
-  mint: "bg-mint/20 text-mint",
-  emerald: "bg-emerald/20 text-emerald",
-  orange: "bg-orange-100 text-orange-600",
-  teal: "bg-teal/20 text-teal",
-  yellow: "bg-yellow-100 text-yellow-600",
+  purple: "bg-purple-100 text-purple-700",
+  blue: "bg-blue-100 text-blue-700",
+  sage: "bg-sage/15 text-sage border border-sage/30",
+  mint: "bg-mint/15 text-mint border border-mint/30",
+  emerald: "bg-emerald/15 text-emerald border border-emerald/30",
+  orange: "bg-orange-100 text-orange-700",
+  teal: "bg-teal/15 text-teal border border-teal/30",
+  yellow: "bg-yellow-100 text-yellow-700",
 };
 
 const textColorMap = {
-  purple: "text-purple-600",
-  blue: "text-blue-600",
+  purple: "text-purple-700",
+  blue: "text-blue-700", 
   sage: "text-sage",
   mint: "text-mint",
   emerald: "text-emerald",
-  orange: "text-orange-600",
+  orange: "text-orange-700",
   teal: "text-teal",
-  yellow: "text-yellow-600",
+  yellow: "text-yellow-700",
 };
 
 export default function Dashboard() {
@@ -128,25 +128,25 @@ export default function Dashboard() {
               <h2 className="text-3xl font-semibold mb-2">
                 Welcome back, {user?.firstName || "there"}
               </h2>
-              <p className="text-teal-100 mb-4">Ready for your next 60-second reset? You're doing great!</p>
+              <p className="text-white/90 mb-4">Ready for your next 60-second reset? You're doing great!</p>
               <div className="flex items-center space-x-6">
                 <div className="text-center">
-                  <div className="text-2xl font-bold">
+                  <div className="text-2xl font-bold text-white">
                     {statsLoading ? "..." : stats?.currentStreak || 0}
                   </div>
-                  <div className="text-sm text-teal-100">Day Streak</div>
+                  <div className="text-sm text-white/80">Day Streak</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold">
+                  <div className="text-2xl font-bold text-white">
                     {statsLoading ? "..." : stats?.totalSessions || 0}
                   </div>
-                  <div className="text-sm text-teal-100">Sessions</div>
+                  <div className="text-sm text-white/80">Sessions</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold">
+                  <div className="text-2xl font-bold text-white">
                     {statsLoading ? "..." : stats?.totalMinutes || 0}
                   </div>
-                  <div className="text-sm text-teal-100">Minutes</div>
+                  <div className="text-sm text-white/80">Minutes</div>
                 </div>
               </div>
             </div>
