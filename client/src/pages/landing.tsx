@@ -4,7 +4,7 @@ import { Leaf, Clock, Target, TrendingUp, Moon, Wind, Dumbbell } from "lucide-re
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-mint-50">
+    <div className="min-h-screen bg-white">
       {/* Navigation */}
       <nav className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,9 +30,11 @@ export default function Landing() {
         <div className="text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
             Transform Your Day
-            <span className="text-emerald block">One Minute at a Time</span>
+            <span className="block">
+              <span className="text-emerald font-bold">One Minute</span> at a Time
+            </span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-700 mb-8 max-w-3xl mx-auto">
             Discover how 60 seconds can change everything. Science-backed wellness sessions that fit into your busiest days. 
             <span className="text-emerald font-semibold">Join 10,000+ people who reset daily.</span>
           </p>
@@ -62,7 +64,7 @@ export default function Landing() {
                 <Moon className="w-6 h-6 text-purple-600" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Sleep Insights</h3>
-              <p className="text-gray-600">Track your sleep quality and receive personalized recommendations for better rest.</p>
+              <p className="text-gray-700">Track your sleep quality and receive personalized recommendations for better rest.</p>
             </CardContent>
           </Card>
 
@@ -72,7 +74,7 @@ export default function Landing() {
                 <Wind className="w-6 h-6 text-blue-600" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Stress Relief</h3>
-              <p className="text-gray-600">Guided breathing exercises designed to calm your mind and reduce daily stress.</p>
+              <p className="text-gray-700">Guided breathing exercises designed to calm your mind and reduce daily stress.</p>
             </CardContent>
           </Card>
 
@@ -82,7 +84,7 @@ export default function Landing() {
                 <Target className="w-6 h-6 text-sage" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Targeted Stretches</h3>
-              <p className="text-gray-600">Quick stretches for specific body areas to release tension and improve mobility.</p>
+              <p className="text-gray-700">Quick stretches for specific body areas to release tension and improve mobility.</p>
             </CardContent>
           </Card>
 
@@ -92,7 +94,7 @@ export default function Landing() {
                 <Dumbbell className="w-6 h-6 text-orange-600" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Energy Boost</h3>
-              <p className="text-gray-600">Energizing exercises to boost circulation and improve your mood instantly.</p>
+              <p className="text-gray-700">Energizing exercises to boost circulation and improve your mood instantly.</p>
             </CardContent>
           </Card>
 
@@ -102,7 +104,7 @@ export default function Landing() {
                 <Clock className="w-6 h-6 text-teal" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">60-Second Sessions</h3>
-              <p className="text-gray-600">Perfect for busy schedules - every session is designed to fit in just one minute.</p>
+              <p className="text-gray-700">Perfect for busy schedules - every session is designed to fit in just one minute.</p>
             </CardContent>
           </Card>
 
@@ -112,19 +114,19 @@ export default function Landing() {
                 <TrendingUp className="w-6 h-6 text-yellow-600" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Progress Tracking</h3>
-              <p className="text-gray-600">Monitor your wellness journey with detailed insights and progress analytics.</p>
+              <p className="text-gray-700">Monitor your wellness journey with detailed insights and progress analytics.</p>
             </CardContent>
           </Card>
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-r from-emerald via-teal to-mint rounded-2xl p-8 text-white text-center mt-20 shadow-2xl">
-          <h2 className="text-3xl font-semibold mb-4">Your Better Day Starts Now</h2>
-          <p className="text-emerald-100 mb-6 text-lg">Join 10,000+ people who've made wellness effortless with Reset.</p>
+        <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 text-center mt-20 shadow-lg">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Your Better Day Starts Now</h2>
+          <p className="text-gray-700 mb-6 text-lg">Join <span className="text-emerald font-semibold">10,000+ people</span> who've made wellness effortless with Reset.</p>
           <Button 
             size="lg"
             onClick={() => window.location.href = '/api/login'}
-            className="bg-white text-teal hover:bg-gray-100 text-lg px-8 py-3"
+            className="bg-emerald hover:bg-emerald/90 text-white text-lg px-8 py-3 shadow-lg"
           >
             Create Free Account
           </Button>

@@ -8,6 +8,13 @@ Reset is a wellness application that provides science-backed 60-second reset ses
 
 Preferred communication style: Simple, everyday language.
 
+### UI/UX Preferences
+- No white text on light backgrounds - all text should be black/dark gray for maximum readability
+- Minimal green theme - use darker green colors only as accents (like highlighting "One Minute")
+- No full green backgrounds - prefer white/light gray backgrounds with green accents
+- Excellent contrast ratios required for all text elements
+- Profile icons should have solid dark backgrounds with white text for visibility
+
 ## System Architecture
 
 The application follows a modern full-stack architecture with clear separation between client and server:
@@ -138,3 +145,14 @@ The application follows a modern full-stack architecture with clear separation b
 - **API Rate Limiting**: Prepared for rate limiting middleware addition
 
 The application is designed for easy deployment on Replit with automatic database provisioning and authentication setup. The modular architecture supports feature additions and scaling as the user base grows.
+
+## Recent Changes
+
+### UX Overhaul (January 2025)
+- **Landing Page Redesign**: Removed white text on light backgrounds, changed to clean white background with black text
+- **Color Theme Refinement**: Changed from full green theme to minimal green accents only
+- **"One Minute" Highlighting**: Added emerald green accent to highlight key phrase in main heading
+- **Profile Icon Visibility**: Fixed profile icon with solid emerald background and white text for perfect contrast
+- **Mobile Navigation**: Added hamburger menu with proper mobile navigation for better mobile UX
+- **Contrast Enhancement**: Improved all color contrasts throughout the app for better readability
+- **Button & Link Visibility**: Enhanced navigation with better active states and hover effects
