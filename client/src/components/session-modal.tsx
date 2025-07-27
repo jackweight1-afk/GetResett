@@ -153,30 +153,43 @@ export default function SessionModal({ sessionType, onClose }: SessionModalProps
     if (sessionType.name === "Sleep Check-in") {
       return (
         <div className="space-y-6">
+          {/* Visual representation */}
+          <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-4 text-center">
+            <div className="flex justify-center items-center space-x-3 mb-3">
+              <div className="text-3xl">🌙</div>
+              <div className="text-lg">→</div>
+              <div className="text-3xl">😴</div>
+              <div className="text-lg">→</div>
+              <div className="text-3xl">☀️</div>
+            </div>
+            <p className="text-sm text-gray-700 font-medium">Track your complete sleep journey</p>
+          </div>
+
           <div>
-            <Label htmlFor="sleep-quality" className="text-sm font-medium text-gray-700 mb-3 block">
-              How would you rate your sleep quality last night?
+            <Label className="text-sm font-medium text-gray-700 mb-3 block">
+              Pre-sleep activities last night
             </Label>
-            <div className="px-3">
-              <Slider
-                value={sleepQuality}
-                onValueChange={setSleepQuality}
-                max={10}
-                min={1}
-                step={1}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-2">
-                <span>1 - Poor</span>
-                <span className="font-medium">{sleepQuality[0]}</span>
-                <span>10 - Excellent</span>
-              </div>
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              {[
+                { icon: '📖', label: 'Reading' },
+                { icon: '🧘', label: 'Meditation' },
+                { icon: '📱', label: 'Phone use' },
+                { icon: '☕', label: 'Caffeine' },
+                { icon: '🍷', label: 'Alcohol' },
+                { icon: '🏃', label: 'Exercise' }
+              ].map((activity) => (
+                <label key={activity.label} className="flex items-center space-x-2 p-2 rounded border hover:bg-gray-50 cursor-pointer">
+                  <input type="checkbox" className="rounded text-purple-600" />
+                  <span className="text-lg">{activity.icon}</span>
+                  <span>{activity.label}</span>
+                </label>
+              ))}
             </div>
           </div>
 
           <div>
             <Label htmlFor="hours-slept" className="text-sm font-medium text-gray-700">
-              Hours of sleep (optional)
+              Hours of sleep
             </Label>
             <Input
               id="hours-slept"
@@ -192,14 +205,57 @@ export default function SessionModal({ sessionType, onClose }: SessionModalProps
           </div>
 
           <div>
+            <Label htmlFor="sleep-quality" className="text-sm font-medium text-gray-700 mb-3 block">
+              Sleep quality (1-10)
+            </Label>
+            <div className="px-3">
+              <Slider
+                value={sleepQuality}
+                onValueChange={setSleepQuality}
+                max={10}
+                min={1}
+                step={1}
+                className="w-full"
+              />
+              <div className="flex justify-between text-xs text-gray-500 mt-2">
+                <span>😴 Poor</span>
+                <span className="font-medium">{sleepQuality[0]}/10</span>
+                <span>😊 Excellent</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <Label className="text-sm font-medium text-gray-700 mb-3 block">
+              How do you feel this morning?
+            </Label>
+            <div className="grid grid-cols-3 gap-2 text-sm">
+              {[
+                { emoji: '😴', label: 'Tired' },
+                { emoji: '😊', label: 'Refreshed' },
+                { emoji: '⚡', label: 'Energized' },
+                { emoji: '😐', label: 'Neutral' },
+                { emoji: '🤕', label: 'Groggy' },
+                { emoji: '🌟', label: 'Amazing' }
+              ].map((mood) => (
+                <label key={mood.label} className="flex flex-col items-center space-y-1 p-2 rounded border hover:bg-purple-50 cursor-pointer transition-colors">
+                  <input type="radio" name="morning-mood" className="sr-only peer" />
+                  <span className="text-2xl peer-checked:scale-110 transition-transform">{mood.emoji}</span>
+                  <span className="text-xs text-center">{mood.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div>
             <Label htmlFor="sleep-notes" className="text-sm font-medium text-gray-700">
-              Any notes about your sleep? (optional)
+              Sleep notes (optional)
             </Label>
             <Textarea
               id="sleep-notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="e.g., woke up several times, had vivid dreams..."
+              placeholder="Any dreams, thoughts, or insights about your sleep?"
               className="mt-1"
               rows={3}
             />
@@ -211,6 +267,16 @@ export default function SessionModal({ sessionType, onClose }: SessionModalProps
     if (sessionType.name === "Stress Relief") {
       return (
         <div className="space-y-6">
+          {/* Visual breathing guide */}
+          <div className="bg-gradient-to-r from-blue-50 to-teal-50 rounded-lg p-4 text-center">
+            <div className="flex justify-center items-center space-x-3 mb-3">
+              <div className="text-3xl animate-pulse">🫁</div>
+              <div className="text-lg">→</div>
+              <div className="text-3xl">😌</div>
+            </div>
+            <p className="text-sm text-gray-700 font-medium">Guided breathing for instant calm</p>
+          </div>
+
           <div>
             <Label htmlFor="stress-level" className="text-sm font-medium text-gray-700 mb-3 block">
               How stressed are you feeling right now?
@@ -225,37 +291,68 @@ export default function SessionModal({ sessionType, onClose }: SessionModalProps
                 className="w-full"
               />
               <div className="flex justify-between text-xs text-gray-500 mt-2">
-                <span>1 - Very Relaxed</span>
-                <span className="font-medium">{stressLevel[0]}</span>
-                <span>10 - Very Stressed</span>
+                <span>😌 Calm</span>
+                <span className="font-medium">{stressLevel[0]}/10</span>
+                <span>😰 Very Stressed</span>
               </div>
             </div>
           </div>
 
           <div className="bg-blue-50 rounded-lg p-4">
-            <h4 className="font-medium text-blue-900 mb-2">What to expect:</h4>
-            <ul className="text-sm text-blue-800 space-y-1">
-              <li>• 4 seconds breathing in</li>
-              <li>• 4 seconds holding</li>
-              <li>• 6 seconds breathing out</li>
-              <li>• Visual guidance throughout</li>
-            </ul>
+            <h4 className="font-medium text-blue-900 mb-3 flex items-center">
+              <span className="text-lg mr-2">🌊</span>
+              Breathing Pattern:
+            </h4>
+            <div className="grid grid-cols-3 gap-3 text-sm">
+              <div className="text-center p-2 bg-white rounded">
+                <div className="text-2xl mb-1">📥</div>
+                <div className="font-medium text-blue-800">Inhale</div>
+                <div className="text-blue-600">4 seconds</div>
+              </div>
+              <div className="text-center p-2 bg-white rounded">
+                <div className="text-2xl mb-1">⏸️</div>
+                <div className="font-medium text-blue-800">Hold</div>
+                <div className="text-blue-600">4 seconds</div>
+              </div>
+              <div className="text-center p-2 bg-white rounded">
+                <div className="text-2xl mb-1">📤</div>
+                <div className="font-medium text-blue-800">Exhale</div>
+                <div className="text-blue-600">6 seconds</div>
+              </div>
+            </div>
           </div>
         </div>
       );
     }
 
-    // Default setup for other session types
+    // Default setup for other session types with visuals
     return (
       <div className="space-y-6">
+        {/* Visual representation based on session type */}
+        <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4 text-center">
+          <div className="flex justify-center items-center space-x-3 mb-3">
+            <div className={`w-12 h-12 ${colorClass} rounded-full flex items-center justify-center`}>
+              <IconComponent className="w-6 h-6" />
+            </div>
+            <div className="text-lg">→</div>
+            <div className="text-3xl">💪</div>
+            <div className="text-lg">→</div>
+            <div className="text-3xl">😊</div>
+          </div>
+          <p className="text-sm text-gray-700 font-medium">60-second wellness boost</p>
+        </div>
+
         <div className="bg-gray-50 rounded-lg p-4">
-          <h4 className="font-medium text-gray-900 mb-2">What you'll do:</h4>
+          <h4 className="font-medium text-gray-900 mb-2 flex items-center">
+            <span className="text-lg mr-2">✨</span>
+            What you'll do:
+          </h4>
           <p className="text-sm text-gray-700">{sessionType.description}</p>
         </div>
 
-        <div className="text-center">
-          <div className="text-2xl font-bold text-gray-900 mb-1">60 seconds</div>
-          <div className="text-sm text-gray-500">Session duration</div>
+        <div className="text-center bg-purple-50 rounded-lg p-3">
+          <div className="text-2xl font-bold text-purple-600 mb-1">60 seconds</div>
+          <div className="text-sm text-purple-700 font-medium">Quick & effective</div>
         </div>
       </div>
     );
@@ -307,9 +404,9 @@ export default function SessionModal({ sessionType, onClose }: SessionModalProps
   return (
     <Dialog open={true} onOpenChange={() => onClose()}>
       <DialogOverlay className="bg-black/50" />
-      <DialogContent className="max-w-md w-full mx-4 p-0">
-        <Card className="border-0 shadow-none">
-          <CardContent className="p-8">
+      <DialogContent className="max-w-md w-full mx-4 p-0 sm:mx-auto flex items-center justify-center min-h-screen sm:min-h-0">
+        <Card className="border-0 shadow-none w-full max-w-md">
+          <CardContent className="p-6 sm:p-8">
             <button
               onClick={onClose}
               className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 transition-colors"
@@ -329,10 +426,17 @@ export default function SessionModal({ sessionType, onClose }: SessionModalProps
 
                 <div className="flex space-x-4 mt-8">
                   <Button 
-                    onClick={() => setStep('session')}
+                    onClick={() => {
+                      if (sessionType.name === "Sleep Check-in") {
+                        // Skip timer for sleep tracking, go directly to feedback
+                        handleSessionComplete();
+                      } else {
+                        setStep('session');
+                      }
+                    }}
                     className={`flex-1 ${primaryColor} text-white`}
                   >
-                    Start Session
+                    {sessionType.name === "Sleep Check-in" ? "Save Sleep Data" : "Start Session"}
                   </Button>
                   <Button 
                     variant="outline"

@@ -93,7 +93,7 @@ export default function Navigation() {
         
         {/* Mobile Navigation Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 bg-white">
+          <div className="md:hidden border-t border-gray-200 bg-white shadow-lg z-50">
             <div className="px-4 py-3 space-y-2">
               <Link 
                 href="/" 

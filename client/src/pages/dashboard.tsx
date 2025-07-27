@@ -120,45 +120,45 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
         {/* Welcome Section */}
-        <div className="mb-8">
-          <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl p-8 text-black relative overflow-hidden">
+        <div className="mb-6 md:mb-8">
+          <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl p-6 md:p-8 text-black relative overflow-hidden">
             <div className="relative z-10">
-              <h2 className="text-3xl font-semibold mb-2 text-gray-900">
+              <h2 className="text-2xl md:text-3xl font-semibold mb-2 text-white">
                 Welcome back, {user?.firstName || "there"}
               </h2>
-              <p className="text-gray-900 font-medium mb-4">Ready for your next 60-second reset? You're doing great!</p>
-              <div className="flex items-center space-x-6">
+              <p className="text-white/90 font-medium mb-4 text-sm md:text-base">Ready for your next 60-second reset? You're doing great!</p>
+              <div className="flex items-center space-x-4 md:space-x-6">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-xl md:text-2xl font-bold text-white">
                     {statsLoading ? "..." : stats?.currentStreak || 0}
                   </div>
-                  <div className="text-sm text-gray-800">Day Streak</div>
+                  <div className="text-xs md:text-sm text-white/80">Day Streak</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-xl md:text-2xl font-bold text-white">
                     {statsLoading ? "..." : stats?.totalSessions || 0}
                   </div>
-                  <div className="text-sm text-gray-800">Sessions</div>
+                  <div className="text-xs md:text-sm text-white/80">Sessions</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-xl md:text-2xl font-bold text-white">
                     {statsLoading ? "..." : stats?.totalMinutes || 0}
                   </div>
-                  <div className="text-sm text-gray-800">Minutes</div>
+                  <div className="text-xs md:text-sm text-white/80">Minutes</div>
                 </div>
               </div>
             </div>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-black opacity-5 rounded-full -mr-16 -mt-16"></div>
-            <div className="absolute bottom-0 right-0 w-20 h-20 bg-black opacity-10 rounded-full -mr-10 -mb-10"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
+            <div className="absolute bottom-0 right-0 w-20 h-20 bg-white opacity-5 rounded-full -mr-10 -mb-10"></div>
           </div>
         </div>
 
         {/* Session Selection Grid */}
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-6">Choose Your Reset</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mb-6 md:mb-8">
+          <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-4 md:mb-6">Choose Your Reset</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {sessionTypesLoading ? (
               Array.from({ length: 6 }).map((_, i) => (
                 <Card key={i} className="border border-gray-100">
@@ -181,18 +181,20 @@ export default function Dashboard() {
                 return (
                   <Card 
                     key={sessionType.id}
-                    className="border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
+                    className="border border-gray-100 hover:shadow-lg hover:scale-105 transition-all cursor-pointer bg-gradient-to-br from-white to-gray-50/50"
                     onClick={() => setSelectedSession(sessionType)}
                   >
-                    <CardContent className="p-6">
+                    <CardContent className="p-4 md:p-6">
                       <div className="flex items-center justify-between mb-4">
-                        <div className={`w-12 h-12 ${colorClass} rounded-xl flex items-center justify-center`}>
-                          <IconComponent className="w-6 h-6" />
+                        <div className={`w-12 h-12 md:w-14 md:h-14 ${colorClass} rounded-xl flex items-center justify-center shadow-sm`}>
+                          <IconComponent className="w-6 h-6 md:w-7 md:h-7" />
                         </div>
-                        <span className="text-sm text-gray-500">~60s</span>
+                        <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                          {sessionType.name === "Sleep Check-in" ? "Track" : "~60s"}
+                        </div>
                       </div>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-2">{sessionType.name}</h4>
-                      <p className="text-gray-600 text-sm mb-4">{sessionType.description}</p>
+                      <h4 className="text-base md:text-lg font-semibold text-gray-900 mb-2">{sessionType.name}</h4>
+                      <p className="text-gray-600 text-xs md:text-sm mb-4 leading-relaxed">{sessionType.description}</p>
                       <div className={`flex items-center text-sm ${textColor} font-medium`}>
                         <span>Start Session</span>
                         <ArrowRight className="w-4 h-4 ml-2" />
