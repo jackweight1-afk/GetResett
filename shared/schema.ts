@@ -8,6 +8,7 @@ import {
   integer,
   text,
   real,
+  boolean,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
@@ -141,9 +142,25 @@ export const insertSessionTypeSchema = createInsertSchema(sessionTypes).omit({
   id: true,
 });
 
+// Feeling entries table for tracking emotional check-ins
+export const feelingEntries = pgTable("feeling_entries", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  feeling: varchar("feeling").notNull(), // stressed, cant_sleep, achy_muscles, cant_focus, overwhelmed, feel_better
+  isPostSession: boolean("is_post_session").default(false),
+  sessionId: varchar("session_id").references(() => userSessions.id),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertFeelingEntrySchema = createInsertSchema(feelingEntries).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
+export type FeelingEntry = typeof feelingEntries.$inferSelect;
 export type SessionType = typeof sessionTypes.$inferSelect;
 export type UserSession = typeof userSessions.$inferSelect;
 export type SleepEntry = typeof sleepEntries.$inferSelect;
@@ -152,3 +169,4 @@ export type InsertUserSession = z.infer<typeof insertUserSessionSchema>;
 export type InsertSleepEntry = z.infer<typeof insertSleepEntrySchema>;
 export type InsertStressEntry = z.infer<typeof insertStressEntrySchema>;
 export type InsertSessionType = z.infer<typeof insertSessionTypeSchema>;
+export type InsertFeelingEntry = z.infer<typeof insertFeelingEntrySchema>;

@@ -26,6 +26,7 @@ import {
 interface SessionModalProps {
   sessionType: SessionType;
   onClose: () => void;
+  onComplete?: () => void;
 }
 
 const iconMap = {
@@ -55,7 +56,7 @@ const primaryColorMap = {
   yellow: "bg-yellow-600 hover:bg-yellow-700",
 };
 
-export default function SessionModal({ sessionType, onClose }: SessionModalProps) {
+export default function SessionModal({ sessionType, onClose, onComplete }: SessionModalProps) {
   const [step, setStep] = useState<'setup' | 'session' | 'feedback'>('setup');
   const [sleepQuality, setSleepQuality] = useState<number[]>([7]);
   const [hoursSlept, setHoursSlept] = useState<string>('');
@@ -82,7 +83,7 @@ export default function SessionModal({ sessionType, onClose }: SessionModalProps
         title: "Session Completed!",
         description: "Great job! Your progress has been recorded.",
       });
-      onClose();
+      // Don't close immediately, go to feedback step
     },
     onError: (error) => {
       if (isUnauthorizedError(error)) {
@@ -147,7 +148,11 @@ export default function SessionModal({ sessionType, onClose }: SessionModalProps
   };
 
   const handleFeedbackSubmit = () => {
-    onClose();
+    if (onComplete) {
+      onComplete();
+    } else {
+      onClose();
+    }
   };
 
   const renderSetupStep = () => {

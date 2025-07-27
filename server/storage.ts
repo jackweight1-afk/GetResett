@@ -4,16 +4,19 @@ import {
   userSessions,
   sleepEntries,
   stressEntries,
+  feelingEntries,
   type User,
   type UpsertUser,
   type SessionType,
   type UserSession,
   type SleepEntry,
   type StressEntry,
+  type FeelingEntry,
   type InsertUserSession,
   type InsertSleepEntry,
   type InsertStressEntry,
   type InsertSessionType,
+  type InsertFeelingEntry,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, count, avg, and, gte, like, or } from "drizzle-orm";
@@ -47,6 +50,10 @@ export interface IStorage {
   // Stress tracking
   createStressEntry(entry: InsertStressEntry): Promise<StressEntry>;
   getUserStressEntries(userId: string, limit?: number): Promise<StressEntry[]>;
+  
+  // Feeling tracking
+  createFeelingEntry(entry: InsertFeelingEntry): Promise<FeelingEntry>;
+  getUserFeelingEntries(userId: string, limit?: number): Promise<FeelingEntry[]>;
   
   // Analytics
   getUserInsights(userId: string): Promise<{
@@ -225,6 +232,20 @@ export class DatabaseStorage implements IStorage {
       .from(stressEntries)
       .where(eq(stressEntries.userId, userId))
       .orderBy(desc(stressEntries.createdAt))
+      .limit(limit);
+  }
+
+  async createFeelingEntry(entry: InsertFeelingEntry): Promise<FeelingEntry> {
+    const [created] = await db.insert(feelingEntries).values(entry).returning();
+    return created;
+  }
+
+  async getUserFeelingEntries(userId: string, limit = 10): Promise<FeelingEntry[]> {
+    return await db
+      .select()
+      .from(feelingEntries)
+      .where(eq(feelingEntries.userId, userId))
+      .orderBy(desc(feelingEntries.createdAt))
       .limit(limit);
   }
 

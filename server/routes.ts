@@ -5,7 +5,8 @@ import { setupAuth, isAuthenticated } from "./replitAuth";
 import { 
   insertUserSessionSchema, 
   insertSleepEntrySchema, 
-  insertStressEntrySchema 
+  insertStressEntrySchema,
+  insertFeelingEntrySchema 
 } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -144,6 +145,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching user stats:", error);
       res.status(500).json({ message: "Failed to fetch user stats" });
+    }
+  });
+
+  // Feeling entries
+  app.post('/api/feelings', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const feelingData = insertFeelingEntrySchema.parse({
+        ...req.body,
+        userId,
+      });
+      
+      const feeling = await storage.createFeelingEntry(feelingData);
+      res.json(feeling);
+    } catch (error) {
+      console.error("Error creating feeling entry:", error);
+      res.status(500).json({ message: "Failed to create feeling entry" });
+    }
+  });
+
+  app.get('/api/feelings', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const feelings = await storage.getUserFeelingEntries(userId, 20);
+      res.json(feelings);
+    } catch (error) {
+      console.error("Error fetching feelings:", error);
+      res.status(500).json({ message: "Failed to fetch feelings" });
     }
   });
 

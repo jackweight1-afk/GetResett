@@ -158,3 +158,13 @@ The application is designed for easy deployment on Replit with automatic databas
 - **Button & Link Visibility**: Enhanced navigation with better active states and hover effects
 - **Session Flow & Navigation**: Added complete mobile bottom navigation (Resets/Insights/Account), fixed session formatting, added back navigation to all session steps
 - **Heading Update**: Changed main landing page heading to "Reset your day. One minute at a time" per user request
+
+### Guided Emotional Flow (January 2025)
+- **Complete App Reframe**: Transformed from session-selection to emotion-driven guided experience
+- **Initial Feeling Check**: Users greeted with "How are you feeling?" (stressed, can't sleep, achy muscles, can't focus, overwhelmed)
+- **Smart Session Matching**: App automatically suggests appropriate reset based on emotional state
+- **Post-Session Flow**: After each session, re-asks "How are you feeling now?" to continue journey
+- **Continuous Journey**: Users can chain multiple resets until they select "I feel better, thanks"
+- **Analytics Transition**: When feeling better, users are taken to insights page with personalized recommendations
+- **Feeling Tracking**: New database table tracks emotional check-ins before/after sessions for insights
+- **API Integration**: Added `/api/feelings` endpoints for tracking emotional journey data
