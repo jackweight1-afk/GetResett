@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { useEffect } from "react";
 import Navigation from "@/components/navigation";
+import BottomNavigation from "@/components/bottom-navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { UserSession, SleepEntry } from "@shared/schema";
 import { 
@@ -87,7 +88,7 @@ export default function Insights() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -347,6 +348,8 @@ export default function Insights() {
           </CardContent>
         </Card>
       </div>
+      
+      <BottomNavigation />
     </div>
   );
 }

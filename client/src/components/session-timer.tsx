@@ -157,28 +157,30 @@ export default function SessionTimer({ sessionType, onComplete, onCancel }: Sess
   };
 
   return (
-    <div className="text-center space-y-8">
-      <div className={`w-20 h-20 ${textColor} mx-auto`}>
-        <IconComponent className="w-20 h-20" />
+    <div className="text-center space-y-6">
+      <div className="flex items-center justify-center">
+        <div className={`w-16 h-16 ${colorMap[sessionType.color as keyof typeof colorMap] || "bg-gray-100 text-gray-600"} rounded-full flex items-center justify-center`}>
+          <IconComponent className="w-8 h-8" />
+        </div>
       </div>
 
       <div>
-        <h3 className="text-2xl font-semibold text-gray-900 mb-2">{sessionType.name}</h3>
-        <p className="text-gray-600">Stay focused and follow the guidance</p>
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">{sessionType.name}</h3>
+        <p className="text-sm text-gray-600">Stay focused and follow the guidance</p>
       </div>
 
       {/* Timer Display */}
       <div className="relative">
-        <div className="w-40 h-40 mx-auto relative">
+        <div className="w-32 h-32 md:w-40 md:h-40 mx-auto relative">
           {/* Background circle */}
-          <svg className="w-40 h-40" viewBox="0 0 100 100">
+          <svg className="w-32 h-32 md:w-40 md:h-40" viewBox="0 0 100 100">
             <circle
               cx="50"
               cy="50"
               r="45"
               fill="none"
               stroke="#e5e7eb"
-              strokeWidth="6"
+              strokeWidth="8"
             />
             <circle
               cx="50"
@@ -186,9 +188,13 @@ export default function SessionTimer({ sessionType, onComplete, onCancel }: Sess
               r="45"
               fill="none"
               stroke="currentColor"
-              strokeWidth="6"
+              strokeWidth="8"
               strokeLinecap="round"
-              className={textColor}
+              className={colorMap[sessionType.color as keyof typeof colorMap]?.includes('purple') ? 'text-purple-600' : 
+                        colorMap[sessionType.color as keyof typeof colorMap]?.includes('blue') ? 'text-blue-600' :
+                        colorMap[sessionType.color as keyof typeof colorMap]?.includes('sage') ? 'text-sage' :
+                        colorMap[sessionType.color as keyof typeof colorMap]?.includes('orange') ? 'text-orange-600' :
+                        colorMap[sessionType.color as keyof typeof colorMap]?.includes('teal') ? 'text-teal' : 'text-purple-600'}
               strokeDasharray={`${2 * Math.PI * 45}`}
               strokeDashoffset={`${2 * Math.PI * 45 * (1 - progress / 100)}`}
               transform="rotate(-90 50 50)"
@@ -196,7 +202,7 @@ export default function SessionTimer({ sessionType, onComplete, onCancel }: Sess
             />
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className={`text-3xl font-bold ${textColor}`}>
+            <span className="text-2xl md:text-3xl font-bold text-gray-900">
               {formatTime(timeRemaining)}
             </span>
           </div>
@@ -204,13 +210,13 @@ export default function SessionTimer({ sessionType, onComplete, onCancel }: Sess
       </div>
 
       {/* Instructions */}
-      <div className="bg-gray-50 rounded-lg p-6 min-h-[120px] flex items-center justify-center">
+      <div className="bg-gray-50 rounded-lg p-4 md:p-6 min-h-[100px] flex items-center justify-center">
         <div className="text-center">
-          <div className="text-lg font-medium text-gray-900 mb-2">
+          <div className="text-base md:text-lg font-medium text-gray-900 mb-2">
             {instruction}
           </div>
           {sessionType.name === "Stress Relief" && (
-            <div className="text-sm text-gray-500">
+            <div className="text-xs md:text-sm text-gray-500">
               4 seconds in, 4 seconds hold, 6 seconds out
             </div>
           )}
@@ -226,31 +232,29 @@ export default function SessionTimer({ sessionType, onComplete, onCancel }: Sess
       </div>
 
       {/* Controls */}
-      <div className="flex justify-center space-x-4 pt-4">
+      <div className="flex justify-center space-x-3 px-4 pt-4">
         {!isRunning ? (
           <Button 
             onClick={handleStart}
-            className={`${primaryColor} text-white px-8`}
-            size="lg"
+            className={`${primaryColorMap[sessionType.color as keyof typeof primaryColorMap] || "bg-purple-600 hover:bg-purple-700"} text-white px-6 md:px-8 py-2 md:py-3 text-sm md:text-base`}
           >
-            <Play className="w-5 h-5 mr-2" />
+            <Play className="w-4 h-4 md:w-5 md:h-5 mr-2" />
             Start
           </Button>
         ) : (
           <Button 
             onClick={handlePause}
             variant="outline"
-            className="px-8"
-            size="lg"
+            className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base"
           >
             {isPaused ? (
               <>
-                <Play className="w-5 h-5 mr-2" />
+                <Play className="w-4 h-4 md:w-5 md:h-5 mr-2" />
                 Resume
               </>
             ) : (
               <>
-                <Pause className="w-5 h-5 mr-2" />
+                <Pause className="w-4 h-4 md:w-5 md:h-5 mr-2" />
                 Pause
               </>
             )}
@@ -260,13 +264,15 @@ export default function SessionTimer({ sessionType, onComplete, onCancel }: Sess
         <Button 
           onClick={handleStop}
           variant="outline"
-          className="px-8"
-          size="lg"
+          className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base"
         >
-          <Square className="w-5 h-5 mr-2" />
+          <Square className="w-4 h-4 md:w-5 md:h-5 mr-2" />
           Stop
         </Button>
       </div>
+      
+      {/* Mobile padding for bottom navigation */}
+      <div className="h-20 md:h-0"></div>
     </div>
   );
 }

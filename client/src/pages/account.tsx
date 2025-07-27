@@ -6,6 +6,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { User, Mail, Calendar, Trash2, LogOut, Shield } from "lucide-react";
+import BottomNavigation from "@/components/bottom-navigation";
 
 export default function Account() {
   const { user, isLoading } = useAuth();
@@ -76,7 +77,7 @@ export default function Account() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-6 pb-20 md:pb-6">
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold text-gray-900">Account Settings</h1>
@@ -232,6 +233,8 @@ export default function Account() {
           </CardContent>
         </Card>
       </div>
+      
+      <BottomNavigation />
     </div>
   );
 }

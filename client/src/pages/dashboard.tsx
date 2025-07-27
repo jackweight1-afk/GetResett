@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { useEffect, useState } from "react";
 import Navigation from "@/components/navigation";
+import BottomNavigation from "@/components/bottom-navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import SessionModal from "@/components/session-modal";
@@ -117,7 +118,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
@@ -357,6 +358,8 @@ export default function Dashboard() {
           onClose={() => setSelectedSession(null)}
         />
       )}
+      
+      <BottomNavigation />
     </div>
   );
 }

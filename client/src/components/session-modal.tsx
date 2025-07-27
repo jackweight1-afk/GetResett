@@ -19,7 +19,8 @@ import {
   Dumbbell, 
   Waves, 
   Zap,
-  X
+  X,
+  ArrowLeft
 } from "lucide-react";
 
 interface SessionModalProps {
@@ -407,20 +408,38 @@ export default function SessionModal({ sessionType, onClose }: SessionModalProps
       <DialogContent className="max-w-md w-full mx-4 p-0 sm:mx-auto flex items-center justify-center min-h-screen sm:min-h-0">
         <Card className="border-0 shadow-none w-full max-w-md">
           <CardContent className="p-6 sm:p-8">
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            {/* Header with back and close buttons */}
+            <div className="flex items-center justify-between mb-6">
+              {step !== 'setup' && (
+                <button
+                  onClick={() => {
+                    if (step === 'session') setStep('setup');
+                    if (step === 'feedback') setStep('session');
+                  }}
+                  className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-800 transition-colors"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                  <span className="text-sm font-medium">Back</span>
+                </button>
+              )}
+              {step === 'setup' && <div></div>}
+              <button
+                onClick={onClose}
+                className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
             {step === 'setup' && (
-              <div className="text-center">
-                <div className={`w-16 h-16 ${colorClass} rounded-full flex items-center justify-center mx-auto mb-6`}>
-                  <IconComponent className="w-8 h-8" />
+              <div>
+                <div className="text-center mb-8">
+                  <div className={`w-16 h-16 ${colorClass} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                    <IconComponent className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-2">{sessionType.name}</h3>
+                  <p className="text-gray-600">{sessionType.description}</p>
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-2">{sessionType.name}</h3>
-                <p className="text-gray-600 mb-8">{sessionType.description}</p>
                 
                 {renderSetupStep()}
 
