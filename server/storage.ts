@@ -123,6 +123,7 @@ export class DatabaseStorage implements IStorage {
     totalSessions: number;
     currentStreak: number;
     totalMinutes: number;
+    favoriteSessionType: string;
   }> {
     // Get total sessions
     const [totalResult] = await db

@@ -72,11 +72,25 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
     }
   }
 
-  if (sessionType.name === "Quick Stretch") {
-    if (timeRemaining > 45) return "Neck rolls - slowly roll your head in circles";
-    if (timeRemaining > 30) return "Shoulder shrugs - lift shoulders to ears and release";
-    if (timeRemaining > 15) return "Seated spinal twist - rotate gently left and right";
-    return "Deep breathing - relax and breathe deeply";
+  if (sessionType.name === "Upper Body Stretch" || sessionType.name === "Lower Body Stretch" || sessionType.name === "Full Body Flow") {
+    if (sessionType.name === "Upper Body Stretch") {
+      if (timeRemaining > 45) return "Neck rolls - slowly roll your head in circles";
+      if (timeRemaining > 30) return "Shoulder shrugs - lift shoulders to ears and release";
+      if (timeRemaining > 15) return "Arm circles - extend arms and make large circles";
+      return "Deep breathing - relax and breathe deeply";
+    }
+    if (sessionType.name === "Lower Body Stretch") {
+      if (timeRemaining > 45) return "Hip circles - place hands on hips and make circles";
+      if (timeRemaining > 30) return "Calf raises - rise up on toes and lower slowly";
+      if (timeRemaining > 15) return "Ankle rolls - lift foot and rotate ankle";
+      return "Deep breathing - relax and breathe deeply";
+    }
+    if (sessionType.name === "Full Body Flow") {
+      if (timeRemaining > 45) return "Reach arms overhead and stretch upward";
+      if (timeRemaining > 30) return "Twist gently from side to side";
+      if (timeRemaining > 15) return "Roll shoulders and stretch neck";
+      return "Deep breathing - integrate your whole body";
+    }
   }
 
   if (sessionType.name === "Energy Boost") {
