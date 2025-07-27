@@ -57,10 +57,7 @@ const primaryColorMap = {
 };
 
 export default function SessionModal({ sessionType, onClose, onComplete }: SessionModalProps) {
-  const [step, setStep] = useState<'setup' | 'session' | 'feedback'>('setup');
-  const [sleepQuality, setSleepQuality] = useState<number[]>([7]);
-  const [hoursSlept, setHoursSlept] = useState<string>('');
-  const [stressLevel, setStressLevel] = useState<number[]>([5]);
+  const [step, setStep] = useState<'session' | 'feedback'>('session');
   const [notes, setNotes] = useState<string>('');
   const [sessionRating, setSessionRating] = useState<number[]>([5]);
   
@@ -127,17 +124,11 @@ export default function SessionModal({ sessionType, onClose, onComplete }: Sessi
         notes: notes,
       });
 
-      // Create additional entries based on session type
-      if (sessionType.name === "Sleep Check-in") {
-        await createSleepEntryMutation.mutateAsync({
-          sleepQuality: sleepQuality[0],
-          hoursSlept: hoursSlept ? parseFloat(hoursSlept) : null,
-          notes: notes,
-        });
-      } else if (sessionType.name === "Stress Relief") {
+      // Create additional entries based on session type (no special handling needed for Sleep Story)
+      if (sessionType.name === "Stress Relief") {
         await createStressEntryMutation.mutateAsync({
-          stressLevel: stressLevel[0],
-          stressSource: "work", // Could be made dynamic
+          stressLevel: 5,
+          stressSource: "general",
         });
       }
 
@@ -156,7 +147,7 @@ export default function SessionModal({ sessionType, onClose, onComplete }: Sessi
   };
 
   const renderSetupStep = () => {
-    if (sessionType.name === "Sleep Check-in") {
+    if (sessionType.name === "Sleep Story") {
       return (
         <div className="space-y-6">
           {/* Visual representation */}

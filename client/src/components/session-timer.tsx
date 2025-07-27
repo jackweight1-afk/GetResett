@@ -54,8 +54,31 @@ const breathingPattern = [
   { phase: "Breathe Out", duration: 6 },
 ];
 
+// Sleep story content
+const sleepStorySegments = [
+  "Close your eyes and imagine yourself floating on a soft, white cloud...",
+  "The cloud gently drifts across a peaceful blue sky, carrying you away from all worries...",
+  "Below you, rolling green hills stretch as far as the eye can see...",
+  "A warm, gentle breeze surrounds you, making you feel completely safe and relaxed...",
+  "The cloud slowly descends toward a calm, crystal-clear lake...",
+  "You feel yourself melting into the cloud, becoming one with its softness...",
+  "All tension leaves your body as you drift deeper into this peaceful place...",
+  "Your breathing becomes slow and steady, matching the rhythm of gentle waves...",
+  "You are completely at peace, floating in perfect tranquility...",
+  "Let yourself sink deeper into this calm, restful state...",
+  "Your mind is clear, your body is relaxed, sleep is coming naturally...",
+  "Allow yourself to drift off into peaceful, restorative sleep..."
+];
+
 // Exercise instructions for different session types
 const getSessionInstructions = (sessionType: SessionType, timeRemaining: number) => {
+  if (sessionType.name === "Sleep Story") {
+    // Calculate which segment of the story we're in (5 seconds per segment)
+    const segmentDuration = 5;
+    const currentSegment = Math.floor((60 - timeRemaining) / segmentDuration);
+    return sleepStorySegments[Math.min(currentSegment, sleepStorySegments.length - 1)];
+  }
+  
   if (sessionType.name === "Stress Relief") {
     // Calculate which breathing phase we're in
     const cycleTime = 14; // 4 + 4 + 6 seconds per cycle

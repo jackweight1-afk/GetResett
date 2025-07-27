@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import FeelingCheck from "./feeling-check";
-import SessionModal from "@/components/session-modal";
+import SessionModal from "@/components/session-modal-new";
 import type { SessionType } from "@shared/schema";
 
 type FlowStep = "initial-feeling" | "session" | "post-feeling" | "insights";

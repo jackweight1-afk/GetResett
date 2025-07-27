@@ -198,8 +198,8 @@ async function initializeSessionTypes() {
     if (existingTypes.length === 0) {
       const defaultTypes = [
         {
-          name: "Sleep Check-in",
-          description: "Track your sleep quality and get personalized insights for better rest.",
+          name: "Sleep Story",
+          description: "A calming 60-second guided story to help you drift into peaceful sleep.",
           icon: "fas fa-moon",
           color: "purple",
         },

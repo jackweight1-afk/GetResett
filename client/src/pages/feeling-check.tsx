@@ -36,7 +36,7 @@ const feelingOptions = [
     description: "Having trouble winding down",
     icon: Moon,
     color: "bg-purple-100 text-purple-600",
-    sessionType: "Sleep Check-in"
+    sessionType: "Sleep Story"
   },
   {
     id: "achy_muscles",
@@ -117,6 +117,7 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center mb-8">
@@ -187,6 +188,31 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
           </div>
         )}
       </div>
+
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2 md:hidden">
+        <div className="flex justify-around items-center max-w-md mx-auto">
+          <a href="/" className="flex flex-col items-center space-y-1 py-2 px-3 text-purple-600">
+            <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center">
+              <span className="text-white text-xs font-bold">R</span>
+            </div>
+            <span className="text-xs font-medium">Resets</span>
+          </a>
+          <a href="/insights" className="flex flex-col items-center space-y-1 py-2 px-3 text-gray-400 hover:text-gray-600">
+            <div className="w-6 h-6 flex items-center justify-center">
+              <span className="text-lg">📊</span>
+            </div>
+            <span className="text-xs">Insights</span>
+          </a>
+          <a href="/account" className="flex flex-col items-center space-y-1 py-2 px-3 text-gray-400 hover:text-gray-600">
+            <div className="w-6 h-6 flex items-center justify-center">
+              <span className="text-lg">👤</span>
+            </div>
+            <span className="text-xs">Account</span>
+          </a>
+        </div>
+      </div>
     </div>
+    </>
   );
 }
