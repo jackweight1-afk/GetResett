@@ -11,13 +11,13 @@ export default function Landing() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-purple-700 rounded-lg flex items-center justify-center">
-                <Leaf className="w-4 h-4 text-black" />
+                <Leaf className="w-4 h-4 text-white" />
               </div>
               <h1 className="text-xl font-semibold text-gray-900">Reset</h1>
             </div>
             <Button 
               onClick={() => window.location.href = '/api/login'}
-              className="bg-purple-600 hover:bg-purple-700 text-black"
+              className="bg-purple-600 hover:bg-purple-700 text-white"
             >
               Get Started
             </Button>
@@ -47,14 +47,14 @@ export default function Landing() {
             <Button 
               size="lg"
               onClick={() => window.location.href = '/api/login'}
-              className="bg-purple-600 hover:bg-purple-700 text-black text-lg px-10 py-4 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 font-semibold"
+              className="bg-purple-600 hover:bg-purple-700 text-white text-lg px-10 py-4 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 font-semibold"
             >
               Start Your Reset Journey
             </Button>
             <Button 
               size="lg" 
               variant="outline"
-              className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-black text-lg px-10 py-4 font-semibold hover:shadow-lg transition-all"
+              className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white text-lg px-10 py-4 font-semibold hover:shadow-lg transition-all"
             >
               See How It Works
             </Button>
@@ -66,7 +66,7 @@ export default function Landing() {
           <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-purple-50/30">
             <CardContent className="p-8 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <Moon className="w-8 h-8 text-black" />
+                <Moon className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Sleep Insights</h3>
               <p className="text-gray-700 leading-relaxed">Track your sleep quality and receive personalized recommendations for better rest.</p>
@@ -133,7 +133,7 @@ export default function Landing() {
             <Button 
               size="lg"
               onClick={() => window.location.href = '/api/login'}
-              className="bg-purple-600 hover:bg-purple-700 text-black text-xl px-12 py-5 shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105 font-bold rounded-2xl"
+              className="bg-purple-600 hover:bg-purple-700 text-white text-xl px-12 py-5 shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105 font-bold rounded-2xl"
             >
               Create Free Account
             </Button>
