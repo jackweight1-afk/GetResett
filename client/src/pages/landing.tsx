@@ -34,7 +34,7 @@ export default function Landing() {
             <div className="absolute top-40 right-1/4 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl"></div>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Transform Your Day
+            Reset Your Day.
             <span className="block">
               <span className="text-purple-600 font-black text-5xl md:text-7xl">One Minute</span> at a Time
             </span>

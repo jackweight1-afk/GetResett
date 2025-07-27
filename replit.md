@@ -156,3 +156,5 @@ The application is designed for easy deployment on Replit with automatic databas
 - **Mobile Navigation**: Added hamburger menu with proper mobile navigation for better mobile UX
 - **Contrast Enhancement**: Improved all color contrasts throughout the app for better readability
 - **Button & Link Visibility**: Enhanced navigation with better active states and hover effects
+- **Session Flow & Navigation**: Added complete mobile bottom navigation (Resets/Insights/Account), fixed session formatting, added back navigation to all session steps
+- **Heading Update**: Changed main landing page heading to "Reset your day. One minute at a time" per user request
