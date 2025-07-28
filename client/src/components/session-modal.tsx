@@ -390,7 +390,7 @@ export default function SessionModal({ sessionType, onClose, onComplete }: Sessi
 
         <Button 
           onClick={handleFeedbackSubmit}
-          className={`w-full ${primaryColor} text-white`}
+          className={`w-full ${primaryColor || "bg-purple-600 hover:bg-purple-700"} text-white`}
         >
           Complete Session
         </Button>
@@ -449,7 +449,7 @@ export default function SessionModal({ sessionType, onClose, onComplete }: Sessi
                         setStep('session');
                       }
                     }}
-                    className={`flex-1 ${primaryColor} text-white`}
+                    className={`flex-1 ${primaryColor || "bg-purple-600 hover:bg-purple-700"} text-white`}
                   >
                     {sessionType.name === "Sleep Check-in" ? "Save Sleep Data" : "Start Session"}
                   </Button>

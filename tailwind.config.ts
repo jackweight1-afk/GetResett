@@ -61,6 +61,12 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
+        // Custom wellness colors
+        teal: "var(--teal)",
+        sage: "var(--sage)",
+        emerald: "var(--emerald)",
+        mint: "var(--mint)",
+        warm: "var(--warm)",
       },
       keyframes: {
         "accordion-down": {

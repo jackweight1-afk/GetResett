@@ -237,7 +237,7 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
                 )}
                 <Button
                   onClick={handleFeedbackSubmit}
-                  className={`flex-1 text-white ${primaryColor}`}
+                  className={`flex-1 text-white ${primaryColor || "bg-purple-600 hover:bg-purple-700"}`}
                 >
                   Continue
                   <ArrowRight className="w-4 h-4 ml-2" />
