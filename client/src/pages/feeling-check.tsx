@@ -44,7 +44,7 @@ const feelingOptions = [
     description: "Body feels tight or sore",
     icon: Zap,
     color: "bg-sage/20 text-sage",
-    sessionType: "Upper Body Stretch"
+    sessionType: "Quick Stretch"
   },
   {
     id: "cant_focus",

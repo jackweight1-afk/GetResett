@@ -56,7 +56,7 @@ const breathingPattern = [
 
 // Sleep story content
 const sleepStorySegments = [
-  "Close your eyes and imagine yourself floating on a soft, white cloud...",
+  "Imagine yourself floating on a soft, white cloud as you watch the screen...",
   "The cloud gently drifts across a peaceful blue sky, carrying you away from all worries...",
   "Below you, rolling green hills stretch as far as the eye can see...",
   "A warm, gentle breeze surrounds you, making you feel completely safe and relaxed...",
@@ -68,6 +68,54 @@ const sleepStorySegments = [
   "Let yourself sink deeper into this calm, restful state...",
   "Your mind is clear, your body is relaxed, sleep is coming naturally...",
   "Allow yourself to drift off into peaceful, restorative sleep..."
+];
+
+// Stretching instructions for achy muscles
+const stretchingInstructions = [
+  "🧘‍♀️ Sit tall and roll your shoulders back 3 times slowly",
+  "💪 Gently tilt your head to the right, hold for 5 seconds",
+  "💪 Now tilt your head to the left, hold for 5 seconds", 
+  "🤲 Interlace your fingers and stretch your arms overhead",
+  "🔄 Slowly twist your torso to the right, then return to center",
+  "🔄 Now twist your torso to the left, then return to center",
+  "👐 Bring your arms behind your back and clasp your hands",
+  "🫸 Reach your right arm across your chest, pull gently with left hand",
+  "🫷 Now reach your left arm across your chest, pull gently with right hand",
+  "🙆‍♀️ Place hands behind your head and open your elbows wide",
+  "💆‍♀️ Gently massage your neck with circular motions",
+  "✨ Take a deep breath and feel your muscles relax completely"
+];
+
+// Focus exercises for concentration
+const focusInstructions = [
+  "👁️ Look at a fixed point on the screen and breathe deeply",
+  "🧠 Count slowly from 1 to 10, focusing only on the numbers",
+  "🌊 Imagine waves washing away distracting thoughts",
+  "🎯 Focus on the center of the screen while breathing steadily",
+  "💭 Notice any wandering thoughts, then gently return focus here",
+  "⭐ Visualize a bright star and keep your attention on it",
+  "🔢 Count backwards from 20 to 1, one number per breath",
+  "🌟 Feel your mind becoming clearer and more focused",
+  "💎 Imagine your attention becoming sharp like a diamond",
+  "🧘‍♀️ Sit tall and feel your concentration strengthening",
+  "🎯 You are becoming more focused and alert",
+  "✨ Your mind is now clear, calm, and ready to concentrate"
+];
+
+// Energy boost exercises
+const energyInstructions = [
+  "⚡ Take 3 quick, energizing breaths through your nose",
+  "🙌 Raise both arms up high and stretch toward the ceiling",
+  "💪 Make fists and pump your arms 10 times",
+  "🦵 March in place for 10 seconds, lifting knees high",
+  "🤲 Clap your hands together 10 times with energy",
+  "🔄 Roll your shoulders back and forward 5 times each",
+  "💨 Take a deep breath in and blow out forcefully",
+  "🤸‍♀️ Shake out your hands and arms vigorously",
+  "🦶 Tap your feet on the ground 10 times",
+  "💪 Flex your muscles and feel the energy building",
+  "⚡ You're feeling more energized and alert",
+  "🌟 Your energy is renewed and ready for action!"
 ];
 
 // Exercise instructions for different session types
@@ -82,8 +130,6 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
   if (sessionType.name === "Stress Relief") {
     // Calculate which breathing phase we're in
     const cycleTime = 14; // 4 + 4 + 6 seconds per cycle
-    const totalCycles = Math.floor(60 / cycleTime);
-    const currentCycle = Math.floor((60 - timeRemaining) / cycleTime);
     const timeInCycle = (60 - timeRemaining) % cycleTime;
     
     if (timeInCycle < 4) {
@@ -95,46 +141,31 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
     }
   }
 
-  if (sessionType.name === "Upper Body Stretch" || sessionType.name === "Lower Body Stretch" || sessionType.name === "Full Body Flow") {
-    if (sessionType.name === "Upper Body Stretch") {
-      if (timeRemaining > 45) return "Neck rolls - slowly roll your head in circles";
-      if (timeRemaining > 30) return "Shoulder shrugs - lift shoulders to ears and release";
-      if (timeRemaining > 15) return "Arm circles - extend arms and make large circles";
-      return "Deep breathing - relax and breathe deeply";
-    }
-    if (sessionType.name === "Lower Body Stretch") {
-      if (timeRemaining > 45) return "Hip circles - place hands on hips and make circles";
-      if (timeRemaining > 30) return "Calf raises - rise up on toes and lower slowly";
-      if (timeRemaining > 15) return "Ankle rolls - lift foot and rotate ankle";
-      return "Deep breathing - relax and breathe deeply";
-    }
-    if (sessionType.name === "Full Body Flow") {
-      if (timeRemaining > 45) return "Reach arms overhead and stretch upward";
-      if (timeRemaining > 30) return "Twist gently from side to side";
-      if (timeRemaining > 15) return "Roll shoulders and stretch neck";
-      return "Deep breathing - integrate your whole body";
-    }
+  // Handle achy muscles with detailed stretching instructions
+  if (sessionType.name === "Upper Body Stretch" || sessionType.name === "Lower Body Stretch" || 
+      sessionType.name === "Full Body Flow" || sessionType.name === "Quick Stretch") {
+    const instructionDuration = 5; // 5 seconds per instruction
+    const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
+    return stretchingInstructions[Math.min(currentInstruction, stretchingInstructions.length - 1)];
   }
 
   if (sessionType.name === "Energy Boost") {
-    if (timeRemaining > 45) return "Arm circles - extend arms and make large circles";
-    if (timeRemaining > 30) return "Marching in place - lift knees high";
-    if (timeRemaining > 15) return "Shoulder blade squeezes - pull shoulder blades together";
-    return "Deep breaths - energize with deep breathing";
+    const instructionDuration = 5; // 5 seconds per instruction
+    const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
+    return energyInstructions[Math.min(currentInstruction, energyInstructions.length - 1)];
   }
 
   if (sessionType.name === "Mindful Moment") {
-    if (timeRemaining > 45) return "Close your eyes and focus on your breath";
-    if (timeRemaining > 30) return "Notice 5 things you can hear around you";
-    if (timeRemaining > 15) return "Feel your body in contact with your chair";
-    return "Take three deep, mindful breaths";
+    if (timeRemaining > 45) return "👁️ Focus on your breath while looking at the screen";
+    if (timeRemaining > 30) return "👂 Notice 5 things you can hear around you";
+    if (timeRemaining > 15) return "🤲 Feel your body in contact with your chair";
+    return "🌬️ Take three deep, mindful breaths";
   }
 
   if (sessionType.name === "Focus Reset") {
-    if (timeRemaining > 45) return "Clear your mind of all distractions";
-    if (timeRemaining > 30) return "Focus on a single point in front of you";
-    if (timeRemaining > 15) return "Count backwards from 20 to 1";
-    return "Set your intention for focused work";
+    const instructionDuration = 5; // 5 seconds per instruction
+    const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
+    return focusInstructions[Math.min(currentInstruction, focusInstructions.length - 1)];
   }
 
   return "Follow along with the session";
