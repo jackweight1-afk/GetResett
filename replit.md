@@ -190,3 +190,11 @@ The application is designed for easy deployment on Replit with automatic databas
 - **Native App Experience**: Users can install GetResett as a native-like app on their phone home screens
 - **Smart Prompting**: Install prompt appears after 10 seconds for new users, with floating install button
 - **Platform Detection**: Different installation instructions for iOS Safari vs Android Chrome users
+
+### Landing Page Redesign (January 2025)
+- **Modern Hero Section**: Redesigned with larger typography, purple accent on "One minute", and improved mobile responsiveness
+- **Updated Subheading**: Changed to user-requested text: "Science-backed sixty second wellness sessions that fit into your busiest days"
+- **Mobile-First Design**: Comprehensive responsive breakpoints for all screen sizes with proper spacing and padding
+- **Enhanced UX**: Improved button sizing, better touch targets, and optimized content flow for mobile devices
+- **Visual Polish**: Added subtle gradients, improved shadows, and better visual hierarchy throughout
+- **Accessibility**: Full-width buttons on mobile, proper text sizing, and improved contrast ratios
