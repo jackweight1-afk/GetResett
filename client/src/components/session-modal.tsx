@@ -456,7 +456,7 @@ export default function SessionModal({ sessionType, onClose, onComplete }: Sessi
                   <Button 
                     variant="outline"
                     onClick={onClose}
-                    className="px-6"
+                    className="px-6 text-purple-600 border-purple-600 hover:bg-purple-600 hover:text-white"
                   >
                     Cancel
                   </Button>

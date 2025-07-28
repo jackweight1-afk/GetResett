@@ -172,7 +172,7 @@ export default function InstallPrompt() {
               <Button
                 variant="outline"
                 onClick={handleDismiss}
-                className="flex-1"
+                className="flex-1 text-purple-600 border-purple-600 hover:bg-purple-600 hover:text-white"
               >
                 Maybe Later
               </Button>

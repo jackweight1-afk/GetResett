@@ -180,7 +180,7 @@ export default function Account() {
               <Button
                 onClick={handleLogout}
                 variant="outline"
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 text-purple-600 border-purple-600 hover:bg-purple-600 hover:text-white"
               >
                 <LogOut className="w-4 h-4" />
                 <span>Sign Out</span>

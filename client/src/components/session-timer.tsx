@@ -546,7 +546,7 @@ export default function SessionTimer({ sessionType, onComplete, onCancel }: Sess
               onClick={handlePause}
               variant="outline"
               size="lg"
-              className="px-6 py-3 text-base font-medium"
+              className="px-6 py-3 text-base font-medium text-purple-600 border-purple-600 hover:bg-purple-600 hover:text-white"
             >
               {isPaused ? (
                 <>
@@ -565,7 +565,7 @@ export default function SessionTimer({ sessionType, onComplete, onCancel }: Sess
               onClick={handleStop}
               variant="outline"
               size="lg"
-              className="px-6 py-3 text-base font-medium"
+              className="px-6 py-3 text-base font-medium text-purple-600 border-purple-600 hover:bg-purple-600 hover:text-white"
             >
               <Square className="w-5 h-5 mr-2" />
               Stop
