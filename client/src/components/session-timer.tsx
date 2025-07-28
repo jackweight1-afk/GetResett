@@ -9,6 +9,7 @@ import {
   Dumbbell, 
   Waves, 
   Zap,
+  Star,
   Pause,
   Play,
   Square
@@ -27,6 +28,7 @@ const iconMap = {
   "fas fa-dumbbell": Dumbbell,
   "fas fa-spa": Waves,
   "fas fa-bullseye": Zap,
+  "fas fa-star": Star,
 };
 
 const colorMap = {
@@ -250,6 +252,55 @@ const energyVariations = [
   ]
 ];
 
+// Multiple confidence boost variations
+const confidenceVariations = [
+  // Variation 1: Positive Affirmations
+  [
+    "🌟 Take a deep breath and stand or sit up tall",
+    "💪 Say to yourself: 'I am capable and strong'",
+    "✨ Repeat: 'I believe in my abilities and potential'",
+    "🎯 Affirm: 'I face challenges with confidence and courage'",
+    "🌈 Say: 'I am worthy of success and happiness'",
+    "💎 Repeat: 'My unique qualities make me valuable'",
+    "🚀 Affirm: 'I have everything I need to succeed'",
+    "🔥 Say: 'I trust myself to make good decisions'",
+    "⭐ Repeat: 'I am confident in who I am becoming'",
+    "💫 Affirm: 'I radiate confidence and positivity'",
+    "🌟 Say: 'I am ready to embrace new opportunities'",
+    "✨ You are confident, capable, and ready to shine!"
+  ],
+  // Variation 2: Power Poses & Breathing
+  [
+    "🦸‍♀️ Stand up and place your hands on your hips - feel powerful",
+    "💨 Take three deep, confident breaths through your nose",
+    "🙌 Raise your arms above your head in a victory pose",
+    "💪 Flex your muscles and feel your inner strength",
+    "🌟 Look up slightly and smile - you've got this!",
+    "🔥 Take up space - stretch your arms wide",
+    "⚡ Say out loud: 'I am confident and capable'",
+    "🎯 Point forward and declare: 'I'm ready for anything'",
+    "💎 Place your hand on your heart - feel your power",
+    "🚀 Take one more powerful breath and own your space",
+    "✨ Visualize yourself succeeding at your next challenge",
+    "🌟 You now carry this confidence with you wherever you go!"
+  ],
+  // Variation 3: Self-Empowerment Ritual
+  [
+    "🌅 Close your eyes briefly and imagine your most confident self",
+    "💪 Think of a time when you overcame a difficult challenge",
+    "✨ Feel that same strength and resilience flowing through you now",
+    "🎯 Set an intention: 'I choose to believe in myself today'",
+    "🔥 Imagine a bright light of confidence glowing in your chest",
+    "💫 Let this light expand throughout your entire body",
+    "🌟 Whisper to yourself: 'I am exactly where I need to be'",
+    "💎 Remember: Every expert was once a beginner",
+    "🚀 Visualize yourself walking into your next situation with poise",
+    "⭐ Feel the support of everyone who believes in you",
+    "🌈 Carry this feeling of self-assurance with you",
+    "✨ You are confident, capable, and completely ready!"
+  ]
+];
+
 // Random variation selector - consistent per session
 let selectedVariations: { [key: string]: number } = {};
 
@@ -322,6 +373,18 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
       selectedVariations[sessionType.id] = Math.floor(Math.random() * focusVariations.length);
     }
     const variation = focusVariations[selectedVariations[sessionType.id]];
+    
+    const instructionDuration = 5; // 5 seconds per instruction
+    const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
+    return variation[Math.min(currentInstruction, variation.length - 1)];
+  }
+
+  if (sessionType.name === "Confidence Boost") {
+    // Select a consistent variation for this session
+    if (!selectedVariations[sessionType.id]) {
+      selectedVariations[sessionType.id] = Math.floor(Math.random() * confidenceVariations.length);
+    }
+    const variation = confidenceVariations[selectedVariations[sessionType.id]];
     
     const instructionDuration = 5; // 5 seconds per instruction
     const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);

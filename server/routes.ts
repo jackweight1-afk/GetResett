@@ -245,6 +245,12 @@ async function initializeSessionTypes() {
           icon: "fas fa-bullseye",
           color: "yellow",
         },
+        {
+          name: "Confidence Boost",
+          description: "Positive affirmations and confidence-building exercises to empower you.",
+          icon: "fas fa-star",
+          color: "orange",
+        },
       ];
 
       for (const type of defaultTypes) {

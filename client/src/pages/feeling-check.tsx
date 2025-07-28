@@ -11,6 +11,7 @@ import {
   Zap, 
   Target, 
   Heart,
+  Sparkles,
   CheckCircle,
   ArrowRight
 } from "lucide-react";
@@ -61,6 +62,14 @@ const feelingOptions = [
     icon: Heart,
     color: "bg-teal/20 text-teal",
     sessionType: "Mindful Moment"
+  },
+  {
+    id: "need_confidence",
+    label: "Need Confidence",
+    description: "Could use a boost of self-assurance",
+    icon: Sparkles,
+    color: "bg-orange-100 text-orange-600",
+    sessionType: "Confidence Boost"
   }
 ];
 
