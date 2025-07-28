@@ -300,7 +300,7 @@ export default function SessionTimer({ sessionType, onComplete, onCancel }: Sess
       </div>
 
       {/* Controls */}
-      <div className="flex justify-center space-x-3 px-4 pt-4">
+      <div className="flex justify-center space-x-3 px-4 pt-4 pb-4">
         {!isRunning ? (
           <Button 
             onClick={handleStart}
