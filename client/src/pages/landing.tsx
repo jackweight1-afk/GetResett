@@ -75,7 +75,7 @@ export default function Landing() {
           <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-blue-50/30">
             <CardContent className="p-8 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <Target className="w-8 h-8 text-white" />
+                <div className="text-white text-2xl">🔬</div>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Science-Backed</h3>
               <p className="text-gray-700 leading-relaxed">Every session is rooted in proven wellness research. Real techniques that actually work.</p>
@@ -85,7 +85,7 @@ export default function Landing() {
           <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-emerald-50/30">
             <CardContent className="p-8 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <TrendingUp className="w-8 h-8 text-white" />
+                <div className="text-white text-2xl">⚡</div>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Instant Impact</h3>
               <p className="text-gray-700 leading-relaxed">Feel the difference immediately. Reduced stress, better focus, improved energy - in just one minute.</p>
@@ -105,7 +105,7 @@ export default function Landing() {
           <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-teal-50/30">
             <CardContent className="p-8 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <Zap className="w-8 h-8 text-white" />
+                <div className="text-white text-2xl">🚀</div>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Energy Boost</h3>
               <p className="text-gray-700 leading-relaxed">Energizing exercises to boost circulation and improve your mood instantly.</p>
@@ -115,7 +115,7 @@ export default function Landing() {
           <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-yellow-50/30">
             <CardContent className="p-8 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <Moon className="w-8 h-8 text-white" />
+                <div className="text-white text-2xl">😴</div>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Sleep Stories</h3>
               <p className="text-gray-700 leading-relaxed">Calming narratives and breathing techniques to help you unwind and rest better.</p>
