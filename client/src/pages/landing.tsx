@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Leaf, Clock, Target, TrendingUp, Moon, Wind, Dumbbell, Brain, Zap, Heart, Timer, Waves } from "lucide-react";
+import { Leaf, Clock, Target, TrendingUp, Moon, Wind, Dumbbell, Brain, Zap, Heart, Timer, Waves, PlayCircle, Circle } from "lucide-react";
 
 export default function Landing() {
   return (
@@ -65,7 +65,7 @@ export default function Landing() {
           <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-purple-50/30">
             <CardContent className="p-8 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <Timer className="w-8 h-8 text-white" />
+                <Clock className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Just 60 Seconds</h3>
               <p className="text-gray-700 leading-relaxed">Perfect for busy schedules. Reset between meetings, during breaks, or whenever you need a moment.</p>
@@ -95,7 +95,7 @@ export default function Landing() {
           <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-orange-50/30">
             <CardContent className="p-8 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <Waves className="w-8 h-8 text-white" />
+                <Heart className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Stress Relief</h3>
               <p className="text-gray-700 leading-relaxed">Guided breathing exercises designed to calm your mind and reduce daily stress.</p>
