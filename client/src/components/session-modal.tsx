@@ -50,9 +50,9 @@ const colorMap = {
 const primaryColorMap = {
   purple: "bg-purple-600 hover:bg-purple-700",
   blue: "bg-blue-600 hover:bg-blue-700",
-  sage: "bg-sage hover:bg-sage/90",
+  sage: "bg-green-600 hover:bg-green-700",
   orange: "bg-orange-600 hover:bg-orange-700",
-  teal: "bg-teal hover:bg-teal/90",
+  teal: "bg-cyan-600 hover:bg-cyan-700",
   yellow: "bg-yellow-600 hover:bg-yellow-700",
 };
 
