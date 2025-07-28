@@ -17,13 +17,16 @@ import {
   Dumbbell, 
   Waves, 
   Zap,
-  X
+  X,
+  Shuffle,
+  ArrowRight
 } from "lucide-react";
 
 interface SessionModalProps {
   sessionType: SessionType;
   onClose: () => void;
   onComplete?: () => void;
+  onTryAnother?: () => void;
 }
 
 const iconMap = {
@@ -53,7 +56,7 @@ const primaryColorMap = {
   yellow: "bg-yellow-600 hover:bg-yellow-700",
 };
 
-export default function SessionModal({ sessionType, onClose, onComplete }: SessionModalProps) {
+export default function SessionModal({ sessionType, onClose, onComplete, onTryAnother }: SessionModalProps) {
   const [step, setStep] = useState<'session' | 'feedback'>('session');
   const [notes, setNotes] = useState<string>('');
   const [sessionRating, setSessionRating] = useState<number[]>([5]);
@@ -221,12 +224,25 @@ export default function SessionModal({ sessionType, onClose, onComplete }: Sessi
           {step === 'feedback' && (
             <div className="space-y-6">
               {renderFeedbackStep()}
-              <Button
-                onClick={handleFeedbackSubmit}
-                className={`w-full text-white ${primaryColor}`}
-              >
-                Continue
-              </Button>
+              <div className="flex space-x-3">
+                {onTryAnother && (
+                  <Button
+                    variant="outline"
+                    onClick={onTryAnother}
+                    className="flex-1 border-purple-200 text-purple-600 hover:bg-purple-50"
+                  >
+                    <Shuffle className="w-4 h-4 mr-2" />
+                    Try Another
+                  </Button>
+                )}
+                <Button
+                  onClick={handleFeedbackSubmit}
+                  className={`flex-1 text-white ${primaryColor}`}
+                >
+                  Continue
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
             </div>
           )}
         </div>

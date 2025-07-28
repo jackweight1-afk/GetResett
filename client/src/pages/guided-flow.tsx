@@ -50,6 +50,15 @@ export default function GuidedFlow() {
     setCurrentStep("post-feeling");
   };
 
+  const handleTryAnother = () => {
+    setSelectedSessionType(null);
+    if (sessionCount === 0) {
+      setCurrentStep("initial-feeling");
+    } else {
+      setCurrentStep("post-feeling");
+    }
+  };
+
   const handlePostFeelingSelected = (feeling: string, sessionTypeId: string) => {
     const sessionType = sessionTypes?.find(st => st.id === sessionTypeId);
     if (sessionType) {
@@ -131,6 +140,7 @@ export default function GuidedFlow() {
           sessionType={selectedSessionType}
           onClose={handleSessionCancel}
           onComplete={handleSessionComplete}
+          onTryAnother={handleTryAnother}
         />
       )}
     </>

@@ -196,7 +196,7 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
             <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center">
               <span className="text-white text-xs font-bold">R</span>
             </div>
-            <span className="text-xs font-medium">Resets</span>
+            <span className="text-xs font-medium">GetResett</span>
           </a>
           <a href="/insights" className="flex flex-col items-center space-y-1 py-2 px-3 text-gray-400 hover:text-gray-600">
             <div className="w-6 h-6 flex items-center justify-center">

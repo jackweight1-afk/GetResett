@@ -1,8 +1,8 @@
-# Replit.md - Reset Wellness App
+# Replit.md - GetResett Wellness App
 
 ## Overview
 
-Reset is a wellness application that provides science-backed 60-second reset sessions for mental and physical wellbeing. The app includes features for meditation, sleep tracking, stress relief, mindful stretches, and energy boosts. Users can track their progress, view insights, and maintain wellness streaks through guided sessions.
+GetResett is a wellness application that provides science-backed 60-second reset sessions for mental and physical wellbeing. The app includes features for meditation, sleep tracking, stress relief, mindful stretches, and energy boosts. Users can track their progress, view insights, and maintain wellness streaks through guided sessions.
 
 ## User Preferences
 
@@ -168,3 +168,5 @@ The application is designed for easy deployment on Replit with automatic databas
 - **Analytics Transition**: When feeling better, users are taken to insights page with personalized recommendations
 - **Feeling Tracking**: New database table tracks emotional check-ins before/after sessions for insights
 - **API Integration**: Added `/api/feelings` endpoints for tracking emotional journey data
+- **Brand Update**: Changed app name from "Reset" to "GetResett" for branding consistency
+- **Try Another Feature**: Added shuffle/try another button after sessions for better user experience
