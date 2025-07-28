@@ -54,77 +54,218 @@ const breathingPattern = [
   { phase: "Breathe Out", duration: 6 },
 ];
 
-// Sleep story content
-const sleepStorySegments = [
-  "Imagine yourself floating on a soft, white cloud as you watch the screen...",
-  "The cloud gently drifts across a peaceful blue sky, carrying you away from all worries...",
-  "Below you, rolling green hills stretch as far as the eye can see...",
-  "A warm, gentle breeze surrounds you, making you feel completely safe and relaxed...",
-  "The cloud slowly descends toward a calm, crystal-clear lake...",
-  "You feel yourself melting into the cloud, becoming one with its softness...",
-  "All tension leaves your body as you drift deeper into this peaceful place...",
-  "Your breathing becomes slow and steady, matching the rhythm of gentle waves...",
-  "You are completely at peace, floating in perfect tranquility...",
-  "Let yourself sink deeper into this calm, restful state...",
-  "Your mind is clear, your body is relaxed, sleep is coming naturally...",
-  "Allow yourself to drift off into peaceful, restorative sleep..."
+// Multiple sleep story variations
+const sleepStoryVariations = [
+  // Variation 1: Cloud Journey
+  [
+    "Imagine yourself floating on a soft, white cloud as you watch the screen...",
+    "The cloud gently drifts across a peaceful blue sky, carrying you away from all worries...",
+    "Below you, rolling green hills stretch as far as the eye can see...",
+    "A warm, gentle breeze surrounds you, making you feel completely safe and relaxed...",
+    "The cloud slowly descends toward a calm, crystal-clear lake...",
+    "You feel yourself melting into the cloud, becoming one with its softness...",
+    "All tension leaves your body as you drift deeper into this peaceful place...",
+    "Your breathing becomes slow and steady, matching the rhythm of gentle waves...",
+    "You are completely at peace, floating in perfect tranquility...",
+    "Let yourself sink deeper into this calm, restful state...",
+    "Your mind is clear, your body is relaxed, sleep is coming naturally...",
+    "Allow yourself to drift off into peaceful, restorative sleep..."
+  ],
+  // Variation 2: Forest Path
+  [
+    "Picture yourself walking slowly down a peaceful forest path...",
+    "Tall, ancient trees create a gentle canopy above you...",
+    "Sunlight filters through the leaves, creating dancing patterns of light...",
+    "You can hear the soft rustling of leaves and distant bird songs...",
+    "The path leads you to a comfortable moss-covered clearing...",
+    "You lie down on the soft earth, feeling completely supported...",
+    "The sounds of the forest create a natural lullaby around you...",
+    "Your breathing slows to match the peaceful rhythm of nature...",
+    "Every muscle in your body relaxes into the soft ground...",
+    "The forest embraces you with its calm, protective energy...",
+    "Your eyelids grow heavy as you sink into deep relaxation...",
+    "Sleep comes naturally as the forest cradles you in peace..."
+  ],
+  // Variation 3: Ocean Waves
+  [
+    "You find yourself lying on warm, soft sand by a gentle ocean...",
+    "The waves roll in and out with a soothing, hypnotic rhythm...",
+    "Each wave that washes ashore takes away your stress and worries...",
+    "The sunset paints the sky in soft shades of pink and orange...",
+    "A gentle ocean breeze carries the scent of salt and serenity...",
+    "You feel the sand warming your back, supporting you completely...",
+    "The sound of waves becomes a natural, peaceful lullaby...",
+    "Your breathing synchronizes with the ebb and flow of the tide...",
+    "Each exhale releases more tension from your body...",
+    "The rhythmic waves wash away all thoughts and concerns...", 
+    "You drift deeper into a state of perfect, oceanic calm...",
+    "Sleep arrives like a gentle wave, carrying you to peaceful dreams..."
+  ]
 ];
 
-// Stretching instructions for achy muscles
-const stretchingInstructions = [
-  "🧘‍♀️ Sit tall and roll your shoulders back 3 times slowly",
-  "💪 Gently tilt your head to the right, hold for 5 seconds",
-  "💪 Now tilt your head to the left, hold for 5 seconds", 
-  "🤲 Interlace your fingers and stretch your arms overhead",
-  "🔄 Slowly twist your torso to the right, then return to center",
-  "🔄 Now twist your torso to the left, then return to center",
-  "👐 Bring your arms behind your back and clasp your hands",
-  "🫸 Reach your right arm across your chest, pull gently with left hand",
-  "🫷 Now reach your left arm across your chest, pull gently with right hand",
-  "🙆‍♀️ Place hands behind your head and open your elbows wide",
-  "💆‍♀️ Gently massage your neck with circular motions",
-  "✨ Take a deep breath and feel your muscles relax completely"
+// Multiple stretching variations for achy muscles
+const stretchingVariations = [
+  // Variation 1: Neck & Shoulders Focus
+  [
+    "🧘‍♀️ Sit tall and roll your shoulders back 3 times slowly",
+    "💪 Gently tilt your head to the right, hold for 5 seconds",
+    "💪 Now tilt your head to the left, hold for 5 seconds", 
+    "🤲 Interlace your fingers and stretch your arms overhead",
+    "🔄 Slowly twist your torso to the right, then return to center",
+    "🔄 Now twist your torso to the left, then return to center",
+    "👐 Bring your arms behind your back and clasp your hands",
+    "🫸 Reach your right arm across your chest, pull gently with left hand",
+    "🫷 Now reach your left arm across your chest, pull gently with right hand",
+    "🙆‍♀️ Place hands behind your head and open your elbows wide",
+    "💆‍♀️ Gently massage your neck with circular motions",
+    "✨ Take a deep breath and feel your muscles relax completely"
+  ],
+  // Variation 2: Upper Body Release
+  [
+    "🌟 Start by taking three deep breaths and relaxing your face",
+    "👐 Reach both arms up high and gently sway side to side",
+    "🔄 Make small circles with your shoulders, forward then backward",
+    "🤲 Press your palms together in front of your chest, then overhead",
+    "💪 Gently pull your right elbow across your body with your left hand",
+    "💪 Now pull your left elbow across your body with your right hand",
+    "🙆‍♀️ Clasp hands behind your head, gently press elbows back",
+    "🧘‍♀️ Tilt your head forward, feel the stretch in your neck",
+    "🔄 Slowly roll your head in a half circle, right to left",
+    "👐 Shrug your shoulders up to your ears, then drop them down",
+    "💆‍♀️ Gently massage your temples with your fingertips",
+    "🌬️ End with three slow, deep breaths"
+  ],
+  // Variation 3: Desk Worker Special
+  [
+    "💻 Push your chair back and stand up tall",
+    "🤲 Reach your arms up and lean gently to the right",
+    "🤲 Now reach up and lean gently to the left",
+    "🔄 Place hands on your hips and twist your torso right",
+    "🔄 Now twist your torso to the left, keeping hips forward",
+    "💪 Bring your right arm across your chest, stretch gently",
+    "💪 Bring your left arm across your chest, stretch gently",
+    "🙆‍♀️ Lace fingers behind your back, lift your chest",
+    "🧘‍♀️ Drop your chin to your chest, feel the neck stretch",
+    "👐 Roll your shoulders backward in slow, large circles",
+    "💆‍♀️ Gently rub the base of your skull with your fingers",
+    "🌟 Take a moment to notice how much better you feel"
+  ]
 ];
 
-// Focus exercises for concentration
-const focusInstructions = [
-  "👁️ Look at a fixed point on the screen and breathe deeply",
-  "🧠 Count slowly from 1 to 10, focusing only on the numbers",
-  "🌊 Imagine waves washing away distracting thoughts",
-  "🎯 Focus on the center of the screen while breathing steadily",
-  "💭 Notice any wandering thoughts, then gently return focus here",
-  "⭐ Visualize a bright star and keep your attention on it",
-  "🔢 Count backwards from 20 to 1, one number per breath",
-  "🌟 Feel your mind becoming clearer and more focused",
-  "💎 Imagine your attention becoming sharp like a diamond",
-  "🧘‍♀️ Sit tall and feel your concentration strengthening",
-  "🎯 You are becoming more focused and alert",
-  "✨ Your mind is now clear, calm, and ready to concentrate"
+// Multiple focus variations for concentration
+const focusVariations = [
+  // Variation 1: Visual Focus
+  [
+    "👁️ Look at a fixed point on the screen and breathe deeply",
+    "🧠 Count slowly from 1 to 10, focusing only on the numbers",
+    "🌊 Imagine waves washing away distracting thoughts",
+    "🎯 Focus on the center of the screen while breathing steadily",
+    "💭 Notice any wandering thoughts, then gently return focus here",
+    "⭐ Visualize a bright star and keep your attention on it",
+    "🔢 Count backwards from 20 to 1, one number per breath",
+    "🌟 Feel your mind becoming clearer and more focused",
+    "💎 Imagine your attention becoming sharp like a diamond",
+    "🧘‍♀️ Sit tall and feel your concentration strengthening",
+    "🎯 You are becoming more focused and alert",
+    "✨ Your mind is now clear, calm, and ready to concentrate"
+  ],
+  // Variation 2: Mental Clarity
+  [
+    "🧠 Take three deep breaths and clear your mental space",
+    "💭 Imagine organizing your thoughts like files in a folder",
+    "🎯 Focus on one single word: 'CLARITY' for 10 seconds",
+    "🌟 Visualize a bright light illuminating your mind",
+    "🔍 Notice the details of your current surroundings",
+    "💎 Feel your attention becoming laser-focused",
+    "🌊 Let distracting thoughts flow away like water",
+    "⚡ Sense your mental energy becoming sharp and precise",
+    "🎯 Direct all your attention to this present moment",
+    "🧘‍♀️ Feel your concentration muscle growing stronger",
+    "💪 Your focus is now steady and unshakeable",
+    "✨ You are ready to tackle any task with clarity"
+  ],
+  // Variation 3: Mind Reset
+  [
+    "🔄 Close your eyes briefly, then open them with fresh attention",
+    "🧘‍♀️ Take a moment to reset your mental state completely",
+    "💭 Let go of all previous thoughts and start fresh",
+    "🎯 Choose one object in your field of vision to focus on",
+    "🌬️ Breathe in clarity, breathe out mental fog",
+    "⭐ Imagine your mind as a calm, still lake",
+    "🔢 Count your breaths: 1... 2... 3... up to 10",
+    "💎 Feel your attention becoming crystal clear",
+    "🌟 Your mind is now refreshed and ready to focus",
+    "🎯 Direct this renewed attention to what matters most",
+    "💪 You have complete control over your focus",
+    "✨ Your concentration is now sharp and sustained"
+  ]
 ];
 
-// Energy boost exercises
-const energyInstructions = [
-  "⚡ Take 3 quick, energizing breaths through your nose",
-  "🙌 Raise both arms up high and stretch toward the ceiling",
-  "💪 Make fists and pump your arms 10 times",
-  "🦵 March in place for 10 seconds, lifting knees high",
-  "🤲 Clap your hands together 10 times with energy",
-  "🔄 Roll your shoulders back and forward 5 times each",
-  "💨 Take a deep breath in and blow out forcefully",
-  "🤸‍♀️ Shake out your hands and arms vigorously",
-  "🦶 Tap your feet on the ground 10 times",
-  "💪 Flex your muscles and feel the energy building",
-  "⚡ You're feeling more energized and alert",
-  "🌟 Your energy is renewed and ready for action!"
+// Multiple energy boost variations
+const energyVariations = [
+  // Variation 1: Quick Energizer
+  [
+    "⚡ Take 3 quick, energizing breaths through your nose",
+    "🙌 Raise both arms up high and stretch toward the ceiling",
+    "💪 Make fists and pump your arms 10 times",
+    "🦵 March in place for 10 seconds, lifting knees high",
+    "🤲 Clap your hands together 10 times with energy",
+    "🔄 Roll your shoulders back and forward 5 times each",
+    "💨 Take a deep breath in and blow out forcefully",
+    "🤸‍♀️ Shake out your hands and arms vigorously",
+    "🦶 Tap your feet on the ground 10 times",
+    "💪 Flex your muscles and feel the energy building",
+    "⚡ You're feeling more energized and alert",
+    "🌟 Your energy is renewed and ready for action!"
+  ],
+  // Variation 2: Desk Energy Boost
+  [
+    "🌟 Sit up straight and take a powerful breath in",
+    "💪 Press your palms together firmly in front of your chest",
+    "🙌 Raise your arms overhead and reach for the sky",
+    "🔄 Make large, energetic circles with your arms",
+    "⚡ Clench and release your fists 10 times rapidly",
+    "🦵 Lift one knee, then the other, like marching seated",
+    "💨 Breathe in energy, breathe out fatigue",
+    "🤸‍♀️ Wiggle your fingers and toes with excitement",
+    "💪 Tense all your muscles for 3 seconds, then release",
+    "🌟 Feel the energy flowing through your entire body",
+    "⚡ Your mind is sharp and your body is energized",
+    "🚀 You're ready to power through anything!"
+  ],
+  // Variation 3: Full Body Wake-Up
+  [
+    "🌅 Stand up and stretch like you're greeting the sun",
+    "💪 Do 5 gentle jumping jacks to wake up your body",
+    "🙌 Reach alternating arms up high, left then right",
+    "🔄 Twist your torso side to side with enthusiasm",
+    "⚡ Take 5 deep breaths, making each exhale longer",
+    "🤸‍♀️ Gently bounce on the balls of your feet",
+    "💨 Blow out any sleepiness with a big 'WHOOSH' sound",
+    "🦶 Do a little dance move - anything that feels good",
+    "💪 Give yourself a quick shoulder massage",
+    "🌟 Smile widely and feel the positive energy",
+    "⚡ Your whole system is now awake and energized",
+    "🚀 You're bursting with renewed vitality!"
+  ]
 ];
+
+// Random variation selector - consistent per session
+let selectedVariations: { [key: string]: number } = {};
 
 // Exercise instructions for different session types
 const getSessionInstructions = (sessionType: SessionType, timeRemaining: number) => {
   if (sessionType.name === "Sleep Story") {
+    // Select a consistent variation for this session
+    if (!selectedVariations[sessionType.id]) {
+      selectedVariations[sessionType.id] = Math.floor(Math.random() * sleepStoryVariations.length);
+    }
+    const variation = sleepStoryVariations[selectedVariations[sessionType.id]];
+    
     // Calculate which segment of the story we're in (5 seconds per segment)
     const segmentDuration = 5;
     const currentSegment = Math.floor((60 - timeRemaining) / segmentDuration);
-    return sleepStorySegments[Math.min(currentSegment, sleepStorySegments.length - 1)];
+    return variation[Math.min(currentSegment, variation.length - 1)];
   }
   
   if (sessionType.name === "Stress Relief") {
@@ -143,16 +284,29 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
 
   // Handle achy muscles with detailed stretching instructions
   if (sessionType.name === "Upper Body Stretch" || sessionType.name === "Lower Body Stretch" || 
-      sessionType.name === "Full Body Flow" || sessionType.name === "Quick Stretch") {
+      sessionType.name === "Full Body Flow" || sessionType.name === "Quick Stretch" || 
+      sessionType.description?.includes("muscles")) {
+    // Select a consistent variation for this session
+    if (!selectedVariations[sessionType.id]) {
+      selectedVariations[sessionType.id] = Math.floor(Math.random() * stretchingVariations.length);
+    }
+    const variation = stretchingVariations[selectedVariations[sessionType.id]];
+    
     const instructionDuration = 5; // 5 seconds per instruction
     const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
-    return stretchingInstructions[Math.min(currentInstruction, stretchingInstructions.length - 1)];
+    return variation[Math.min(currentInstruction, variation.length - 1)];
   }
 
   if (sessionType.name === "Energy Boost") {
+    // Select a consistent variation for this session
+    if (!selectedVariations[sessionType.id]) {
+      selectedVariations[sessionType.id] = Math.floor(Math.random() * energyVariations.length);
+    }
+    const variation = energyVariations[selectedVariations[sessionType.id]];
+    
     const instructionDuration = 5; // 5 seconds per instruction
     const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
-    return energyInstructions[Math.min(currentInstruction, energyInstructions.length - 1)];
+    return variation[Math.min(currentInstruction, variation.length - 1)];
   }
 
   if (sessionType.name === "Mindful Moment") {
@@ -163,9 +317,15 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
   }
 
   if (sessionType.name === "Focus Reset") {
+    // Select a consistent variation for this session
+    if (!selectedVariations[sessionType.id]) {
+      selectedVariations[sessionType.id] = Math.floor(Math.random() * focusVariations.length);
+    }
+    const variation = focusVariations[selectedVariations[sessionType.id]];
+    
     const instructionDuration = 5; // 5 seconds per instruction
     const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
-    return focusInstructions[Math.min(currentInstruction, focusInstructions.length - 1)];
+    return variation[Math.min(currentInstruction, variation.length - 1)];
   }
 
   return "Follow along with the session";
@@ -175,6 +335,13 @@ export default function SessionTimer({ sessionType, onComplete, onCancel }: Sess
   const [timeRemaining, setTimeRemaining] = useState(60);
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+
+  // Reset selected variation when component unmounts (new session)
+  useEffect(() => {
+    return () => {
+      delete selectedVariations[sessionType.id];
+    };
+  }, [sessionType.id]);
 
   const IconComponent = iconMap[sessionType.icon as keyof typeof iconMap] || Zap;
   const textColor = colorMap[sessionType.color as keyof typeof colorMap] || "text-gray-600";
