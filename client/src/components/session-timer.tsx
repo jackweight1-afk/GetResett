@@ -38,7 +38,7 @@ const colorMap = {
   yellow: "text-yellow-600",
 };
 
-const primaryColorMap = {
+const buttonColorMap = {
   purple: "bg-purple-600 hover:bg-purple-700",
   blue: "bg-blue-600 hover:bg-blue-700",
   sage: "bg-sage hover:bg-sage/90",
@@ -178,7 +178,7 @@ export default function SessionTimer({ sessionType, onComplete, onCancel }: Sess
 
   const IconComponent = iconMap[sessionType.icon as keyof typeof iconMap] || Zap;
   const textColor = colorMap[sessionType.color as keyof typeof colorMap] || "text-gray-600";
-  const primaryColor = primaryColorMap[sessionType.color as keyof typeof primaryColorMap] || "bg-gray-600 hover:bg-gray-700";
+  const primaryColor = buttonColorMap[sessionType.color as keyof typeof buttonColorMap] || "bg-gray-600 hover:bg-gray-700";
 
   const progress = ((60 - timeRemaining) / 60) * 100;
   const instruction = getSessionInstructions(sessionType, timeRemaining);
@@ -300,43 +300,48 @@ export default function SessionTimer({ sessionType, onComplete, onCancel }: Sess
       </div>
 
       {/* Controls */}
-      <div className="flex justify-center space-x-3 px-4 pt-4 pb-4">
+      <div className="flex justify-center space-x-3 px-4 pt-4 pb-4 min-h-[60px]">
         {!isRunning ? (
           <Button 
             onClick={handleStart}
-            className={`${primaryColorMap[sessionType.color as keyof typeof primaryColorMap] || "bg-purple-600 hover:bg-purple-700"} text-white px-6 md:px-8 py-2 md:py-3 text-sm md:text-base`}
+            size="lg"
+            className={`${buttonColorMap[sessionType.color as keyof typeof buttonColorMap] || "bg-purple-600 hover:bg-purple-700"} text-white px-8 py-3 text-base font-medium shadow-lg`}
           >
-            <Play className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+            <Play className="w-5 h-5 mr-2" />
             Start
           </Button>
         ) : (
-          <Button 
-            onClick={handlePause}
-            variant="outline"
-            className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base"
-          >
-            {isPaused ? (
-              <>
-                <Play className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-                Resume
-              </>
-            ) : (
-              <>
-                <Pause className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-                Pause
-              </>
-            )}
-          </Button>
+          <>
+            <Button 
+              onClick={handlePause}
+              variant="outline"
+              size="lg"
+              className="px-6 py-3 text-base font-medium"
+            >
+              {isPaused ? (
+                <>
+                  <Play className="w-5 h-5 mr-2" />
+                  Resume
+                </>
+              ) : (
+                <>
+                  <Pause className="w-5 h-5 mr-2" />
+                  Pause
+                </>
+              )}
+            </Button>
+            
+            <Button 
+              onClick={handleStop}
+              variant="outline"
+              size="lg"
+              className="px-6 py-3 text-base font-medium"
+            >
+              <Square className="w-5 h-5 mr-2" />
+              Stop
+            </Button>
+          </>
         )}
-        
-        <Button 
-          onClick={handleStop}
-          variant="outline"
-          className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base"
-        >
-          <Square className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-          Stop
-        </Button>
       </div>
       
       {/* Mobile padding for bottom navigation */}
