@@ -10,6 +10,7 @@ import Dashboard from "@/pages/dashboard";
 import GuidedFlow from "@/pages/guided-flow";
 import Insights from "@/pages/insights";
 import Account from "@/pages/account";
+import InstallPrompt from "@/components/install-prompt";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -36,6 +37,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
+        <InstallPrompt />
         <Router />
       </TooltipProvider>
     </QueryClientProvider>

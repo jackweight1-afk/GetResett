@@ -180,4 +180,13 @@ The application is designed for easy deployment on Replit with automatic databas
   - Stretching: Neck & Shoulders Focus, Upper Body Release, Desk Worker Special
   - Focus Reset: Visual Focus, Mental Clarity, Mind Reset
   - Energy Boost: Quick Energizer, Desk Energy Boost, Full Body Wake-Up
+  - Confidence Boost: Positive Affirmations, Power Poses & Breathing, Self-Empowerment Ritual
 - **Enhanced Start Button**: Fixed visibility issues with larger, more prominent styling and proper color theming
+
+### Progressive Web App (PWA) Implementation (January 2025)
+- **Add to Home Screen**: Created install prompt popup with device-specific instructions for iOS and Android
+- **PWA Manifest**: Added web app manifest with proper icons, theme colors, and display settings
+- **Service Worker**: Implemented basic caching for offline functionality
+- **Native App Experience**: Users can install GetResett as a native-like app on their phone home screens
+- **Smart Prompting**: Install prompt appears after 10 seconds for new users, with floating install button
+- **Platform Detection**: Different installation instructions for iOS Safari vs Android Chrome users
