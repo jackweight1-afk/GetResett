@@ -13,7 +13,8 @@ import {
   Heart,
   Sparkles,
   CheckCircle,
-  ArrowRight
+  ArrowRight,
+  Waves
 } from "lucide-react";
 
 interface FeelingCheckProps {
@@ -30,6 +31,14 @@ const feelingOptions = [
     icon: Brain,
     color: "bg-blue-100 text-blue-600",
     sessionType: "Stress Relief"
+  },
+  {
+    id: "anxious",
+    label: "Anxious",
+    description: "Worried thoughts and restlessness",
+    icon: Waves,
+    color: "bg-teal/20 text-teal",
+    sessionType: "Anxiety Relief"
   },
   {
     id: "cant_sleep",
@@ -60,7 +69,7 @@ const feelingOptions = [
     label: "Overwhelmed",
     description: "Need a moment of calm",
     icon: Heart,
-    color: "bg-teal/20 text-teal",
+    color: "bg-emerald-100 text-emerald-600",
     sessionType: "Mindful Moment"
   },
   {

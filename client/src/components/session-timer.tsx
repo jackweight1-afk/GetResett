@@ -252,6 +252,55 @@ const energyVariations = [
   ]
 ];
 
+// Multiple anxiety relief variations focused on grounding techniques
+const anxietyReliefVariations = [
+  // Variation 1: 5-4-3-2-1 Grounding Technique
+  [
+    "🌿 Let's ground yourself in the present moment using your senses.",
+    "👀 Look around and name 5 things you can see. Take your time with each one.",
+    "🤲 Now find 4 things you can touch. Feel their texture, temperature, or weight.",
+    "👂 Listen carefully and identify 3 different sounds around you right now.",
+    "👃 Notice 2 things you can smell. Even subtle scents count.",
+    "👅 Finally, name 1 thing you can taste. Maybe it's from something you drank recently.",
+    "🧘‍♀️ Take a slow, deep breath. You are here, in this moment, and you are safe.",
+    "✨ Notice how your thoughts have slowed down. This is your peaceful center.",
+    "🌱 Your anxiety is temporary, but your ability to ground yourself is always with you.",
+    "💚 You've successfully anchored yourself in the present. Well done.",
+    "🕊️ Remember this feeling of calm. You can return here anytime you need to.",
+    "🌟 Take one more deep breath. You are grounded, present, and in control."
+  ],
+  // Variation 2: Body Scan & Release
+  [
+    "🧘‍♀️ Let's release anxiety by scanning and relaxing your body systematically.",
+    "💆‍♀️ Start by relaxing the muscles in your face, jaw, and around your eyes.",
+    "🤲 Let your shoulders drop away from your ears. Feel the tension melting away.",
+    "💪 Relax your arms completely. Let them feel heavy and loose by your sides.",
+    "💚 Focus on your chest. Take slow, deep breaths, expanding your ribcage gently.",
+    "🌿 Soften your stomach muscles. Let your breathing become natural and easy.",
+    "🦵 Relax your thighs and let your knees feel loose and comfortable.",
+    "🦶 Release any tension in your calves, ankles, and feet.",
+    "✨ Scan your whole body. Notice any remaining tension and let it go.",
+    "🕊️ Your body is now relaxed and your mind is following suit.",
+    "🌱 Anxiety lives in tension. You've just released its physical home.",
+    "💫 Feel this sense of physical calm. Your mind is peaceful too."
+  ],
+  // Variation 3: Present Moment Facts
+  [
+    "📍 Let's focus on simple, factual truths about this exact moment.",
+    "📅 Right now, today is a day you're getting through successfully.",
+    "🪑 Notice what you're sitting or standing on. Feel how it supports you completely.",
+    "🏠 You are in a safe space. Look around and confirm this truth.",
+    "🫁 Your breath is working perfectly. Your body knows exactly what to do.",
+    "❤️ Your heart is beating steadily. It's been taking care of you your whole life.",
+    "👥 There are people who care about you, even if they're not here right now.",
+    "⏰ This feeling of anxiety will pass. All feelings are temporary.",
+    "🌍 You are one of billions of people on this planet, and you belong here.",
+    "💪 You have survived every difficult moment so far. Your track record is 100%.",
+    "🌟 Right now, in this moment, you are okay. Focus on this simple truth.",
+    "🕊️ These facts are your anchor. Anxiety cannot change what is real and true."
+  ]
+];
+
 // Multiple confidence boost variations
 const confidenceVariations = [
   // Variation 1: Positive Affirmations
@@ -373,6 +422,18 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
       selectedVariations[sessionType.id] = Math.floor(Math.random() * focusVariations.length);
     }
     const variation = focusVariations[selectedVariations[sessionType.id]];
+    
+    const instructionDuration = 5; // 5 seconds per instruction
+    const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
+    return variation[Math.min(currentInstruction, variation.length - 1)];
+  }
+
+  if (sessionType.name === "Anxiety Relief") {
+    // Select a consistent variation for this session
+    if (!selectedVariations[sessionType.id]) {
+      selectedVariations[sessionType.id] = Math.floor(Math.random() * anxietyReliefVariations.length);
+    }
+    const variation = anxietyReliefVariations[selectedVariations[sessionType.id]];
     
     const instructionDuration = 5; // 5 seconds per instruction
     const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
