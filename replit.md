@@ -218,3 +218,17 @@ The application is designed for easy deployment on Replit with automatic databas
 - **Database Schema**: Added `dailyUsage` and user subscription fields (`stripeCustomerId`, `stripeSubscriptionId`, `subscriptionStatus`)
 - **API Endpoints**: Complete backend with usage checking, increment tracking, and subscription creation routes
 - **Visual Indicators**: Usage status component shows remaining free sessions or premium member status
+
+### Subscription System Fixes (January 2025)
+- **Payment Confirmation Fix**: Changed from `confirmCardPayment` to `confirmPayment` for proper subscription handling
+- **Query Cache Invalidation**: Added proper cache invalidation after successful payments to prevent double-subscription issues
+- **Mobile Payment UX**: Enhanced Stripe card element with better mobile styling and error handling
+- **Subscription Status Logic**: Improved status checking to handle both 'active' and 'trialing' subscription states
+- **Real-time Updates**: Immediate query refresh after successful subscription prevents users from seeing paywall after payment
+- **Cross-platform Compatibility**: Tested and optimized for both Android and iOS payment flows
+
+### Navigation Routing Fix (January 2025)
+- **Client-side Navigation**: Fixed 404 errors when navigating to /account by implementing proper wouter Link components
+- **Bottom Navigation**: Replaced hardcoded anchor tags with BottomNavigation component using wouter's Link for smooth client-side routing
+- **No More Page Reloads**: Navigation between pages now uses client-side routing without full page refreshes
+- **Consistent Navigation**: All pages (feeling-check, insights, account) now use the same BottomNavigation component

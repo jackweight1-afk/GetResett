@@ -26,6 +26,7 @@ function Router() {
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/insights" component={Insights} />
           <Route path="/account" component={Account} />
+          <Route path="/account/*" component={Account} />
         </>
       )}
       <Route component={NotFound} />
