@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { User, Mail, Calendar, Trash2, LogOut, Shield } from "lucide-react";
 import BottomNavigation from "@/components/bottom-navigation";
 import { UsageStatus } from "@/components/usage-status";
+import { SubscriptionManagement } from "@/components/subscription-management";
 
 export default function Account() {
   const { user, isLoading } = useAuth();
@@ -168,6 +169,9 @@ export default function Account() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Subscription Management */}
+        <SubscriptionManagement />
 
         {/* Account Actions */}
         <Card>

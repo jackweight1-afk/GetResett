@@ -263,7 +263,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         },
         product_data: {
           name: 'GetResett+ Monthly',
-          description: 'Unlimited daily reset sessions',
         },
       });
 
@@ -297,7 +296,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Stripe webhook to handle subscription updates
+  // Cancel subscription route
+  app.post('/api/cancel-subscription', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      
+      if (!user?.stripeSubscriptionId) {
+        return res.status(400).json({ message: "No active subscription found" });
+      }
+
+      // Cancel the subscription in Stripe
+      const subscription = await stripe.subscriptions.cancel(user.stripeSubscriptionId);
+      
+      // Update user subscription status
+      await storage.updateUserSubscription(
+        userId,
+        undefined,
+        subscription.id,
+        'canceled'
+      );
+
+      res.json({ message: "Subscription canceled successfully" });
+    } catch (error: any) {
+      console.error("Error canceling subscription:", error);
+      res.status(500).json({ message: "Failed to cancel subscription" });
+    }
+  });
+
   app.post('/api/stripe/webhook', async (req, res) => {
     let event;
 

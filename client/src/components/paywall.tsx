@@ -32,8 +32,11 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
 
     try {
       // Create subscription
-      const data = await apiRequest("POST", "/api/create-subscription");
-      const { clientSecret } = await data.json();
+      const response = await fetch("/api/create-subscription", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const { clientSecret } = await response.json();
 
       // Confirm payment
       const result = await stripe.confirmCardPayment(clientSecret, {
