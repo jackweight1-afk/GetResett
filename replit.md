@@ -232,3 +232,12 @@ The application is designed for easy deployment on Replit with automatic databas
 - **Bottom Navigation**: Replaced hardcoded anchor tags with BottomNavigation component using wouter's Link for smooth client-side routing
 - **No More Page Reloads**: Navigation between pages now uses client-side routing without full page refreshes
 - **Consistent Navigation**: All pages (feeling-check, insights, account) now use the same BottomNavigation component
+
+### International Currency Support (January 2025)
+- **Location-Based Currency Detection**: Automatically detects user's country and shows pricing in local currency (e.g., $1.99 for US, €1.99 for EU)
+- **Real-time Exchange Rates**: Uses free exchange rate API to convert base GBP price to 40+ supported currencies
+- **Smart Currency Formatting**: Proper formatting for each currency type (no decimals for JPY/KRW, correct symbols for each region)
+- **Comprehensive Coverage**: Supports major currencies including USD, EUR, CAD, AUD, JPY, KRW, INR, BRL, MXN, SGD, CHF, and many European currencies
+- **Fallback Detection**: Uses browser locale as backup if IP-based detection fails, with GBP as ultimate fallback
+- **Consistent Display**: All pricing displays (paywall, subscription management, account page) show localized currency
+- **Browser Compatibility**: Works across all modern browsers with automatic currency detection based on user's location

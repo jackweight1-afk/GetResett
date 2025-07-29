@@ -7,6 +7,7 @@ import { Sparkles, Clock, Zap } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { useCurrency } from "@/hooks/useCurrency";
 
 // Load Stripe outside of component
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
@@ -22,6 +23,7 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { localizedPrice } = useCurrency();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -114,7 +116,7 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
               Processing...
             </div>
           ) : (
-            "Subscribe for £1.99/month"
+            `Subscribe for ${localizedPrice.formatted}/month`
           )}
         </Button>
       </div>
@@ -123,6 +125,7 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
 };
 
 export function Paywall({ onSubscriptionComplete, dailyCount }: PaywallProps) {
+  const { localizedPrice, isLoading: priceLoading } = useCurrency();
   const remainingSessions = Math.max(0, 3 - dailyCount);
 
   return (
@@ -162,7 +165,9 @@ export function Paywall({ onSubscriptionComplete, dailyCount }: PaywallProps) {
                     GetResett+ Monthly
                   </CardTitle>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-3xl font-bold">£1.99</span>
+                    <span className="text-3xl font-bold">
+                      {priceLoading ? '...' : localizedPrice.formatted}
+                    </span>
                     <span className="text-gray-600">/month</span>
                   </div>
                 </CardHeader>

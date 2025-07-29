@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { useCurrency } from "@/hooks/useCurrency";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
@@ -13,6 +14,7 @@ export function SubscriptionManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [cancellingSubscription, setCancellingSubscription] = useState(false);
+  const { localizedPrice } = useCurrency();
 
   const { data: usageData } = useQuery<{
     canAccess: boolean;
@@ -98,7 +100,7 @@ export function SubscriptionManagement() {
               <p className="text-sm text-gray-600">Unlimited daily reset sessions</p>
             </div>
             <div className="text-right">
-              <div className="text-lg font-bold text-purple-600">£1.99</div>
+              <div className="text-lg font-bold text-purple-600">{localizedPrice.formatted}</div>
               <div className="text-xs text-gray-500">per month</div>
             </div>
           </div>
@@ -233,7 +235,7 @@ export function SubscriptionManagement() {
               <li>• Advanced insights and analytics</li>
               <li>• Priority support</li>
             </ul>
-            <div className="text-lg font-bold text-purple-600 mb-4">£1.99<span className="text-sm font-normal">/month</span></div>
+            <div className="text-lg font-bold text-purple-600 mb-4">{localizedPrice.formatted}<span className="text-sm font-normal">/month</span></div>
             
             <Button 
               onClick={() => {
