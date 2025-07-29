@@ -471,7 +471,7 @@ export class DatabaseStorage implements IStorage {
       .from(users)
       .where(eq(users.id, userId));
     
-    return user?.subscriptionStatus === 'active';
+    return user?.subscriptionStatus === 'active' || user?.subscriptionStatus === 'trialing';
   }
 }
 

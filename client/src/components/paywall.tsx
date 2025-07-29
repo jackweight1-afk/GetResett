@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Sparkles, Clock, Zap } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Load Stripe outside of component
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
@@ -20,6 +21,7 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -38,11 +40,13 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
       });
       const { clientSecret } = await response.json();
 
-      // Confirm payment
-      const result = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement)!,
-        }
+      // Confirm payment for subscription (not one-time payment)
+      const result = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: window.location.origin,
+        },
+        redirect: 'if_required'
       });
 
       if (result.error) {
@@ -52,6 +56,10 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
           variant: "destructive",
         });
       } else {
+        // Invalidate queries to refresh subscription status
+        await queryClient.invalidateQueries({ queryKey: ["/api/usage/check"] });
+        await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+        
         toast({
           title: "Welcome to GetResett+!",
           description: "You now have unlimited access to all reset sessions.",
@@ -79,10 +87,16 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
                 base: {
                   fontSize: '16px',
                   color: '#424770',
+                  fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                  fontSmoothing: 'antialiased',
                   '::placeholder': {
                     color: '#aab7c4',
                   },
                 },
+                invalid: {
+                  color: '#fa755a',
+                  iconColor: '#fa755a'
+                }
               },
             }}
           />
@@ -90,10 +104,18 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
         
         <Button 
           type="submit" 
+          size="lg"
           disabled={!stripe || !elements || loading}
-          className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+          className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-3"
         >
-          {loading ? "Processing..." : "Subscribe for £1.99/month"}
+          {loading ? (
+            <div className="flex items-center">
+              <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2" />
+              Processing...
+            </div>
+          ) : (
+            "Subscribe for £1.99/month"
+          )}
         </Button>
       </div>
     </form>
@@ -105,7 +127,7 @@ export function Paywall({ onSubscriptionComplete, dailyCount }: PaywallProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">

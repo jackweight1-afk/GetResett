@@ -142,14 +142,24 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
     }
   };
 
-  const handleSubscriptionComplete = () => {
+  const handleSubscriptionComplete = async () => {
     setShowPaywall(false);
-    queryClient.invalidateQueries({ queryKey: ["/api/usage/check"] });
+    
+    // Invalidate all relevant queries to refresh subscription status
+    await queryClient.invalidateQueries({ queryKey: ["/api/usage/check"] });
+    await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+    
+    toast({
+      title: "Welcome to GetResett+!",
+      description: "You now have unlimited access to all sessions.",
+    });
     
     if (pendingFeeling) {
-      // Process the pending feeling selection
-      handleFeelingSelect(pendingFeeling);
-      setPendingFeeling(null);
+      // Process the pending feeling selection after a short delay to ensure queries have updated
+      setTimeout(() => {
+        handleFeelingSelect(pendingFeeling);
+        setPendingFeeling(null);
+      }, 1000);
     }
   };
 
