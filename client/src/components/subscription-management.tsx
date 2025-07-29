@@ -233,11 +233,22 @@ export function SubscriptionManagement() {
               <li>• Advanced insights and analytics</li>
               <li>• Priority support</li>
             </ul>
-            <div className="text-lg font-bold text-purple-600">£1.99<span className="text-sm font-normal">/month</span></div>
+            <div className="text-lg font-bold text-purple-600 mb-4">£1.99<span className="text-sm font-normal">/month</span></div>
+            
+            <Button 
+              onClick={() => {
+                // Navigate to the feeling check page which will trigger the upgrade flow
+                window.location.href = '/';
+              }}
+              className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold"
+            >
+              <Crown className="w-4 h-4 mr-2" />
+              Upgrade to GetResett+
+            </Button>
           </div>
           
           <p className="text-xs text-gray-500 text-center">
-            When you try to start your 4th session today, you'll see the upgrade option.
+            Or upgrade when you try to start your 4th session today
           </p>
         </div>
       </CardContent>
