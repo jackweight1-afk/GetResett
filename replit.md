@@ -161,7 +161,8 @@ The application is designed for easy deployment on Replit with automatic databas
 
 ### Guided Emotional Flow (January 2025)
 - **Complete App Reframe**: Transformed from session-selection to emotion-driven guided experience
-- **Initial Feeling Check**: Users greeted with "How are you feeling?" (stressed, can't sleep, achy muscles, can't focus, overwhelmed)
+- **Initial Feeling Check**: Users greeted with "How are you feeling?" (stressed, anxious, can't sleep, achy muscles, can't focus, overwhelmed)
+- **Anxiety Relief Addition**: Added "Anxious" as second feeling option with active grounding techniques
 - **Smart Session Matching**: App automatically suggests appropriate reset based on emotional state
 - **Post-Session Flow**: After each session, re-asks "How are you feeling now?" to continue journey
 - **Continuous Journey**: Users can chain multiple resets until they select "I feel better, thanks"
@@ -198,3 +199,11 @@ The application is designed for easy deployment on Replit with automatic databas
 - **Enhanced UX**: Improved button sizing, better touch targets, and optimized content flow for mobile devices
 - **Visual Polish**: Added subtle gradients, improved shadows, and better visual hierarchy throughout
 - **Accessibility**: Full-width buttons on mobile, proper text sizing, and improved contrast ratios
+
+### Active Anxiety Relief Sessions (January 2025)
+- **Evidence-Based Techniques**: Replaced passive anxiety sessions with active, clinically-proven grounding methods
+- **Countdown & Movement**: Backward counting from 20 with physical actions (tapping, clapping, stomping) to interrupt anxious thoughts
+- **Hand Tracing Method**: Interactive finger-tracing technique combined with present-moment grounding questions
+- **Active Task Engagement**: Specific cognitive tasks (counting objects, alphabet backwards, physical movements) that force present-moment focus
+- **Interruption-Based Approach**: Sessions designed to actively interrupt anxious thought loops rather than passive relaxation
+- **Multi-Modal Engagement**: Techniques use verbal, physical, and cognitive engagement simultaneously for maximum effectiveness
