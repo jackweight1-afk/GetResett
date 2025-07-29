@@ -11,6 +11,7 @@ import GuidedFlow from "@/pages/guided-flow";
 import Insights from "@/pages/insights";
 import Account from "@/pages/account";
 import InstallPrompt from "@/components/install-prompt";
+import ErrorBoundary from "@/components/error-boundary";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -34,13 +35,15 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <InstallPrompt />
-        <Router />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <InstallPrompt />
+          <Router />
+        </TooltipProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

@@ -16,36 +16,40 @@ export default function InstallPrompt() {
   const [hasPromptedBefore, setHasPromptedBefore] = useState(false);
 
   useEffect(() => {
-    // Check if already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      setIsInstalled(true);
-      return;
-    }
-
-    // Check if user has been prompted before
-    const hasPrompted = localStorage.getItem('install-prompt-shown');
-    if (hasPrompted) {
-      setHasPromptedBefore(true);
-    }
-
-    // Listen for the beforeinstallprompt event
-    const handleBeforeInstallPrompt = (e: Event) => {
-      e.preventDefault();
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
-      
-      // Show manual prompt after a delay if not prompted before
-      if (!hasPrompted) {
-        setTimeout(() => {
-          setShowModal(true);
-        }, 10000); // Show after 10 seconds
+    try {
+      // Check if already installed
+      if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
+        setIsInstalled(true);
+        return;
       }
-    };
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      // Check if user has been prompted before
+      const hasPrompted = localStorage.getItem('install-prompt-shown');
+      if (hasPrompted) {
+        setHasPromptedBefore(true);
+      }
 
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    };
+      // Listen for the beforeinstallprompt event
+      const handleBeforeInstallPrompt = (e: Event) => {
+        e.preventDefault();
+        setDeferredPrompt(e as BeforeInstallPromptEvent);
+        
+        // Show manual prompt after a delay if not prompted before
+        if (!hasPrompted) {
+          setTimeout(() => {
+            setShowModal(true);
+          }, 10000); // Show after 10 seconds
+        }
+      };
+
+      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+      return () => {
+        window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      };
+    } catch (error) {
+      console.error('Error in InstallPrompt useEffect:', error);
+    }
   }, []);
 
   const handleInstallClick = async () => {
