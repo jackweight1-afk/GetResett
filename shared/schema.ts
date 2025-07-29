@@ -34,6 +34,9 @@ export const users = pgTable("users", {
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
+  stripeCustomerId: varchar("stripe_customer_id"),
+  stripeSubscriptionId: varchar("stripe_subscription_id"),
+  subscriptionStatus: varchar("subscription_status"), // active, canceled, past_due, etc.
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -56,6 +59,16 @@ export const userSessions = pgTable("user_sessions", {
   rating: integer("rating"), // 1-5 rating
   notes: text("notes"),
 });
+
+export const dailyUsage = pgTable("daily_usage", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  date: varchar("date").notNull(), // YYYY-MM-DD format
+  sessionCount: integer("session_count").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => [
+  index("daily_usage_user_date_idx").on(table.userId, table.date)
+]);
 
 export const sleepEntries = pgTable("sleep_entries", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -160,6 +173,8 @@ export const insertFeelingEntrySchema = createInsertSchema(feelingEntries).omit(
 // Types
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
+export type DailyUsage = typeof dailyUsage.$inferSelect;
+export type InsertDailyUsage = typeof dailyUsage.$inferInsert;
 export type FeelingEntry = typeof feelingEntries.$inferSelect;
 export type SessionType = typeof sessionTypes.$inferSelect;
 export type UserSession = typeof userSessions.$inferSelect;

@@ -5,6 +5,7 @@ import {
   sleepEntries,
   stressEntries,
   feelingEntries,
+  dailyUsage,
   type User,
   type UpsertUser,
   type SessionType,
@@ -12,11 +13,13 @@ import {
   type SleepEntry,
   type StressEntry,
   type FeelingEntry,
+  type DailyUsage,
   type InsertUserSession,
   type InsertSleepEntry,
   type InsertStressEntry,
   type InsertSessionType,
   type InsertFeelingEntry,
+  type InsertDailyUsage,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, count, avg, and, gte, like, or } from "drizzle-orm";
@@ -54,6 +57,12 @@ export interface IStorage {
   // Feeling tracking
   createFeelingEntry(entry: InsertFeelingEntry): Promise<FeelingEntry>;
   getUserFeelingEntries(userId: string, limit?: number): Promise<FeelingEntry[]>;
+  
+  // Daily usage and subscription tracking
+  getDailyUsage(userId: string, date: string): Promise<DailyUsage | undefined>;
+  incrementDailyUsage(userId: string, date: string): Promise<DailyUsage>;
+  updateUserSubscription(userId: string, stripeCustomerId?: string, stripeSubscriptionId?: string, status?: string): Promise<User>;
+  hasActiveSubscription(userId: string): Promise<boolean>;
   
   // Analytics
   getUserInsights(userId: string): Promise<{
@@ -412,6 +421,57 @@ export class DatabaseStorage implements IStorage {
             : "Evening sessions help you wind down - excellent for stress relief"
       }
     };
+  }
+
+  // Daily usage and subscription tracking methods
+  async getDailyUsage(userId: string, date: string): Promise<DailyUsage | undefined> {
+    const [usage] = await db
+      .select()
+      .from(dailyUsage)
+      .where(and(eq(dailyUsage.userId, userId), eq(dailyUsage.date, date)));
+    return usage;
+  }
+
+  async incrementDailyUsage(userId: string, date: string): Promise<DailyUsage> {
+    const existing = await this.getDailyUsage(userId, date);
+    
+    if (existing) {
+      const [updated] = await db
+        .update(dailyUsage)
+        .set({ sessionCount: (existing.sessionCount || 0) + 1 })
+        .where(and(eq(dailyUsage.userId, userId), eq(dailyUsage.date, date)))
+        .returning();
+      return updated;
+    } else {
+      const [created] = await db
+        .insert(dailyUsage)
+        .values({ userId, date, sessionCount: 1 })
+        .returning();
+      return created;
+    }
+  }
+
+  async updateUserSubscription(userId: string, stripeCustomerId?: string, stripeSubscriptionId?: string, status?: string): Promise<User> {
+    const updateData: Partial<User> = {};
+    if (stripeCustomerId) updateData.stripeCustomerId = stripeCustomerId;
+    if (stripeSubscriptionId) updateData.stripeSubscriptionId = stripeSubscriptionId;
+    if (status) updateData.subscriptionStatus = status;
+    
+    const [user] = await db
+      .update(users)
+      .set(updateData)
+      .where(eq(users.id, userId))
+      .returning();
+    return user;
+  }
+
+  async hasActiveSubscription(userId: string): Promise<boolean> {
+    const [user] = await db
+      .select({ subscriptionStatus: users.subscriptionStatus })
+      .from(users)
+      .where(eq(users.id, userId));
+    
+    return user?.subscriptionStatus === 'active';
   }
 }
 

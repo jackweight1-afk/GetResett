@@ -1,7 +1,13 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import Stripe from "stripe";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
+
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 import { 
   insertUserSessionSchema, 
   insertSleepEntrySchema, 
@@ -186,6 +192,143 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error deleting user:", error);
       res.status(500).json({ message: "Failed to delete account" });
     }
+  });
+
+  // Subscription and usage routes
+  app.get('/api/usage/check', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+      
+      // Check if user has active subscription
+      const hasSubscription = await storage.hasActiveSubscription(userId);
+      
+      if (hasSubscription) {
+        return res.json({ canAccess: true, isSubscribed: true, dailyCount: 0 });
+      }
+      
+      // Check daily usage for free users
+      const usage = await storage.getDailyUsage(userId, today);
+      const dailyCount = usage?.sessionCount || 0;
+      const canAccess = dailyCount < 3; // Free limit is 3 sessions per day
+      
+      res.json({ canAccess, isSubscribed: false, dailyCount });
+    } catch (error) {
+      console.error("Error checking usage:", error);
+      res.status(500).json({ message: "Failed to check usage" });
+    }
+  });
+
+  app.post('/api/usage/increment', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+      
+      const usage = await storage.incrementDailyUsage(userId, today);
+      res.json(usage);
+    } catch (error) {
+      console.error("Error incrementing usage:", error);
+      res.status(500).json({ message: "Failed to increment usage" });
+    }
+  });
+
+  // Stripe subscription routes
+  app.post('/api/create-subscription', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      
+      if (!user?.email) {
+        return res.status(400).json({ message: "User email not found" });
+      }
+
+      let customerId = user.stripeCustomerId;
+      
+      // Create Stripe customer if doesn't exist
+      if (!customerId) {
+        const customer = await stripe.customers.create({
+          email: user.email,
+          metadata: { userId },
+        });
+        customerId = customer.id;
+        await storage.updateUserSubscription(userId, customerId);
+      }
+
+      // First create a price
+      const price = await stripe.prices.create({
+        currency: 'gbp',
+        unit_amount: 199, // £1.99 in pence
+        recurring: {
+          interval: 'month',
+        },
+        product_data: {
+          name: 'GetResett+ Monthly',
+          description: 'Unlimited daily reset sessions',
+        },
+      });
+
+      // Create subscription
+      const subscription = await stripe.subscriptions.create({
+        customer: customerId,
+        items: [{ price: price.id }],
+        payment_behavior: 'default_incomplete',
+        payment_settings: { save_default_payment_method: 'on_subscription' },
+        expand: ['latest_invoice.payment_intent'],
+      });
+
+      // Update user with subscription info
+      await storage.updateUserSubscription(
+        userId, 
+        customerId, 
+        subscription.id, 
+        subscription.status
+      );
+
+      const invoice = subscription.latest_invoice as any;
+      const paymentIntent = invoice?.payment_intent as any;
+
+      res.json({
+        subscriptionId: subscription.id,
+        clientSecret: paymentIntent.client_secret,
+      });
+    } catch (error) {
+      console.error("Error creating subscription:", error);
+      res.status(500).json({ message: "Failed to create subscription" });
+    }
+  });
+
+  // Stripe webhook to handle subscription updates
+  app.post('/api/stripe/webhook', async (req, res) => {
+    let event;
+
+    try {
+      event = req.body;
+    } catch (err) {
+      console.error('Webhook signature verification failed.');
+      return res.status(400).send('Webhook signature verification failed.');
+    }
+
+    // Handle the event
+    switch (event.type) {
+      case 'customer.subscription.updated':
+      case 'customer.subscription.deleted':
+        const subscription = event.data.object as any;
+        const userId = subscription.metadata?.userId;
+        
+        if (userId) {
+          await storage.updateUserSubscription(
+            userId,
+            undefined,
+            subscription.id,
+            subscription.status
+          );
+        }
+        break;
+      default:
+        console.log(`Unhandled event type ${event.type}`);
+    }
+
+    res.json({ received: true });
   });
 
   const httpServer = createServer(app);

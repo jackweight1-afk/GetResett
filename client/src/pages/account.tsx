@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { User, Mail, Calendar, Trash2, LogOut, Shield } from "lucide-react";
 import BottomNavigation from "@/components/bottom-navigation";
+import { UsageStatus } from "@/components/usage-status";
 
 export default function Account() {
   const { user, isLoading } = useAuth();
@@ -81,9 +82,7 @@ export default function Account() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold text-gray-900">Account Settings</h1>
-          <Badge variant="outline" className="text-emerald border-emerald">
-            Premium Account
-          </Badge>
+          <UsageStatus />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

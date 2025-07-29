@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Paywall } from "@/components/paywall";
 import { 
   Brain, 
   Moon, 
@@ -83,10 +84,22 @@ const feelingOptions = [
 ];
 
 export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSession = false }: FeelingCheckProps) {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [selectedFeeling, setSelectedFeeling] = useState<string | null>(null);
+  const [showPaywall, setShowPaywall] = useState(false);
+  const [pendingFeeling, setPendingFeeling] = useState<any>(null);
+
+  // Check usage limits for non-post-session flows
+  const { data: usageData } = useQuery<{
+    canAccess: boolean;
+    isSubscribed: boolean;
+    dailyCount: number;
+  }>({
+    queryKey: ["/api/usage/check"],
+    enabled: isAuthenticated && !isPostSession,
+  });
 
   const createFeelingEntryMutation = useMutation({
     mutationFn: async (data: { feeling: string, isPostSession: boolean }) => {
@@ -107,6 +120,13 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
   const handleFeelingSelect = async (feeling: any) => {
     setSelectedFeeling(feeling.id);
     
+    // Check if user can access sessions (only for pre-session flow)
+    if (!isPostSession && usageData && !usageData.canAccess) {
+      setPendingFeeling(feeling);
+      setShowPaywall(true);
+      return;
+    }
+    
     // Log the feeling selection
     await createFeelingEntryMutation.mutateAsync({
       feeling: feeling.id,
@@ -119,6 +139,17 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
     
     if (matchingSessionType) {
       onFeelingSelected(feeling.id, matchingSessionType.id);
+    }
+  };
+
+  const handleSubscriptionComplete = () => {
+    setShowPaywall(false);
+    queryClient.invalidateQueries({ queryKey: ["/api/usage/check"] });
+    
+    if (pendingFeeling) {
+      // Process the pending feeling selection
+      handleFeelingSelect(pendingFeeling);
+      setPendingFeeling(null);
     }
   };
 
@@ -230,6 +261,14 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
           </a>
         </div>
       </div>
+
+      {/* Paywall Modal */}
+      {showPaywall && usageData && (
+        <Paywall 
+          onSubscriptionComplete={handleSubscriptionComplete}
+          dailyCount={usageData.dailyCount || 0}
+        />
+      )}
     </div>
     </>
   );

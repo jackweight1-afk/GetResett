@@ -207,3 +207,14 @@ The application is designed for easy deployment on Replit with automatic databas
 - **Active Task Engagement**: Specific cognitive tasks (counting objects, alphabet backwards, physical movements) that force present-moment focus
 - **Interruption-Based Approach**: Sessions designed to actively interrupt anxious thought loops rather than passive relaxation
 - **Multi-Modal Engagement**: Techniques use verbal, physical, and cognitive engagement simultaneously for maximum effectiveness
+
+### Soft Monetization Implementation (January 2025)
+- **Free Daily Limit**: Users get 3 free reset sessions per day, with limits resetting at midnight
+- **£1.99 Monthly Subscription**: GetResett+ subscription provides unlimited daily sessions with Stripe payment processing
+- **Intelligent Paywall**: Non-intrusive paywall appears only when free limit is reached, with clear value proposition
+- **Usage Tracking**: Daily session counts stored in PostgreSQL with automatic reset cycle
+- **Subscription Management**: Full Stripe integration with customer creation, subscription handling, and webhook processing
+- **User Experience**: Seamless upgrade flow with card element integration and real-time subscription status
+- **Database Schema**: Added `dailyUsage` and user subscription fields (`stripeCustomerId`, `stripeSubscriptionId`, `subscriptionStatus`)
+- **API Endpoints**: Complete backend with usage checking, increment tracking, and subscription creation routes
+- **Visual Indicators**: Usage status component shows remaining free sessions or premium member status

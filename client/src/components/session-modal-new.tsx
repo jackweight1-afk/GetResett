@@ -108,6 +108,9 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
 
   const handleSessionComplete = async () => {
     try {
+      // First increment usage count for session tracking
+      await apiRequest("POST", "/api/usage/increment");
+      
       // Create user session record
       await createSessionMutation.mutateAsync({
         sessionTypeId: sessionType.id,
