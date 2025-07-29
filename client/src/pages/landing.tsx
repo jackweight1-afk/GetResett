@@ -65,7 +65,7 @@ export default function Landing() {
           <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-purple-50/30">
             <CardContent className="p-8 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <div className="text-white text-3xl font-bold">60</div>
+                <div className="text-purple-600 text-3xl font-bold">60</div>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Just 60 Seconds</h3>
               <p className="text-gray-700 leading-relaxed">Perfect for busy schedules. Reset between meetings, during breaks, or whenever you need a moment.</p>
