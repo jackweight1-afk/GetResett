@@ -151,13 +151,13 @@ The application is designed for easy deployment on Replit with automatic databas
 ### UX Overhaul (January 2025)
 - **Landing Page Redesign**: Removed white text on light backgrounds, changed to clean white background with black text
 - **Color Theme Refinement**: Changed from full green theme to minimal green accents only
-- **"One Minute" Highlighting**: Added emerald green accent to highlight key phrase in main heading
+- **Mobile-Friendly Header**: Put "One minute" on separate line with bold black text above/below for better mobile display
+- **Purple Highlighting**: Added purple accent to "ADHD or hectic schedules" text in subheading for emphasis
 - **Profile Icon Visibility**: Fixed profile icon with solid emerald background and white text for perfect contrast
 - **Mobile Navigation**: Added hamburger menu with proper mobile navigation for better mobile UX
 - **Contrast Enhancement**: Improved all color contrasts throughout the app for better readability
 - **Button & Link Visibility**: Enhanced navigation with better active states and hover effects
 - **Session Flow & Navigation**: Added complete mobile bottom navigation (Resets/Insights/Account), fixed session formatting, added back navigation to all session steps
-- **Heading Update**: Changed main landing page heading to "Reset your day. One minute at a time" per user request
 
 ### Guided Emotional Flow (January 2025)
 - **Complete App Reframe**: Transformed from session-selection to emotion-driven guided experience

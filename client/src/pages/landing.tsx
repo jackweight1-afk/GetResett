@@ -33,14 +33,13 @@ export default function Landing() {
             <div className="absolute top-20 left-1/4 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"></div>
             <div className="absolute top-40 right-1/4 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl"></div>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Reset your day.
-            <span className="block">
-              <span className="text-purple-600 font-black text-5xl md:text-7xl">One minute</span> at a time.
-            </span>
+          <h1 className="text-4xl md:text-6xl font-bold text-black mb-6">
+            <span className="block font-bold text-black">Reset your day.</span>
+            <span className="block text-purple-600 font-black text-5xl md:text-7xl">One minute</span>
+            <span className="block font-bold text-black">at a time.</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto font-light leading-relaxed">
-            60-second wellbeing sessions for busy minds. Ideal for people with ADHD or hectic schedules.
+            60-second wellbeing sessions for busy minds. Ideal for people with <span className="text-purple-600">ADHD or hectic schedules</span>.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
