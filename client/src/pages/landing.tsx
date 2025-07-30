@@ -40,7 +40,7 @@ export default function Landing() {
             </span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto font-light leading-relaxed">
-            Science-backed sixty second wellness sessions that fit into your busiest days
+            60-second wellbeing sessions for busy minds. Ideal for people with ADHD or hectic schedules.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -68,7 +68,7 @@ export default function Landing() {
                 <div className="text-purple-600 text-3xl font-bold">60</div>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Just 60 Seconds</h3>
-              <p className="text-gray-700 leading-relaxed">Perfect for busy schedules. Reset between meetings, during breaks, or whenever you need a moment.</p>
+              <p className="text-gray-700 leading-relaxed">Perfect for ADHD minds and busy lives. Reset between meetings, during breaks, or whenever you need focus.</p>
             </CardContent>
           </Card>
 
@@ -88,7 +88,7 @@ export default function Landing() {
                 <div className="text-white text-2xl">⚡</div>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Instant Impact</h3>
-              <p className="text-gray-700 leading-relaxed">Feel the difference immediately. Reduced stress, better focus, improved energy - in just one minute.</p>
+              <p className="text-gray-700 leading-relaxed">No long commitments needed. Feel the difference immediately - reduced stress, better focus, improved energy.</p>
             </CardContent>
           </Card>
 

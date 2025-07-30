@@ -194,7 +194,8 @@ The application is designed for easy deployment on Replit with automatic databas
 
 ### Landing Page Redesign (January 2025)
 - **Modern Hero Section**: Redesigned with larger typography, purple accent on "One minute", and improved mobile responsiveness
-- **Updated Subheading**: Changed to user-requested text: "Science-backed sixty second wellness sessions that fit into your busiest days"
+- **ADHD-Focused Messaging**: Updated subheading to "60-second wellbeing sessions for busy minds. Ideal for people with ADHD or hectic schedules"
+- **Targeted Positioning**: Repositioned app as perfect solution for ADHD minds and people who struggle with traditional long-form wellness apps
 - **Mobile-First Design**: Comprehensive responsive breakpoints for all screen sizes with proper spacing and padding
 - **Enhanced UX**: Improved button sizing, better touch targets, and optimized content flow for mobile devices
 - **Visual Polish**: Added subtle gradients, improved shadows, and better visual hierarchy throughout
