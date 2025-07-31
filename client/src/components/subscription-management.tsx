@@ -176,7 +176,9 @@ export function SubscriptionManagement() {
             </p>
           </div>
           <div className="text-right">
-            <div className="text-lg font-bold text-gray-600">3/3</div>
+            <div className="text-lg font-bold text-gray-600">
+              {sessionLimits.remainingSessions}/{sessionLimits.totalLimit}
+            </div>
             <div className="text-xs text-gray-500">daily sessions</div>
           </div>
         </div>

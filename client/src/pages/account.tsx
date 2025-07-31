@@ -9,10 +9,12 @@ import { User, Mail, Calendar, Trash2, LogOut, Shield } from "lucide-react";
 import BottomNavigation from "@/components/bottom-navigation";
 import { UsageStatus } from "@/components/usage-status";
 import { SubscriptionManagement } from "@/components/subscription-management";
+import { useSessionLimits } from "@/hooks/useSessionLimits";
 
 export default function Account() {
   const { user, isLoading } = useAuth();
   const { toast } = useToast();
+  const sessionLimits = useSessionLimits();
 
   const { data: stats, isLoading: statsLoading } = useQuery<{
     totalSessions: number;
