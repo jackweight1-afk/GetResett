@@ -1,11 +1,9 @@
 # Replit.md - GetResett Wellness App
 
 ## Overview
-
-GetResett is a wellness application that provides science-backed 60-second reset sessions for mental and physical wellbeing. The app includes features for meditation, sleep tracking, stress relief, mindful stretches, and energy boosts. Users can track their progress, view insights, and maintain wellness streaks through guided sessions.
+GetResett is a wellness application that offers science-backed 60-second reset sessions for mental and physical well-being. It provides guided sessions for meditation, sleep tracking, stress relief, mindful stretches, and energy boosts. The app's core vision is to help users track progress, gain insights, and maintain wellness streaks, particularly targeting individuals with ADHD or hectic schedules who struggle with traditional long-form wellness apps. It aims to provide an accessible and effective solution for quick mental and physical resets, allowing users to chain multiple sessions based on their emotional state for a continuous guided experience.
 
 ## User Preferences
-
 Preferred communication style: Simple, everyday language.
 
 ### UI/UX Preferences
@@ -17,244 +15,53 @@ Preferred communication style: Simple, everyday language.
 
 ## System Architecture
 
-The application follows a modern full-stack architecture with clear separation between client and server:
+The application employs a modern full-stack architecture with a clear separation between client and server.
 
 ### Frontend Architecture
 - **Framework**: React 18 with TypeScript
-- **Build Tool**: Vite for fast development and optimized builds
-- **Routing**: Wouter for lightweight client-side routing
+- **Build Tool**: Vite
+- **Routing**: Wouter
 - **UI Framework**: shadcn/ui components built on Radix UI primitives
-- **Styling**: Tailwind CSS with custom wellness-themed color palette
-- **State Management**: TanStack Query (React Query) for server state management
+- **Styling**: Tailwind CSS with a custom wellness-themed color palette
+- **State Management**: TanStack Query (React Query) for server state
 - **Form Handling**: React Hook Form with Zod validation
 
 ### Backend Architecture
-- **Runtime**: Node.js with Express.js framework
+- **Runtime**: Node.js with Express.js
 - **Language**: TypeScript with ES modules
-- **Authentication**: Replit Auth with OpenID Connect integration
+- **Authentication**: Replit Auth with OpenID Connect
 - **Session Management**: Express sessions with PostgreSQL storage
-- **API Design**: RESTful endpoints with proper error handling and logging
+- **API Design**: RESTful endpoints
 
 ### Database Architecture
 - **Database**: PostgreSQL with Neon serverless driver
-- **ORM**: Drizzle ORM for type-safe database operations
-- **Schema Management**: Drizzle Kit for migrations and schema management
+- **ORM**: Drizzle ORM for type-safe operations
+- **Schema Management**: Drizzle Kit for migrations
 - **Connection Pooling**: Neon serverless connection pooling
 
-## Key Components
-
-### Authentication System
-- **Implementation**: Replit Auth with OpenID Connect
-- **Session Storage**: PostgreSQL-backed sessions using connect-pg-simple
-- **User Management**: User profiles with email, name, and profile images
-- **Security**: HTTP-only cookies with secure flag for production
-
-### Session Management
-- **Session Types**: Predefined wellness activities (meditation, breathing, stretching, etc.)
-- **Timer Functionality**: Real-time session tracking with pause/resume capabilities
-- **Progress Tracking**: Session completion, duration, and streak counting
-- **Post-Session Data**: Mood ratings, reflection notes, and session feedback
-
-### Tracking Systems
-- **Sleep Tracking**: Quality ratings, duration, and sleep/wake times
-- **Stress Monitoring**: Before/after stress level comparisons
-- **Analytics**: User insights including consistency scores and improvement metrics
-
-### UI/UX Design
-- **Design System**: Custom wellness theme with teal, sage, and warm accent colors
-- **Responsive Design**: Mobile-first approach with adaptive layouts
-- **Accessibility**: Proper ARIA labels and keyboard navigation support
-- **Component Library**: Reusable shadcn/ui components with consistent styling
-
-## Data Flow
-
-### Authentication Flow
-1. Unauthenticated users see landing page
-2. Login redirects to Replit Auth provider
-3. Successful auth creates/updates user record
-4. Session established with secure cookies
-5. Protected routes accessible after authentication
-
-### Session Workflow
-1. User selects session type from dashboard
-2. Modal opens with session configuration options
-3. Timer starts with visual progress indicators
-4. Session completion triggers data collection
-5. Results stored with analytics updates
-6. Dashboard refreshes with updated statistics
-
-### Data Persistence
-1. All user interactions logged to PostgreSQL
-2. Real-time queries through Drizzle ORM
-3. Optimistic updates via TanStack Query
-4. Background sync for offline resilience
+### Key Components & Design
+- **Authentication System**: Utilizes Replit Auth with OpenID Connect, PostgreSQL-backed sessions, and secure HTTP-only cookies.
+- **Session Management**: Features predefined wellness activities with real-time tracking, progress recording, and post-session data collection (mood ratings, reflections). Each session type has 3 variations to prevent repetition, selected randomly.
+- **Tracking Systems**: Includes sleep tracking, stress monitoring (before/after comparisons), and user analytics for consistency and improvement metrics. Emotional check-ins before and after sessions are tracked.
+- **UI/UX Design**: Adheres to a custom wellness theme with teal, sage, and warm accent colors, prioritizing responsive, mobile-first design, and accessibility (ARIA labels, keyboard navigation). The application guides users through an emotion-driven flow, suggesting resets based on their current feeling. Active anxiety relief sessions utilize evidence-based grounding techniques.
+- **Data Flow**: Authentication involves Replit Auth, session establishment with secure cookies, and access to protected routes. The session workflow guides users from selection to completion, with data persistence handled via PostgreSQL and Drizzle ORM, optimized with TanStack Query.
+- **Monetization**: Implements a soft monetization model with a daily free session limit, transitioning to a monthly subscription (£1.99 or localized currency) for unlimited access via Stripe. The paywall appears non-intrusively when the free limit is reached.
+- **Internationalization**: Automatically detects user's country and displays pricing in local currency using real-time exchange rates.
 
 ## External Dependencies
 
-### Core Framework Dependencies
 - **React Ecosystem**: React, React DOM, React Hook Form
-- **TypeScript**: Full type safety across client and server
-- **Vite**: Development server and build tooling
-- **Express**: Server framework with middleware support
-
-### Database & ORM
-- **Neon**: Serverless PostgreSQL with WebSocket support
-- **Drizzle**: Type-safe ORM with PostgreSQL dialect
-- **Connection Pooling**: Automatic connection management
-
-### UI & Styling
-- **Tailwind CSS**: Utility-first CSS framework
-- **Radix UI**: Unstyled, accessible component primitives
-- **Lucide Icons**: Consistent icon library
+- **TypeScript**
+- **Vite**
+- **Express**
+- **Neon**: Serverless PostgreSQL
+- **Drizzle**: Type-safe ORM
+- **Tailwind CSS**
+- **Radix UI**: Component primitives
+- **Lucide Icons**: Icon library
 - **Class Variance Authority**: Component variant management
-
-### Authentication & Sessions
-- **OpenID Client**: Replit Auth integration
+- **OpenID Client**: For Replit Auth integration
 - **Passport**: Authentication middleware
 - **Connect PG Simple**: PostgreSQL session store
-
-### Development Tools
-- **TSX**: TypeScript execution for development
-- **ESBuild**: Fast JavaScript bundler for production
-- **PostCSS**: CSS processing with Tailwind
-
-## Deployment Strategy
-
-### Development Environment
-- **Hot Reload**: Vite dev server with HMR
-- **Database**: Neon development database
-- **Environment Variables**: DATABASE_URL, SESSION_SECRET, REPL_ID
-- **Debugging**: Runtime error overlay and source maps
-
-### Production Build
-- **Client Build**: Vite builds React app to dist/public
-- **Server Build**: ESBuild bundles server to dist/index.js
-- **Static Serving**: Express serves built client assets
-- **Database Migrations**: Drizzle Kit manages schema changes
-
-### Environment Configuration
-- **DATABASE_URL**: PostgreSQL connection string (required)
-- **SESSION_SECRET**: Secure session encryption key
-- **REPL_ID**: Replit environment identifier
-- **NODE_ENV**: Environment mode (development/production)
-
-### Scaling Considerations
-- **Serverless Database**: Neon handles connection scaling automatically
-- **Session Storage**: PostgreSQL sessions support horizontal scaling
-- **Static Assets**: Client build optimized for CDN deployment
-- **API Rate Limiting**: Prepared for rate limiting middleware addition
-
-The application is designed for easy deployment on Replit with automatic database provisioning and authentication setup. The modular architecture supports feature additions and scaling as the user base grows.
-
-## Recent Changes
-
-### UX Overhaul (January 2025)
-- **Landing Page Redesign**: Removed white text on light backgrounds, changed to clean white background with black text
-- **Color Theme Refinement**: Changed from full green theme to minimal green accents only
-- **Mobile-Friendly Header**: Put "One minute" on separate line with bold black text above/below for better mobile display
-- **Purple Highlighting**: Added purple accent to "ADHD or hectic schedules" text in subheading for emphasis
-- **Profile Icon Visibility**: Fixed profile icon with solid emerald background and white text for perfect contrast
-- **Mobile Navigation**: Added hamburger menu with proper mobile navigation for better mobile UX
-- **Contrast Enhancement**: Improved all color contrasts throughout the app for better readability
-- **Button & Link Visibility**: Enhanced navigation with better active states and hover effects
-- **Session Flow & Navigation**: Added complete mobile bottom navigation (Resets/Insights/Account), fixed session formatting, added back navigation to all session steps
-
-### Guided Emotional Flow (January 2025)
-- **Complete App Reframe**: Transformed from session-selection to emotion-driven guided experience
-- **Initial Feeling Check**: Users greeted with "How are you feeling?" (stressed, anxious, can't sleep, achy muscles, can't focus, overwhelmed)
-- **Anxiety Relief Addition**: Added "Anxious" as second feeling option with active grounding techniques
-- **Smart Session Matching**: App automatically suggests appropriate reset based on emotional state
-- **Post-Session Flow**: After each session, re-asks "How are you feeling now?" to continue journey
-- **Continuous Journey**: Users can chain multiple resets until they select "I feel better, thanks"
-- **Analytics Transition**: When feeling better, users are taken to insights page with personalized recommendations
-- **Feeling Tracking**: New database table tracks emotional check-ins before/after sessions for insights
-- **API Integration**: Added `/api/feelings` endpoints for tracking emotional journey data
-- **Brand Update**: Changed app name from "Reset" to "GetResett" for branding consistency
-- **Try Another Feature**: Added shuffle/try another button after sessions for better user experience
-
-### Session Variety System (January 2025)
-- **Multiple Variations**: Added 3 different variations for each session type to prevent repetitive experiences
-- **Random Selection**: Each session randomly selects one of three themed variations (e.g., Cloud Journey, Forest Path, Ocean Waves for sleep)
-- **Consistent Experience**: Once selected, the variation remains consistent throughout the entire 60-second session
-- **Session Types with Variations**: 
-  - Sleep Stories: Cloud Journey, Forest Path, Ocean Waves
-  - Stretching: Neck & Shoulders Focus, Upper Body Release, Desk Worker Special
-  - Focus Reset: Visual Focus, Mental Clarity, Mind Reset
-  - Energy Boost: Quick Energizer, Desk Energy Boost, Full Body Wake-Up
-  - Confidence Boost: Positive Affirmations, Power Poses & Breathing, Self-Empowerment Ritual
-- **Enhanced Start Button**: Fixed visibility issues with larger, more prominent styling and proper color theming
-
-### Session Flow and Timing Improvements (January 2025)
-- **Restored Post-Session Flow**: Fixed automatic "how are you feeling" prompt after each session completion for continuous guided experience
-- **Pre-Session Feeling Tracking**: Users must now answer how they're feeling before starting any session to enable before/after mood analytics
-- **Improved Anxiety Session Timing**: Increased anxiety relief session prompts from 5 to 15 seconds each for better pacing and usability
-- **Condensed Anxiety Instructions**: Redesigned anxiety relief variations to have 4 longer, more comprehensive 15-second prompts instead of 12 quick 5-second ones
-- **Enhanced User Journey**: Complete guided flow from initial feeling → session → post-session feeling → insights or additional sessions
-
-### Progressive Web App (PWA) Implementation (January 2025)
-- **Add to Home Screen**: Created install prompt popup with device-specific instructions for iOS and Android
-- **PWA Manifest**: Added web app manifest with proper icons, theme colors, and display settings
-- **Service Worker**: Implemented basic caching for offline functionality
-- **Native App Experience**: Users can install GetResett as a native-like app on their phone home screens
-- **Smart Prompting**: Install prompt appears after 10 seconds for new users, with floating install button
-- **Platform Detection**: Different installation instructions for iOS Safari vs Android Chrome users
-
-### Landing Page Redesign (January 2025)
-- **Modern Hero Section**: Redesigned with larger typography, purple accent on "One minute", and improved mobile responsiveness
-- **ADHD-Focused Messaging**: Updated subheading to "60-second wellbeing sessions for busy minds. Ideal for people with ADHD or hectic schedules"
-- **Targeted Positioning**: Repositioned app as perfect solution for ADHD minds and people who struggle with traditional long-form wellness apps
-- **Mobile-First Design**: Comprehensive responsive breakpoints for all screen sizes with proper spacing and padding
-- **Enhanced UX**: Improved button sizing, better touch targets, and optimized content flow for mobile devices
-- **Visual Polish**: Added subtle gradients, improved shadows, and better visual hierarchy throughout
-- **Accessibility**: Full-width buttons on mobile, proper text sizing, and improved contrast ratios
-
-### Active Anxiety Relief Sessions (January 2025)
-- **Evidence-Based Techniques**: Replaced passive anxiety sessions with active, clinically-proven grounding methods
-- **Countdown & Movement**: Backward counting from 20 with physical actions (tapping, clapping, stomping) to interrupt anxious thoughts
-- **Hand Tracing Method**: Interactive finger-tracing technique combined with present-moment grounding questions
-- **Active Task Engagement**: Specific cognitive tasks (counting objects, alphabet backwards, physical movements) that force present-moment focus
-- **Interruption-Based Approach**: Sessions designed to actively interrupt anxious thought loops rather than passive relaxation
-- **Multi-Modal Engagement**: Techniques use verbal, physical, and cognitive engagement simultaneously for maximum effectiveness
-
-### Soft Monetization Implementation (January 2025)
-- **Free Daily Limit**: Users get 3 free reset sessions per day, with limits resetting at midnight
-- **£1.99 Monthly Subscription**: GetResett+ subscription provides unlimited daily sessions with Stripe payment processing
-- **Intelligent Paywall**: Non-intrusive paywall appears only when free limit is reached, with clear value proposition
-- **Usage Tracking**: Daily session counts stored in PostgreSQL with automatic reset cycle
-- **Subscription Management**: Full Stripe integration with customer creation, subscription handling, and webhook processing
-- **User Experience**: Seamless upgrade flow with card element integration and real-time subscription status
-- **Database Schema**: Added `dailyUsage` and user subscription fields (`stripeCustomerId`, `stripeSubscriptionId`, `subscriptionStatus`)
-- **API Endpoints**: Complete backend with usage checking, increment tracking, and subscription creation routes
-- **Visual Indicators**: Usage status component shows remaining free sessions or premium member status
-
-### Subscription System Fixes (January 2025)
-- **Payment Confirmation Fix**: Changed from `confirmCardPayment` to `confirmPayment` for proper subscription handling
-- **Query Cache Invalidation**: Added proper cache invalidation after successful payments to prevent double-subscription issues
-- **Mobile Payment UX**: Enhanced Stripe card element with better mobile styling and error handling
-- **Subscription Status Logic**: Improved status checking to handle both 'active' and 'trialing' subscription states
-- **Real-time Updates**: Immediate query refresh after successful subscription prevents users from seeing paywall after payment
-- **Cross-platform Compatibility**: Tested and optimized for both Android and iOS payment flows
-
-### Navigation Routing Fix (January 2025)
-- **Client-side Navigation**: Fixed 404 errors when navigating to /account by implementing proper wouter Link components
-- **Bottom Navigation**: Replaced hardcoded anchor tags with BottomNavigation component using wouter's Link for smooth client-side routing
-- **No More Page Reloads**: Navigation between pages now uses client-side routing without full page refreshes
-- **Consistent Navigation**: All pages (feeling-check, insights, account) now use the same BottomNavigation component
-
-### International Currency Support (January 2025)
-- **Location-Based Currency Detection**: Automatically detects user's country and shows pricing in local currency (e.g., $1.99 for US, €1.99 for EU)
-- **Real-time Exchange Rates**: Uses free exchange rate API to convert base GBP price to 40+ supported currencies
-- **Smart Currency Formatting**: Proper formatting for each currency type (no decimals for JPY/KRW, correct symbols for each region)
-- **Comprehensive Coverage**: Supports major currencies including USD, EUR, CAD, AUD, JPY, KRW, INR, BRL, MXN, SGD, CHF, and many European currencies
-- **Fallback Detection**: Uses browser locale as backup if IP-based detection fails, with GBP as ultimate fallback
-- **Consistent Display**: All pricing displays (paywall, subscription management, account page) show localized currency
-- **Browser Compatibility**: Works across all modern browsers with automatic currency detection based on user's location
-
-### Session Flow and Timing Fixes (January 2025)
-- **Universal 15-Second Timing**: Updated ALL session types to use 15-second intervals per instruction instead of 5 seconds to prevent user overwhelm
-- **Session Types Updated**: Sleep stories, stretching, energy boost, focus reset, confidence boost, and anxiety relief all use consistent 15-second timing
-- **Fixed Paywall Logic**: Corrected session counting to check limits before incrementing, ensuring paywall appears correctly at the 4th session attempt
-- **Automatic Post-Session Flow**: Fixed session completion to automatically redirect users to "How are you feeling now?" after 2.5 seconds, ensuring continuous guided experience
-- **Consistent Navigation**: All sessions now properly flow from completion → automatic feeling check → insights or additional sessions
-- **Browser-Based Session Tracking**: Implemented localStorage-based session counting for reliable free session limits across browser sessions
-- **Debug Panel**: Added development-only debug panel showing session count, access status, and subscription status for testing
+- **Stripe**: For subscription and payment processing
+- **Exchange Rate API**: For international currency conversion
