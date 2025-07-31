@@ -117,16 +117,20 @@ export default function Subscribe() {
   useEffect(() => {
     let isMounted = true;
     
-    if (isAuthenticated && !clientSecret && !isCreatingSubscription && !error) {
+    console.log('Effect check:', { isAuthenticated, clientSecret, isCreatingSubscription, error, user });
+    
+    if (isAuthenticated && user && !clientSecret && !isCreatingSubscription && !error) {
       setIsCreatingSubscription(true);
       
       apiRequest("POST", "/api/create-subscription")
         .then((res) => res.json())
         .then((data) => {
+          console.log("Subscription response:", data);
           if (isMounted && data.clientSecret) {
             setClientSecret(data.clientSecret);
             setError("");
           } else if (isMounted) {
+            console.error("No client secret in response:", data);
             throw new Error("No client secret received");
           }
         })
@@ -247,13 +251,22 @@ export default function Subscribe() {
             </p>
           </CardHeader>
           <CardContent>
-            {isCreatingSubscription || !clientSecret ? (
+            {!clientSecret ? (
               <div className="flex items-center justify-center py-8">
                 <div className="animate-spin w-6 h-6 border-4 border-purple-600 border-t-transparent rounded-full mr-3" />
                 <span className="text-gray-600">Setting up your trial...</span>
               </div>
             ) : (
-              <Elements stripe={stripePromise} options={{ clientSecret }}>
+              <Elements stripe={stripePromise} options={{ 
+                clientSecret,
+                appearance: {
+                  theme: 'stripe',
+                  variables: {
+                    colorPrimary: '#9333ea',
+                    borderRadius: '8px'
+                  }
+                }
+              }}>
                 <CheckoutForm onSuccess={() => {
                   toast({
                     title: "Free Trial Started!",
