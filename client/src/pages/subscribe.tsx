@@ -113,9 +113,9 @@ export default function Subscribe() {
     }
   }, [isAuthenticated, isLoading, toast]);
 
-  // Create subscription when component loads
+  // Create subscription when component loads (only once)
   useEffect(() => {
-    if (isAuthenticated && !clientSecret && !isCreatingSubscription) {
+    if (isAuthenticated && !clientSecret && !isCreatingSubscription && !error) {
       setIsCreatingSubscription(true);
       
       apiRequest("POST", "/api/create-subscription")
@@ -130,6 +130,7 @@ export default function Subscribe() {
         })
         .catch((error) => {
           console.error("Error creating subscription:", error);
+          setError("Failed to set up payment");
           toast({
             title: "Error",
             description: "Failed to set up payment. Please try again.",
@@ -140,7 +141,7 @@ export default function Subscribe() {
           setIsCreatingSubscription(false);
         });
     }
-  }, [isAuthenticated, clientSecret, isCreatingSubscription, toast]);
+  }, [isAuthenticated, clientSecret, isCreatingSubscription, error, toast]);
 
   if (isLoading) {
     return (

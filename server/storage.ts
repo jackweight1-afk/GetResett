@@ -61,7 +61,7 @@ export interface IStorage {
   // Daily usage and subscription tracking
   getDailyUsage(userId: string, date: string): Promise<DailyUsage | undefined>;
   incrementDailyUsage(userId: string, date: string): Promise<DailyUsage>;
-  updateUserSubscription(userId: string, stripeCustomerId?: string, stripeSubscriptionId?: string, status?: string): Promise<User>;
+  updateUserSubscription(userId: string, stripeCustomerId?: string, stripeSubscriptionId?: string | null, status?: string | null): Promise<User>;
   // getUserByStripeCustomerId(stripeCustomerId: string): Promise<User | undefined>;
   hasActiveSubscription(userId: string): Promise<boolean>;
   
@@ -452,7 +452,7 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  async updateUserSubscription(userId: string, stripeCustomerId?: string, stripeSubscriptionId?: string, status?: string): Promise<User> {
+  async updateUserSubscription(userId: string, stripeCustomerId?: string, stripeSubscriptionId?: string | null, status?: string | null): Promise<User> {
     const updateData: Partial<User> = { updatedAt: new Date() };
     
     // Handle customer ID
@@ -470,19 +470,11 @@ export class DatabaseStorage implements IStorage {
       updateData.subscriptionStatus = status;
     }
     
-    console.log('Updating user subscription:', { userId, updateData });
-    
     const [user] = await db
       .update(users)
       .set(updateData)
       .where(eq(users.id, userId))
       .returning();
-      
-    console.log('Updated user:', { 
-      id: user.id, 
-      subscriptionStatus: user.subscriptionStatus, 
-      stripeSubscriptionId: user.stripeSubscriptionId 
-    });
     
     return user;
   }

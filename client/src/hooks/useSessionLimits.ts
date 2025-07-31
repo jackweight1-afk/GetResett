@@ -19,11 +19,14 @@ export function useSessionLimits() {
     enabled: isAuthenticated,
     select: (data: any) => {
       const isSubscribed = data?.subscriptionStatus === 'active' || data?.subscriptionStatus === 'trialing';
-      console.log('Subscription check:', { 
-        subscriptionStatus: data?.subscriptionStatus, 
-        isSubscribed,
-        stripeSubscriptionId: data?.stripeSubscriptionId 
-      });
+      // Debug: Check subscription status
+      if (data?.subscriptionStatus) {
+        console.log('Subscription check:', { 
+          subscriptionStatus: data?.subscriptionStatus, 
+          isSubscribed,
+          stripeSubscriptionId: data?.stripeSubscriptionId 
+        });
+      }
       return { isSubscribed };
     }
   });
