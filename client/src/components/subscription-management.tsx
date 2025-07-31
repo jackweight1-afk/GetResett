@@ -216,8 +216,7 @@ export function SubscriptionManagement() {
             
             <Button 
               onClick={() => {
-                // Navigate to the feeling check page which will trigger the upgrade flow
-                window.location.href = '/';
+                window.location.href = '/subscribe';
               }}
               className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold"
             >
@@ -227,7 +226,7 @@ export function SubscriptionManagement() {
           </div>
           
           <p className="text-xs text-gray-500 text-center">
-            Or start your free trial when you try your 4th session today
+            Or start your free trial when you reach your session limit
           </p>
         </div>
       </CardContent>

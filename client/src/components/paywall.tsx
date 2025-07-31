@@ -166,56 +166,24 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
                 </div>
               </div>
 
-              <Card className="border-purple-200 bg-purple-50">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Zap className="w-5 h-5 text-purple-600" />
-                    GetResett+ Monthly
-                  </CardTitle>
-                  <div className="space-y-1">
-                    <div className="text-3xl font-bold text-green-600">
-                      FREE for 30 days
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      Then {priceLoading ? '...' : localizedPrice.formatted}/month
-                    </div>
+              <div className="text-center space-y-6">
+                <div className="space-y-3">
+                  <h3 className="text-2xl font-bold text-purple-600">GetResett+</h3>
+                  <div className="text-3xl font-bold text-green-600">
+                    Free for 30 days
                   </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full" />
-                      30 days completely free
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full" />
-                      Unlimited daily reset sessions
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full" />
-                      Access to all session types
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full" />
-                      Advanced progress insights
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full" />
-                      Cancel anytime before trial ends
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
+                  <div className="text-lg text-gray-700">
+                    Then {priceLoading ? '...' : localizedPrice.formatted}/month
+                  </div>
+                </div>
 
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
-                <p className="text-xs text-yellow-800">
-                  <strong>Free Trial:</strong> Your payment method will be saved but not charged for 30 days. Cancel anytime before the trial ends to avoid charges.
-                </p>
+                <Button 
+                  onClick={() => window.location.href = '/subscribe'}
+                  className="w-full bg-purple-600 hover:bg-purple-700 text-white text-lg py-6"
+                >
+                  Start Free Trial
+                </Button>
               </div>
-
-              <Elements stripe={stripePromise}>
-                <CheckoutForm onSubscriptionComplete={onSubscriptionComplete} />
-              </Elements>
             </>
           )}
         </CardContent>
