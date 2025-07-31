@@ -254,50 +254,26 @@ const energyVariations = [
 
 // Multiple anxiety relief variations focused on active grounding techniques
 const anxietyReliefVariations = [
-  // Variation 1: Countdown & Movement
+  // Variation 1: Countdown & Movement (15-second intervals)
   [
-    "🔢 Let's interrupt anxious thoughts with active counting. Start counting backwards from 20.",
-    "20️⃣ Say '20' out loud and tap your leg once",
-    "19️⃣ Say '19' and tap twice. Focus only on the numbers and tapping.",
-    "18️⃣ Say '18' and tap three times. Your mind is focusing on this task.",
-    "17️⃣ Say '17' and tap four times. Anxiety can't compete with active focus.",
-    "16️⃣ Say '16' and clap your hands once loudly",
-    "15️⃣ Say '15' and stomp your foot. Feel connected to the ground.",
-    "14️⃣ Say '14' and squeeze your hands into fists, then release",
-    "13️⃣ Say '13' and touch your nose, then your knee",
-    "12️⃣ Say '12' and snap your fingers three times",
-    "11️⃣ Say '11' and take a deep breath in, blow it out forcefully",
-    "🎯 Excellent! Your mind is now focused and present, not on anxious thoughts."
+    "🔢 Let's interrupt anxious thoughts with active counting. Count backwards from 20 to 10, tapping your leg with each number. Say each number out loud and focus only on this task.",
+    "🎯 Now count from 10 to 5, clapping your hands with each number. Feel your mind focusing on the present moment instead of anxious thoughts.",
+    "✊ For numbers 5 to 1, stomp your foot and squeeze your fists with each count. Your anxiety is being replaced with focused attention.",
+    "🌟 Excellent! Take three deep breaths. Your mind is now grounded in the present moment, not caught in anxious thoughts."
   ],
-  // Variation 2: Hand Tracing & Questions
+  // Variation 2: Hand Tracing & Questions (15-second intervals)
   [
-    "✋ Hold up one hand in front of you. We're going to trace it with your other finger.",
-    "👆 Starting at your thumb, slowly trace up while asking: 'What day is today?'",
-    "👇 Trace down your thumb while answering the day out loud",
-    "☝️ Trace up your index finger while asking: 'What's one thing I can see right now?'",
-    "👇 Trace down while naming something specific you can see",
-    "🖕 Trace up your middle finger while asking: 'What's one sound I can hear?'",
-    "👇 Trace down while naming a sound you hear right now",
-    "💍 Trace up your ring finger while asking: 'What's something I'm touching?'",
-    "👇 Trace down while describing what you feel (chair, clothes, etc.)",
-    "🤙 Trace up your pinky while asking: 'Where am I right now?'",
-    "👇 Trace down while stating your exact location",
-    "🤲 Your anxious thoughts have been replaced with present-moment awareness!"
+    "✋ Hold up one hand. Trace up your thumb slowly while asking 'What day is today?' Trace down while answering out loud. Continue to your index finger, asking 'What can I see?' and answering as you trace down.",
+    "🖕 Trace up your middle finger asking 'What do I hear?' Answer as you trace down. Move to your ring finger, asking 'What am I touching?' Describe what you feel as you trace down.",
+    "🤙 Trace up your pinky asking 'Where am I?' State your exact location as you trace down. Now press your palms together and take three deep breaths.",
+    "🌟 Perfect! Your anxious mind has been redirected to present-moment awareness through this grounding technique."
   ],
-  // Variation 3: Active Present-Moment Tasks
+  // Variation 3: Active Present-Moment Tasks (15-second intervals)
   [
-    "🎯 Let's give your anxious mind specific tasks to interrupt the worry cycle.",
-    "👀 Look around and count exactly 7 blue things. Point to each one.",
-    "🔤 Say the alphabet backwards from Z to T. Focus only on the letters.",
-    "🤲 Press your palms together hard for 5 seconds, then release",
-    "🦶 Lift one foot, wiggle your toes, put it down. Now the other foot.",
-    "👂 Listen for the furthest away sound you can hear. Point toward it.",
-    "✊ Make a fist, count to 3, open it. Do this 3 times with each hand.",
-    "📱 If you have something in your pocket, take it out and describe its texture",
-    "🗣️ Say your full name out loud, then spell your first name backwards",
-    "🏃‍♀️ March in place for 10 steps while counting each step out loud",
-    "💪 Tense every muscle in your body for 3 seconds, then completely relax",
-    "🧠 Your brain is now focused on the present, not on anxious thoughts!"
+    "🎯 Let's interrupt the worry cycle with specific tasks. Look around and count 7 things of the same color - point to each one and say its name out loud. Then say the alphabet backwards from Z to T.",
+    "🤲 Press your palms together firmly for 5 seconds, then release. Lift each foot and wiggle your toes. Listen for the furthest sound you can hear and point toward it.",
+    "✊ Make fists and count to 3, then open them. Repeat 3 times. Say your full name out loud, then spell your first name backwards. March in place for 10 steps, counting each one.",
+    "💪 Tense every muscle in your body for 3 seconds, then completely relax. Your anxious thoughts have been replaced with present-moment focus!"
   ]
 ];
 
@@ -435,7 +411,7 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
     }
     const variation = anxietyReliefVariations[selectedVariations[sessionType.id]];
     
-    const instructionDuration = 5; // 5 seconds per instruction
+    const instructionDuration = 15; // 15 seconds per instruction for better pacing
     const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
     return variation[Math.min(currentInstruction, variation.length - 1)];
   }

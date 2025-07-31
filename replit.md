@@ -184,6 +184,13 @@ The application is designed for easy deployment on Replit with automatic databas
   - Confidence Boost: Positive Affirmations, Power Poses & Breathing, Self-Empowerment Ritual
 - **Enhanced Start Button**: Fixed visibility issues with larger, more prominent styling and proper color theming
 
+### Session Flow and Timing Improvements (January 2025)
+- **Restored Post-Session Flow**: Fixed automatic "how are you feeling" prompt after each session completion for continuous guided experience
+- **Pre-Session Feeling Tracking**: Users must now answer how they're feeling before starting any session to enable before/after mood analytics
+- **Improved Anxiety Session Timing**: Increased anxiety relief session prompts from 5 to 15 seconds each for better pacing and usability
+- **Condensed Anxiety Instructions**: Redesigned anxiety relief variations to have 4 longer, more comprehensive 15-second prompts instead of 12 quick 5-second ones
+- **Enhanced User Journey**: Complete guided flow from initial feeling → session → post-session feeling → insights or additional sessions
+
 ### Progressive Web App (PWA) Implementation (January 2025)
 - **Add to Home Screen**: Created install prompt popup with device-specific instructions for iOS and Android
 - **PWA Manifest**: Added web app manifest with proper icons, theme colors, and display settings

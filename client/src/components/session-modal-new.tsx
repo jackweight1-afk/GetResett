@@ -134,6 +134,7 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
   };
 
   const handleFeedbackSubmit = () => {
+    // Always trigger the post-session feeling check flow
     if (onComplete) {
       onComplete();
     } else {
