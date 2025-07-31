@@ -108,10 +108,7 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
 
   const handleSessionComplete = async () => {
     try {
-      // First increment usage count for session tracking
-      await apiRequest("POST", "/api/usage/increment");
-      
-      // Create user session record
+      // Create user session record (session counting is handled in feeling-check.tsx)
       await createSessionMutation.mutateAsync({
         sessionTypeId: sessionType.id,
         duration: 60,

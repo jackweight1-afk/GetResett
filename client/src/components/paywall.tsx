@@ -3,7 +3,7 @@ import { Elements, CardElement, useStripe, useElements } from "@stripe/react-str
 import { loadStripe } from "@stripe/stripe-js";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, Clock, Zap } from "lucide-react";
+import { Sparkles, Clock, Zap, X } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
@@ -14,6 +14,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
 
 interface PaywallProps {
   onSubscriptionComplete: () => void;
+  onClose?: () => void;
   dailyCount: number;
 }
 
@@ -123,13 +124,21 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
   );
 };
 
-export function Paywall({ onSubscriptionComplete, dailyCount }: PaywallProps) {
+export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: PaywallProps) {
   const { localizedPrice, isLoading: priceLoading } = useCurrency();
   const remainingSessions = Math.max(0, 3 - dailyCount);
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+      <Card className="w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto relative">
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors z-10"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
@@ -200,6 +209,15 @@ export function Paywall({ onSubscriptionComplete, dailyCount }: PaywallProps) {
         </CardContent>
 
         <CardFooter className="flex-col space-y-3">
+          {onClose && remainingSessions === 0 && (
+            <Button 
+              variant="outline"
+              onClick={onClose}
+              className="w-full"
+            >
+              Maybe Later
+            </Button>
+          )}
           {remainingSessions > 0 && (
             <Button 
               onClick={onSubscriptionComplete}

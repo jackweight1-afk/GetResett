@@ -257,6 +257,7 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
       {showPaywall && (
         <Paywall 
           onSubscriptionComplete={handleSubscriptionComplete}
+          onClose={() => setShowPaywall(false)}
           dailyCount={sessionLimits.dailyCount}
         />
       )}
@@ -267,6 +268,8 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
           <div>Sessions: {sessionLimits.dailyCount}/3</div>
           <div>Can Access: {sessionLimits.canAccess ? 'Yes' : 'No'}</div>
           <div>Subscribed: {sessionLimits.isSubscribed ? 'Yes' : 'No'}</div>
+          <div>Paywall Check: {!sessionLimits.isSubscribed && sessionLimits.dailyCount >= 3 ? 'SHOW' : 'HIDE'}</div>
+          <div>Reset Time: {sessionLimits.resetTime}</div>
         </div>
       )}
     </div>
