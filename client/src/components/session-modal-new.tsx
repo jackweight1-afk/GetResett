@@ -128,6 +128,13 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
       }
 
       setStep('feedback');
+      
+      // Automatically trigger post-session flow after showing completion
+      setTimeout(() => {
+        if (onComplete) {
+          onComplete();
+        }
+      }, 2500);  // 2.5 second delay to show completion message
     } catch (error) {
       console.error('Error completing session:', error);
     }

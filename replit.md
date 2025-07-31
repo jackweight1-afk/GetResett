@@ -249,3 +249,12 @@ The application is designed for easy deployment on Replit with automatic databas
 - **Fallback Detection**: Uses browser locale as backup if IP-based detection fails, with GBP as ultimate fallback
 - **Consistent Display**: All pricing displays (paywall, subscription management, account page) show localized currency
 - **Browser Compatibility**: Works across all modern browsers with automatic currency detection based on user's location
+
+### Session Flow and Timing Fixes (January 2025)
+- **Universal 15-Second Timing**: Updated ALL session types to use 15-second intervals per instruction instead of 5 seconds to prevent user overwhelm
+- **Session Types Updated**: Sleep stories, stretching, energy boost, focus reset, confidence boost, and anxiety relief all use consistent 15-second timing
+- **Fixed Paywall Logic**: Corrected session counting to check limits before incrementing, ensuring paywall appears correctly at the 4th session attempt
+- **Automatic Post-Session Flow**: Fixed session completion to automatically redirect users to "How are you feeling now?" after 2.5 seconds, ensuring continuous guided experience
+- **Consistent Navigation**: All sessions now properly flow from completion → automatic feeling check → insights or additional sessions
+- **Browser-Based Session Tracking**: Implemented localStorage-based session counting for reliable free session limits across browser sessions
+- **Debug Panel**: Added development-only debug panel showing session count, access status, and subscription status for testing
