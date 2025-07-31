@@ -18,8 +18,8 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
   const remainingSessions = Math.max(0, 3 - dailyCount);
 
   const handleStartTrial = () => {
-    // Redirect to the new, simpler payment page
-    window.location.href = '/payment';
+    // Redirect to simple checkout page
+    window.location.href = '/checkout';
   };
 
   return (
@@ -93,11 +93,11 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
                 </div>
 
                 <Button 
-                  onClick={() => window.location.href = '/payment'}
+                  onClick={() => window.location.href = '/checkout'}
                   disabled={isLoading}
                   className="w-full bg-purple-600 hover:bg-purple-700 text-white text-lg py-6"
                 >
-                  Start Free Trial
+                  Subscribe for £1.99/month
                 </Button>
               </div>
             </>

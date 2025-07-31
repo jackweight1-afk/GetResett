@@ -12,6 +12,7 @@ import Insights from "@/pages/insights";
 import Account from "@/pages/account";
 import Subscribe from "@/pages/subscribe";
 import Payment from "@/pages/payment";
+import Checkout from "@/pages/checkout";
 import InstallPrompt from "@/components/install-prompt";
 import ErrorBoundary from "@/components/error-boundary";
 
@@ -23,6 +24,7 @@ function Router() {
       {/* Public routes - available to everyone */}
       <Route path="/subscribe" component={Subscribe} />
       <Route path="/payment" component={Payment} />
+      <Route path="/checkout" component={Checkout} />
       
       {isLoading || !isAuthenticated ? (
         <Route path="/" component={Landing} />

@@ -124,12 +124,21 @@ export default function Payment() {
         if (data.clientSecret) {
           setPaymentData(data);
           setLoading(false);
+        } else if (data.subscriptionId && data.status === 'trialing') {
+          // User already has active trial, redirect immediately
+          window.location.href = '/?subscribed=true';
+          return;
         } else {
           setError("Failed to initialize payment");
           setLoading(false);
         }
       } catch (error: any) {
         console.error("Payment setup error:", error);
+        if (error.message?.includes('401')) {
+          // User not authenticated, redirect to login
+          window.location.href = '/api/login';
+          return;
+        }
         setError("Payment setup failed");
         setLoading(false);
       }
@@ -139,8 +148,14 @@ export default function Payment() {
   }, [isAuthenticated, user]);
 
   if (!isAuthenticated) {
-    window.location.href = '/api/login';
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50">
+        <div className="text-center">
+          <div className="animate-spin w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full mx-auto mb-4" />
+          <p className="text-gray-600">Redirecting to login...</p>
+        </div>
+      </div>
+    );
   }
 
   if (loading) {
