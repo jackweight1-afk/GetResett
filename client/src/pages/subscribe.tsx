@@ -123,30 +123,46 @@ export default function Subscribe() {
       setIsCreatingSubscription(true);
       
       // Add delay to ensure session is fully established
-      setTimeout(() => {
-        apiRequest("POST", "/api/create-subscription")
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("Subscription response:", data);
-          if (isMounted) {
-            if (data.clientSecret) {
-              setClientSecret(data.clientSecret);
-              setError("");
-            } else if (data.subscriptionId) {
-              // Already has subscription, redirect to success
-              window.location.href = '/?subscribed=true';
-            } else {
-              console.error("No client secret in response:", data);
-              throw new Error("No client secret received");
+      setTimeout(async () => {
+        try {
+          // First ensure user is authenticated
+          const authRes = await apiRequest("GET", "/api/auth/user");
+          if (!authRes.ok) {
+            throw new Error("Authentication required");
+          }
+          
+          const response = await apiRequest("POST", "/api/create-subscription");
+          const data = await response.json();
+          
+          {
+            console.log("Full subscription response:", JSON.stringify(data, null, 2));
+            if (isMounted) {
+              if (data.clientSecret) {
+                console.log("Setting clientSecret:", data.clientSecret);
+                setClientSecret(data.clientSecret);
+                setError("");
+              } else if (data.subscriptionId && data.status === 'trialing') {
+                // Already trialing, redirect to success
+                console.log("Already trialing, redirecting...");
+                window.location.href = '/?subscribed=true';
+              } else {
+                console.error("No client secret in response:", data);
+                // Try to force clientSecret from any payment intent
+                if (data.subscriptionId) {
+                  console.log("Subscription exists but no clientSecret, redirecting...");
+                  window.location.href = '/?subscribed=true';
+                } else {
+                  throw new Error("No client secret received");
+                }
+              }
             }
           }
-        })
-        .catch((error) => {
+        } catch (error: any) {
           if (isMounted) {
             console.error("Error creating subscription:", error);
             
             // If unauthorized, try refreshing auth state
-            if (error.message.includes('401') || error.message.includes('Unauthorized')) {
+            if (error.message.includes('401') || error.message.includes('Unauthorized') || error.message.includes('Authentication required')) {
               console.log("Authentication failed, redirecting to login...");
               window.location.href = '/api/login';
               return;
@@ -159,12 +175,12 @@ export default function Subscribe() {
               variant: "destructive",
             });
           }
-        })
-        .finally(() => {
+        }
+        finally {
           if (isMounted) {
             setIsCreatingSubscription(false);
           }
-        });
+        }
       }, 500); // 500ms delay to ensure authentication is ready
     }
     
