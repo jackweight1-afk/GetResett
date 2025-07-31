@@ -17,9 +17,19 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
   const [isLoading, setIsLoading] = useState(false);
   const remainingSessions = Math.max(0, 3 - dailyCount);
 
-  const handleStartTrial = () => {
-    // Simply redirect to the subscribe page where Stripe payment is handled properly
-    window.location.href = '/subscribe';
+  const handleStartTrial = async () => {
+    setIsLoading(true);
+    try {
+      // Simply redirect to the subscribe page
+      window.location.href = '/subscribe';
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Please try again",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -29,7 +39,6 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
           <button
             onClick={onClose}
             className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors z-10"
-            aria-label="Close"
           >
             <X className="w-4 h-4" />
           </button>
@@ -97,7 +106,14 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
                   disabled={isLoading}
                   className="w-full bg-purple-600 hover:bg-purple-700 text-white text-lg py-6"
                 >
-                  Start Free Trial
+                  {isLoading ? (
+                    <div className="flex items-center">
+                      <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2" />
+                      Loading...
+                    </div>
+                  ) : (
+                    "Start Free Trial"
+                  )}
                 </Button>
               </div>
             </>
