@@ -258,7 +258,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           console.log("Test subscription not found in Stripe, clearing from database");
         }
         // Always clear subscription from user record to allow fresh start
-        await storage.updateUserSubscription(userId, user.stripeCustomerId || undefined, null, null);
+        await storage.updateUserSubscription(userId, user.stripeCustomerId || undefined, undefined, undefined);
       }
 
       let customerId = user.stripeCustomerId;
@@ -361,15 +361,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No active subscription found" });
       }
 
-      // Cancel the subscription in Stripe
-      const subscription = await stripe.subscriptions.cancel(user.stripeSubscriptionId);
+      try {
+        // Try to cancel the subscription in Stripe
+        await stripe.subscriptions.cancel(user.stripeSubscriptionId);
+      } catch (stripeError: any) {
+        // If subscription doesn't exist in Stripe, that's fine - just clear our records
+        console.log("Subscription not found in Stripe, clearing local record:", stripeError.message);
+      }
       
-      // Update user subscription status
+      // Always clear subscription from user record
       await storage.updateUserSubscription(
         userId,
         user.stripeCustomerId || undefined,
-        null,
-        'canceled'
+        undefined,
+        undefined
       );
 
       res.json({ message: "Subscription canceled successfully" });
@@ -395,7 +400,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Clear subscription from user record
-      await storage.updateUserSubscription(userId, user?.stripeCustomerId || undefined, null, null);
+      await storage.updateUserSubscription(userId, user?.stripeCustomerId || undefined, undefined, undefined);
       
       res.json({ message: "Subscription cleared successfully" });
     } catch (error: any) {

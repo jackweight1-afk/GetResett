@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSessionLimits } from "@/hooks/useSessionLimits";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { SessionFlow } from "@/components/session-flow";
 import { Paywall } from "@/components/paywall";
 import BottomNavigation from "@/components/bottom-navigation";
 import { 
@@ -86,12 +87,12 @@ const feelingOptions = [
 ];
 
 export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSession = false }: FeelingCheckProps) {
-  const { user, isAuthenticated } = useAuth();
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
   const [selectedFeeling, setSelectedFeeling] = useState<string | null>(null);
   const [showPaywall, setShowPaywall] = useState(false);
   const [pendingFeeling, setPendingFeeling] = useState<any>(null);
+  const { user, isAuthenticated } = useAuth();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   // Use browser-based session limits
   const sessionLimits = useSessionLimits();

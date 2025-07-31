@@ -82,6 +82,7 @@ export default function Subscribe() {
   const { toast } = useToast();
   const [clientSecret, setClientSecret] = useState("");
   const [isCreatingSubscription, setIsCreatingSubscription] = useState(false);
+  const [error, setError] = useState("");
 
   // Check for success parameter
   useEffect(() => {
@@ -122,6 +123,7 @@ export default function Subscribe() {
         .then((data) => {
           if (data.clientSecret) {
             setClientSecret(data.clientSecret);
+            setError("");
           } else {
             throw new Error("No client secret received");
           }
@@ -241,16 +243,33 @@ export default function Subscribe() {
               </div>
             ) : (
               <Elements stripe={stripePromise} options={{ clientSecret }}>
-                <CheckoutForm onSuccess={() => {}} />
+                <CheckoutForm onSuccess={() => {
+                  toast({
+                    title: "Free Trial Started!",
+                    description: "You now have unlimited access for 30 days.",
+                  });
+                  setTimeout(() => {
+                    window.location.href = '/';
+                  }, 1500);
+                }} />
               </Elements>
             )}
           </CardContent>
         </Card>
 
-        {/* Security Note */}
-        <p className="text-xs text-gray-500 text-center mt-4">
-          Secured by Stripe. We never store your payment information.
-        </p>
+        {/* Security & Trust */}
+        <div className="mt-6 text-center space-y-2">
+          <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+            <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+              <CheckCircle className="w-3 h-3 text-white" />
+            </div>
+            <span>Secured by Stripe</span>
+          </div>
+          <p className="text-xs text-gray-500">
+            Your payment information is encrypted and secure. 
+            Cancel anytime from your account settings.
+          </p>
+        </div>
       </div>
     </div>
   );
