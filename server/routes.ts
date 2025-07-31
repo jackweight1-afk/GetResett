@@ -266,10 +266,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         },
       });
 
-      // Create subscription
+      // Create subscription with 30-day free trial
       const subscription = await stripe.subscriptions.create({
         customer: customerId,
         items: [{ price: price.id }],
+        trial_period_days: 30, // 30-day free trial
         payment_behavior: 'default_incomplete',
         payment_settings: { save_default_payment_method: 'on_subscription' },
         expand: ['latest_invoice.payment_intent'],
@@ -289,6 +290,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({
         subscriptionId: subscription.id,
         clientSecret: paymentIntent.client_secret,
+        trial: true,
+        trialEnd: subscription.trial_end,
       });
     } catch (error) {
       console.error("Error creating subscription:", error);

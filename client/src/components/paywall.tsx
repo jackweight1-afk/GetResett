@@ -63,8 +63,8 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
         await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
         
         toast({
-          title: "Welcome to GetResett+!",
-          description: "You now have unlimited access to all reset sessions.",
+          title: "Free Trial Started!",
+          description: "You now have unlimited access for 30 days. Cancel anytime before trial ends.",
         });
         onSubscriptionComplete();
       }
@@ -116,7 +116,7 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
               Processing...
             </div>
           ) : (
-            `Subscribe for ${localizedPrice.formatted}/month`
+            "Start Free Trial"
           )}
         </Button>
       </div>
@@ -172,15 +172,21 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
                     <Zap className="w-5 h-5 text-purple-600" />
                     GetResett+ Monthly
                   </CardTitle>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-3xl font-bold">
-                      {priceLoading ? '...' : localizedPrice.formatted}
-                    </span>
-                    <span className="text-gray-600">/month</span>
+                  <div className="space-y-1">
+                    <div className="text-3xl font-bold text-green-600">
+                      FREE for 30 days
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      Then {priceLoading ? '...' : localizedPrice.formatted}/month
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
                   <ul className="space-y-2 text-sm">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full" />
+                      30 days completely free
+                    </li>
                     <li className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 bg-purple-600 rounded-full" />
                       Unlimited daily reset sessions
@@ -195,11 +201,17 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
                     </li>
                     <li className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 bg-purple-600 rounded-full" />
-                      Cancel anytime
+                      Cancel anytime before trial ends
                     </li>
                   </ul>
                 </CardContent>
               </Card>
+
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                <p className="text-xs text-yellow-800">
+                  <strong>Free Trial:</strong> Your payment method will be saved but not charged for 30 days. Cancel anytime before the trial ends to avoid charges.
+                </p>
+              </div>
 
               <Elements stripe={stripePromise}>
                 <CheckoutForm onSubscriptionComplete={onSubscriptionComplete} />

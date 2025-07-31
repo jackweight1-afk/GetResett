@@ -204,13 +204,15 @@ export function SubscriptionManagement() {
 
         <div className="pt-4 border-t">
           <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-4">
-            <h4 className="font-medium text-purple-800 mb-2">Upgrade to GetResett+</h4>
+            <h4 className="font-medium text-purple-800 mb-2">Try GetResett+ Free for 30 Days</h4>
             <ul className="text-sm text-purple-700 space-y-1 mb-3">
-              <li>• Unlimited daily sessions</li>
+              <li>• 30 days completely free</li>
+              <li>• Unlimited daily sessions during trial</li>
               <li>• Advanced insights and analytics</li>
-              <li>• Priority support</li>
+              <li>• Cancel anytime before trial ends</li>
             </ul>
-            <div className="text-lg font-bold text-purple-600 mb-4">{localizedPrice.formatted}<span className="text-sm font-normal">/month</span></div>
+            <div className="text-lg font-bold text-green-600 mb-1">FREE for 30 days</div>
+            <div className="text-sm text-gray-600 mb-4">Then {localizedPrice.formatted}/month</div>
             
             <Button 
               onClick={() => {
@@ -220,12 +222,12 @@ export function SubscriptionManagement() {
               className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold"
             >
               <Crown className="w-4 h-4 mr-2" />
-              Upgrade to GetResett+
+              Start Free Trial
             </Button>
           </div>
           
           <p className="text-xs text-gray-500 text-center">
-            Or upgrade when you try to start your 4th session today
+            Or start your free trial when you try your 4th session today
           </p>
         </div>
       </CardContent>
