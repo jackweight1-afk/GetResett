@@ -62,6 +62,7 @@ export interface IStorage {
   getDailyUsage(userId: string, date: string): Promise<DailyUsage | undefined>;
   incrementDailyUsage(userId: string, date: string): Promise<DailyUsage>;
   updateUserSubscription(userId: string, stripeCustomerId?: string, stripeSubscriptionId?: string, status?: string): Promise<User>;
+  // getUserByStripeCustomerId(stripeCustomerId: string): Promise<User | undefined>;
   hasActiveSubscription(userId: string): Promise<boolean>;
   
   // Analytics
