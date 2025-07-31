@@ -11,6 +11,7 @@ import GuidedFlow from "@/pages/guided-flow";
 import Insights from "@/pages/insights";
 import Account from "@/pages/account";
 import Subscribe from "@/pages/subscribe";
+import Payment from "@/pages/payment";
 import InstallPrompt from "@/components/install-prompt";
 import ErrorBoundary from "@/components/error-boundary";
 
@@ -21,6 +22,7 @@ function Router() {
     <Switch>
       {/* Public routes - available to everyone */}
       <Route path="/subscribe" component={Subscribe} />
+      <Route path="/payment" component={Payment} />
       
       {isLoading || !isAuthenticated ? (
         <Route path="/" component={Landing} />

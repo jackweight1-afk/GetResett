@@ -18,8 +18,8 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
   const remainingSessions = Math.max(0, 3 - dailyCount);
 
   const handleStartTrial = () => {
-    // Simply redirect to the subscribe page where Stripe payment is handled properly
-    window.location.href = '/subscribe';
+    // Redirect to the new, simpler payment page
+    window.location.href = '/payment';
   };
 
   return (
@@ -93,7 +93,7 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
                 </div>
 
                 <Button 
-                  onClick={handleStartTrial}
+                  onClick={() => window.location.href = '/payment'}
                   disabled={isLoading}
                   className="w-full bg-purple-600 hover:bg-purple-700 text-white text-lg py-6"
                 >
