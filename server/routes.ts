@@ -7,6 +7,12 @@ import { setupAuth, isAuthenticated } from "./replitAuth";
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
 }
+
+// Stripe key validation
+const stripeKey = process.env.STRIPE_SECRET_KEY;
+console.log('✅ Stripe configured:', stripeKey?.startsWith('sk_test_') ? 'TEST mode' : 
+           stripeKey?.startsWith('sk_live_') ? 'LIVE mode' : 'Invalid format');
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 import { 
   insertUserSessionSchema, 
