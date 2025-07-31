@@ -305,18 +305,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         priceId = price.id;
       }
 
+      // For trial subscriptions, we need to create a setup intent instead of payment intent
+      // This collects payment method without charging during trial
+      const setupIntent = await stripe.setupIntents.create({
+        customer: customerId,
+        payment_method_types: ['card'],
+        usage: 'off_session',
+        metadata: {
+          userId,
+          userEmail: user.email,
+          subscriptionType: 'trial'
+        }
+      });
+
       // Create subscription with 30-day free trial
       // CRITICAL: trial_period_days ensures NO CHARGE for 30 days
       const subscription = await stripe.subscriptions.create({
         customer: customerId,
         items: [{ price: priceId }],
         trial_period_days: 30, // 30-day free trial - NO CHARGE during this period
-        payment_behavior: 'default_incomplete',
-        payment_settings: { 
-          save_default_payment_method: 'on_subscription',
-          payment_method_types: ['card'] // Restrict to cards for reliability
-        },
-        expand: ['latest_invoice.payment_intent'],
+        // Payment method will be attached after setup intent confirmation
         metadata: {
           userId,
           userEmail: user.email,
@@ -333,20 +341,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         subscription.status // Use actual Stripe status
       );
 
-      const invoice = subscription.latest_invoice as any;
-      const paymentIntent = invoice?.payment_intent as any;
-
       console.log("Subscription created:", {
         subscriptionId: subscription.id,
         status: subscription.status,
-        paymentIntentClientSecret: paymentIntent?.client_secret,
-        invoiceStatus: invoice?.status,
-        paymentIntentStatus: paymentIntent?.status
+        setupIntentClientSecret: setupIntent.client_secret,
+        setupIntentStatus: setupIntent.status
       });
 
       res.json({
         subscriptionId: subscription.id,
-        clientSecret: paymentIntent?.client_secret,
+        clientSecret: setupIntent.client_secret, // Use setup intent client secret for trials
         status: subscription.status,
         trial: true,
         trialEnd: subscription.trial_end,

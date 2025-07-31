@@ -30,23 +30,29 @@ function CheckoutForm({ onSuccess }: { onSuccess: () => void }) {
     setIsProcessing(true);
 
     try {
-      const { error } = await stripe.confirmPayment({
+      // For trial subscriptions, we use confirmSetup instead of confirmPayment
+      const { error } = await stripe.confirmSetup({
         elements,
         confirmParams: {
-          return_url: window.location.origin + "/subscribe?success=true",
+          return_url: window.location.origin + "/?subscribed=true",
         },
       });
 
       if (error) {
+        console.error("Setup error:", error);
         toast({
-          title: "Payment Failed",
+          title: "Setup Failed",
           description: error.message,
           variant: "destructive",
         });
+      } else {
+        // Setup successful - payment method saved for trial
+        onSuccess();
       }
     } catch (error: any) {
+      console.error("Setup failed:", error);
       toast({
-        title: "Payment Failed",
+        title: "Setup Failed",
         description: error.message,
         variant: "destructive",
       });
