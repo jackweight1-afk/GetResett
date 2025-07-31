@@ -17,9 +17,15 @@ export function useSessionLimits() {
   const { data: subscriptionData } = useQuery<{ isSubscribed: boolean }>({
     queryKey: ['/api/auth/user'],
     enabled: isAuthenticated,
-    select: (data: any) => ({
-      isSubscribed: data?.subscriptionStatus === 'active' || data?.subscriptionStatus === 'trialing'
-    })
+    select: (data: any) => {
+      const isSubscribed = data?.subscriptionStatus === 'active' || data?.subscriptionStatus === 'trialing';
+      console.log('Subscription check:', { 
+        subscriptionStatus: data?.subscriptionStatus, 
+        isSubscribed,
+        stripeSubscriptionId: data?.stripeSubscriptionId 
+      });
+      return { isSubscribed };
+    }
   });
 
   // Get today's date string for storage key

@@ -258,7 +258,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           console.log("Test subscription not found in Stripe, clearing from database");
         }
         // Always clear subscription from user record to allow fresh start
-        await storage.updateUserSubscription(userId, user.stripeCustomerId || undefined, undefined, undefined);
+        await storage.updateUserSubscription(userId, user.stripeCustomerId || undefined, null, 'canceled');
       }
 
       let customerId = user.stripeCustomerId;
@@ -369,12 +369,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.log("Subscription not found in Stripe, clearing local record:", stripeError.message);
       }
       
-      // Always clear subscription from user record
+      // Always clear subscription from user record  
       await storage.updateUserSubscription(
         userId,
         user.stripeCustomerId || undefined,
-        undefined,
-        undefined
+        null,
+        'canceled'
       );
 
       res.json({ message: "Subscription canceled successfully" });
@@ -400,7 +400,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Clear subscription from user record
-      await storage.updateUserSubscription(userId, user?.stripeCustomerId || undefined, undefined, undefined);
+      await storage.updateUserSubscription(userId, user?.stripeCustomerId || undefined, null, 'canceled');
       
       res.json({ message: "Subscription cleared successfully" });
     } catch (error: any) {
