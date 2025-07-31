@@ -169,6 +169,12 @@ export default function Subscribe() {
               setClientSecret(data.clientSecret);
               setSubscriptionData(data);
               setError("");
+            } else if (data.message && data.hasHadTrial) {
+              // User needs to pay - they've already had a trial
+              console.log("User has had trial, showing payment form...");
+              setClientSecret(data.clientSecret);
+              setSubscriptionData(data);
+              setError("");
             } else if (data.subscriptionId && data.status === 'trialing') {
               // User already has a trialing subscription, redirect to success
               console.log("Subscription exists and trialing, redirecting...");
@@ -365,15 +371,18 @@ export default function Subscribe() {
                   }
                 }
               }}>
-                <CheckoutForm onSuccess={() => {
-                  toast({
-                    title: "Free Trial Started!",
-                    description: "You now have unlimited access for 30 days.",
-                  });
-                  setTimeout(() => {
-                    window.location.href = '/';
-                  }, 1500);
-                }} />
+                <CheckoutForm 
+                  onSuccess={() => {
+                    toast({
+                      title: "Free Trial Started!",
+                      description: "You now have unlimited access for 30 days.",
+                    });
+                    setTimeout(() => {
+                      window.location.href = '/';
+                    }, 1500);
+                  }}
+                  isTrialMode={subscriptionData?.trial || false}
+                />
               </Elements>
             )}
           </CardContent>

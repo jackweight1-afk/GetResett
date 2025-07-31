@@ -298,48 +298,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const hasHadTrial = subscriptions.data.some(sub => sub.trial_end !== null);
       
       if (hasHadTrial) {
-        // User already had trial - create immediate subscription with payment
-        const subscription = await stripe.subscriptions.create({
+        // User already had trial - create payment intent for immediate payment
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount: 199, // £1.99 in pence
+          currency: 'gbp',
           customer: customerId,
-          items: [{ price: priceId }],
-          payment_behavior: 'default_incomplete',
-          payment_settings: { 
-            save_default_payment_method: 'on_subscription',
-            payment_method_types: ['card']
+          setup_future_usage: 'off_session',
+          automatic_payment_methods: {
+            enabled: true,
           },
-          expand: ['latest_invoice.payment_intent'],
           metadata: {
             userId,
             userEmail: user.email,
-            subscriptionType: 'paid'
+            subscriptionType: 'paid',
+            priceId: priceId
           }
         });
 
-        await storage.updateUserSubscription(
-          userId, 
-          customerId, 
-          subscription.id, 
-          subscription.status
-        );
-
-        const invoice = subscription.latest_invoice as any;
-        const paymentIntent = invoice?.payment_intent as any;
-
-        console.log("Paid subscription created:", {
-          subscriptionId: subscription.id,
-          status: subscription.status,
-          paymentIntentClientSecret: paymentIntent?.client_secret,
-          hasHadTrial: true
+        console.log("Payment intent created for returning user:", {
+          paymentIntentId: paymentIntent.id,
+          clientSecret: paymentIntent.client_secret,
+          hasHadTrial: true,
+          amount: 199
         });
 
         res.json({
-          subscriptionId: subscription.id,
-          clientSecret: paymentIntent?.client_secret,
-          status: subscription.status,
+          clientSecret: paymentIntent.client_secret,
           trial: false,
           hasHadTrial: true,
           amount: 199,
-          currency: 'gbp'
+          currency: 'gbp',
+          paymentIntentId: paymentIntent.id,
+          message: "Payment required - you've already used your free trial"
         });
       } else {
         // First time user - create setup intent for trial
@@ -387,7 +377,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           trial: true,
           trialEnd: subscription.trial_end,
           trialDays: 30,
-          hasHadTrial: false
+          hasHadTrial: false,
+          message: "30-day free trial - no charge"
         });
       }
 
