@@ -4,6 +4,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useCurrency } from "@/hooks/useCurrency";
+import { useSessionLimits } from "@/hooks/useSessionLimits";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
@@ -15,15 +16,7 @@ export function SubscriptionManagement() {
   const queryClient = useQueryClient();
   const [cancellingSubscription, setCancellingSubscription] = useState(false);
   const { localizedPrice } = useCurrency();
-
-  const { data: usageData } = useQuery<{
-    canAccess: boolean;
-    isSubscribed: boolean;
-    dailyCount: number;
-  }>({
-    queryKey: ["/api/usage/check"],
-    enabled: isAuthenticated,
-  });
+  const sessionLimits = useSessionLimits();
 
   const cancelSubscriptionMutation = useMutation({
     mutationFn: async () => {
@@ -43,7 +36,6 @@ export function SubscriptionManagement() {
         title: "Subscription Canceled",
         description: "Your subscription has been canceled. You'll continue to have access until the end of your billing period.",
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/usage/check"] });
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       setCancellingSubscription(false);
     },
@@ -62,26 +54,7 @@ export function SubscriptionManagement() {
     cancelSubscriptionMutation.mutate();
   };
 
-  if (!usageData) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <CreditCard className="w-5 h-5 text-purple-600" />
-            <span>Subscription Details</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="animate-pulse">
-            <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (usageData.isSubscribed) {
+  if (sessionLimits.isSubscribed) {
     return (
       <Card>
         <CardHeader>
@@ -178,7 +151,7 @@ export function SubscriptionManagement() {
   }
 
   // Free user
-  const remainingSessions = Math.max(0, 3 - usageData.dailyCount);
+  const remainingSessions = sessionLimits.remainingSessions;
   
   return (
     <Card>

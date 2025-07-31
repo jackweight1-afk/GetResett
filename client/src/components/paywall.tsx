@@ -59,7 +59,6 @@ const CheckoutForm = ({ onSubscriptionComplete }: { onSubscriptionComplete: () =
         });
       } else {
         // Invalidate queries to refresh subscription status
-        await queryClient.invalidateQueries({ queryKey: ["/api/usage/check"] });
         await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
         
         toast({

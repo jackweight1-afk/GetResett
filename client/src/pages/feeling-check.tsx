@@ -3,6 +3,7 @@ import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { useSessionLimits } from "@/hooks/useSessionLimits";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Paywall } from "@/components/paywall";
@@ -92,15 +93,8 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
   const [showPaywall, setShowPaywall] = useState(false);
   const [pendingFeeling, setPendingFeeling] = useState<any>(null);
 
-  // Check usage limits for non-post-session flows
-  const { data: usageData } = useQuery<{
-    canAccess: boolean;
-    isSubscribed: boolean;
-    dailyCount: number;
-  }>({
-    queryKey: ["/api/usage/check"],
-    enabled: isAuthenticated && !isPostSession,
-  });
+  // Use browser-based session limits
+  const sessionLimits = useSessionLimits();
 
   const createFeelingEntryMutation = useMutation({
     mutationFn: async (data: { feeling: string, isPostSession: boolean }) => {
@@ -122,10 +116,15 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
     setSelectedFeeling(feeling.id);
     
     // Check if user can access sessions (only for pre-session flow)
-    if (!isPostSession && usageData && !usageData.canAccess) {
+    if (!isPostSession && !sessionLimits.canAccess) {
       setPendingFeeling(feeling);
       setShowPaywall(true);
       return;
+    }
+    
+    // Increment session count for non-subscribers and non-post sessions
+    if (!isPostSession && !sessionLimits.isSubscribed) {
+      sessionLimits.incrementCount();
     }
     
     // Log the feeling selection
@@ -146,8 +145,7 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
   const handleSubscriptionComplete = async () => {
     setShowPaywall(false);
     
-    // Invalidate all relevant queries to refresh subscription status
-    await queryClient.invalidateQueries({ queryKey: ["/api/usage/check"] });
+    // Invalidate queries to refresh subscription status
     await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
     
     toast({
@@ -253,10 +251,10 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
       <BottomNavigation />
 
       {/* Paywall Modal */}
-      {showPaywall && usageData && (
+      {showPaywall && (
         <Paywall 
           onSubscriptionComplete={handleSubscriptionComplete}
-          dailyCount={usageData.dailyCount || 0}
+          dailyCount={sessionLimits.dailyCount}
         />
       )}
     </div>
