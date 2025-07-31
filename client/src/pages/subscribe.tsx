@@ -125,7 +125,8 @@ export default function Subscribe() {
     
     console.log('Effect check:', { isAuthenticated, clientSecret, isCreatingSubscription, error, user });
     
-    if (isAuthenticated && user && !clientSecret && !isCreatingSubscription && !error) {
+    if (isAuthenticated && user && !clientSecret && !isCreatingSubscription && !error && 
+        user.subscriptionStatus !== 'trialing' && user.subscriptionStatus !== 'active') {
       setIsCreatingSubscription(true);
       
       // Add delay to ensure session is fully established
@@ -140,26 +141,24 @@ export default function Subscribe() {
           const response = await apiRequest("POST", "/api/create-subscription");
           const data = await response.json();
           
-          {
-            console.log("Full subscription response:", JSON.stringify(data, null, 2));
-            if (isMounted) {
-              if (data.clientSecret) {
-                console.log("Setting clientSecret:", data.clientSecret);
-                setClientSecret(data.clientSecret);
-                setError("");
-              } else if (data.subscriptionId && data.status === 'trialing') {
-                // Already trialing, redirect to success
-                console.log("Already trialing, redirecting...");
+          console.log("Full subscription response:", JSON.stringify(data, null, 2));
+          if (isMounted) {
+            if (data.clientSecret) {
+              console.log("Setting clientSecret:", data.clientSecret);
+              setClientSecret(data.clientSecret);
+              setError("");
+            } else if (data.subscriptionId && data.status === 'trialing') {
+              // Already trialing, redirect to success
+              console.log("Already trialing, redirecting...");
+              window.location.href = '/?subscribed=true';
+            } else {
+              console.error("No client secret in response:", data);
+              // Try to force clientSecret from any payment intent
+              if (data.subscriptionId) {
+                console.log("Subscription exists but no clientSecret, redirecting...");
                 window.location.href = '/?subscribed=true';
               } else {
-                console.error("No client secret in response:", data);
-                // Try to force clientSecret from any payment intent
-                if (data.subscriptionId) {
-                  console.log("Subscription exists but no clientSecret, redirecting...");
-                  window.location.href = '/?subscribed=true';
-                } else {
-                  throw new Error("No client secret received");
-                }
+                throw new Error("No client secret received");
               }
             }
           }
@@ -205,6 +204,12 @@ export default function Subscribe() {
 
   if (!isAuthenticated) {
     return null; // Will redirect to login
+  }
+
+  // If user already has active subscription, redirect to success
+  if (user?.subscriptionStatus === 'trialing' || user?.subscriptionStatus === 'active') {
+    window.location.href = '/?subscribed=true';
+    return null;
   }
 
   return (
@@ -311,6 +316,7 @@ export default function Subscribe() {
             ) : (
               <Elements stripe={stripePromise} options={{ 
                 clientSecret,
+                mode: 'setup',
                 appearance: {
                   theme: 'stripe',
                   variables: {
