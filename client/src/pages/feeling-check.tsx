@@ -115,16 +115,19 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
   const handleFeelingSelect = async (feeling: any) => {
     setSelectedFeeling(feeling.id);
     
-    // Check if user can access sessions (only for pre-session flow)
-    if (!isPostSession && !sessionLimits.canAccess) {
-      setPendingFeeling(feeling);
-      setShowPaywall(true);
-      return;
-    }
-    
-    // Increment session count for non-subscribers and non-post sessions
-    if (!isPostSession && !sessionLimits.isSubscribed) {
-      sessionLimits.incrementCount();
+    // For pre-session flow, check if user can start a new session
+    if (!isPostSession) {
+      // Check limits before incrementing
+      if (!sessionLimits.isSubscribed && sessionLimits.dailyCount >= 3) {
+        setPendingFeeling(feeling);
+        setShowPaywall(true);
+        return;
+      }
+      
+      // Increment session count for non-subscribers
+      if (!sessionLimits.isSubscribed) {
+        sessionLimits.incrementCount();
+      }
     }
     
     // Log the feeling selection
@@ -256,6 +259,15 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
           onSubscriptionComplete={handleSubscriptionComplete}
           dailyCount={sessionLimits.dailyCount}
         />
+      )}
+      
+      {/* Debug info for testing - only show in development */}
+      {import.meta.env.DEV && (
+        <div className="fixed bottom-20 left-4 bg-yellow-100 border border-yellow-300 rounded p-2 text-xs text-yellow-800 z-50">
+          <div>Sessions: {sessionLimits.dailyCount}/3</div>
+          <div>Can Access: {sessionLimits.canAccess ? 'Yes' : 'No'}</div>
+          <div>Subscribed: {sessionLimits.isSubscribed ? 'Yes' : 'No'}</div>
+        </div>
       )}
     </div>
     </>

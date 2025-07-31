@@ -338,8 +338,8 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
     }
     const variation = sleepStoryVariations[selectedVariations[sessionType.id]];
     
-    // Calculate which segment of the story we're in (5 seconds per segment)
-    const segmentDuration = 5;
+    // Calculate which segment of the story we're in (15 seconds per segment)
+    const segmentDuration = 15;
     const currentSegment = Math.floor((60 - timeRemaining) / segmentDuration);
     return variation[Math.min(currentSegment, variation.length - 1)];
   }
@@ -368,7 +368,7 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
     }
     const variation = stretchingVariations[selectedVariations[sessionType.id]];
     
-    const instructionDuration = 5; // 5 seconds per instruction
+    const instructionDuration = 15; // 15 seconds per instruction  
     const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
     return variation[Math.min(currentInstruction, variation.length - 1)];
   }
@@ -380,7 +380,7 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
     }
     const variation = energyVariations[selectedVariations[sessionType.id]];
     
-    const instructionDuration = 5; // 5 seconds per instruction
+    const instructionDuration = 15; // 15 seconds per instruction
     const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
     return variation[Math.min(currentInstruction, variation.length - 1)];
   }
@@ -399,7 +399,7 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
     }
     const variation = focusVariations[selectedVariations[sessionType.id]];
     
-    const instructionDuration = 5; // 5 seconds per instruction
+    const instructionDuration = 15; // 15 seconds per instruction
     const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
     return variation[Math.min(currentInstruction, variation.length - 1)];
   }
@@ -423,7 +423,7 @@ const getSessionInstructions = (sessionType: SessionType, timeRemaining: number)
     }
     const variation = confidenceVariations[selectedVariations[sessionType.id]];
     
-    const instructionDuration = 5; // 5 seconds per instruction
+    const instructionDuration = 15; // 15 seconds per instruction
     const currentInstruction = Math.floor((60 - timeRemaining) / instructionDuration);
     return variation[Math.min(currentInstruction, variation.length - 1)];
   }
