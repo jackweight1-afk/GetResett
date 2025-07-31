@@ -252,12 +252,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (user.stripeSubscriptionId && (user.subscriptionStatus === 'active' || user.subscriptionStatus === 'trialing')) {
         // User already has active subscription, just return existing info
         try {
-          const subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
-          const paymentIntent = subscription.latest_invoice?.payment_intent;
+          const subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId, {
+            expand: ['latest_invoice.payment_intent']
+          });
+          const invoice = subscription.latest_invoice as any;
+          const paymentIntent = invoice?.payment_intent;
           
           return res.json({
             subscriptionId: subscription.id,
-            clientSecret: paymentIntent?.client_secret,
+            clientSecret: paymentIntent?.client_secret || null,
             status: subscription.status,
             trial: subscription.status === 'trialing',
             trialEnd: subscription.trial_end,

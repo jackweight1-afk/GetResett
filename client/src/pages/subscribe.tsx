@@ -122,24 +122,39 @@ export default function Subscribe() {
     if (isAuthenticated && user && !clientSecret && !isCreatingSubscription && !error) {
       setIsCreatingSubscription(true);
       
-      apiRequest("POST", "/api/create-subscription")
+      // Add delay to ensure session is fully established
+      setTimeout(() => {
+        apiRequest("POST", "/api/create-subscription")
         .then((res) => res.json())
         .then((data) => {
           console.log("Subscription response:", data);
-          if (isMounted && data.clientSecret) {
-            setClientSecret(data.clientSecret);
-            setError("");
-          } else if (isMounted) {
-            console.error("No client secret in response:", data);
-            throw new Error("No client secret received");
+          if (isMounted) {
+            if (data.clientSecret) {
+              setClientSecret(data.clientSecret);
+              setError("");
+            } else if (data.subscriptionId) {
+              // Already has subscription, redirect to success
+              window.location.href = '/?subscribed=true';
+            } else {
+              console.error("No client secret in response:", data);
+              throw new Error("No client secret received");
+            }
           }
         })
         .catch((error) => {
           if (isMounted) {
             console.error("Error creating subscription:", error);
+            
+            // If unauthorized, try refreshing auth state
+            if (error.message.includes('401') || error.message.includes('Unauthorized')) {
+              console.log("Authentication failed, redirecting to login...");
+              window.location.href = '/api/login';
+              return;
+            }
+            
             setError("Failed to set up payment");
             toast({
-              title: "Error",
+              title: "Error", 
               description: "Failed to set up payment. Please try again.",
               variant: "destructive",
             });
@@ -150,12 +165,13 @@ export default function Subscribe() {
             setIsCreatingSubscription(false);
           }
         });
+      }, 500); // 500ms delay to ensure authentication is ready
     }
     
     return () => {
       isMounted = false;
     };
-  }, [isAuthenticated, clientSecret, isCreatingSubscription, error, toast]);
+  }, [isAuthenticated, user, clientSecret, isCreatingSubscription, error, toast]);
 
   if (isLoading) {
     return (
@@ -251,10 +267,24 @@ export default function Subscribe() {
             </p>
           </CardHeader>
           <CardContent>
-            {!clientSecret ? (
+            {!clientSecret && !error ? (
               <div className="flex items-center justify-center py-8">
                 <div className="animate-spin w-6 h-6 border-4 border-purple-600 border-t-transparent rounded-full mr-3" />
                 <span className="text-gray-600">Setting up your trial...</span>
+              </div>
+            ) : error ? (
+              <div className="text-center py-8">
+                <p className="text-red-600 mb-4">{error}</p>
+                <Button 
+                  onClick={() => {
+                    setError("");
+                    setClientSecret("");
+                    setIsCreatingSubscription(false);
+                  }}
+                  className="bg-purple-600 hover:bg-purple-700"
+                >
+                  Try Again
+                </Button>
               </div>
             ) : (
               <Elements stripe={stripePromise} options={{ 
