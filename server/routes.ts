@@ -248,17 +248,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "User email required for subscription" });
       }
 
-      // CLEAR TEST SUBSCRIPTION FIRST - prevents "already has subscription" error
-      if (user.stripeSubscriptionId) {
+      // Check if user already has an active subscription
+      if (user.stripeSubscriptionId && (user.subscriptionStatus === 'active' || user.subscriptionStatus === 'trialing')) {
+        // User already has active subscription, just return existing info
         try {
-          // Cancel any test subscription in Stripe
-          await stripe.subscriptions.cancel(user.stripeSubscriptionId);
-          console.log("Cleared test subscription:", user.stripeSubscriptionId);
+          const subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
+          const paymentIntent = subscription.latest_invoice?.payment_intent;
+          
+          return res.json({
+            subscriptionId: subscription.id,
+            clientSecret: paymentIntent?.client_secret,
+            status: subscription.status,
+            trial: subscription.status === 'trialing',
+            trialEnd: subscription.trial_end,
+            trialDays: 30
+          });
         } catch (error) {
-          console.log("Test subscription not found in Stripe, clearing from database");
+          // Subscription doesn't exist in Stripe, clear it and continue
+          await storage.updateUserSubscription(userId, user.stripeCustomerId || undefined, null, 'canceled');
         }
-        // Always clear subscription from user record to allow fresh start
-        await storage.updateUserSubscription(userId, user.stripeCustomerId || undefined, null, 'canceled');
       }
 
       let customerId = user.stripeCustomerId;

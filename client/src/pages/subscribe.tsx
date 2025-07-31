@@ -113,34 +113,44 @@ export default function Subscribe() {
     }
   }, [isAuthenticated, isLoading, toast]);
 
-  // Create subscription when component loads (only once)
+  // Create subscription when component loads (prevent infinite loop)
   useEffect(() => {
+    let isMounted = true;
+    
     if (isAuthenticated && !clientSecret && !isCreatingSubscription && !error) {
       setIsCreatingSubscription(true);
       
       apiRequest("POST", "/api/create-subscription")
         .then((res) => res.json())
         .then((data) => {
-          if (data.clientSecret) {
+          if (isMounted && data.clientSecret) {
             setClientSecret(data.clientSecret);
             setError("");
-          } else {
+          } else if (isMounted) {
             throw new Error("No client secret received");
           }
         })
         .catch((error) => {
-          console.error("Error creating subscription:", error);
-          setError("Failed to set up payment");
-          toast({
-            title: "Error",
-            description: "Failed to set up payment. Please try again.",
-            variant: "destructive",
-          });
+          if (isMounted) {
+            console.error("Error creating subscription:", error);
+            setError("Failed to set up payment");
+            toast({
+              title: "Error",
+              description: "Failed to set up payment. Please try again.",
+              variant: "destructive",
+            });
+          }
         })
         .finally(() => {
-          setIsCreatingSubscription(false);
+          if (isMounted) {
+            setIsCreatingSubscription(false);
+          }
         });
     }
+    
+    return () => {
+      isMounted = false;
+    };
   }, [isAuthenticated, clientSecret, isCreatingSubscription, error, toast]);
 
   if (isLoading) {
