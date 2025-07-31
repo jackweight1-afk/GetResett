@@ -248,16 +248,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "User email required for subscription" });
       }
 
-      // Check if user already has an active subscription to prevent double charging
+      // CLEAR TEST SUBSCRIPTION FIRST - prevents "already has subscription" error
       if (user.stripeSubscriptionId) {
         try {
-          const existingSubscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
-          if (existingSubscription.status === 'active' || existingSubscription.status === 'trialing') {
-            return res.status(400).json({ error: "User already has an active subscription" });
-          }
+          // Cancel any test subscription in Stripe
+          await stripe.subscriptions.cancel(user.stripeSubscriptionId);
+          console.log("Cleared test subscription:", user.stripeSubscriptionId);
         } catch (error) {
-          console.log("Existing subscription not found, proceeding with new subscription");
+          console.log("Test subscription not found in Stripe, clearing from database");
         }
+        // Always clear subscription from user record to allow fresh start
+        await storage.updateUserSubscription(userId, user.stripeCustomerId || undefined, null, null);
       }
 
       let customerId = user.stripeCustomerId;
@@ -366,8 +367,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Update user subscription status
       await storage.updateUserSubscription(
         userId,
-        undefined,
-        subscription.id,
+        user.stripeCustomerId || undefined,
+        null,
         'canceled'
       );
 
@@ -375,6 +376,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error("Error canceling subscription:", error);
       res.status(500).json({ message: "Failed to cancel subscription" });
+    }
+  });
+
+  // Clear test subscription route (for development)
+  app.post('/api/clear-subscription', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      
+      if (user?.stripeSubscriptionId) {
+        try {
+          // Try to cancel the subscription in Stripe first
+          await stripe.subscriptions.cancel(user.stripeSubscriptionId);
+        } catch (error) {
+          console.log("Subscription not found in Stripe, clearing from database");
+        }
+      }
+      
+      // Clear subscription from user record
+      await storage.updateUserSubscription(userId, user?.stripeCustomerId || undefined, null, null);
+      
+      res.json({ message: "Subscription cleared successfully" });
+    } catch (error: any) {
+      console.error("Error clearing subscription:", error);
+      res.status(500).json({ message: "Failed to clear subscription" });
     }
   });
 
