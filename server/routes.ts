@@ -250,26 +250,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Check if user already has an active subscription
       if (user.stripeSubscriptionId && (user.subscriptionStatus === 'active' || user.subscriptionStatus === 'trialing')) {
-        // User already has active subscription, just return existing info
-        try {
-          const subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId, {
-            expand: ['latest_invoice.payment_intent']
-          });
-          const invoice = subscription.latest_invoice as any;
-          const paymentIntent = invoice?.payment_intent;
-          
-          return res.json({
-            subscriptionId: subscription.id,
-            clientSecret: paymentIntent?.client_secret || null,
-            status: subscription.status,
-            trial: subscription.status === 'trialing',
-            trialEnd: subscription.trial_end,
-            trialDays: 30
-          });
-        } catch (error) {
-          // Subscription doesn't exist in Stripe, clear it and continue
-          await storage.updateUserSubscription(userId, user.stripeCustomerId || undefined, null, 'canceled');
-        }
+        return res.status(400).json({ 
+          error: "User already has an active subscription",
+          redirectTo: "/?subscribed=true"
+        });
       }
 
       let customerId = user.stripeCustomerId;
@@ -305,57 +289,107 @@ export async function registerRoutes(app: Express): Promise<Server> {
         priceId = price.id;
       }
 
-      // For trial subscriptions, we need to create a setup intent instead of payment intent
-      // This collects payment method without charging during trial
-      const setupIntent = await stripe.setupIntents.create({
+      // Check if user has already had a trial by looking at their subscription history
+      const subscriptions = await stripe.subscriptions.list({
         customer: customerId,
-        payment_method_types: ['card'],
-        usage: 'off_session',
-        metadata: {
-          userId,
-          userEmail: user.email,
-          subscriptionType: 'trial'
-        }
+        limit: 100
       });
+      
+      const hasHadTrial = subscriptions.data.some(sub => sub.trial_end !== null);
+      
+      if (hasHadTrial) {
+        // User already had trial - create immediate subscription with payment
+        const subscription = await stripe.subscriptions.create({
+          customer: customerId,
+          items: [{ price: priceId }],
+          payment_behavior: 'default_incomplete',
+          payment_settings: { 
+            save_default_payment_method: 'on_subscription',
+            payment_method_types: ['card']
+          },
+          expand: ['latest_invoice.payment_intent'],
+          metadata: {
+            userId,
+            userEmail: user.email,
+            subscriptionType: 'paid'
+          }
+        });
 
-      // Create subscription with 30-day free trial
-      // CRITICAL: trial_period_days ensures NO CHARGE for 30 days
-      const subscription = await stripe.subscriptions.create({
-        customer: customerId,
-        items: [{ price: priceId }],
-        trial_period_days: 30, // 30-day free trial - NO CHARGE during this period
-        // Payment method will be attached after setup intent confirmation
-        metadata: {
-          userId,
-          userEmail: user.email,
-          trialStartDate: new Date().toISOString()
-        }
-      });
+        await storage.updateUserSubscription(
+          userId, 
+          customerId, 
+          subscription.id, 
+          subscription.status
+        );
 
-      // Update user with subscription info
-      // During trial, user gets premium access but no charge occurs
-      await storage.updateUserSubscription(
-        userId, 
-        customerId, 
-        subscription.id, 
-        subscription.status // Use actual Stripe status
-      );
+        const invoice = subscription.latest_invoice as any;
+        const paymentIntent = invoice?.payment_intent as any;
 
-      console.log("Subscription created:", {
-        subscriptionId: subscription.id,
-        status: subscription.status,
-        setupIntentClientSecret: setupIntent.client_secret,
-        setupIntentStatus: setupIntent.status
-      });
+        console.log("Paid subscription created:", {
+          subscriptionId: subscription.id,
+          status: subscription.status,
+          paymentIntentClientSecret: paymentIntent?.client_secret,
+          hasHadTrial: true
+        });
 
-      res.json({
-        subscriptionId: subscription.id,
-        clientSecret: setupIntent.client_secret, // Use setup intent client secret for trials
-        status: subscription.status,
-        trial: true,
-        trialEnd: subscription.trial_end,
-        trialDays: 30
-      });
+        res.json({
+          subscriptionId: subscription.id,
+          clientSecret: paymentIntent?.client_secret,
+          status: subscription.status,
+          trial: false,
+          hasHadTrial: true,
+          amount: 199,
+          currency: 'gbp'
+        });
+      } else {
+        // First time user - create setup intent for trial
+        const setupIntent = await stripe.setupIntents.create({
+          customer: customerId,
+          payment_method_types: ['card'],
+          usage: 'off_session',
+          metadata: {
+            userId,
+            userEmail: user.email,
+            subscriptionType: 'trial'
+          }
+        });
+
+        // Create subscription with 30-day free trial
+        const subscription = await stripe.subscriptions.create({
+          customer: customerId,
+          items: [{ price: priceId }],
+          trial_period_days: 30,
+          metadata: {
+            userId,
+            userEmail: user.email,
+            trialStartDate: new Date().toISOString()
+          }
+        });
+
+        await storage.updateUserSubscription(
+          userId, 
+          customerId, 
+          subscription.id, 
+          subscription.status
+        );
+
+        console.log("Trial subscription created:", {
+          subscriptionId: subscription.id,
+          status: subscription.status,
+          setupIntentClientSecret: setupIntent.client_secret,
+          hasHadTrial: false
+        });
+
+        res.json({
+          subscriptionId: subscription.id,
+          clientSecret: setupIntent.client_secret,
+          status: subscription.status,
+          trial: true,
+          trialEnd: subscription.trial_end,
+          trialDays: 30,
+          hasHadTrial: false
+        });
+      }
 
     } catch (error: any) {
       console.error("Error creating subscription:", error);

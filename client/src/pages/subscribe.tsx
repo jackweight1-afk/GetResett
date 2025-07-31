@@ -14,7 +14,7 @@ if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
 }
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-function CheckoutForm({ onSuccess }: { onSuccess: () => void }) {
+function CheckoutForm({ onSuccess, isTrialMode }: { onSuccess: () => void; isTrialMode: boolean }) {
   const stripe = useStripe();
   const elements = useElements();
   const { toast } = useToast();
@@ -30,29 +30,49 @@ function CheckoutForm({ onSuccess }: { onSuccess: () => void }) {
     setIsProcessing(true);
 
     try {
-      // For trial subscriptions, we use confirmSetup instead of confirmPayment
-      const { error } = await stripe.confirmSetup({
-        elements,
-        confirmParams: {
-          return_url: window.location.origin + "/?subscribed=true",
-        },
-      });
-
-      if (error) {
-        console.error("Setup error:", error);
-        toast({
-          title: "Setup Failed",
-          description: error.message,
-          variant: "destructive",
+      if (isTrialMode) {
+        // For trial subscriptions, use confirmSetup
+        const { error } = await stripe.confirmSetup({
+          elements,
+          confirmParams: {
+            return_url: window.location.origin + "/?subscribed=true",
+          },
         });
+
+        if (error) {
+          console.error("Setup error:", error);
+          toast({
+            title: "Setup Failed",
+            description: error.message,
+            variant: "destructive",
+          });
+        } else {
+          onSuccess();
+        }
       } else {
-        // Setup successful - payment method saved for trial
-        onSuccess();
+        // For paid subscriptions, use confirmPayment
+        const { error } = await stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            return_url: window.location.origin + "/?subscribed=true",
+          },
+        });
+
+        if (error) {
+          console.error("Payment error:", error);
+          toast({
+            title: "Payment Failed",
+            description: error.message,
+            variant: "destructive",
+          });
+        } else {
+          onSuccess();
+        }
       }
     } catch (error: any) {
-      console.error("Setup failed:", error);
+      console.error("Form submission failed:", error);
       toast({
-        title: "Setup Failed",
+        title: isTrialMode ? "Setup Failed" : "Payment Failed",
         description: error.message,
         variant: "destructive",
       });
@@ -89,6 +109,7 @@ export default function Subscribe() {
   const [clientSecret, setClientSecret] = useState("");
   const [isCreatingSubscription, setIsCreatingSubscription] = useState(false);
   const [error, setError] = useState("");
+  const [subscriptionData, setSubscriptionData] = useState<any>(null);
 
   // Check for success parameter
   useEffect(() => {
@@ -146,20 +167,20 @@ export default function Subscribe() {
             if (data.clientSecret) {
               console.log("Setting clientSecret:", data.clientSecret);
               setClientSecret(data.clientSecret);
+              setSubscriptionData(data);
               setError("");
             } else if (data.subscriptionId && data.status === 'trialing') {
-              // Already trialing, redirect to success
-              console.log("Already trialing, redirecting...");
+              // User already has a trialing subscription, redirect to success
+              console.log("Subscription exists and trialing, redirecting...");
               window.location.href = '/?subscribed=true';
             } else {
               console.error("No client secret in response:", data);
-              // Try to force clientSecret from any payment intent
-              if (data.subscriptionId) {
-                console.log("Subscription exists but no clientSecret, redirecting...");
-                window.location.href = '/?subscribed=true';
-              } else {
-                throw new Error("No client secret received");
-              }
+              setError("Setup failed. Please contact support if this continues.");
+              toast({
+                title: "Setup Error",
+                description: "Payment setup failed. Please try refreshing the page.",
+                variant: "destructive",
+              });
             }
           }
         } catch (error: any) {
@@ -173,10 +194,17 @@ export default function Subscribe() {
               return;
             }
             
-            setError("Failed to set up payment");
+            // Parse error response
+            if (error.message.includes('already has an active subscription')) {
+              console.log("User already subscribed, redirecting...");
+              window.location.href = '/?subscribed=true';
+              return;
+            }
+            
+            setError("Payment setup failed. Please refresh and try again.");
             toast({
-              title: "Error", 
-              description: "Failed to set up payment. Please try again.",
+              title: "Setup Failed", 
+              description: "Unable to initialize payment. Please refresh the page and try again.",
               variant: "destructive",
             });
           }
@@ -208,8 +236,17 @@ export default function Subscribe() {
 
   // If user already has active subscription, redirect to success
   if (user?.subscriptionStatus === 'trialing' || user?.subscriptionStatus === 'active') {
-    window.location.href = '/?subscribed=true';
-    return null;
+    setTimeout(() => {
+      window.location.href = '/?subscribed=true';
+    }, 100);
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50">
+        <div className="text-center">
+          <div className="animate-spin w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full mx-auto mb-4" />
+          <p className="text-gray-600">You already have an active subscription. Redirecting...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -301,16 +338,19 @@ export default function Subscribe() {
               </div>
             ) : error ? (
               <div className="text-center py-8">
-                <p className="text-red-600 mb-4">{error}</p>
+                <div className="mb-4">
+                  <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-red-600 text-2xl">⚠</span>
+                  </div>
+                  <p className="text-red-600 mb-4">{error}</p>
+                </div>
                 <Button 
                   onClick={() => {
-                    setError("");
-                    setClientSecret("");
-                    setIsCreatingSubscription(false);
+                    window.location.reload();
                   }}
                   className="bg-purple-600 hover:bg-purple-700"
                 >
-                  Try Again
+                  Refresh Page
                 </Button>
               </div>
             ) : (
