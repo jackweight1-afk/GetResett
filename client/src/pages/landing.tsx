@@ -177,10 +177,25 @@ export default function Landing() {
               <Card key={session.name} className={`border-0 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 ${session.color} cursor-pointer`}>
                 <CardContent className="p-4 sm:p-6 lg:p-8 text-center">
                   <div className="mb-4 sm:mb-6">
-                    <session.icon className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mx-auto ${session.color.includes('text-indigo') ? 'text-indigo-600' : session.color.includes('text-yellow') ? 'text-yellow-600' : session.color.includes('text-purple') ? 'text-purple-600' : 'text-teal-600'}`} />
+                    <session.icon className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mx-auto ${
+                      session.color.includes('text-indigo') ? 'text-indigo-700' : 
+                      session.color.includes('text-yellow') ? 'text-yellow-700' : 
+                      session.color.includes('text-purple') ? 'text-purple-700' : 
+                      'text-teal-700'
+                    }`} />
                   </div>
-                  <h3 className="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">{session.name}</h3>
-                  <p className="text-xs sm:text-sm opacity-80">{session.desc}</p>
+                  <h3 className={`text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3 ${
+                    session.color.includes('text-indigo') ? 'text-indigo-900' : 
+                    session.color.includes('text-yellow') ? 'text-yellow-900' : 
+                    session.color.includes('text-purple') ? 'text-purple-900' : 
+                    'text-teal-900'
+                  }`}>{session.name}</h3>
+                  <p className={`text-xs sm:text-sm ${
+                    session.color.includes('text-indigo') ? 'text-indigo-800' : 
+                    session.color.includes('text-yellow') ? 'text-yellow-800' : 
+                    session.color.includes('text-purple') ? 'text-purple-800' : 
+                    'text-teal-800'
+                  }`}>{session.desc}</p>
                 </CardContent>
               </Card>
             ))}
