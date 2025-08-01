@@ -105,7 +105,7 @@ export default function Landing() {
               </span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-gray-900 mb-6 sm:mb-8 leading-tight">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-gray-900 mb-6 sm:mb-8 leading-tight">
               <span className="block">Reset Your Day,</span>
               <span className="block bg-gradient-to-r from-purple-600 via-teal-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
                 One Minute
