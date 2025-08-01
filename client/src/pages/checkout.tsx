@@ -198,9 +198,9 @@ export default function Checkout() {
       } catch (error: any) {
         console.error("Subscription creation error:", error);
         if (error.message?.includes('401')) {
-          // Auth issue, redirect to login
-          sessionStorage.setItem('return-to-checkout', 'true');
-          window.location.href = '/api/login';
+          // Auth issue - show login prompt instead of redirecting
+          setError("Please log in to continue with your subscription");
+          setLoading(false);
           return;
         }
         setError("Failed to setup subscription");
