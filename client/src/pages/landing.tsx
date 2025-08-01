@@ -75,7 +75,7 @@ export default function Landing() {
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-600 to-teal-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-all duration-300 hover:rotate-12">
               <Heart className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
             </div>
-            <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-700">
+            <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-700" style={{ color: '#7c3aed' }}>
               GetResett
             </span>
           </div>
