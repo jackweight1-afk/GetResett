@@ -120,13 +120,17 @@ function CheckoutForm({ clientSecret, paymentData, onSuccess }: {
       <PaymentElement 
         options={{
           layout: {
-            type: 'accordion',
+            type: 'tabs',
             defaultCollapsed: false,
             radios: false,
-            spacedAccordionItems: true
+            spacedAccordionItems: false
+          },
+          wallets: {
+            applePay: 'auto',
+            googlePay: 'auto'
           },
           fields: {
-            billingDetails: 'auto'
+            billingDetails: 'never'
           },
           terms: {
             card: 'never'
@@ -298,59 +302,11 @@ export default function Checkout() {
           </div>
         )}
 
-        {/* Express Checkout (Apple Pay / Google Pay) */}
-        {paymentData?.clientSecret && (
-          <Card className="shadow-lg border-0 rounded-2xl overflow-hidden mb-6">
-            <CardContent className="p-6">
-              <div className="text-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Express Checkout</h3>
-                <p className="text-sm text-gray-600">Quick and secure payment with your device</p>
-              </div>
-              <Elements 
-                stripe={stripePromise} 
-                options={{ 
-                  clientSecret: paymentData.clientSecret,
-                  appearance: {
-                    theme: 'stripe',
-                    variables: {
-                      colorPrimary: '#9333ea',
-                      borderRadius: '12px',
-                      spacingUnit: '8px',
-                      fontSizeBase: '16px',
-                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-                    }
-                  }
-                }}
-              >
-                <div className="express-checkout-wrapper">
-                  <PaymentElement 
-                    options={{
-                      layout: {
-                        type: 'tabs',
-                        defaultCollapsed: false,
-                        radios: false,
-                        spacedAccordionItems: false
-                      },
-                      wallets: {
-                        applePay: 'auto',
-                        googlePay: 'auto'
-                      },
-                      fields: {
-                        billingDetails: 'never'
-                      }
-                    }}
-                  />
-                </div>
-              </Elements>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Alternative: Card Payment */}
+        {/* Unified Payment Form */}
         <Card className="shadow-xl border-0 rounded-3xl overflow-hidden">
           <CardHeader className="bg-gradient-to-r from-purple-600 to-blue-600 text-white pb-8">
             <CardTitle className="text-center text-xl font-semibold">
-              {paymentData?.trial ? "Start Free Trial" : "Card Payment"}
+              {paymentData?.trial ? "Start Free Trial" : "Complete Payment"}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-8">
@@ -364,7 +320,7 @@ export default function Checkout() {
                     variables: {
                       colorPrimary: '#9333ea',
                       borderRadius: '12px',
-                      spacingUnit: '6px',
+                      spacingUnit: '8px',
                       fontSizeBase: '16px',
                       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
                     }
