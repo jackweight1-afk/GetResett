@@ -152,11 +152,21 @@ export default function Checkout() {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Don't do anything if still loading auth state
+    if (isAuthenticated === undefined) return;
+    
     if (!isAuthenticated || !user) {
-      // Redirect to login if not authenticated
-      window.location.href = '/api/login';
+      // Set a flag to prevent multiple redirects and redirect to login
+      if (!sessionStorage.getItem('redirecting-to-login')) {
+        sessionStorage.setItem('redirecting-to-login', 'true');
+        sessionStorage.setItem('return-to-checkout', 'true');
+        window.location.href = '/api/login';
+      }
       return;
     }
+
+    // Clear redirect flags
+    sessionStorage.removeItem('redirecting-to-login');
 
     const createSubscription = async () => {
       try {
@@ -179,6 +189,8 @@ export default function Checkout() {
       } catch (error: any) {
         console.error("Subscription creation error:", error);
         if (error.message?.includes('401')) {
+          // Auth issue, redirect to login
+          sessionStorage.setItem('return-to-checkout', 'true');
           window.location.href = '/api/login';
           return;
         }
@@ -190,12 +202,14 @@ export default function Checkout() {
     createSubscription();
   }, [isAuthenticated, user]);
 
-  if (!isAuthenticated || loading) {
+  if (loading || isAuthenticated === undefined) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-blue-50">
         <div className="text-center p-8">
           <div className="animate-spin w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full mx-auto mb-6" />
-          <p className="text-gray-600 text-lg">Setting up your subscription...</p>
+          <p className="text-gray-600 text-lg">
+            {!isAuthenticated ? "Redirecting to login..." : "Setting up your subscription..."}
+          </p>
         </div>
       </div>
     );
