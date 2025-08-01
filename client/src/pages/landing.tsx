@@ -189,26 +189,26 @@ export default function Landing() {
       </section>
 
       {/* Features Grid */}
-      <section className="relative px-6 py-20">
+      <section className="relative px-4 sm:px-6 py-16 sm:py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-              Why <span className="text-teal-600">GetResett</span> Works
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+              Why <span className="bg-gradient-to-r from-teal-600 to-purple-600 bg-clip-text text-transparent">GetResett</span> Works
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4 leading-relaxed">
               Built specifically for people with ADHD and busy schedules who need wellness that fits their lifestyle.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {features.map((feature, index) => (
-              <Card key={feature.title} className="border-0 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 bg-gradient-to-br from-white to-gray-50/50 backdrop-blur-sm">
-                <CardContent className="p-8">
-                  <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg`}>
-                    <feature.icon className="w-8 h-8 text-white" />
+              <Card key={feature.title} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] bg-white/80 backdrop-blur-sm hover:bg-white/90">
+                <CardContent className="p-6 sm:p-8">
+                  <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${feature.color} rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg`}>
+                    <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">{feature.title}</h3>
-                  <p className="text-gray-600 leading-relaxed text-center">{feature.desc}</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4 text-center">{feature.title}</h3>
+                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed text-center">{feature.desc}</p>
                 </CardContent>
               </Card>
             ))}
@@ -217,13 +217,13 @@ export default function Landing() {
       </section>
 
       {/* Testimonials */}
-      <section className="relative px-6 py-20 bg-gradient-to-r from-purple-50 to-teal-50">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-16">
-            Real Results from <span className="text-purple-600">Real People</span>
+      <section className="relative px-4 sm:px-6 py-16 sm:py-20 bg-gradient-to-br from-purple-50 via-white to-teal-50">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-12 sm:mb-16">
+            Real Results from <span className="bg-gradient-to-r from-purple-600 to-teal-600 bg-clip-text text-transparent">Real People</span>
           </h2>
           
-          <div className="relative h-48 overflow-hidden">
+          <div className="relative min-h-[280px] sm:min-h-[320px] overflow-hidden">
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
@@ -233,20 +233,20 @@ export default function Landing() {
                     : 'opacity-0 translate-y-8'
                 }`}
               >
-                <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-sm">
-                  <CardContent className="p-12">
-                    <div className="flex justify-center mb-4">
+                <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm mx-4 sm:mx-0">
+                  <CardContent className="p-6 sm:p-8 lg:p-12">
+                    <div className="flex justify-center mb-4 sm:mb-6">
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+                        <Star key={i} className="w-5 h-5 sm:w-6 sm:h-6 fill-yellow-400 text-yellow-400 mx-0.5" />
                       ))}
                     </div>
-                    <blockquote className="text-2xl text-gray-700 mb-6 italic font-light">
+                    <blockquote className="text-lg sm:text-xl lg:text-2xl text-gray-700 mb-6 sm:mb-8 italic font-light leading-relaxed max-w-3xl mx-auto">
                       "{testimonial.text}"
                     </blockquote>
                     <div className="flex items-center justify-center">
                       <div>
-                        <div className="font-bold text-gray-900">{testimonial.name}</div>
-                        <div className="text-sm text-gray-600">{testimonial.role}</div>
+                        <div className="font-bold text-gray-900 text-base sm:text-lg">{testimonial.name}</div>
+                        <div className="text-sm sm:text-base text-gray-600">{testimonial.role}</div>
                       </div>
                     </div>
                   </CardContent>
@@ -255,14 +255,14 @@ export default function Landing() {
             ))}
           </div>
 
-          <div className="flex justify-center space-x-2 mt-8">
+          <div className="flex justify-center space-x-2 sm:space-x-3 mt-6 sm:mt-8">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentTestimonial(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all duration-300 ${
                   index === currentTestimonial 
-                    ? 'bg-purple-600 scale-125' 
+                    ? 'bg-gradient-to-r from-purple-600 to-teal-600 scale-125' 
                     : 'bg-gray-300 hover:bg-gray-400'
                 }`}
               />
@@ -272,44 +272,49 @@ export default function Landing() {
       </section>
 
       {/* Final CTA */}
-      <section className="relative px-6 py-20 bg-gradient-to-r from-purple-600 to-teal-600">
-        <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-4xl sm:text-6xl font-bold mb-8">
+      <section className="relative px-4 sm:px-6 py-16 sm:py-20 bg-gradient-to-r from-purple-600 via-purple-700 to-teal-600 overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-teal-600/20"></div>
+        <div className="absolute top-0 left-1/4 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+        
+        <div className="relative max-w-5xl mx-auto text-center text-white">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 sm:mb-8 leading-tight">
             Ready to Reset Your Life?
           </h2>
-          <p className="text-xl sm:text-2xl mb-12 opacity-90 font-light">
+          <p className="text-lg sm:text-xl lg:text-2xl mb-10 sm:mb-12 opacity-90 font-light max-w-4xl mx-auto leading-relaxed px-4">
             Join thousands who've transformed their daily wellness routine with just 60 seconds.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-8 sm:mb-0">
             <Button 
               size="lg"
               onClick={() => window.location.href = '/api/login'}
-              className="bg-white text-purple-600 hover:bg-gray-100 text-xl px-12 py-6 shadow-2xl font-bold rounded-full transform hover:scale-105 transition-all duration-300"
+              className="bg-white text-purple-600 hover:bg-gray-100 text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 shadow-2xl font-bold rounded-full transform hover:scale-105 transition-all duration-300 w-full sm:w-auto"
             >
               Try GetResett Free Now
             </Button>
-            <div className="flex items-center space-x-2 text-white/80">
-              <CheckCircle className="w-5 h-5" />
-              <span>No credit card required</span>
+            <div className="flex items-center space-x-2 text-white/90">
+              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+              <span className="text-sm sm:text-base">No credit card required</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white px-6 py-12">
+      <footer className="bg-gray-900 text-white px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center space-x-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-teal-600 rounded-xl flex items-center justify-center">
-              <Heart className="w-6 h-6 text-white" />
+          <div className="flex items-center justify-center space-x-3 mb-6 sm:mb-8">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-600 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+              <Heart className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
             </div>
-            <span className="text-2xl font-bold">GetResett</span>
+            <span className="text-2xl sm:text-3xl font-bold">GetResett</span>
           </div>
-          <p className="text-gray-400 mb-6">
+          <p className="text-gray-400 mb-6 sm:mb-8 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed px-4">
             Transform your wellness routine, one minute at a time.
           </p>
-          <div className="text-gray-500 text-sm">
+          <div className="text-gray-500 text-sm sm:text-base">
             © 2024 GetResett. Built for busy minds who deserve better wellness.
           </div>
         </div>
