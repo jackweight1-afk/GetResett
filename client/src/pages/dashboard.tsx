@@ -120,48 +120,49 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50 pb-20 md:pb-0">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
         {/* Welcome Section */}
         <div className="mb-6 md:mb-8">
-          <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl p-6 md:p-8 text-black relative overflow-hidden">
+          <div className="bg-gradient-to-r from-purple-600 to-teal-600 rounded-2xl sm:rounded-3xl p-6 md:p-8 text-black relative overflow-hidden shadow-xl">
             <div className="relative z-10">
-              <h2 className="text-2xl md:text-3xl font-semibold mb-2 text-white">
-                Welcome back, {user?.firstName || "there"}
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 text-white">
+                Welcome back, {user?.firstName || "there"}!
               </h2>
-              <p className="text-white/90 font-medium mb-4 text-sm md:text-base">Ready for your next 60-second reset? You're doing great!</p>
-              <div className="flex items-center space-x-4 md:space-x-6">
-                <div className="text-center">
-                  <div className="text-xl md:text-2xl font-bold text-white">
+              <p className="text-white/90 font-medium mb-6 text-sm sm:text-base lg:text-lg">Ready for your next 60-second reset? You're doing great!</p>
+              <div className="grid grid-cols-3 gap-4 sm:gap-6">
+                <div className="text-center bg-white/10 rounded-xl p-3 sm:p-4 backdrop-blur-sm">
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
                     {statsLoading ? "..." : stats?.currentStreak || 0}
                   </div>
-                  <div className="text-xs md:text-sm text-white/80">Day Streak</div>
+                  <div className="text-xs sm:text-sm text-white/80 font-medium">Day Streak</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-xl md:text-2xl font-bold text-white">
+                <div className="text-center bg-white/10 rounded-xl p-3 sm:p-4 backdrop-blur-sm">
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
                     {statsLoading ? "..." : stats?.totalSessions || 0}
                   </div>
-                  <div className="text-xs md:text-sm text-white/80">Sessions</div>
+                  <div className="text-xs sm:text-sm text-white/80 font-medium">Sessions</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-xl md:text-2xl font-bold text-white">
+                <div className="text-center bg-white/10 rounded-xl p-3 sm:p-4 backdrop-blur-sm">
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
                     {statsLoading ? "..." : stats?.totalMinutes || 0}
                   </div>
-                  <div className="text-xs md:text-sm text-white/80">Minutes</div>
+                  <div className="text-xs sm:text-sm text-white/80 font-medium">Minutes</div>
                 </div>
               </div>
             </div>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
-            <div className="absolute bottom-0 right-0 w-20 h-20 bg-white opacity-5 rounded-full -mr-10 -mb-10"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16 animate-pulse"></div>
+            <div className="absolute bottom-0 right-0 w-20 h-20 bg-white opacity-5 rounded-full -mr-10 -mb-10 animate-pulse delay-1000"></div>
+            <div className="absolute top-1/2 left-0 w-24 h-24 bg-teal-300 opacity-10 rounded-full -ml-12 animate-bounce delay-2000"></div>
           </div>
         </div>
 
         {/* Session Selection Grid */}
         <div className="mb-6 md:mb-8">
-          <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-4 md:mb-6">Choose Your Reset</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 text-center sm:text-left">Choose Your Perfect Reset</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {sessionTypesLoading ? (
               Array.from({ length: 6 }).map((_, i) => (
                 <Card key={i} className="border border-gray-100">
@@ -184,23 +185,23 @@ export default function Dashboard() {
                 return (
                   <Card 
                     key={sessionType.id}
-                    className="border border-gray-100 hover:shadow-lg hover:scale-105 transition-all cursor-pointer bg-gradient-to-br from-white to-gray-50/50"
+                    className="border-0 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer bg-gradient-to-br from-white to-gray-50/50 backdrop-blur-sm overflow-hidden group"
                     onClick={() => setSelectedSession(sessionType)}
                   >
-                    <CardContent className="p-4 md:p-6">
+                    <CardContent className="p-4 sm:p-6">
                       <div className="flex items-center justify-between mb-4">
-                        <div className={`w-12 h-12 md:w-14 md:h-14 ${colorClass} rounded-xl flex items-center justify-center shadow-sm`}>
-                          <IconComponent className="w-6 h-6 md:w-7 md:h-7" />
+                        <div className={`w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 ${colorClass} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
+                          <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />
                         </div>
-                        <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                          {sessionType.name === "Sleep Check-in" ? "Track" : "~60s"}
+                        <div className="text-xs sm:text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full font-medium">
+                          {sessionType.name === "Sleep Check-in" ? "Track" : "60s"}
                         </div>
                       </div>
-                      <h4 className="text-base md:text-lg font-semibold text-gray-900 mb-2">{sessionType.name}</h4>
-                      <p className="text-gray-600 text-xs md:text-sm mb-4 leading-relaxed">{sessionType.description}</p>
-                      <div className={`flex items-center text-sm ${textColor} font-medium`}>
+                      <h4 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">{sessionType.name}</h4>
+                      <p className="text-gray-600 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-2">{sessionType.description}</p>
+                      <div className={`flex items-center text-sm ${textColor} font-semibold group-hover:translate-x-1 transition-transform`}>
                         <span>Start Session</span>
-                        <ArrowRight className="w-4 h-4 ml-2" />
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover:scale-110 transition-transform" />
                       </div>
                     </CardContent>
                   </Card>
@@ -299,55 +300,56 @@ export default function Dashboard() {
         </div>
 
         {/* Insights Preview */}
-        <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-8">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-gray-900">Your Wellness Insights</h3>
+        <div className="bg-gradient-to-r from-purple-50 via-white to-teal-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl border border-purple-100/50">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 space-y-2 sm:space-y-0">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 text-center sm:text-left">Your Wellness Insights</h3>
             <Button 
               variant="ghost" 
-              className="text-teal hover:text-teal/80"
+              className="text-purple-600 hover:text-purple-700 hover:bg-purple-50 font-semibold rounded-full px-6"
               onClick={() => window.location.href = "/insights"}
             >
               View Full Report
+              <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-3 mb-4">
-                  <TrendingUp className="text-teal w-5 h-5" />
-                  <h4 className="font-semibold text-gray-900">Consistency</h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-teal-50/30">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <TrendingUp className="text-white w-6 h-6" />
                 </div>
-                <p className="text-2xl font-bold text-teal mb-2">
+                <h4 className="font-bold text-gray-900 mb-2 text-lg">Consistency</h4>
+                <p className="text-3xl font-black text-teal-600 mb-2">
                   {insightsLoading ? "..." : `${insights?.consistencyScore || 0}%`}
                 </p>
-                <p className="text-sm text-gray-700">You're maintaining great daily habits!</p>
+                <p className="text-sm text-gray-600 leading-relaxed">You're maintaining great daily habits!</p>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-3 mb-4">
-                  <Wind className="text-sage w-5 h-5" />
-                  <h4 className="font-semibold text-gray-900">Stress Levels</h4>
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-emerald-50/30">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <Wind className="text-white w-6 h-6" />
                 </div>
-                <p className="text-2xl font-bold text-sage mb-2">
+                <h4 className="font-bold text-gray-900 mb-2 text-lg">Stress Levels</h4>
+                <p className="text-3xl font-black text-emerald-600 mb-2">
                   {insightsLoading ? "..." : `${(insights?.stressImprovement || 0) > 0 ? '+' : ''}${insights?.stressImprovement || 0}%`}
                 </p>
-                <p className="text-sm text-gray-700">Change since last week</p>
+                <p className="text-sm text-gray-600 leading-relaxed">Change since last week</p>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-3 mb-4">
-                  <Moon className="text-purple-600 w-5 h-5" />
-                  <h4 className="font-semibold text-gray-900">Sleep Quality</h4>
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-purple-50/30 sm:col-span-2 lg:col-span-1">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <Moon className="text-white w-6 h-6" />
                 </div>
-                <p className="text-2xl font-bold text-purple-600 mb-2">
+                <h4 className="font-bold text-gray-900 mb-2 text-lg">Sleep Quality</h4>
+                <p className="text-3xl font-black text-purple-600 mb-2">
                   {insightsLoading ? "..." : `${insights?.averageSleepQuality || 0}/10`}
                 </p>
-                <p className="text-sm text-gray-700">Average this week</p>
+                <p className="text-sm text-gray-600 leading-relaxed">Average this week</p>
               </CardContent>
             </Card>
           </div>

@@ -75,7 +75,7 @@ export default function Landing() {
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-600 to-teal-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-all duration-300 hover:rotate-12">
               <Heart className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
             </div>
-            <span className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-purple-600 to-teal-600 bg-clip-text text-transparent">
+            <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
               GetResett
             </span>
           </div>
@@ -85,8 +85,8 @@ export default function Landing() {
               onClick={() => window.location.href = '/api/login'}
               className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white px-4 py-2 sm:px-8 sm:py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 font-semibold text-sm sm:text-base"
             >
-              <span className="hidden sm:inline">Start Free Trial</span>
-              <span className="sm:hidden">Start Trial</span>
+              <span className="hidden sm:inline">Try Free</span>
+              <span className="sm:hidden">Try Free</span>
               <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2" />
             </Button>
           </div>
@@ -126,7 +126,7 @@ export default function Landing() {
                 onClick={() => window.location.href = '/api/login'}
                 className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-bold rounded-full relative overflow-hidden"
               >
-                <span className="relative z-10">Start Your Free Trial</span>
+                <span className="relative z-10">Try GetResett Free</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-teal-600 to-purple-600 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
               </Button>
               <Button 
@@ -287,7 +287,7 @@ export default function Landing() {
               onClick={() => window.location.href = '/api/login'}
               className="bg-white text-purple-600 hover:bg-gray-100 text-xl px-12 py-6 shadow-2xl font-bold rounded-full transform hover:scale-105 transition-all duration-300"
             >
-              Start Free 30-Day Trial
+              Try GetResett Free Now
             </Button>
             <div className="flex items-center space-x-2 text-white/80">
               <CheckCircle className="w-5 h-5" />
