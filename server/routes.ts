@@ -256,6 +256,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      // Get currency and amount from request body (sent from frontend)
+      const { currency = 'gbp', amount = 199 } = req.body;
+      
+      // Validate currency and amount
+      const supportedCurrencies = ['gbp', 'usd', 'eur', 'cad', 'aud', 'jpy', 'krw', 'inr', 'brl', 'mxn', 'sgd', 'chf', 'sek', 'nok', 'dkk', 'pln', 'czk', 'huf'];
+      const finalCurrency = supportedCurrencies.includes(currency.toLowerCase()) ? currency.toLowerCase() : 'gbp';
+      const finalAmount = Math.round(amount) || 199;
+
       let customerId = user.stripeCustomerId;
       
       // Create Stripe customer if doesn't exist
@@ -269,9 +277,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await storage.updateUserSubscription(userId, customerId);
       }
 
-      // Use a fixed price ID to avoid creating duplicate prices
-      // This ensures consistent pricing and prevents Stripe object bloat
-      let priceId = 'price_getresett_monthly_199'; // Fixed price ID
+      // Create price for the user's currency
+      let priceId = `price_getresett_monthly_${finalCurrency}_${finalAmount}`;
       
       try {
         // Try to retrieve existing price first
@@ -279,12 +286,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } catch (error) {
         // If price doesn't exist, create it
         const price = await stripe.prices.create({
-          currency: 'gbp',
-          unit_amount: 199, // £1.99 in pence
+          currency: finalCurrency,
+          unit_amount: finalAmount,
           recurring: { interval: 'month' },
           product_data: {
             name: 'GetResett+ Monthly'
           },
+          lookup_key: `getresett_monthly_${finalCurrency}`
         });
         priceId = price.id;
       }
@@ -300,8 +308,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (hasHadTrial) {
         // User already had trial - create payment intent for immediate payment
         const paymentIntent = await stripe.paymentIntents.create({
-          amount: 199, // £1.99 in pence
-          currency: 'gbp',
+          amount: finalAmount,
+          currency: finalCurrency,
           customer: customerId,
           setup_future_usage: 'off_session',
           automatic_payment_methods: {
@@ -327,8 +335,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           clientSecret: paymentIntent.client_secret,
           trial: false,
           hasHadTrial: true,
-          amount: 199,
-          currency: 'gbp',
+          amount: finalAmount,
+          currency: finalCurrency,
           paymentIntentId: paymentIntent.id,
           message: "Payment required - you've already used your free trial"
         });

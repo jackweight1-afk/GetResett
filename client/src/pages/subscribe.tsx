@@ -159,7 +159,10 @@ export default function Subscribe() {
             throw new Error("Authentication required");
           }
           
-          const response = await apiRequest("POST", "/api/create-subscription");
+          const response = await apiRequest("POST", "/api/create-subscription", {
+            currency: localizedPrice.currency.toLowerCase(),
+            amount: Math.round(localizedPrice.amount * 100) // Convert to cents/pence
+          });
           const data = await response.json();
           
           console.log("Full subscription response:", JSON.stringify(data, null, 2));

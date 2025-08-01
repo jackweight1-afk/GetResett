@@ -164,9 +164,17 @@ export default function Checkout() {
 
   useEffect(() => {
     const initializePayment = async () => {
+      // Wait for localized price to load before making the API call
+      if (priceLoading || !localizedPrice.currency) {
+        return;
+      }
+      
       // Always try to create subscription, handle auth issues gracefully
       try {
-        const response = await apiRequest("POST", "/api/create-subscription");
+        const response = await apiRequest("POST", "/api/create-subscription", {
+          currency: localizedPrice.currency.toLowerCase(),
+          amount: Math.round(localizedPrice.amount * 100) // Convert to cents/pence
+        });
         const data = await response.json();
         
         // Subscription response received
@@ -197,7 +205,7 @@ export default function Checkout() {
 
     // Small delay to prevent race conditions
     setTimeout(initializePayment, 100);
-  }, []); // Remove dependencies to prevent loops
+  }, [priceLoading, localizedPrice.currency, localizedPrice.amount]); // Add currency dependencies
 
   if (loading) {
     return (
