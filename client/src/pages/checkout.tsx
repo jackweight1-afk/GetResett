@@ -9,20 +9,25 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
+import { useCurrency } from '@/hooks/useCurrency';
 import { apiRequest } from '@/lib/queryClient';
+import { CheckCircle, CreditCard, Smartphone } from 'lucide-react';
 
 if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
   throw new Error('Missing required Stripe key: VITE_STRIPE_PUBLIC_KEY');
 }
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-function CheckoutForm({ clientSecret, onSuccess }: { 
+function CheckoutForm({ clientSecret, paymentData, onSuccess }: { 
   clientSecret: string; 
+  paymentData: any;
   onSuccess: () => void;
 }) {
   const stripe = useStripe();
   const elements = useElements();
   const { toast } = useToast();
+  const { localizedPrice } = useCurrency();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,21 +40,42 @@ function CheckoutForm({ clientSecret, onSuccess }: {
     setIsProcessing(true);
 
     try {
-      const { error } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: window.location.origin + "/?subscribed=true",
-        },
-      });
-
-      if (error) {
-        toast({
-          title: "Payment Failed",
-          description: error.message,
-          variant: "destructive",
+      if (paymentData.trial) {
+        // Free trial - setup payment method for future use
+        const { error } = await stripe.confirmSetup({
+          elements,
+          confirmParams: {
+            return_url: window.location.origin + "/?trial=success",
+          },
         });
+
+        if (error) {
+          toast({
+            title: "Setup Failed",
+            description: error.message,
+            variant: "destructive",
+          });
+        } else {
+          onSuccess();
+        }
       } else {
-        onSuccess();
+        // Immediate payment required
+        const { error } = await stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            return_url: window.location.origin + "/?subscribed=true",
+          },
+        });
+
+        if (error) {
+          toast({
+            title: "Payment Failed",
+            description: error.message,
+            variant: "destructive",
+          });
+        } else {
+          onSuccess();
+        }
       }
     } catch (error: any) {
       toast({
@@ -62,66 +88,114 @@ function CheckoutForm({ clientSecret, onSuccess }: {
     }
   };
 
+  const buttonText = () => {
+    if (isProcessing) {
+      return (
+        <div className="flex items-center justify-center">
+          <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-3" />
+          {paymentData.trial ? "Setting up trial..." : "Processing payment..."}
+        </div>
+      );
+    }
+    
+    if (paymentData.trial) {
+      return (
+        <div className="flex items-center justify-center">
+          <CheckCircle className="w-5 h-5 mr-2" />
+          Start 30-Day Free Trial
+        </div>
+      );
+    }
+    
+    return (
+      <div className="flex items-center justify-center">
+        <CreditCard className="w-5 h-5 mr-2" />
+        Subscribe for {localizedPrice.formatted}/month
+      </div>
+    );
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <PaymentElement />
+      <PaymentElement 
+        options={{
+          layout: {
+            type: 'accordion',
+            defaultCollapsed: false,
+            radios: false,
+            spacedAccordionItems: true
+          },
+          wallets: {
+            applePay: 'auto',
+            googlePay: 'auto'
+          }
+        }}
+      />
       <Button 
         type="submit" 
         disabled={!stripe || isProcessing}
-        className="w-full bg-purple-600 hover:bg-purple-700 text-white text-lg py-6"
+        className="w-full bg-purple-600 hover:bg-purple-700 text-white text-lg py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+        size="lg"
       >
-        {isProcessing ? (
-          <div className="flex items-center">
-            <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2" />
-            Processing Payment...
-          </div>
-        ) : (
-          "Pay £1.99 - Subscribe Now"
-        )}
+        {buttonText()}
       </Button>
     </form>
   );
 }
 
 export default function Checkout() {
-  const [clientSecret, setClientSecret] = useState("");
+  const { isAuthenticated, user } = useAuth();
+  const { localizedPrice, isLoading: priceLoading } = useCurrency();
+  const [paymentData, setPaymentData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { toast } = useToast();
 
   useEffect(() => {
-    // Create a simple payment intent for £1.99
-    const createPaymentIntent = async () => {
+    if (!isAuthenticated || !user) {
+      // Redirect to login if not authenticated
+      window.location.href = '/api/login';
+      return;
+    }
+
+    const createSubscription = async () => {
       try {
-        const response = await fetch('/api/create-payment-intent', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount: 1.99 })
-        });
-        
-        if (!response.ok) {
-          throw new Error('Failed to create payment intent');
-        }
-        
+        const response = await apiRequest("POST", "/api/create-subscription");
         const data = await response.json();
-        setClientSecret(data.clientSecret);
-        setLoading(false);
+        
+        console.log("Subscription response:", data);
+        
+        if (data.clientSecret) {
+          setPaymentData(data);
+          setLoading(false);
+        } else if (data.subscriptionId && data.status === 'trialing') {
+          // User already has active trial
+          window.location.href = '/?trial=active';
+          return;
+        } else {
+          setError("Failed to initialize payment");
+          setLoading(false);
+        }
       } catch (error: any) {
-        console.error("Payment intent creation error:", error);
-        setError("Failed to setup payment");
+        console.error("Subscription creation error:", error);
+        if (error.message?.includes('401')) {
+          window.location.href = '/api/login';
+          return;
+        }
+        setError("Failed to setup subscription");
         setLoading(false);
       }
     };
 
-    createPaymentIntent();
-  }, []);
+    createSubscription();
+  }, [isAuthenticated, user]);
 
-  if (loading) {
+  if (!isAuthenticated || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50">
-        <div className="text-center">
-          <div className="animate-spin w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full mx-auto mb-4" />
-          <p className="text-gray-600">Setting up payment...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-blue-50">
+        <div className="text-center p-8">
+          <div className="animate-spin w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full mx-auto mb-6" />
+          <p className="text-gray-600 text-lg">Setting up your subscription...</p>
         </div>
       </div>
     );
@@ -129,18 +203,20 @@ export default function Checkout() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50">
-        <Card className="w-full max-w-md">
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-red-600 text-2xl">⚠</span>
-              </div>
-              <p className="text-red-600 mb-4">{error}</p>
-              <Button onClick={() => window.location.reload()}>
-                Try Again
-              </Button>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-blue-50 p-4">
+        <Card className="w-full max-w-md shadow-xl">
+          <CardContent className="pt-8 pb-6 text-center">
+            <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <span className="text-red-600 text-3xl">⚠</span>
             </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">Setup Failed</h3>
+            <p className="text-red-600 mb-6 text-sm">{error}</p>
+            <Button 
+              onClick={() => window.location.reload()}
+              className="bg-purple-600 hover:bg-purple-700"
+            >
+              Try Again
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -148,53 +224,102 @@ export default function Checkout() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 py-8">
-      <div className="max-w-md mx-auto px-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+      <div className="max-w-md mx-auto px-4 py-8">
+        {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Subscribe to GetResett
+          <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <span className="text-white text-2xl font-bold">G</span>
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">
+            {paymentData?.trial ? "Start Your Free Trial" : "Subscribe to GetResett+"}
           </h1>
-          <p className="text-gray-600">
-            £1.99/month for unlimited access. Cancel anytime.
+          <p className="text-gray-600 text-lg leading-relaxed">
+            {paymentData?.trial 
+              ? "30 days free, then " + localizedPrice.formatted + "/month"
+              : localizedPrice.formatted + "/month for unlimited access"}
           </p>
         </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <h4 className="font-semibold text-blue-900 mb-2">Monthly Subscription</h4>
-          <p className="text-blue-800 text-sm">
-            Unlimited wellness sessions and progress tracking for £1.99/month.
-          </p>
-        </div>
+        {/* Trial vs Payment Message */}
+        {paymentData?.hasHadTrial ? (
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-2xl p-6 mb-8 shadow-sm">
+            <div className="flex items-start space-x-4">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <CreditCard className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-blue-900 mb-2 text-lg">Welcome Back!</h4>
+                <p className="text-blue-800 text-sm leading-relaxed mb-3">
+                  You've already used your free trial with this email address. 
+                  Subscribe now to continue your wellness journey with unlimited access.
+                </p>
+                <div className="flex items-center text-blue-700 text-xs">
+                  <CheckCircle className="w-4 h-4 mr-1" />
+                  <span>Cancel anytime from your account settings</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6 mb-8 shadow-sm">
+            <div className="flex items-start space-x-4">
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-green-900 mb-2 text-lg">30-Day Free Trial</h4>
+                <p className="text-green-800 text-sm leading-relaxed mb-3">
+                  No charge for 30 days! Your payment method will be saved but not charged. 
+                  Cancel anytime before your trial ends to avoid any charges.
+                </p>
+                <div className="flex items-center text-green-700 text-xs">
+                  <Smartphone className="w-4 h-4 mr-1" />
+                  <span>Apple Pay and Google Pay supported</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Payment Information</CardTitle>
+        {/* Payment Form */}
+        <Card className="shadow-xl border-0 rounded-3xl overflow-hidden">
+          <CardHeader className="bg-gradient-to-r from-purple-600 to-blue-600 text-white pb-8">
+            <CardTitle className="text-center text-xl font-semibold">
+              {paymentData?.trial ? "Start Free Trial" : "Payment Information"}
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            {clientSecret && (
+          <CardContent className="p-8">
+            {paymentData?.clientSecret && (
               <Elements 
                 stripe={stripePromise} 
                 options={{ 
-                  clientSecret,
+                  clientSecret: paymentData.clientSecret,
+                  mode: paymentData.trial ? 'setup' : 'payment',
                   appearance: {
                     theme: 'stripe',
                     variables: {
                       colorPrimary: '#9333ea',
-                      borderRadius: '8px'
+                      borderRadius: '12px',
+                      spacingUnit: '6px',
+                      fontSizeBase: '16px'
                     }
                   }
                 }}
               >
                 <CheckoutForm
-                  clientSecret={clientSecret}
+                  clientSecret={paymentData.clientSecret}
+                  paymentData={paymentData}
                   onSuccess={() => {
                     toast({
-                      title: "Payment Successful!",
-                      description: "Your subscription is now active.",
+                      title: paymentData.trial ? "Free Trial Started!" : "Subscription Active!",
+                      description: paymentData.trial 
+                        ? "Welcome to your 30-day free trial of GetResett+"
+                        : "You now have unlimited access to GetResett+",
                     });
                     setTimeout(() => {
-                      window.location.href = '/?subscribed=true';
-                    }, 1500);
+                      window.location.href = paymentData.trial ? '/?trial=success' : '/?subscribed=true';
+                    }, 2000);
                   }}
                 />
               </Elements>
@@ -202,8 +327,16 @@ export default function Checkout() {
           </CardContent>
         </Card>
 
-        <div className="mt-6 text-center text-sm text-gray-500">
-          <p>Secured by Stripe • Cancel anytime from your account</p>
+        {/* Footer */}
+        <div className="mt-8 text-center space-y-2">
+          <div className="flex items-center justify-center space-x-4 text-sm text-gray-500">
+            <span>🔒 Secured by Stripe</span>
+            <span>•</span>
+            <span>📱 Apple Pay & Google Pay</span>
+          </div>
+          <p className="text-xs text-gray-400">
+            Cancel anytime from your account settings
+          </p>
         </div>
       </div>
     </div>

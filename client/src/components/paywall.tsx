@@ -66,7 +66,7 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
                 <div className="space-y-3">
                   <h3 className="text-2xl font-bold text-purple-600">GetResett+</h3>
                   <div className="text-3xl font-bold text-green-600">
-                    Free for 30 days
+                    30 Days Free
                   </div>
                   <div className="text-lg text-gray-700">
                     Then {priceLoading ? '...' : localizedPrice.formatted}/month
@@ -95,9 +95,9 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
                 <Button 
                   onClick={() => window.location.href = '/checkout'}
                   disabled={isLoading}
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white text-lg py-6"
+                  className="w-full bg-purple-600 hover:bg-purple-700 text-white text-lg py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
                 >
-                  Subscribe for £1.99/month
+                  Start Free Trial
                 </Button>
               </div>
             </>
