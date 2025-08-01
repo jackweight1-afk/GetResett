@@ -282,7 +282,7 @@ export default function Landing() {
             <Button 
               size="lg"
               onClick={() => window.location.href = '/api/login'}
-              className="bg-white text-purple-600 hover:bg-gray-100 text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 shadow-2xl font-bold rounded-full transform hover:scale-105 transition-all duration-300 w-full sm:w-auto"
+              className="bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 shadow-2xl font-bold rounded-full transform hover:scale-105 transition-all duration-300 w-full sm:w-auto"
             >
               Try GetResett Free Now
             </Button>
