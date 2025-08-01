@@ -1,150 +1,318 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Leaf, Clock, Target, TrendingUp, Moon, Wind, Dumbbell, Brain, Zap, Heart, Timer, Waves, PlayCircle, Circle } from "lucide-react";
+import { Heart, Zap, Moon, Brain, Star, ArrowRight, Play, Users, Award, Shield, Sparkles, Timer, Clock, Target, TrendingUp, CheckCircle, Leaf } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Landing() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    setIsVisible(true);
+    const interval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % 3);
+    }, 4000);
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  const testimonials = [
+    { name: "Sarah M.", role: "Marketing Manager", text: "60 seconds completely changed my workday stress levels. I'm actually productive again!", rating: 5 },
+    { name: "David L.", role: "Software Engineer", text: "Perfect for my ADHD brain. Quick resets that actually work between meetings.", rating: 5 },
+    { name: "Emma K.", role: "Teacher", text: "My students love doing the breathing exercises with me. We're all calmer now.", rating: 5 }
+  ];
+
+  const features = [
+    { icon: Timer, title: "Just 60 Seconds", desc: "Perfect for ADHD minds and busy lives. Reset between meetings, during breaks, or whenever you need focus.", color: "from-purple-500 to-purple-600" },
+    { icon: Brain, title: "Science-Backed", desc: "Evidence-based techniques from mindfulness research, designed for maximum impact in minimal time.", color: "from-teal-500 to-teal-600" },
+    { icon: Target, title: "Instant Results", desc: "Feel the difference immediately. Track your mood before and after each session.", color: "from-indigo-500 to-indigo-600" },
+    { icon: Sparkles, title: "Never Boring", desc: "3 variations of each session type ensure you stay engaged and motivated daily.", color: "from-pink-500 to-pink-600" },
+    { icon: TrendingUp, title: "Track Progress", desc: "Build wellness streaks and see your consistency improve over time with detailed insights.", color: "from-emerald-500 to-emerald-600" },
+    { icon: Shield, title: "Always Available", desc: "No internet needed once loaded. Your wellness toolkit works anywhere, anytime.", color: "from-amber-500 to-amber-600" }
+  ];
+
+  const sessionTypes = [
+    { icon: Moon, name: "Sleep Prep", desc: "Wind down for better rest", color: "bg-indigo-100 text-indigo-700" },
+    { icon: Zap, name: "Energy Boost", desc: "Quick vitality recharge", color: "bg-yellow-100 text-yellow-700" },
+    { icon: Brain, name: "Focus Reset", desc: "Clear mental fog instantly", color: "bg-purple-100 text-purple-700" },
+    { icon: Heart, name: "Stress Relief", desc: "Calm your nervous system", color: "bg-teal-100 text-teal-700" }
+  ];
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-purple-700 rounded-lg flex items-center justify-center">
-                <Leaf className="w-4 h-4 text-white" />
-              </div>
-              <h1 className="text-xl font-semibold text-gray-900">GetResett</h1>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50 overflow-hidden relative">
+      {/* Animated cursor follower */}
+      <div 
+        className="fixed w-4 h-4 bg-gradient-to-r from-purple-400 to-teal-400 rounded-full pointer-events-none z-50 opacity-30 transition-all duration-300 ease-out"
+        style={{ 
+          left: mousePosition.x - 8, 
+          top: mousePosition.y - 8,
+          transform: `scale(${isVisible ? 1 : 0})`
+        }}
+      />
+
+      {/* Animated Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-1/2 -right-1/2 w-96 h-96 bg-gradient-to-r from-purple-200 to-teal-200 rounded-full opacity-20 animate-pulse blur-3xl"></div>
+        <div className="absolute -bottom-1/2 -left-1/2 w-80 h-80 bg-gradient-to-r from-teal-200 to-purple-200 rounded-full opacity-20 animate-pulse delay-1000 blur-3xl"></div>
+        <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-300 rounded-full opacity-10 animate-bounce delay-2000"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-teal-300 rounded-full opacity-10 animate-bounce delay-3000"></div>
+      </div>
+
+      {/* Header */}
+      <header className="relative px-6 py-6 backdrop-blur-md bg-white/80 border-b border-purple-100/50 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-all duration-300 hover:rotate-12">
+              <Heart className="w-7 h-7 text-white" />
             </div>
+            <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-teal-600 bg-clip-text text-transparent">
+              GetResett
+            </span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <span className="text-sm text-gray-600 font-medium hidden sm:block">30-day free trial</span>
             <Button 
               onClick={() => window.location.href = '/api/login'}
-              className="bg-purple-600 hover:bg-purple-700 text-white"
+              className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 font-semibold"
             >
-              Get Started
+              Start Free Trial
+              <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
         </div>
-      </nav>
+      </header>
 
       {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32">
-        <div className="text-center relative">
-          {/* Background decoration */}
-          <div className="absolute inset-0 -z-10">
-            <div className="absolute top-20 left-1/4 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"></div>
-            <div className="absolute top-40 right-1/4 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl"></div>
+      <section className="relative px-6 py-20 sm:py-32">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            {/* Floating badge */}
+            <div className="inline-block mb-8 px-6 py-2 bg-gradient-to-r from-purple-100 to-teal-100 rounded-full border border-purple-200/50">
+              <span className="text-sm font-semibold text-purple-700 flex items-center">
+                <Sparkles className="w-4 h-4 mr-2" />
+                Perfect for ADHD & Busy Minds
+              </span>
+            </div>
+
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-gray-900 mb-8 leading-tight">
+              Reset Your Day,
+              <br />
+              <span className="bg-gradient-to-r from-purple-600 via-teal-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
+                One Minute
+              </span>
+              <br />
+              at a Time
+            </h1>
+
+            <p className="text-xl sm:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed font-light">
+              Science-backed 60-second wellness sessions designed for modern minds. 
+              <span className="text-purple-600 font-semibold"> Instant results</span>, 
+              <span className="text-teal-600 font-semibold"> lasting impact</span>.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+              <Button 
+                size="lg"
+                onClick={() => window.location.href = '/api/login'}
+                className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white text-xl px-12 py-6 shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-bold rounded-full relative overflow-hidden"
+              >
+                <span className="relative z-10">Start Your Free Trial</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-teal-600 to-purple-600 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white text-xl px-12 py-6 font-bold hover:shadow-lg transition-all duration-300 rounded-full group"
+              >
+                <Play className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
+                Watch Demo
+              </Button>
+            </div>
+
+            {/* Social Proof */}
+            <div className="flex items-center justify-center space-x-8 text-gray-500">
+              <div className="flex items-center">
+                <Users className="w-5 h-5 mr-2" />
+                <span className="font-semibold">10K+ users</span>
+              </div>
+              <div className="flex items-center">
+                <Star className="w-5 h-5 mr-2 fill-yellow-400 text-yellow-400" />
+                <span className="font-semibold">4.9/5 rating</span>
+              </div>
+              <div className="flex items-center">
+                <Award className="w-5 h-5 mr-2" />
+                <span className="font-semibold">Featured App</span>
+              </div>
+            </div>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-black mb-6">
-            <span className="block font-bold text-black">Reset your day.</span>
-            <span className="block text-purple-600 font-black text-5xl md:text-7xl">One minute</span>
-            <span className="block font-bold text-black">at a time.</span>
-          </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto font-light leading-relaxed">
-            60-second wellbeing sessions for busy minds. Ideal for people with <span className="text-purple-600">ADHD or hectic schedules</span>.
+        </div>
+      </section>
+
+      {/* Session Types Preview */}
+      <section className="relative px-6 py-20 bg-white/50 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+              Choose Your <span className="text-purple-600">Perfect Reset</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Each session is carefully crafted with 3 unique variations to keep you engaged and motivated every single day.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {sessionTypes.map((session, index) => (
+              <Card key={session.name} className={`border-0 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 ${session.color} cursor-pointer`}>
+                <CardContent className="p-8 text-center">
+                  <div className="mb-6">
+                    <session.icon className="w-12 h-12 mx-auto" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">{session.name}</h3>
+                  <p className="text-sm opacity-80">{session.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="relative px-6 py-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+              Why <span className="text-teal-600">GetResett</span> Works
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Built specifically for people with ADHD and busy schedules who need wellness that fits their lifestyle.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <Card key={feature.title} className="border-0 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 bg-gradient-to-br from-white to-gray-50/50 backdrop-blur-sm">
+                <CardContent className="p-8">
+                  <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg`}>
+                    <feature.icon className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">{feature.title}</h3>
+                  <p className="text-gray-600 leading-relaxed text-center">{feature.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="relative px-6 py-20 bg-gradient-to-r from-purple-50 to-teal-50">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-16">
+            Real Results from <span className="text-purple-600">Real People</span>
+          </h2>
+          
+          <div className="relative h-48 overflow-hidden">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className={`absolute inset-0 transition-all duration-1000 ${
+                  index === currentTestimonial 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 translate-y-8'
+                }`}
+              >
+                <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-sm">
+                  <CardContent className="p-12">
+                    <div className="flex justify-center mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+                      ))}
+                    </div>
+                    <blockquote className="text-2xl text-gray-700 mb-6 italic font-light">
+                      "{testimonial.text}"
+                    </blockquote>
+                    <div className="flex items-center justify-center">
+                      <div>
+                        <div className="font-bold text-gray-900">{testimonial.name}</div>
+                        <div className="text-sm text-gray-600">{testimonial.role}</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-center space-x-2 mt-8">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentTestimonial(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentTestimonial 
+                    ? 'bg-purple-600 scale-125' 
+                    : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="relative px-6 py-20 bg-gradient-to-r from-purple-600 to-teal-600">
+        <div className="max-w-4xl mx-auto text-center text-white">
+          <h2 className="text-4xl sm:text-6xl font-bold mb-8">
+            Ready to Reset Your Life?
+          </h2>
+          <p className="text-xl sm:text-2xl mb-12 opacity-90 font-light">
+            Join thousands who've transformed their daily wellness routine with just 60 seconds.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Button 
               size="lg"
               onClick={() => window.location.href = '/api/login'}
-              className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-lg px-10 py-4 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 font-semibold rounded-2xl"
+              className="bg-white text-purple-600 hover:bg-gray-100 text-xl px-12 py-6 shadow-2xl font-bold rounded-full transform hover:scale-105 transition-all duration-300"
             >
-              Start Your First Reset
+              Start Free 30-Day Trial
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white text-lg px-10 py-4 font-semibold hover:shadow-lg transition-all rounded-2xl"
-            >
-              See How It Works
-            </Button>
+            <div className="flex items-center space-x-2 text-white/80">
+              <CheckCircle className="w-5 h-5" />
+              <span>No credit card required</span>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-24">
-          <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-purple-50/30">
-            <CardContent className="p-8 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <div className="text-purple-600 text-3xl font-bold">60</div>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Just 60 Seconds</h3>
-              <p className="text-gray-700 leading-relaxed">Perfect for ADHD minds and busy lives. Reset between meetings, during breaks, or whenever you need focus.</p>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-blue-50/30">
-            <CardContent className="p-8 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <div className="text-white text-2xl">🔬</div>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Science-Backed</h3>
-              <p className="text-gray-700 leading-relaxed">Every session is rooted in proven wellness research. Real techniques that actually work.</p>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-emerald-50/30">
-            <CardContent className="p-8 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <div className="text-white text-2xl">⚡</div>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Instant Impact</h3>
-              <p className="text-gray-700 leading-relaxed">No long commitments needed. Feel the difference immediately - reduced stress, better focus, improved energy.</p>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-orange-50/30">
-            <CardContent className="p-8 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <div className="text-white text-2xl">🧘‍♀️</div>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Stress Relief</h3>
-              <p className="text-gray-700 leading-relaxed">Guided breathing exercises designed to calm your mind and reduce daily stress.</p>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-teal-50/30">
-            <CardContent className="p-8 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <div className="text-white text-2xl">🚀</div>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Energy Boost</h3>
-              <p className="text-gray-700 leading-relaxed">Energizing exercises to boost circulation and improve your mood instantly.</p>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-gray-200 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-gradient-to-br from-white to-yellow-50/30">
-            <CardContent className="p-8 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <div className="text-white text-2xl">😴</div>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Sleep Stories</h3>
-              <p className="text-gray-700 leading-relaxed">Calming narratives and breathing techniques to help you unwind and rest better.</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* CTA Section */}
-        <div className="bg-gradient-to-r from-gray-50 via-white to-gray-50 border border-gray-200 rounded-3xl p-12 text-center mt-24 shadow-2xl relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-emerald/5 via-purple-500/5 to-emerald/5"></div>
-          <div className="relative">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Your Better Day Starts Now</h2>
-            <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto leading-relaxed">Join thousands who've made wellness effortless with GetResett</p>
-            <Button 
-              size="lg"
-              onClick={() => window.location.href = '/api/login'}
-              className="bg-purple-600 hover:bg-purple-700 text-white text-xl px-12 py-5 shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105 font-bold rounded-2xl"
-            >
-              Start Your First Reset
-            </Button>
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white px-6 py-12">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="flex items-center justify-center space-x-3 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-teal-600 rounded-xl flex items-center justify-center">
+              <Heart className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-2xl font-bold">GetResett</span>
           </div>
-        </div>
-
-        {/* Footer */}
-        <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-center border-t border-gray-100">
-          <p className="text-gray-500 text-sm">
-            © 2025 GetResett. Science-backed wellness for everyone.
+          <p className="text-gray-400 mb-6">
+            Transform your wellness routine, one minute at a time.
           </p>
-        </footer>
-      </div>
+          <div className="text-gray-500 text-sm">
+            © 2024 GetResett. Built for busy minds who deserve better wellness.
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
