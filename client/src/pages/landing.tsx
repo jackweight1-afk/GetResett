@@ -6,23 +6,14 @@ import { useState, useEffect } from "react";
 export default function Landing() {
   const [isVisible, setIsVisible] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
   useEffect(() => {
     setIsVisible(true);
     const interval = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % 3);
     }, 4000);
     
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    
     return () => {
       clearInterval(interval);
-      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
@@ -50,29 +41,15 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50 overflow-hidden relative">
-      {/* Animated cursor follower */}
-      <div 
-        className="fixed w-4 h-4 bg-gradient-to-r from-purple-400 to-teal-400 rounded-full pointer-events-none z-50 opacity-30 transition-all duration-300 ease-out"
-        style={{ 
-          left: mousePosition.x - 8, 
-          top: mousePosition.y - 8,
-          transform: `scale(${isVisible ? 1 : 0})`
-        }}
-      />
 
-      {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-1/2 -right-1/2 w-96 h-96 bg-gradient-to-r from-purple-200 to-teal-200 rounded-full opacity-20 animate-pulse blur-3xl"></div>
-        <div className="absolute -bottom-1/2 -left-1/2 w-80 h-80 bg-gradient-to-r from-teal-200 to-purple-200 rounded-full opacity-20 animate-pulse delay-1000 blur-3xl"></div>
-        <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-300 rounded-full opacity-10 animate-bounce delay-2000"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-teal-300 rounded-full opacity-10 animate-bounce delay-3000"></div>
-      </div>
+
+
 
       {/* Header */}
       <header className="relative px-4 sm:px-6 py-4 sm:py-6 backdrop-blur-md bg-white/80 border-b border-purple-100/50 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-600 to-teal-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-all duration-300 hover:rotate-12">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-600 to-teal-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
               <Heart className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
             </div>
             <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-700" style={{ color: '#7c3aed' }}>
@@ -83,7 +60,7 @@ export default function Landing() {
             <span className="text-xs sm:text-sm text-gray-600 font-medium hidden md:block">30-day free trial</span>
             <Button 
               onClick={() => window.location.href = '/api/login'}
-              className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white px-4 py-2 sm:px-8 sm:py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 font-semibold text-sm sm:text-base"
+              className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white px-4 py-2 sm:px-8 sm:py-3 rounded-full shadow-lg font-semibold text-sm sm:text-base"
             >
               <span className="hidden sm:inline">Try Free</span>
               <span className="sm:hidden">Try Free</span>
