@@ -12,7 +12,8 @@ export interface CountryCurrency {
 }
 
 // Base price in GBP (our reference currency)
-export const BASE_PRICE_GBP = 1.99;
+// Fixed price per region - same numerical value in each currency (1.49)
+export const FIXED_LOCAL_PRICE = 1.49;
 
 // Common currency mappings
 export const COUNTRY_CURRENCIES: Record<string, CountryCurrency> = {
@@ -61,26 +62,35 @@ export const COUNTRY_CURRENCIES: Record<string, CountryCurrency> = {
 export const DEFAULT_CURRENCY: CountryCurrency = COUNTRY_CURRENCIES['GB'];
 
 export function formatPrice(amount: number, currency: string, symbol: string): string {
-  // Special formatting for currencies
+  // Fixed local pricing - show 1.49 in most currencies, 1 for JPY/KRW
   switch (currency) {
     case 'JPY':
     case 'KRW':
-      // No decimal places for these currencies
-      return `${symbol}${Math.round(amount)}`;
+      // Show ¥1 or ₩1 for these currencies (no decimals)
+      return `${symbol}1`;
     case 'USD':
     case 'CAD':
     case 'AUD':
     case 'SGD':
-      return `${symbol}${amount.toFixed(2)}`;
     case 'EUR':
     case 'GBP':
-      return `${symbol}${amount.toFixed(2)}`;
-    case 'INR':
-      return `${symbol}${amount.toFixed(0)}`;
     case 'BRL':
     case 'MXN':
-      return `${symbol}${amount.toFixed(2)}`;
+    case 'CHF':
+    case 'SEK':
+    case 'NOK':
+    case 'DKK':
+    case 'PLN':
+      // Show 1.49 for most currencies
+      return `${symbol}1.49`;
+    case 'INR':
+      // Show ₹1 for simplicity in India
+      return `${symbol}1`;
+    case 'CZK':
+    case 'HUF':
+      // Show 1 for these currencies (typically whole numbers)
+      return `${symbol}1`;
     default:
-      return `${symbol}${amount.toFixed(2)}`;
+      return `${symbol}1.49`;
   }
 }

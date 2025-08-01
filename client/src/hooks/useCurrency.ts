@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { 
-  BASE_PRICE_GBP, 
+  FIXED_LOCAL_PRICE, 
   COUNTRY_CURRENCIES, 
   DEFAULT_CURRENCY,
   formatPrice,
@@ -114,26 +114,14 @@ export function useCurrency() {
     }
   }, [locationData]);
 
-  // Calculate localized price
+  // Calculate localized price using fixed local pricing (same numerical value globally)
   const getLocalizedPrice = () => {
-    if (!exchangeRates || ratesLoading) {
-      return {
-        amount: BASE_PRICE_GBP,
-        currency: DEFAULT_CURRENCY.currency,
-        symbol: DEFAULT_CURRENCY.symbol,
-        formatted: formatPrice(BASE_PRICE_GBP, DEFAULT_CURRENCY.currency, DEFAULT_CURRENCY.symbol),
-        isLoading: true
-      };
-    }
-
-    const rate = exchangeRates[detectedCurrency.currency] || 1;
-    const localAmount = BASE_PRICE_GBP * rate;
-    
+    // No need for exchange rates - use fixed price in each currency
     return {
-      amount: localAmount,
+      amount: FIXED_LOCAL_PRICE,
       currency: detectedCurrency.currency,
       symbol: detectedCurrency.symbol,
-      formatted: formatPrice(localAmount, detectedCurrency.currency, detectedCurrency.symbol),
+      formatted: formatPrice(FIXED_LOCAL_PRICE, detectedCurrency.currency, detectedCurrency.symbol),
       isLoading: false
     };
   };
