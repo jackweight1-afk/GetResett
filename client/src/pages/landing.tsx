@@ -75,7 +75,7 @@ export default function Landing() {
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-600 to-teal-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-all duration-300 hover:rotate-12">
               <Heart className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
             </div>
-            <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+            <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-700">
               GetResett
             </span>
           </div>
@@ -143,7 +143,7 @@ export default function Landing() {
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 text-gray-500 px-4">
               <div className="flex items-center space-x-6 sm:space-x-8">
                 <div className="flex items-center">
-                  <Users className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
+                  <Users className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-purple-600" />
                   <span className="font-semibold text-sm sm:text-base">10K+ users</span>
                 </div>
                 <div className="flex items-center">
@@ -152,7 +152,7 @@ export default function Landing() {
                 </div>
               </div>
               <div className="flex items-center">
-                <Award className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
+                <Award className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-purple-600" />
                 <span className="font-semibold text-sm sm:text-base">Featured App</span>
               </div>
             </div>
@@ -174,7 +174,7 @@ export default function Landing() {
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {sessionTypes.map((session, index) => (
-              <Card key={session.name} className={`border-0 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 ${session.color} cursor-pointer`}>
+              <Card key={session.name} className={`border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] ${session.color} cursor-pointer`}>
                 <CardContent className="p-4 sm:p-6 lg:p-8 text-center">
                   <div className="mb-4 sm:mb-6">
                     <session.icon className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mx-auto ${
