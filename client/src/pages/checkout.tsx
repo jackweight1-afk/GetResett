@@ -163,21 +163,8 @@ export default function Checkout() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Don't do anything if still loading auth state
-    if (isAuthenticated === undefined) return;
-    
-    if (!isAuthenticated || !user) {
-      // Store intent to return to checkout after login, but don't redirect immediately
-      // Let the user decide when to authenticate
-      setError("Please log in to continue with your subscription");
-      setLoading(false);
-      return;
-    }
-
-    // Clear any redirect flags
-    sessionStorage.removeItem('redirecting-to-login');
-
-    const createSubscription = async () => {
+    const initializePayment = async () => {
+      // Always try to create subscription, handle auth issues gracefully
       try {
         const response = await apiRequest("POST", "/api/create-subscription");
         const data = await response.json();
@@ -197,7 +184,7 @@ export default function Checkout() {
         }
       } catch (error: any) {
         console.error("Subscription creation error:", error);
-        if (error.message?.includes('401')) {
+        if (error.message?.includes('401') || error.message?.includes('Unauthorized')) {
           // Auth issue - show login prompt instead of redirecting
           setError("Please log in to continue with your subscription");
           setLoading(false);
@@ -208,16 +195,17 @@ export default function Checkout() {
       }
     };
 
-    createSubscription();
-  }, [isAuthenticated, user]);
+    // Small delay to prevent race conditions
+    setTimeout(initializePayment, 100);
+  }, []); // Remove dependencies to prevent loops
 
-  if (loading || isAuthenticated === undefined) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-blue-50">
         <div className="text-center p-8">
           <div className="animate-spin w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full mx-auto mb-6" />
           <p className="text-gray-600 text-lg">
-            {!isAuthenticated ? "Redirecting to login..." : "Setting up your subscription..."}
+            Setting up your subscription...
           </p>
         </div>
       </div>
