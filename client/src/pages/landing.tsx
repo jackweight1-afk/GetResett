@@ -69,63 +69,62 @@ export default function Landing() {
       </div>
 
       {/* Header */}
-      <header className="relative px-6 py-6 backdrop-blur-md bg-white/80 border-b border-purple-100/50 sticky top-0 z-40">
+      <header className="relative px-4 sm:px-6 py-4 sm:py-6 backdrop-blur-md bg-white/80 border-b border-purple-100/50 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-all duration-300 hover:rotate-12">
-              <Heart className="w-7 h-7 text-white" />
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-600 to-teal-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-all duration-300 hover:rotate-12">
+              <Heart className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
             </div>
-            <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-teal-600 bg-clip-text text-transparent">
+            <span className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-purple-600 to-teal-600 bg-clip-text text-transparent">
               GetResett
             </span>
           </div>
-          <div className="flex items-center space-x-4">
-            <span className="text-sm text-gray-600 font-medium hidden sm:block">30-day free trial</span>
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <span className="text-xs sm:text-sm text-gray-600 font-medium hidden md:block">30-day free trial</span>
             <Button 
               onClick={() => window.location.href = '/api/login'}
-              className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 font-semibold"
+              className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white px-4 py-2 sm:px-8 sm:py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 font-semibold text-sm sm:text-base"
             >
-              Start Free Trial
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <span className="hidden sm:inline">Start Free Trial</span>
+              <span className="sm:hidden">Start Trial</span>
+              <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2" />
             </Button>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative px-6 py-20 sm:py-32">
+      <section className="relative px-4 sm:px-6 py-16 sm:py-20 lg:py-32">
         <div className="max-w-7xl mx-auto text-center">
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {/* Floating badge */}
-            <div className="inline-block mb-8 px-6 py-2 bg-gradient-to-r from-purple-100 to-teal-100 rounded-full border border-purple-200/50">
-              <span className="text-sm font-semibold text-purple-700 flex items-center">
-                <Sparkles className="w-4 h-4 mr-2" />
+            <div className="inline-block mb-6 sm:mb-8 px-4 sm:px-6 py-2 bg-gradient-to-r from-purple-100 to-teal-100 rounded-full border border-purple-200/50">
+              <span className="text-xs sm:text-sm font-semibold text-purple-700 flex items-center">
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 Perfect for ADHD & Busy Minds
               </span>
             </div>
 
-            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-gray-900 mb-8 leading-tight">
-              Reset Your Day,
-              <br />
-              <span className="bg-gradient-to-r from-purple-600 via-teal-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-gray-900 mb-6 sm:mb-8 leading-tight">
+              <span className="block">Reset Your Day,</span>
+              <span className="block bg-gradient-to-r from-purple-600 via-teal-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
                 One Minute
               </span>
-              <br />
-              at a Time
+              <span className="block">at a Time</span>
             </h1>
 
-            <p className="text-xl sm:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed font-light">
+            <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed font-light px-4">
               Science-backed 60-second wellness sessions designed for modern minds. 
               <span className="text-purple-600 font-semibold"> Instant results</span>, 
               <span className="text-teal-600 font-semibold"> lasting impact</span>.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center mb-12 sm:mb-16 px-4">
               <Button 
                 size="lg"
                 onClick={() => window.location.href = '/api/login'}
-                className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white text-xl px-12 py-6 shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-bold rounded-full relative overflow-hidden"
+                className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-bold rounded-full relative overflow-hidden"
               >
                 <span className="relative z-10">Start Your Free Trial</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-teal-600 to-purple-600 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
@@ -133,26 +132,28 @@ export default function Landing() {
               <Button 
                 size="lg" 
                 variant="outline"
-                className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white text-xl px-12 py-6 font-bold hover:shadow-lg transition-all duration-300 rounded-full group"
+                className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 font-bold hover:shadow-lg transition-all duration-300 rounded-full group"
               >
-                <Play className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
+                <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover:scale-110 transition-transform" />
                 Watch Demo
               </Button>
             </div>
 
             {/* Social Proof */}
-            <div className="flex items-center justify-center space-x-8 text-gray-500">
-              <div className="flex items-center">
-                <Users className="w-5 h-5 mr-2" />
-                <span className="font-semibold">10K+ users</span>
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 text-gray-500 px-4">
+              <div className="flex items-center space-x-6 sm:space-x-8">
+                <div className="flex items-center">
+                  <Users className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
+                  <span className="font-semibold text-sm sm:text-base">10K+ users</span>
+                </div>
+                <div className="flex items-center">
+                  <Star className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 fill-yellow-400 text-yellow-400" />
+                  <span className="font-semibold text-sm sm:text-base">4.9/5 rating</span>
+                </div>
               </div>
               <div className="flex items-center">
-                <Star className="w-5 h-5 mr-2 fill-yellow-400 text-yellow-400" />
-                <span className="font-semibold">4.9/5 rating</span>
-              </div>
-              <div className="flex items-center">
-                <Award className="w-5 h-5 mr-2" />
-                <span className="font-semibold">Featured App</span>
+                <Award className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
+                <span className="font-semibold text-sm sm:text-base">Featured App</span>
               </div>
             </div>
           </div>
@@ -160,26 +161,26 @@ export default function Landing() {
       </section>
 
       {/* Session Types Preview */}
-      <section className="relative px-6 py-20 bg-white/50 backdrop-blur-sm">
+      <section className="relative px-4 sm:px-6 py-16 sm:py-20 bg-white/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
               Choose Your <span className="text-purple-600">Perfect Reset</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
               Each session is carefully crafted with 3 unique variations to keep you engaged and motivated every single day.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {sessionTypes.map((session, index) => (
               <Card key={session.name} className={`border-0 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 ${session.color} cursor-pointer`}>
-                <CardContent className="p-8 text-center">
-                  <div className="mb-6">
-                    <session.icon className="w-12 h-12 mx-auto" />
+                <CardContent className="p-4 sm:p-6 lg:p-8 text-center">
+                  <div className="mb-4 sm:mb-6">
+                    <session.icon className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mx-auto" />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">{session.name}</h3>
-                  <p className="text-sm opacity-80">{session.desc}</p>
+                  <h3 className="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">{session.name}</h3>
+                  <p className="text-xs sm:text-sm opacity-80">{session.desc}</p>
                 </CardContent>
               </Card>
             ))}
