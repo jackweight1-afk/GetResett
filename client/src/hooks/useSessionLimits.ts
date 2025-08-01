@@ -10,7 +10,7 @@ interface SessionLimits {
 }
 
 export function useSessionLimits() {
-  const { isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const [localCount, setLocalCount] = useState(0);
 
   // Check subscription status from server
@@ -64,9 +64,10 @@ export function useSessionLimits() {
 
   // Calculate session limits
   const isSubscribed = subscriptionData?.isSubscribed || false;
+  const hasUnlimitedAccess = user?.email === 'huzefausama25@gmail.com';
   const dailyLimit = 3;
-  const canAccess = isSubscribed || localCount < dailyLimit;
-  const remainingSessions = Math.max(0, dailyLimit - localCount);
+  const canAccess = isSubscribed || hasUnlimitedAccess || localCount < dailyLimit;
+  const remainingSessions = hasUnlimitedAccess ? 999 : Math.max(0, dailyLimit - localCount);
 
   // Calculate reset time (midnight)
   const getResetTime = () => {
@@ -79,7 +80,7 @@ export function useSessionLimits() {
   return {
     dailyCount: localCount,
     canAccess,
-    isSubscribed,
+    isSubscribed: isSubscribed || hasUnlimitedAccess,
     remainingSessions,
     resetTime: getResetTime(),
     incrementCount,
