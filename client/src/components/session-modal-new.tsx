@@ -230,7 +230,10 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <DialogOverlay className="bg-black/40" />
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto p-0 gap-0">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto p-0 gap-0" aria-describedby="session-description">
+        <div id="session-description" className="sr-only">
+          Complete your {sessionType.name} session and provide feedback
+        </div>
         <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between z-10">
           <div className="flex items-center space-x-3">
             <div className={`w-10 h-10 ${colorClass} rounded-full flex items-center justify-center`}>

@@ -19,10 +19,11 @@ if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
 }
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-function CheckoutForm({ clientSecret, paymentData, onSuccess }: { 
+function CheckoutForm({ clientSecret, paymentData, onSuccess, onReady }: { 
   clientSecret: string; 
   paymentData: any;
   onSuccess: () => void;
+  onReady?: () => void;
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -118,6 +119,9 @@ function CheckoutForm({ clientSecret, paymentData, onSuccess }: {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <PaymentElement 
+        onReady={() => {
+          if (onReady) onReady();
+        }}
         options={{
           layout: {
             type: 'tabs',
@@ -155,6 +159,7 @@ export default function Checkout() {
   const [paymentData, setPaymentData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [stripeReady, setStripeReady] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -183,7 +188,7 @@ export default function Checkout() {
         
         if (data.clientSecret) {
           setPaymentData(data);
-          setLoading(false);
+          // Don't set loading to false immediately - wait for Stripe to be ready
         } else if (data.subscriptionId && data.status === 'trialing') {
           // User already has active trial
           window.location.href = '/?trial=active';
@@ -310,7 +315,7 @@ export default function Checkout() {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-8">
-            {paymentData?.clientSecret && (
+            {paymentData?.clientSecret ? (
               <Elements 
                 stripe={stripePromise} 
                 options={{ 
@@ -327,22 +332,39 @@ export default function Checkout() {
                   }
                 }}
               >
-                <CheckoutForm
-                  clientSecret={paymentData.clientSecret}
-                  paymentData={paymentData}
-                  onSuccess={() => {
-                    toast({
-                      title: paymentData.trial ? "Free Trial Started!" : "Subscription Active!",
-                      description: paymentData.trial 
-                        ? "Welcome to your 30-day free trial of GetResett+"
-                        : "You now have unlimited access to GetResett+",
-                    });
-                    setTimeout(() => {
-                      window.location.href = paymentData.trial ? '/?trial=success' : '/?subscribed=true';
-                    }, 2000);
-                  }}
-                />
+                <div className={`transition-opacity duration-300 ${stripeReady ? 'opacity-100' : 'opacity-0'}`}>
+                  <CheckoutForm
+                    clientSecret={paymentData.clientSecret}
+                    paymentData={paymentData}
+                    onReady={() => {
+                      setStripeReady(true);
+                      setLoading(false);
+                    }}
+                    onSuccess={() => {
+                      toast({
+                        title: paymentData.trial ? "Free Trial Started!" : "Subscription Active!",
+                        description: paymentData.trial 
+                          ? "Welcome to your 30-day free trial of GetResett+"
+                          : "You now have unlimited access to GetResett+",
+                      });
+                      setTimeout(() => {
+                        window.location.href = paymentData.trial ? '/?trial=success' : '/?subscribed=true';
+                      }, 2000);
+                    }}
+                  />
+                </div>
+                {!stripeReady && (
+                  <div className="text-center py-8">
+                    <div className="animate-spin w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+                    <p className="text-gray-600">Loading payment options...</p>
+                  </div>
+                )}
               </Elements>
+            ) : (
+              <div className="text-center py-8">
+                <div className="animate-spin w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+                <p className="text-gray-600">Setting up payment...</p>
+              </div>
             )}
           </CardContent>
         </Card>
