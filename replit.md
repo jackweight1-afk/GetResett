@@ -7,11 +7,14 @@ GetResett is a wellness application that offers science-backed 60-second reset s
 Preferred communication style: Simple, everyday language.
 
 ### UI/UX Preferences
-- No white text on light backgrounds - all text should be black/dark gray for maximum readability
-- Minimal green theme - use darker green colors only as accents (like highlighting "One Minute")
-- No full green backgrounds - prefer white/light gray backgrounds with green accents
+- Modern mobile-first design is essential - all text must stay within containers, no overflow issues
+- Logo text must be solid black for maximum visibility on all devices (no gradient text that becomes unreadable)
+- CTAs should encourage trying the app free first rather than pushing subscription immediately
+- Purple/teal gradient theme throughout the app for consistency
+- Modern glassmorphism effects, smooth animations, and shadow designs
+- Touch-friendly button sizes and spacing optimized for mobile devices
 - Excellent contrast ratios required for all text elements
-- Profile icons should have solid dark backgrounds with white text for visibility
+- Responsive typography that scales appropriately across screen sizes
 
 ## System Architecture
 
@@ -43,7 +46,7 @@ The application employs a modern full-stack architecture with a clear separation
 - **Authentication System**: Utilizes Replit Auth with OpenID Connect, PostgreSQL-backed sessions, and secure HTTP-only cookies.
 - **Session Management**: Features predefined wellness activities with real-time tracking, progress recording, and post-session data collection (mood ratings, reflections). Each session type has 3 variations to prevent repetition, selected randomly.
 - **Tracking Systems**: Includes sleep tracking, stress monitoring (before/after comparisons), and user analytics for consistency and improvement metrics. Emotional check-ins before and after sessions are tracked.
-- **UI/UX Design**: Adheres to a custom wellness theme with teal, sage, and warm accent colors, prioritizing responsive, mobile-first design, and accessibility (ARIA labels, keyboard navigation). The application guides users through an emotion-driven flow, suggesting resets based on their current feeling. Active anxiety relief sessions utilize evidence-based grounding techniques.
+- **UI/UX Design**: Features modern purple/teal gradient theme with glassmorphism effects, prioritizing mobile-first responsive design and accessibility. Eye-catching animated landing page with floating elements, rotating testimonials, and smooth transitions. Dashboard uses consistent gradient backgrounds, enhanced stats cards with backdrop blur effects, and improved session selection with better touch targets. All text properly contained within responsive containers for optimal mobile experience.
 - **Data Flow**: Authentication involves Replit Auth, session establishment with secure cookies, and access to protected routes. The session workflow guides users from selection to completion, with data persistence handled via PostgreSQL and Drizzle ORM, optimized with TanStack Query.
 - **Monetization**: Implements a comprehensive subscription model with 3 free daily sessions, then prompts users on their 4th session with a paywall. New users receive a 30-day free trial with setup intent (no charge), while returning users who've already had a trial are charged using fixed local pricing (1.49 in their local currency - $1.49 USD, £1.49 GBP, €1.49 EUR, ¥1 JPY, etc.) immediately via payment intent. Features mobile-first UX design with Apple Pay and Google Pay support, full international currency support, and seamless trial eligibility detection via Stripe subscription history.
 - **Internationalization**: Automatically detects user's country via IP geolocation and browser locale, displays pricing in local currency using real-time exchange rates, and processes payments in the user's local currency. Supports 18+ major currencies including USD, EUR, JPY, KRW, INR, and others with proper formatting and conversion.
