@@ -167,16 +167,14 @@ export default function Checkout() {
     if (isAuthenticated === undefined) return;
     
     if (!isAuthenticated || !user) {
-      // Set a flag to prevent multiple redirects and redirect to login
-      if (!sessionStorage.getItem('redirecting-to-login')) {
-        sessionStorage.setItem('redirecting-to-login', 'true');
-        sessionStorage.setItem('return-to-checkout', 'true');
-        window.location.href = '/api/login';
-      }
+      // Store intent to return to checkout after login, but don't redirect immediately
+      // Let the user decide when to authenticate
+      setError("Please log in to continue with your subscription");
+      setLoading(false);
       return;
     }
 
-    // Clear redirect flags
+    // Clear any redirect flags
     sessionStorage.removeItem('redirecting-to-login');
 
     const createSubscription = async () => {
@@ -227,21 +225,47 @@ export default function Checkout() {
   }
 
   if (error) {
+    const isAuthError = error.includes("log in");
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-blue-50 p-4">
         <Card className="w-full max-w-md shadow-xl">
           <CardContent className="pt-8 pb-6 text-center">
-            <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <span className="text-red-600 text-3xl">⚠</span>
+            <div className={`w-20 h-20 ${isAuthError ? 'bg-purple-100' : 'bg-red-100'} rounded-full flex items-center justify-center mx-auto mb-6`}>
+              <span className={`${isAuthError ? 'text-purple-600' : 'text-red-600'} text-3xl`}>
+                {isAuthError ? '👤' : '⚠'}
+              </span>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Setup Failed</h3>
-            <p className="text-red-600 mb-6 text-sm">{error}</p>
-            <Button 
-              onClick={() => window.location.reload()}
-              className="bg-purple-600 hover:bg-purple-700"
-            >
-              Try Again
-            </Button>
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              {isAuthError ? "Authentication Required" : "Setup Failed"}
+            </h3>
+            <p className={`${isAuthError ? 'text-gray-600' : 'text-red-600'} mb-6 text-sm`}>{error}</p>
+            {isAuthError ? (
+              <div className="space-y-3">
+                <Button 
+                  onClick={() => {
+                    sessionStorage.setItem('return-to-checkout', 'true');
+                    window.location.href = '/api/login';
+                  }}
+                  className="w-full bg-purple-600 hover:bg-purple-700"
+                >
+                  Continue to Login
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => window.location.href = '/'}
+                  className="w-full"
+                >
+                  Back to Home
+                </Button>
+              </div>
+            ) : (
+              <Button 
+                onClick={() => window.location.reload()}
+                className="bg-purple-600 hover:bg-purple-700"
+              >
+                Try Again
+              </Button>
+            )}
           </CardContent>
         </Card>
       </div>

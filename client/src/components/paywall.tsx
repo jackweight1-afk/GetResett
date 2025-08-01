@@ -18,7 +18,7 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
   const remainingSessions = Math.max(0, 3 - dailyCount);
 
   const handleStartTrial = () => {
-    // Redirect to simple checkout page
+    // Direct checkout - authentication is handled in the checkout page
     window.location.href = '/checkout';
   };
 

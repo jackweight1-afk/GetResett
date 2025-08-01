@@ -24,7 +24,10 @@ function Router() {
   React.useEffect(() => {
     if (isAuthenticated && sessionStorage.getItem('return-to-checkout')) {
       sessionStorage.removeItem('return-to-checkout');
-      window.location.href = '/checkout';
+      // Use a more gentle redirect that doesn't cause runtime errors
+      setTimeout(() => {
+        window.location.href = '/checkout';
+      }, 100);
     }
   }, [isAuthenticated]);
 
