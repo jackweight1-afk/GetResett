@@ -106,11 +106,11 @@ export default function Landing() {
             </div>
 
             <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-gray-900 mb-6 sm:mb-8 leading-tight">
-              <span className="block">Reset Your Day,</span>
-              <span className="block bg-gradient-to-r from-purple-600 via-teal-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
+              <span className="block text-3xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">Reset Your Day,</span>
+              <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl bg-gradient-to-r from-purple-600 via-teal-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
                 One Minute
               </span>
-              <span className="block">at a Time</span>
+              <span className="block text-3xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">at a Time</span>
             </h1>
 
             <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed font-light px-4">
