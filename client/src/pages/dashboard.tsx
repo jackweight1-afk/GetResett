@@ -2,12 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, lazy, Suspense } from "react";
 import Navigation from "@/components/navigation";
 import BottomNavigation from "@/components/bottom-navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import SessionModal from "@/components/session-modal-new";
 import type { SessionType, UserSession } from "@shared/schema";
 import { 
   Moon, 
@@ -20,6 +19,9 @@ import {
   TrendingUp,
   Clock
 } from "lucide-react";
+
+// Lazy load the session modal for better initial page load
+const SessionModal = lazy(() => import("@/components/session-modal-new"));
 
 interface UserStats {
   totalSessions: number;
@@ -353,10 +355,16 @@ export default function Dashboard() {
       </div>
 
       {selectedSession && (
-        <SessionModal 
-          sessionType={selectedSession}
-          onClose={() => setSelectedSession(null)}
-        />
+        <Suspense fallback={
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="animate-spin w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full" />
+          </div>
+        }>
+          <SessionModal 
+            sessionType={selectedSession}
+            onClose={() => setSelectedSession(null)}
+          />
+        </Suspense>
       )}
       
       <BottomNavigation />

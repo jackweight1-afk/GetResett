@@ -291,8 +291,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           recurring: { interval: 'month' },
           product_data: {
             name: 'GetResett+ Monthly'
-          },
-          lookup_key: `getresett_monthly_${finalCurrency}`
+          }
         });
         priceId = price.id;
       }

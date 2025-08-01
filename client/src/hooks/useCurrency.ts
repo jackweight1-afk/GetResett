@@ -20,13 +20,35 @@ interface ExchangeRates {
 export function useCurrency() {
   const [detectedCurrency, setDetectedCurrency] = useState<CountryCurrency>(DEFAULT_CURRENCY);
 
-  // Detect user's location and currency
+  // Detect user's location and currency with instant fallback
   const { data: locationData } = useQuery<LocationData>({
     queryKey: ['user-location'],
     queryFn: async () => {
+      // Start with immediate browser locale detection
+      let fallbackLocation = { country: 'GB' };
       try {
-        // Try to get location from IP
-        const response = await fetch('https://ipapi.co/json/');
+        const locale = navigator.language || 'en-GB';
+        const region = locale.split('-')[1];
+        if (region && COUNTRY_CURRENCIES[region]) {
+          fallbackLocation = {
+            country: region,
+            currency: COUNTRY_CURRENCIES[region].currency
+          } as LocationData;
+        }
+      } catch (error) {
+        // Use default
+      }
+
+      // Try IP geolocation with timeout
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+        
+        const response = await fetch('https://ipapi.co/json/', {
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        
         if (response.ok) {
           const data = await response.json();
           return {
@@ -35,69 +57,54 @@ export function useCurrency() {
           };
         }
       } catch (error) {
-        console.log('Could not detect location, using default');
+        // Use browser locale fallback
       }
       
-      // Fallback: try to detect from browser locale
-      try {
-        const locale = navigator.language || 'en-GB';
-        const region = locale.split('-')[1];
-        if (region && COUNTRY_CURRENCIES[region]) {
-          return {
-            country: region,
-            currency: COUNTRY_CURRENCIES[region].currency
-          };
-        }
-      } catch (error) {
-        console.log('Could not detect from locale');
-      }
-      
-      return { country: 'GB' };
+      return fallbackLocation;
     },
-    staleTime: 1000 * 60 * 60, // Cache for 1 hour
-    retry: 1
+    staleTime: 1000 * 60 * 60 * 24, // Cache for 24 hours
+    retry: false, // Don't retry failed requests
+    refetchOnWindowFocus: false
   });
 
-  // Get exchange rates
+  // Get exchange rates with immediate fallback
   const { data: exchangeRates, isLoading: ratesLoading } = useQuery<ExchangeRates>({
     queryKey: ['exchange-rates'],
     queryFn: async () => {
+      // Static fallback rates - always available instantly
+      const fallbackRates = {
+        USD: 1.27, EUR: 1.20, CAD: 1.71, AUD: 1.89, JPY: 192, KRW: 1654,
+        INR: 107, BRL: 7.31, MXN: 25.5, SGD: 1.71, CHF: 1.14, SEK: 13.2,
+        NOK: 13.8, DKK: 8.95, PLN: 5.15, CZK: 28.8, HUF: 389, GBP: 1
+      };
+
       try {
-        // Use a free exchange rate API with error handling
-        const response = await fetch('https://api.exchangerate-api.com/v4/latest/GBP');
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
+        
+        const response = await fetch('https://api.exchangerate-api.com/v4/latest/GBP', {
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        
         if (response.ok) {
           const data = await response.json();
           return data.rates;
         }
-        throw new Error('Exchange rate API failed');
       } catch (error) {
-        console.log('Could not fetch exchange rates, using fallback');
+        // Use fallback rates
       }
       
-      // Fallback rates if API fails
-      return {
-        USD: 1.27,
-        EUR: 1.20,
-        CAD: 1.71,
-        AUD: 1.89,
-        JPY: 192,
-        KRW: 1654,
-        INR: 107,
-        BRL: 7.31,
-        MXN: 25.5,
-        SGD: 1.71,
-        CHF: 1.14,
-        SEK: 13.2,
-        NOK: 13.8,
-        DKK: 8.95,
-        PLN: 5.15,
-        CZK: 28.8,
-        HUF: 389,
-        GBP: 1
-      };
+      return fallbackRates;
     },
-    staleTime: 1000 * 60 * 30, // Cache for 30 minutes
-    retry: 1
+    staleTime: 1000 * 60 * 60, // Cache for 1 hour
+    retry: false, // Don't retry - use fallback immediately
+    refetchOnWindowFocus: false,
+    initialData: { // Provide immediate data
+      USD: 1.27, EUR: 1.20, CAD: 1.71, AUD: 1.89, JPY: 192, KRW: 1654,
+      INR: 107, BRL: 7.31, MXN: 25.5, SGD: 1.71, CHF: 1.14, SEK: 13.2,
+      NOK: 13.8, DKK: 8.95, PLN: 5.15, CZK: 28.8, HUF: 389, GBP: 1
+    } as ExchangeRates
   });
 
   // Update detected currency when location data changes
