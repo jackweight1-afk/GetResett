@@ -309,14 +309,6 @@ export default function Checkout() {
                 stripe={stripePromise} 
                 options={{ 
                   clientSecret: paymentData.clientSecret,
-                  ...(paymentData.trial ? 
-                    { mode: 'setup' } : 
-                    { 
-                      mode: 'payment',
-                      amount: paymentData.amount || 199,
-                      currency: paymentData.currency || 'gbp'
-                    }
-                  ),
                   appearance: {
                     theme: 'stripe',
                     variables: {
