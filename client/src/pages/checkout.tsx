@@ -173,7 +173,7 @@ export default function Checkout() {
         
         if (data.clientSecret) {
           setPaymentData(data);
-          // Don't set loading to false immediately - wait for Stripe to be ready
+          setLoading(false); // Allow the page to show immediately
         } else if (data.subscriptionId && data.status === 'trialing') {
           // User already has active trial
           window.location.href = '/?trial=active';
@@ -350,7 +350,6 @@ export default function Checkout() {
                     paymentData={paymentData}
                     onReady={() => {
                       setStripeReady(true);
-                      setLoading(false);
                     }}
                     onSuccess={() => {
                       toast({
