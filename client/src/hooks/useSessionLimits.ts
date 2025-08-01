@@ -21,11 +21,7 @@ export function useSessionLimits() {
       const isSubscribed = data?.subscriptionStatus === 'active' || data?.subscriptionStatus === 'trialing';
       // Debug: Check subscription status
       if (data?.subscriptionStatus) {
-        console.log('Subscription check:', { 
-          subscriptionStatus: data?.subscriptionStatus, 
-          isSubscribed,
-          stripeSubscriptionId: data?.stripeSubscriptionId 
-        });
+        // Subscription status checked
       }
       return { isSubscribed };
     }

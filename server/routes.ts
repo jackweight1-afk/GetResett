@@ -321,12 +321,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
         });
 
-        console.log("Payment intent created for returning user:", {
-          paymentIntentId: paymentIntent.id,
-          clientSecret: paymentIntent.client_secret,
-          hasHadTrial: true,
-          amount: 199
-        });
+        // Payment intent created for returning user
 
         res.json({
           clientSecret: paymentIntent.client_secret,
@@ -369,12 +364,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           subscription.status
         );
 
-        console.log("Trial subscription created:", {
-          subscriptionId: subscription.id,
-          status: subscription.status,
-          setupIntentClientSecret: setupIntent.client_secret,
-          hasHadTrial: false
-        });
+        // Trial subscription created successfully
 
         res.json({
           subscriptionId: subscription.id,

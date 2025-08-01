@@ -169,7 +169,7 @@ export default function Checkout() {
         const response = await apiRequest("POST", "/api/create-subscription");
         const data = await response.json();
         
-        console.log("Subscription response:", data);
+        // Subscription response received
         
         if (data.clientSecret) {
           setPaymentData(data);

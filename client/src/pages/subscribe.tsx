@@ -362,7 +362,7 @@ export default function Subscribe() {
             ) : (
               <Elements stripe={stripePromise} options={{ 
                 clientSecret,
-                mode: 'setup',
+
                 appearance: {
                   theme: 'stripe',
                   variables: {

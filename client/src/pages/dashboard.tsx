@@ -7,7 +7,7 @@ import Navigation from "@/components/navigation";
 import BottomNavigation from "@/components/bottom-navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import SessionModal from "@/components/session-modal";
+import SessionModal from "@/components/session-modal-new";
 import type { SessionType, UserSession } from "@shared/schema";
 import { 
   Moon, 
