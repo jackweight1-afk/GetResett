@@ -301,7 +301,7 @@ export default function Landing() {
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-600 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
               <Heart className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
             </div>
-            <span className="text-2xl sm:text-3xl font-bold">GetResett</span>
+            <span className="text-2xl sm:text-3xl font-bold text-purple-400">GetResett</span>
           </div>
           <p className="text-gray-400 mb-6 sm:mb-8 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed px-4">
             Transform your wellness routine, one minute at a time.
