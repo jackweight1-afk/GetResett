@@ -128,6 +128,9 @@ function CheckoutForm({ clientSecret, paymentData, onSuccess }: {
           wallets: {
             applePay: 'auto',
             googlePay: 'auto'
+          },
+          terms: {
+            card: 'never'
           }
         }}
       />
@@ -315,7 +318,8 @@ export default function Checkout() {
                       colorPrimary: '#9333ea',
                       borderRadius: '12px',
                       spacingUnit: '6px',
-                      fontSizeBase: '16px'
+                      fontSizeBase: '16px',
+                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
                     }
                   }
                 }}

@@ -306,6 +306,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           setup_future_usage: 'off_session',
           automatic_payment_methods: {
             enabled: true,
+            allow_redirects: 'never'
+          },
+          payment_method_options: {
+            card: {
+              request_three_d_secure: 'if_required'
+            }
           },
           metadata: {
             userId,
