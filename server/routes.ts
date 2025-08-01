@@ -304,6 +304,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           currency: 'gbp',
           customer: customerId,
           setup_future_usage: 'off_session',
+          payment_method_types: ['card'],
           automatic_payment_methods: {
             enabled: true,
             allow_redirects: 'never'
