@@ -3,8 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
+import { useSessionLimits } from "@/hooks/useSessionLimits";
 import FeelingCheck from "./feeling-check";
 import SessionModal from "@/components/session-modal-new";
+import { Paywall } from "@/components/paywall";
 import type { SessionType } from "@shared/schema";
 
 type FlowStep = "initial-feeling" | "session" | "post-feeling" | "insights";
@@ -12,9 +14,11 @@ type FlowStep = "initial-feeling" | "session" | "post-feeling" | "insights";
 export default function GuidedFlow() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const { toast } = useToast();
+  const { canAccess, dailyCount, isSubscribed } = useSessionLimits();
   const [currentStep, setCurrentStep] = useState<FlowStep>("initial-feeling");
   const [selectedSessionType, setSelectedSessionType] = useState<SessionType | null>(null);
   const [sessionCount, setSessionCount] = useState(0);
+  const [showPaywall, setShowPaywall] = useState(false);
 
   const { data: sessionTypes } = useQuery<SessionType[]>({
     queryKey: ['/api/session-types'],
@@ -37,6 +41,12 @@ export default function GuidedFlow() {
   }, [isAuthenticated, isLoading, toast]);
 
   const handleInitialFeelingSelected = (feeling: string, sessionTypeId: string) => {
+    // Check session limits before starting session
+    if (!canAccess && !isSubscribed) {
+      setShowPaywall(true);
+      return;
+    }
+    
     const sessionType = sessionTypes?.find(st => st.id === sessionTypeId);
     if (sessionType) {
       setSelectedSessionType(sessionType);
@@ -60,6 +70,12 @@ export default function GuidedFlow() {
   };
 
   const handlePostFeelingSelected = (feeling: string, sessionTypeId: string) => {
+    // Check session limits before starting additional session
+    if (!canAccess && !isSubscribed) {
+      setShowPaywall(true);
+      return;
+    }
+    
     const sessionType = sessionTypes?.find(st => st.id === sessionTypeId);
     if (sessionType) {
       setSelectedSessionType(sessionType);
@@ -114,6 +130,24 @@ export default function GuidedFlow() {
           </div>
         </div>
       </div>
+    );
+  }
+
+  // Show paywall if needed
+  if (showPaywall) {
+    return (
+      <Paywall
+        dailyCount={dailyCount}
+        onSubscriptionComplete={() => {
+          setShowPaywall(false);
+          // User can continue with their session after subscribing
+        }}
+        onClose={() => {
+          setShowPaywall(false);
+          // Return to initial feeling check
+          setCurrentStep("initial-feeling");
+        }}
+      />
     );
   }
 

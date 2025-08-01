@@ -63,14 +63,15 @@ export function useCurrency() {
     queryKey: ['exchange-rates'],
     queryFn: async () => {
       try {
-        // Use a free exchange rate API
+        // Use a free exchange rate API with error handling
         const response = await fetch('https://api.exchangerate-api.com/v4/latest/GBP');
         if (response.ok) {
           const data = await response.json();
           return data.rates;
         }
+        throw new Error('Exchange rate API failed');
       } catch (error) {
-        console.log('Could not fetch exchange rates');
+        console.log('Could not fetch exchange rates, using fallback');
       }
       
       // Fallback rates if API fails

@@ -31,9 +31,11 @@ export function useSessionLimits() {
     }
   });
 
-  // Get today's date string for storage key
+  // Get today's date string for storage key (timezone-aware)
   const getTodayKey = () => {
-    return `session_count_${new Date().toDateString()}`;
+    const today = new Date();
+    const localDateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    return `session_count_${localDateString}`;
   };
 
   // Load count from localStorage
@@ -47,10 +49,11 @@ export function useSessionLimits() {
       setLocalCount(0);
     }
 
-    // Clean up old dates
-    const today = new Date().toDateString();
+    // Clean up old dates (timezone-aware)
+    const today = new Date();
+    const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     Object.keys(localStorage).forEach(key => {
-      if (key.startsWith('session_count_') && !key.includes(today)) {
+      if (key.startsWith('session_count_') && !key.includes(todayString)) {
         localStorage.removeItem(key);
       }
     });
