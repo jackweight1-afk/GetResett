@@ -202,13 +202,13 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {features.map((feature, index) => (
-              <Card key={feature.title} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] bg-white/80 backdrop-blur-sm hover:bg-white/90">
+              <Card key={feature.title} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] bg-white backdrop-blur-sm hover:bg-white">
                 <CardContent className="p-6 sm:p-8">
                   <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${feature.color} rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg`}>
                     <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                   </div>
                   <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4 text-center">{feature.title}</h3>
-                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed text-center">{feature.desc}</p>
+                  <p className="text-sm sm:text-base text-gray-700 leading-relaxed text-center">{feature.desc}</p>
                 </CardContent>
               </Card>
             ))}
