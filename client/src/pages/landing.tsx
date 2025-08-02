@@ -109,10 +109,11 @@ export default function Landing() {
               <Button 
                 size="lg" 
                 variant="outline"
+                onClick={() => window.location.href = '/api/login'}
                 className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 font-bold hover:shadow-lg transition-all duration-300 rounded-full group"
               >
-                <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover:scale-110 transition-transform" />
-                Watch Demo
+                <Zap className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover:scale-110 transition-transform" />
+                Explore Sessions
               </Button>
             </div>
 
