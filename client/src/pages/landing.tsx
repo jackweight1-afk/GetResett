@@ -117,21 +117,21 @@ export default function Landing() {
               </Button>
             </div>
 
-            {/* Social Proof */}
+            {/* Key Benefits */}
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 text-gray-500 px-4">
               <div className="flex items-center space-x-6 sm:space-x-8">
                 <div className="flex items-center">
-                  <Users className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-purple-600" />
-                  <span className="font-semibold text-sm sm:text-base">10K+ users</span>
+                  <Timer className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-purple-600" />
+                  <span className="font-semibold text-sm sm:text-base">60 Second Sessions</span>
                 </div>
                 <div className="flex items-center">
-                  <Star className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 fill-yellow-400 text-yellow-400" />
-                  <span className="font-semibold text-sm sm:text-base">4.9/5 rating</span>
+                  <Brain className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-purple-600" />
+                  <span className="font-semibold text-sm sm:text-base">Science-Backed</span>
                 </div>
               </div>
               <div className="flex items-center">
-                <Award className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-purple-600" />
-                <span className="font-semibold text-sm sm:text-base">Featured App</span>
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-purple-600" />
+                <span className="font-semibold text-sm sm:text-base">Free to Try</span>
               </div>
             </div>
           </div>
