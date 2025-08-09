@@ -1,16 +1,28 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Heart, Zap, Moon, Brain, Star, ArrowRight, Play, Users, Award, Shield, Sparkles, Timer, Clock, Target, TrendingUp, CheckCircle, Leaf } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Heart, Zap, Moon, Brain, Star, ArrowRight, Play, Users, Award, Shield, Sparkles, Timer, Clock, Target, TrendingUp, CheckCircle, Leaf, AlertTriangle, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function Landing() {
   const [isVisible, setIsVisible] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [authError, setAuthError] = useState<string | null>(null);
+
   useEffect(() => {
     setIsVisible(true);
     const interval = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % 3);
     }, 4000);
+    
+    // Check for authentication errors in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+    if (error === 'auth_failed') {
+      setAuthError('Authentication failed. If you use 2FA with Google, please try again or contact support.');
+      // Clear the error from URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
     
     return () => {
       clearInterval(interval);
@@ -73,6 +85,26 @@ export default function Landing() {
       {/* Hero Section */}
       <section className="relative px-4 sm:px-6 py-16 sm:py-20 lg:py-32">
         <div className="max-w-7xl mx-auto text-center">
+          {/* Authentication Error Alert */}
+          {authError && (
+            <div className="mb-8 mx-auto max-w-2xl">
+              <Alert className="border-red-200 bg-red-50 text-red-800">
+                <AlertTriangle className="h-4 w-4" />
+                <AlertDescription className="flex items-center justify-between">
+                  <span>{authError}</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setAuthError(null)}
+                    className="h-auto p-1 text-red-600 hover:text-red-800"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </AlertDescription>
+              </Alert>
+            </div>
+          )}
+          
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {/* Floating badge */}
             <div className="inline-block mb-6 sm:mb-8 px-4 sm:px-6 py-2 bg-gradient-to-r from-purple-100 to-teal-100 rounded-full border border-purple-200/50">

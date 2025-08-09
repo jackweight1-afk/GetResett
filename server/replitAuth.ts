@@ -103,7 +103,7 @@ export async function setupAuth(app: Express) {
 
   app.get("/api/login", (req, res, next) => {
     passport.authenticate(`replitauth:${req.hostname}`, {
-      prompt: "login consent",
+      prompt: "select_account consent",
       scope: ["openid", "email", "profile", "offline_access"],
     })(req, res, next);
   });
@@ -111,7 +111,8 @@ export async function setupAuth(app: Express) {
   app.get("/api/callback", (req, res, next) => {
     passport.authenticate(`replitauth:${req.hostname}`, {
       successReturnToOrRedirect: "/",
-      failureRedirect: "/api/login",
+      failureRedirect: "/api/login?error=auth_failed",
+      failureFlash: false,
     })(req, res, next);
   });
 
