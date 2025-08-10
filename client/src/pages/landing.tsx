@@ -296,37 +296,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="relative px-4 sm:px-6 py-16 sm:py-20 bg-gradient-to-r from-purple-600 via-purple-700 to-teal-600 overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-teal-600/20"></div>
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
-        
-        <div className="relative max-w-5xl mx-auto text-center text-white">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 sm:mb-8 leading-tight">
-            Ready to Reset Your Life?
-          </h2>
-          <p className="text-lg sm:text-xl lg:text-2xl mb-10 sm:mb-12 opacity-90 font-light max-w-4xl mx-auto leading-relaxed px-4">
-            Join thousands who've transformed their daily wellness routine with just 60 seconds.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-8 sm:mb-0">
-            <Button 
-              size="lg"
-              onClick={() => window.location.href = '/api/login'}
-              className="bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 shadow-2xl font-bold rounded-full transform hover:scale-105 transition-all duration-300 w-full sm:w-auto"
-            >
-              Try GetResett Free Now
-            </Button>
-            <div className="flex items-center space-x-2 text-white/90">
-              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-              <span className="text-sm sm:text-base">No credit card required</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="bg-gray-900 text-white px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-7xl mx-auto text-center">
