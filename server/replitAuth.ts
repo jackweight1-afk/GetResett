@@ -102,16 +102,49 @@ export async function setupAuth(app: Express) {
   passport.deserializeUser((user: Express.User, cb) => cb(null, user));
 
   app.get("/api/login", (req, res, next) => {
-    passport.authenticate(`replitauth:${req.hostname}`, {
+    // Handle development environment with better fallback
+    let hostname = req.hostname;
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      // Use the first domain from REPLIT_DOMAINS for local development
+      const domains = process.env.REPLIT_DOMAINS!.split(",");
+      hostname = domains[0];
+    }
+    
+    const strategyName = `replitauth:${hostname}`;
+    
+    // Check if strategy exists before using it
+    if (!(passport as any)._strategies[strategyName]) {
+      console.error(`Authentication strategy ${strategyName} not found. Available strategies:`, Object.keys((passport as any)._strategies || {}));
+      return res.status(500).json({ 
+        message: "Authentication not configured properly",
+        error: `Strategy ${strategyName} not found`
+      });
+    }
+    
+    passport.authenticate(strategyName, {
       prompt: "select_account consent",
       scope: ["openid", "email", "profile", "offline_access"],
     })(req, res, next);
   });
 
   app.get("/api/callback", (req, res, next) => {
-    passport.authenticate(`replitauth:${req.hostname}`, {
+    // Handle development environment with better fallback
+    let hostname = req.hostname;
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      const domains = process.env.REPLIT_DOMAINS!.split(",");
+      hostname = domains[0];
+    }
+    
+    const strategyName = `replitauth:${hostname}`;
+    
+    if (!(passport as any)._strategies[strategyName]) {
+      console.error(`Authentication strategy ${strategyName} not found for callback`);
+      return res.redirect("/?error=auth_failed");
+    }
+    
+    passport.authenticate(strategyName, {
       successReturnToOrRedirect: "/",
-      failureRedirect: "/api/login?error=auth_failed",
+      failureRedirect: "/?error=auth_failed",
       failureFlash: false,
     })(req, res, next);
   });
