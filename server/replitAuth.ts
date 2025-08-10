@@ -38,7 +38,7 @@ export function getSession() {
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === 'production',
       maxAge: sessionTtl,
     },
   });
@@ -78,10 +78,19 @@ export async function setupAuth(app: Express) {
     tokens: client.TokenEndpointResponse & client.TokenEndpointResponseHelpers,
     verified: passport.AuthenticateCallback
   ) => {
-    const user = {};
-    updateUserSession(user, tokens);
-    await upsertUser(tokens.claims());
-    verified(null, user);
+    try {
+      console.log("Authentication verify function called");
+      const user = {};
+      updateUserSession(user, tokens);
+      const claims = tokens.claims();
+      console.log("User claims received:", { sub: claims?.sub, email: claims?.email });
+      await upsertUser(claims);
+      console.log("User upserted successfully");
+      verified(null, user);
+    } catch (error) {
+      console.error("Error in verify function:", error);
+      verified(error as Error, false);
+    }
   };
 
   for (const domain of process.env
@@ -134,7 +143,7 @@ export async function setupAuth(app: Express) {
     }
     
     passport.authenticate(strategyName, {
-      prompt: "select_account consent",
+      prompt: "login consent",
       scope: ["openid", "email", "profile", "offline_access"],
     })(req, res, next);
   });
@@ -158,7 +167,13 @@ export async function setupAuth(app: Express) {
       successReturnToOrRedirect: "/",
       failureRedirect: "/?error=auth_failed",
       failureFlash: false,
-    })(req, res, next);
+    })(req, res, (err: any) => {
+      if (err) {
+        console.error("Authentication callback error:", err);
+        return res.redirect("/?error=auth_failed");
+      }
+      next();
+    });
   });
 
   app.get("/api/logout", (req, res) => {
