@@ -63,6 +63,7 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
   const [notes, setNotes] = useState<string>('');
   const [sessionRating, setSessionRating] = useState<number[]>([5]);
   const [showPaywall, setShowPaywall] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -121,7 +122,23 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
       // Increment session count
       incrementCount();
       
-      // Create user session record
+      // Move to feedback step immediately - don't save session data yet
+      setStep('feedback');
+      
+    } catch (error) {
+      console.error('Error completing session:', error);
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleFeedbackSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      // Save the session data with user feedback
       await createSessionMutation.mutateAsync({
         sessionTypeId: sessionType.id,
         duration: 60,
@@ -137,25 +154,29 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
         });
       }
 
-      setStep('feedback');
-      
-      // Automatically trigger post-session flow after showing completion
-      setTimeout(() => {
-        if (onComplete) {
-          onComplete();
-        }
-      }, 2500);  // 2.5 second delay to show completion message
+      // Success! Now proceed to post-session flow
+      if (onComplete) {
+        onComplete();
+      } else {
+        onClose();
+      }
     } catch (error) {
-      console.error('Error completing session:', error);
-    }
-  };
-
-  const handleFeedbackSubmit = () => {
-    // Always trigger the post-session feeling check flow
-    if (onComplete) {
-      onComplete();
-    } else {
-      onClose();
+      console.error('Error saving session feedback:', error);
+      // Show user-friendly error but still allow them to continue
+      toast({
+        title: "Note",
+        description: "Your session was completed but feedback couldn't be saved.",
+        variant: "default",
+      });
+      
+      // Still allow the user to continue 
+      if (onComplete) {
+        onComplete();
+      } else {
+        onClose();
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -279,9 +300,10 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
                 )}
                 <Button
                   onClick={handleFeedbackSubmit}
+                  disabled={isSubmitting}
                   className={`flex-1 text-white ${primaryColor || "bg-purple-600 hover:bg-purple-700"}`}
                 >
-                  Continue
+                  {isSubmitting ? "Saving..." : "Continue"}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </div>
