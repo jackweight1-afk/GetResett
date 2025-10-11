@@ -12,8 +12,8 @@ export interface CountryCurrency {
 }
 
 // Base price in GBP (our reference currency)
-// Fixed price per region - same numerical value in each currency (1.49)
-export const FIXED_LOCAL_PRICE = 1.49;
+// All customers pay the equivalent of £1.99 GBP in their local currency
+export const BASE_PRICE_GBP = 1.99;
 
 // Common currency mappings
 export const COUNTRY_CURRENCIES: Record<string, CountryCurrency> = {
@@ -61,36 +61,35 @@ export const COUNTRY_CURRENCIES: Record<string, CountryCurrency> = {
 // Default fallback currency
 export const DEFAULT_CURRENCY: CountryCurrency = COUNTRY_CURRENCIES['GB'];
 
-export function formatPrice(amount: number, currency: string, symbol: string): string {
-  // Fixed local pricing - show 1.49 in most currencies, 1 for JPY/KRW
+// Convert base GBP price to local currency using exchange rate
+export function convertFromGBP(basePriceGBP: number, exchangeRate: number, currency: string): number {
+  const converted = basePriceGBP * exchangeRate;
+  
+  // Round to appropriate precision based on currency
   switch (currency) {
     case 'JPY':
     case 'KRW':
-      // Show ¥1 or ₩1 for these currencies (no decimals)
-      return `${symbol}1`;
-    case 'USD':
-    case 'CAD':
-    case 'AUD':
-    case 'SGD':
-    case 'EUR':
-    case 'GBP':
-    case 'BRL':
-    case 'MXN':
-    case 'CHF':
-    case 'SEK':
-    case 'NOK':
-    case 'DKK':
-    case 'PLN':
-      // Show 1.49 for most currencies
-      return `${symbol}1.49`;
-    case 'INR':
-      // Show ₹1 for simplicity in India
-      return `${symbol}1`;
     case 'CZK':
     case 'HUF':
-      // Show 1 for these currencies (typically whole numbers)
-      return `${symbol}1`;
+      // These currencies typically don't use decimals
+      return Math.round(converted);
     default:
-      return `${symbol}1.49`;
+      // Most currencies use 2 decimal places
+      return Math.round(converted * 100) / 100;
+  }
+}
+
+export function formatPrice(amount: number, currency: string, symbol: string): string {
+  // Format based on currency conventions
+  switch (currency) {
+    case 'JPY':
+    case 'KRW':
+    case 'CZK':
+    case 'HUF':
+      // These currencies don't use decimals
+      return `${symbol}${Math.round(amount)}`;
+    default:
+      // Most currencies use 2 decimal places
+      return `${symbol}${amount.toFixed(2)}`;
   }
 }
