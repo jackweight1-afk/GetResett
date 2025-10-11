@@ -114,12 +114,12 @@ export default function Landing() {
               </span>
             </div>
 
-            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] 2xl:text-[14rem] font-black text-gray-900 mb-6 sm:mb-8 leading-[0.9] tracking-tight">
-              <span className="block text-4xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] 2xl:text-[14rem]">Reset Your Day,</span>
-              <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] 2xl:text-[14rem] bg-gradient-to-r from-purple-600 via-teal-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
+            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-7xl xl:text-8xl font-black text-gray-900 mb-6 sm:mb-8 leading-[0.9] tracking-tight">
+              <span className="block text-4xl sm:text-7xl md:text-8xl lg:text-7xl xl:text-8xl">Reset Your Day,</span>
+              <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-7xl xl:text-8xl bg-gradient-to-r from-purple-600 via-teal-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
                 One Minute
               </span>
-              <span className="block text-4xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] 2xl:text-[14rem]">at a Time</span>
+              <span className="block text-4xl sm:text-7xl md:text-8xl lg:text-7xl xl:text-8xl">at a Time</span>
             </h1>
 
             <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed font-light px-4">
