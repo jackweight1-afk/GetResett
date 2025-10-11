@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
+import { useCurrency } from '@/hooks/useCurrency';
 import { apiRequest } from '@/lib/queryClient';
 
 if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
@@ -17,10 +18,11 @@ if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
 }
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-function PaymentForm({ clientSecret, isTrialMode, onSuccess }: { 
+function PaymentForm({ clientSecret, isTrialMode, onSuccess, localizedPrice }: { 
   clientSecret: string; 
   isTrialMode: boolean; 
   onSuccess: () => void;
+  localizedPrice: { formatted: string };
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -97,7 +99,7 @@ function PaymentForm({ clientSecret, isTrialMode, onSuccess }: {
             Processing...
           </div>
         ) : (
-          isTrialMode ? "Start Free Trial" : "Subscribe for £1.99/month"
+          isTrialMode ? "Start Free Trial" : `Subscribe for ${localizedPrice.formatted}/month`
         )}
       </Button>
     </form>
@@ -107,6 +109,7 @@ function PaymentForm({ clientSecret, isTrialMode, onSuccess }: {
 export default function Payment() {
   const { isAuthenticated, user } = useAuth();
   const { toast } = useToast();
+  const { localizedPrice } = useCurrency();
   const [paymentData, setPaymentData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -116,7 +119,10 @@ export default function Payment() {
 
     const createPayment = async () => {
       try {
-        const response = await apiRequest("POST", "/api/create-subscription");
+        const response = await apiRequest("POST", "/api/create-subscription", {
+          currency: localizedPrice.currency.toLowerCase(),
+          amount: Math.round(localizedPrice.amount * 100) // Convert to smallest unit (cents/paise/etc)
+        });
         const data = await response.json();
         
         console.log("Payment response:", data);
@@ -198,8 +204,8 @@ export default function Payment() {
           </h1>
           <p className="text-gray-600">
             {paymentData?.trial 
-              ? "30 days free, then £1.99/month. Cancel anytime."
-              : "£1.99/month for unlimited access. Cancel anytime."}
+              ? `30 days free, then ${localizedPrice.formatted}/month. Cancel anytime.`
+              : `${localizedPrice.formatted}/month for unlimited access. Cancel anytime.`}
           </p>
         </div>
 
@@ -234,6 +240,7 @@ export default function Payment() {
               <PaymentForm
                 clientSecret={paymentData.clientSecret}
                 isTrialMode={paymentData.trial}
+                localizedPrice={localizedPrice}
                 onSuccess={() => {
                   toast({
                     title: paymentData.trial ? "Free Trial Started!" : "Subscription Active!",

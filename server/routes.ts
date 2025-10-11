@@ -256,24 +256,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Get currency from request body (sent from frontend)
-      const { currency = 'gbp' } = req.body;
+      // Get currency and amount from request body (calculated on frontend with exchange rates)
+      const { currency = 'gbp', amount } = req.body;
       
-      // Use fixed local pricing - 1.49 in each currency
       const supportedCurrencies = ['gbp', 'usd', 'eur', 'cad', 'aud', 'jpy', 'krw', 'inr', 'brl', 'mxn', 'sgd', 'chf', 'sek', 'nok', 'dkk', 'pln', 'czk', 'huf'];
       const finalCurrency = supportedCurrencies.includes(currency.toLowerCase()) ? currency.toLowerCase() : 'gbp';
       
-      // Fixed price of 1.49 in each currency (convert to smallest unit)
-      let finalAmount = 149; // Default for currencies with 2 decimals (1.49)
+      // Amount is already calculated on frontend and sent in smallest currency unit (cents/paise/etc)
+      // Fallback to GBP if amount not provided
+      let finalAmount = amount || 199; // 199 pence = £1.99
       
-      // Adjust for currencies with different decimal structures
-      if (finalCurrency === 'jpy' || finalCurrency === 'krw') {
-        finalAmount = 1; // ¥1 or ₩1 (these currencies don't use decimals)
-      } else if (finalCurrency === 'inr') {
-        finalAmount = 149; // ₹1.49 in paise
-      } else {
-        finalAmount = 149; // 1.49 in cents/pence/etc
-      }
+      // Ensure amount is an integer (Stripe requires whole numbers)
+      finalAmount = Math.round(finalAmount);
 
       let customerId = user.stripeCustomerId;
       

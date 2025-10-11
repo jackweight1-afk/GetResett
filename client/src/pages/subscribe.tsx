@@ -160,8 +160,8 @@ export default function Subscribe() {
           }
           
           const response = await apiRequest("POST", "/api/create-subscription", {
-            currency: localizedPrice.currency.toLowerCase()
-            // Amount is now handled server-side with fixed local pricing
+            currency: localizedPrice.currency.toLowerCase(),
+            amount: Math.round(localizedPrice.amount * 100) // Convert to smallest unit (cents/paise/etc)
           });
           const data = await response.json();
           
