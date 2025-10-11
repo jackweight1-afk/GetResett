@@ -256,18 +256,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Get currency and amount from request body (calculated on frontend with exchange rates)
-      const { currency = 'gbp', amount } = req.body;
+      // Get currency from request body - NEVER trust amount from client
+      const { currency = 'gbp' } = req.body;
       
       const supportedCurrencies = ['gbp', 'usd', 'eur', 'cad', 'aud', 'jpy', 'krw', 'inr', 'brl', 'mxn', 'sgd', 'chf', 'sek', 'nok', 'dkk', 'pln', 'czk', 'huf'];
       const finalCurrency = supportedCurrencies.includes(currency.toLowerCase()) ? currency.toLowerCase() : 'gbp';
       
-      // Amount is already calculated on frontend and sent in smallest currency unit (cents/paise/etc)
-      // Fallback to GBP if amount not provided
-      let finalAmount = amount || 199; // 199 pence = £1.99
+      // Server-side exchange rates (same fallback rates as frontend for consistency)
+      const exchangeRates: Record<string, number> = {
+        USD: 1.27, EUR: 1.20, CAD: 1.71, AUD: 1.89, JPY: 192, KRW: 1654,
+        INR: 107, BRL: 7.31, MXN: 25.5, SGD: 1.71, CHF: 1.14, SEK: 13.2,
+        NOK: 13.8, DKK: 8.95, PLN: 5.15, CZK: 28.8, HUF: 389, GBP: 1
+      };
       
-      // Ensure amount is an integer (Stripe requires whole numbers)
-      finalAmount = Math.round(finalAmount);
+      // Try to fetch live rates, fall back to static rates on failure
+      let currentRates = exchangeRates;
+      try {
+        const ratesResponse = await fetch('https://api.exchangerate-api.com/v4/latest/GBP', { 
+          signal: AbortSignal.timeout(3000) 
+        });
+        if (ratesResponse.ok) {
+          const ratesData = await ratesResponse.json();
+          currentRates = ratesData.rates;
+        }
+      } catch (error) {
+        console.log('Using fallback exchange rates');
+      }
+      
+      // Calculate amount server-side from base GBP price
+      const BASE_PRICE_GBP = 1.99;
+      const rate = currentRates[finalCurrency.toUpperCase()] || 1;
+      const convertedAmount = BASE_PRICE_GBP * rate;
+      
+      // Zero-decimal currencies (Stripe doesn't use cents for these)
+      const zeroDecimalCurrencies = ['jpy', 'krw', 'czk', 'huf', 'bif', 'clp', 'djf', 'gnf', 'isk', 'kmf', 'pyg', 'rwf', 'ugx', 'vnd', 'vuv', 'xaf', 'xof', 'xpf'];
+      const isZeroDecimal = zeroDecimalCurrencies.includes(finalCurrency);
+      
+      // Convert to Stripe's smallest unit
+      let finalAmount: number;
+      if (isZeroDecimal) {
+        // Zero-decimal: use amount as-is (no multiplication)
+        finalAmount = Math.round(convertedAmount);
+      } else {
+        // Most currencies: multiply by 100 for cents/paise
+        finalAmount = Math.round(convertedAmount * 100);
+      }
+      
+      console.log(`Stripe amount calculation: ${BASE_PRICE_GBP} GBP × ${rate} = ${convertedAmount} ${finalCurrency.toUpperCase()} → ${finalAmount} (smallest unit)`);
+
 
       let customerId = user.stripeCustomerId;
       

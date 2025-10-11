@@ -120,8 +120,8 @@ export default function Payment() {
     const createPayment = async () => {
       try {
         const response = await apiRequest("POST", "/api/create-subscription", {
-          currency: localizedPrice.currency.toLowerCase(),
-          amount: Math.round(localizedPrice.amount * 100) // Convert to smallest unit (cents/paise/etc)
+          currency: localizedPrice.currency.toLowerCase()
+          // Server will calculate the amount to prevent client-side tampering
         });
         const data = await response.json();
         

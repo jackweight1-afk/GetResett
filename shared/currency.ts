@@ -61,21 +61,34 @@ export const COUNTRY_CURRENCIES: Record<string, CountryCurrency> = {
 // Default fallback currency
 export const DEFAULT_CURRENCY: CountryCurrency = COUNTRY_CURRENCIES['GB'];
 
+// Check if currency uses zero decimal places (Stripe zero-decimal currencies)
+export function isZeroDecimalCurrency(currency: string): boolean {
+  const zeroDecimalCurrencies = ['JPY', 'KRW', 'CZK', 'HUF', 'BIF', 'CLP', 'DJF', 'GNF', 'ISK', 'KMF', 'PYG', 'RWF', 'UGX', 'VND', 'VUV', 'XAF', 'XOF', 'XPF'];
+  return zeroDecimalCurrencies.includes(currency.toUpperCase());
+}
+
 // Convert base GBP price to local currency using exchange rate
 export function convertFromGBP(basePriceGBP: number, exchangeRate: number, currency: string): number {
   const converted = basePriceGBP * exchangeRate;
   
   // Round to appropriate precision based on currency
-  switch (currency) {
-    case 'JPY':
-    case 'KRW':
-    case 'CZK':
-    case 'HUF':
-      // These currencies typically don't use decimals
-      return Math.round(converted);
-    default:
-      // Most currencies use 2 decimal places
-      return Math.round(converted * 100) / 100;
+  if (isZeroDecimalCurrency(currency)) {
+    // These currencies don't use decimals
+    return Math.round(converted);
+  } else {
+    // Most currencies use 2 decimal places
+    return Math.round(converted * 100) / 100;
+  }
+}
+
+// Convert to smallest currency unit for Stripe (cents, paise, etc.)
+export function toStripeAmount(amount: number, currency: string): number {
+  if (isZeroDecimalCurrency(currency)) {
+    // Zero-decimal currencies: use the amount as-is
+    return Math.round(amount);
+  } else {
+    // Most currencies: multiply by 100 to convert to cents/paise
+    return Math.round(amount * 100);
   }
 }
 
