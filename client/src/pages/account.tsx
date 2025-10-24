@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
-import { User, Mail, Calendar, Trash2, LogOut, Shield } from "lucide-react";
+import { User, Mail, Calendar, Trash2, LogOut, Shield, ArrowLeft } from "lucide-react";
 import BottomNavigation from "@/components/bottom-navigation";
 import { UsageStatus } from "@/components/usage-status";
 import { SubscriptionManagement } from "@/components/subscription-management";
@@ -83,9 +83,20 @@ export default function Account() {
   return (
     <div className="min-h-screen bg-gray-50 p-6 pb-20 md:pb-6">
       <div className="max-w-4xl mx-auto space-y-6">
+        <div className="flex items-center justify-between mb-4">
+          <Button
+            variant="ghost"
+            onClick={() => window.location.href = '/resets'}
+            className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+            data-testid="button-back-to-resets"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Resets
+          </Button>
+          <UsageStatus />
+        </div>
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold text-gray-900">Account Settings</h1>
-          <UsageStatus />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
