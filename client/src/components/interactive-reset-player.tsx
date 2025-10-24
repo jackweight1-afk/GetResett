@@ -245,7 +245,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             {renderStepContent()}
 
             {/* Manual Next button for non-auto-advancing steps */}
-            {!isAutoAdvancing && currentStep?.input !== 'text' && (
+            {(!isAutoAdvancing || !currentStep?.duration) && currentStep?.input !== 'text' && (
               <Button
                 onClick={handleNext}
                 className={`w-full mt-6 rounded-xl bg-gradient-to-r ${reset.color} text-white py-6 text-lg`}
