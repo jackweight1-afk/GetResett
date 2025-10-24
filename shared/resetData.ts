@@ -308,7 +308,7 @@ export const RESETS: Reset[] = [
       { text: 'One by one, you\'re not doing the tasks - just organizing them...', duration: 14 },
       { text: 'The room becomes clearer. You can breathe easier...', duration: 12 },
       { text: 'You see now that it\'s manageable. One thing at a time...', duration: 12 },
-      { text: 'Open your eyes feeling clearer and more organized...', duration: 10 }
+      { text: 'Take a final breath, feeling clearer and more organized...', duration: 10 }
     ]
   },
   {
@@ -368,7 +368,7 @@ export const RESETS: Reset[] = [
       { text: 'Your cells drink in this light like plants absorbing sunshine...', duration: 12 },
       { text: 'Feel energy returning to your muscles, clarity to your mind...', duration: 12 },
       { text: 'You are being recharged, renewed, restored...', duration: 12 },
-      { text: 'Open your eyes feeling more awake and energized...', duration: 10 }
+      { text: 'Take a deep breath, feeling more awake and energized...', duration: 10 }
     ]
   },
   {
@@ -487,7 +487,7 @@ export const RESETS: Reset[] = [
       { text: 'Your scattered energy becomes a single, focused beam of light...', duration: 14 },
       { text: 'You are not fighting distraction. You are choosing focus...', duration: 12 },
       { text: 'Feel yourself centered, gathered, ready...', duration: 12 },
-      { text: 'Open your eyes with renewed clarity and purpose...', duration: 10 }
+      { text: 'Breathe in your renewed clarity and purpose...', duration: 10 }
     ]
   },
   {
