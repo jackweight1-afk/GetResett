@@ -122,7 +122,13 @@ export default function Resets() {
 
   // Render current step
   if (step === 'emotion') {
-    return <EmotionSelector onSelect={handleEmotionSelect} remainingSessions={sessionLimits.remainingSessions} />;
+    return (
+      <EmotionSelector 
+        onSelect={handleEmotionSelect} 
+        remainingSessions={sessionLimits.remainingSessions}
+        isSubscribed={sessionLimits.isSubscribed}
+      />
+    );
   }
 
   if (step === 'reset-select' && selectedEmotion) {

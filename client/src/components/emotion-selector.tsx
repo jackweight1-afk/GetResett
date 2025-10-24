@@ -7,6 +7,7 @@ import { useLocation } from 'wouter';
 interface EmotionSelectorProps {
   onSelect: (emotion: EmotionalState) => void;
   remainingSessions?: number;
+  isSubscribed?: boolean;
 }
 
 const emotionIcons: Record<EmotionalState, typeof Brain> = {
@@ -18,7 +19,7 @@ const emotionIcons: Record<EmotionalState, typeof Brain> = {
   scattered: Sparkles,
 };
 
-export default function EmotionSelector({ onSelect, remainingSessions = 0 }: EmotionSelectorProps) {
+export default function EmotionSelector({ onSelect, remainingSessions = 0, isSubscribed = false }: EmotionSelectorProps) {
   const [, setLocation] = useLocation();
 
   const handleSignOut = () => {
@@ -29,13 +30,16 @@ export default function EmotionSelector({ onSelect, remainingSessions = 0 }: Emo
     setLocation('/account');
   };
 
+  // Show remaining sessions only for non-subscribed users with limited sessions
+  const showRemainingSessions = !isSubscribed && remainingSessions > 0 && remainingSessions < 999;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 p-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header with account and sign out */}
         <div className="flex justify-between items-center mb-6">
           <div className="text-sm text-gray-600">
-            {remainingSessions > 0 && remainingSessions < 999 && (
+            {showRemainingSessions && (
               <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm">
                 {remainingSessions} free {remainingSessions === 1 ? 'reset' : 'resets'} remaining today
               </span>
