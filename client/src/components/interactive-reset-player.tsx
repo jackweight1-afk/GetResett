@@ -58,6 +58,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
     if (currentStepIndex < steps.length - 1) {
       setCurrentStepIndex(prev => prev + 1);
       setInputValue('');
+      setCompletedItems([]); // Reset completed items for next step
       setIsAutoAdvancing(false);
     } else {
       onComplete();

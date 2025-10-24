@@ -1,9 +1,12 @@
 import { EMOTIONAL_STATES, type EmotionalState } from '@shared/resetData';
 import { motion } from 'framer-motion';
-import { Brain, Heart, Zap, CloudRain, Battery, Sparkles } from 'lucide-react';
+import { Brain, Heart, Zap, CloudRain, Battery, Sparkles, LogOut, User } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useLocation } from 'wouter';
 
 interface EmotionSelectorProps {
   onSelect: (emotion: EmotionalState) => void;
+  remainingSessions?: number;
 }
 
 const emotionIcons: Record<EmotionalState, typeof Brain> = {
@@ -15,10 +18,53 @@ const emotionIcons: Record<EmotionalState, typeof Brain> = {
   scattered: Sparkles,
 };
 
-export default function EmotionSelector({ onSelect }: EmotionSelectorProps) {
+export default function EmotionSelector({ onSelect, remainingSessions = 0 }: EmotionSelectorProps) {
+  const [, setLocation] = useLocation();
+
+  const handleSignOut = () => {
+    window.location.href = '/api/logout';
+  };
+
+  const handleAccount = () => {
+    setLocation('/account');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 p-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
+        {/* Header with account and sign out */}
+        <div className="flex justify-between items-center mb-6">
+          <div className="text-sm text-gray-600">
+            {remainingSessions > 0 && remainingSessions < 999 && (
+              <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm">
+                {remainingSessions} free {remainingSessions === 1 ? 'reset' : 'resets'} remaining today
+              </span>
+            )}
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleAccount}
+              className="bg-white/80 backdrop-blur-sm hover:bg-white"
+              data-testid="button-account"
+            >
+              <User className="w-4 h-4 mr-2" />
+              Account
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleSignOut}
+              className="bg-white/80 backdrop-blur-sm hover:bg-white"
+              data-testid="button-signout"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Sign Out
+            </Button>
+          </div>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
