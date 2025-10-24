@@ -10,11 +10,13 @@ import BottomNavigation from "@/components/bottom-navigation";
 import { UsageStatus } from "@/components/usage-status";
 import { SubscriptionManagement } from "@/components/subscription-management";
 import { useSessionLimits } from "@/hooks/useSessionLimits";
+import { useLocation } from "wouter";
 
 export default function Account() {
   const { user, isLoading } = useAuth();
   const { toast } = useToast();
   const sessionLimits = useSessionLimits();
+  const [, setLocation] = useLocation();
 
   const { data: stats, isLoading: statsLoading } = useQuery<{
     totalSessions: number;
@@ -86,7 +88,7 @@ export default function Account() {
         <div className="flex items-center justify-between mb-4">
           <Button
             variant="ghost"
-            onClick={() => window.location.href = '/resets'}
+            onClick={() => setLocation('/')}
             className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
             data-testid="button-back-to-resets"
           >

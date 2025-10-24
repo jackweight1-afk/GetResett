@@ -45,7 +45,7 @@ The application employs a modern full-stack architecture with a clear separation
 ### Key Components & Design
 - **Authentication System**: Utilizes Replit Auth with OpenID Connect, PostgreSQL-backed sessions, and secure HTTP-only cookies.
 - **Interactive Reset System**: Complete redesign featuring 24 unique reset experiences (6 emotional states × 4 resets each):
-  - **Emotional States**: Stressed, Anxiety, Restless, Overwhelmed, Tired, Scattered - each with tailored description and icon
+  - **Emotional States**: Stressed (purple/indigo), Anxiety (pink/rose), Restless (amber/orange), Overwhelmed (indigo/purple), Tired (blue/cyan), Scattered (green/teal) - each with unique gradient backgrounds, tailored descriptions, and icons
   - **Reset Types**: 2 story-based narrative journeys + 2 interactive game-style exercises per emotion
   - **Interactive Exercises**: Grounding 5-4-3-2-1, box breathing, progressive muscle relaxation, tapping (EFT), counting exercises, body scan meditation
   - **Story Experiences**: Guided narrative journeys using science-backed emotional regulation techniques (mountain meditation, ocean breathing, forest walk, garden visualization, etc.)

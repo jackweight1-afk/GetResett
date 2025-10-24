@@ -548,7 +548,7 @@ export const EMOTIONAL_STATES: Record<EmotionalState, {
   },
   scattered: {
     label: 'Scattered',
-    color: 'from-teal-500 to-emerald-600',
+    color: 'from-green-500 to-teal-600',
     description: 'Unfocused and distracted'
   }
 };
