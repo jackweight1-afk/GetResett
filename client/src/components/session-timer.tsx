@@ -188,7 +188,7 @@ const focusVariations = [
   ],
   // Variation 3: Mind Reset
   [
-    "🔄 Close your eyes briefly, then open them with fresh attention",
+    "🔄 Take a deep breath and reset your attention",
     "🧘‍♀️ Take a moment to reset your mental state completely",
     "💭 Let go of all previous thoughts and start fresh",
     "🎯 Choose one object in your field of vision to focus on",
@@ -311,7 +311,7 @@ const confidenceVariations = [
   ],
   // Variation 3: Self-Empowerment Ritual
   [
-    "🌅 Close your eyes briefly and imagine your most confident self",
+    "🌅 Take a deep breath and imagine your most confident self",
     "💪 Think of a time when you overcame a difficult challenge",
     "✨ Feel that same strength and resilience flowing through you now",
     "🎯 Set an intention: 'I choose to believe in myself today'",

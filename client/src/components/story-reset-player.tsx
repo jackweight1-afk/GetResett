@@ -58,7 +58,7 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
             <Button
-              onClick={onExit}
+              onClick={onComplete}
               variant="ghost"
               className="text-gray-600"
               data-testid="button-finish-early"
@@ -176,7 +176,7 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
 
         {/* Bottom hint */}
         <p className="text-center text-sm text-gray-500 mt-6">
-          Close your eyes and listen • Breathe deeply • Let the story guide you
+          Relax and listen • Breathe deeply • Let the story guide you
         </p>
       </div>
     </div>
