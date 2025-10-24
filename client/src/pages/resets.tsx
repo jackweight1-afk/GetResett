@@ -1,0 +1,128 @@
+import { useState } from 'react';
+import { type EmotionalState, type Reset } from '@shared/resetData';
+import EmotionSelector from '@/components/emotion-selector';
+import ResetSelector from '@/components/reset-selector';
+import InteractiveResetPlayer from '@/components/interactive-reset-player';
+import StoryResetPlayer from '@/components/story-reset-player';
+import MoodRating from '@/components/mood-rating';
+import { useAuth } from '@/hooks/useAuth';
+import { apiRequest, queryClient } from '@/lib/queryClient';
+import { useToast } from '@/hooks/use-toast';
+
+type FlowStep = 'emotion' | 'reset-select' | 'reset-play' | 'mood-rating' | 'complete';
+
+export default function Resets() {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  
+  const [step, setStep] = useState<FlowStep>('emotion');
+  const [selectedEmotion, setSelectedEmotion] = useState<EmotionalState | null>(null);
+  const [selectedReset, setSelectedReset] = useState<Reset | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+
+  const handleEmotionSelect = (emotion: EmotionalState) => {
+    setSelectedEmotion(emotion);
+    setStep('reset-select');
+  };
+
+  const handleResetSelect = (reset: Reset) => {
+    setSelectedReset(reset);
+    setStep('reset-play');
+  };
+
+  const handleResetComplete = async () => {
+    setStep('mood-rating');
+  };
+
+  const handleMoodRate = async (rating: number) => {
+    // Save the feeling entry with mood rating
+    try {
+      if (user?.id && selectedEmotion) {
+        await apiRequest('POST', '/api/feelings', {
+          feeling: selectedEmotion,
+          moodRating: rating,
+          isPostSession: true,
+        });
+      }
+
+      // Invalidate queries
+      queryClient.invalidateQueries({ queryKey: ['/api/feelings'] });
+
+      toast({
+        title: "Great work!",
+        description: "Your progress has been saved.",
+      });
+
+      // Go back to start
+      setStep('emotion');
+      setSelectedEmotion(null);
+      setSelectedReset(null);
+      setSessionId(null);
+
+    } catch (error) {
+      console.error('Error saving mood rating:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save your progress.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleTryAnother = () => {
+    setStep('reset-select');
+  };
+
+  const handleExit = () => {
+    setStep('emotion');
+    setSelectedEmotion(null);
+    setSelectedReset(null);
+    setSessionId(null);
+  };
+
+  // Render current step
+  if (step === 'emotion') {
+    return <EmotionSelector onSelect={handleEmotionSelect} />;
+  }
+
+  if (step === 'reset-select' && selectedEmotion) {
+    return (
+      <ResetSelector
+        emotion={selectedEmotion}
+        onSelect={handleResetSelect}
+        onBack={() => setStep('emotion')}
+      />
+    );
+  }
+
+  if (step === 'reset-play' && selectedReset) {
+    if (selectedReset.type === 'story') {
+      return (
+        <StoryResetPlayer
+          reset={selectedReset}
+          onComplete={handleResetComplete}
+          onExit={handleExit}
+        />
+      );
+    } else {
+      return (
+        <InteractiveResetPlayer
+          reset={selectedReset}
+          onComplete={handleResetComplete}
+          onExit={handleExit}
+        />
+      );
+    }
+  }
+
+  if (step === 'mood-rating') {
+    return (
+      <MoodRating
+        onRate={handleMoodRate}
+        onTryAnother={handleTryAnother}
+      />
+    );
+  }
+
+  return null;
+}

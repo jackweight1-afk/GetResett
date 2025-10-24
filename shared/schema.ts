@@ -159,7 +159,8 @@ export const insertSessionTypeSchema = createInsertSchema(sessionTypes).omit({
 export const feelingEntries = pgTable("feeling_entries", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").notNull().references(() => users.id),
-  feeling: varchar("feeling").notNull(), // stressed, cant_sleep, achy_muscles, cant_focus, overwhelmed, feel_better
+  feeling: varchar("feeling").notNull(), // stressed, anxiety, restless, overwhelmed, tired, scattered
+  moodRating: integer("mood_rating"), // 1-10 scale for post-reset check
   isPostSession: boolean("is_post_session").default(false),
   sessionId: varchar("session_id").references(() => userSessions.id),
   createdAt: timestamp("created_at").defaultNow(),

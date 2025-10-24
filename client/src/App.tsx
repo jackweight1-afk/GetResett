@@ -8,7 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import NotFound from "@/pages/not-found";
 import Landing from "@/pages/landing";
 import Dashboard from "@/pages/dashboard";
-import GuidedFlow from "@/pages/guided-flow";
+import Resets from "@/pages/resets";
 import Insights from "@/pages/insights";
 import Account from "@/pages/account";
 import Subscribe from "@/pages/subscribe";
@@ -42,7 +42,7 @@ function Router() {
         <Route path="/" component={Landing} />
       ) : (
         <>
-          <Route path="/" component={GuidedFlow} />
+          <Route path="/" component={Resets} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/insights" component={Insights} />
           <Route path="/account" component={Account} />
