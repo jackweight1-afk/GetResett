@@ -9,10 +9,11 @@ export default {
     // Emotional state gradient colors - ALL explicitly listed
     'from-purple-500', 'to-indigo-600',
     'from-pink-500', 'to-rose-600',
-    'from-amber-500', 'to-orange-600',
+    'from-amber-500', 'to-orange-600', 'to-amber-600',
     'from-indigo-500', 'to-purple-600',
     'from-blue-500', 'to-cyan-600',
     'from-green-500', 'to-teal-600',
+    'from-teal-500', 'to-teal-600',
     // Landing page feature gradients
     'from-purple-600', 'to-purple-600',
     'from-teal-600', 'to-teal-600',
