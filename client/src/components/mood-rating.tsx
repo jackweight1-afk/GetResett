@@ -4,24 +4,31 @@ import { Button } from '@/components/ui/button';
 import { Smile, Meh, Frown } from 'lucide-react';
 
 interface MoodRatingProps {
-  onRate: (rating: number) => void;
-  onTryAnother: () => void;
+  onSave: (rating: number) => Promise<void>;  // Save data only
+  onComplete: () => void;                      // Complete flow and navigate
+  onTryAnother: () => void;                    // Try another reset
 }
 
-export default function MoodRating({ onRate, onTryAnother }: MoodRatingProps) {
+export default function MoodRating({ onSave, onComplete, onTryAnother }: MoodRatingProps) {
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
 
-  const handleRate = (rating: number) => {
+  const handleRate = async (rating: number) => {
     setSelectedRating(rating);
     setShowResult(true);
     
-    // Auto-proceed after a brief moment
-    setTimeout(() => {
-      if (rating >= 8) {
-        onRate(rating);
-      }
-    }, 1500);
+    // Save the rating immediately (for both high and low scores)
+    // This ensures all mood data is captured for analytics
+    await onSave(rating);
+    
+    // For high ratings (>=8), automatically complete the flow after showing success message
+    if (rating >= 8) {
+      setTimeout(() => {
+        onComplete();
+      }, 2000);
+    }
+    
+    // For low ratings (<8), user will manually choose next action via "Choose Another Reset" button
   };
 
   return (
@@ -123,15 +130,6 @@ export default function MoodRating({ onRate, onTryAnother }: MoodRatingProps) {
                     data-testid="button-try-another"
                   >
                     Choose Another Reset
-                  </Button>
-
-                  <Button
-                    onClick={() => onRate(selectedRating!)}
-                    variant="ghost"
-                    className="w-full mt-3 text-gray-600"
-                    data-testid="button-finish-anyway"
-                  >
-                    Finish Anyway
                   </Button>
                 </>
               )}

@@ -34,8 +34,8 @@ export default function Resets() {
     setStep('mood-rating');
   };
 
-  const handleMoodRate = async (rating: number) => {
-    // Save the feeling entry with mood rating
+  const handleSaveMoodRating = async (rating: number) => {
+    // Save the feeling entry with mood rating (no navigation)
     try {
       if (user?.id && selectedEmotion) {
         await apiRequest('POST', '/api/feelings', {
@@ -48,17 +48,6 @@ export default function Resets() {
       // Invalidate queries
       queryClient.invalidateQueries({ queryKey: ['/api/feelings'] });
 
-      toast({
-        title: "Great work!",
-        description: "Your progress has been saved.",
-      });
-
-      // Go back to start
-      setStep('emotion');
-      setSelectedEmotion(null);
-      setSelectedReset(null);
-      setSessionId(null);
-
     } catch (error) {
       console.error('Error saving mood rating:', error);
       toast({
@@ -69,8 +58,23 @@ export default function Resets() {
     }
   };
 
+  const handleMoodComplete = () => {
+    // Navigate back to emotion selection after mood rating is complete
+    toast({
+      title: "Great work!",
+      description: "Your progress has been saved.",
+    });
+    
+    setStep('emotion');
+    setSelectedEmotion(null);
+    setSelectedReset(null);
+    setSessionId(null);
+  };
+
   const handleTryAnother = () => {
+    // Keep the emotion selection but go back to reset selection
     setStep('reset-select');
+    setSelectedReset(null);
   };
 
   const handleExit = () => {
@@ -118,7 +122,8 @@ export default function Resets() {
   if (step === 'mood-rating') {
     return (
       <MoodRating
-        onRate={handleMoodRate}
+        onSave={handleSaveMoodRating}
+        onComplete={handleMoodComplete}
         onTryAnother={handleTryAnother}
       />
     );
