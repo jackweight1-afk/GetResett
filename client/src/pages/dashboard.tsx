@@ -49,11 +49,11 @@ const iconMap = {
 const colorMap = {
   purple: "bg-purple-100 text-purple-700",
   blue: "bg-blue-100 text-blue-700",
-  sage: "bg-sage/15 text-sage border border-sage/30",
-  mint: "bg-mint/15 text-mint border border-mint/30",
-  emerald: "bg-emerald/15 text-emerald border border-emerald/30",
+  sage: "bg-green-100 text-green-700",
+  mint: "bg-emerald-100 text-emerald-700",
+  emerald: "bg-emerald-100 text-emerald-700",
   orange: "bg-orange-100 text-orange-700",
-  teal: "bg-teal/15 text-teal border border-teal/30",
+  teal: "bg-teal-100 text-teal-700",
   yellow: "bg-yellow-100 text-yellow-700",
 };
 
