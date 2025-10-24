@@ -44,14 +44,14 @@ export const RESETS: Reset[] = [
     duration: 120,
     color: 'from-purple-400 to-indigo-500',
     storyContent: [
-      { text: 'Close your eyes and imagine standing at the base of a majestic mountain...', duration: 8 },
+      { text: 'Take a deep breath and imagine standing at the base of a majestic mountain...', duration: 8 },
       { text: 'This mountain has stood here for thousands of years, unmoved by storms, winds, and changing seasons...', duration: 10 },
       { text: 'Feel yourself becoming like this mountain - solid, grounded, unshakeable...', duration: 10 },
       { text: 'Stress may swirl around you like passing clouds, but your core remains steady and strong...', duration: 12 },
       { text: 'With each breath, you sink deeper roots into the earth beneath you...', duration: 10 },
       { text: 'The mountain does not fight the storm. It simply exists, patient and enduring...', duration: 12 },
       { text: 'You are this mountain. Strong. Grounded. At peace...', duration: 10 },
-      { text: 'Take a deep breath, and slowly open your eyes, carrying this steadiness with you...', duration: 8 }
+      { text: 'Take a final deep breath, carrying this steadiness with you...', duration: 8 }
     ]
   },
   {
@@ -321,7 +321,7 @@ export const RESETS: Reset[] = [
     duration: 90,
     color: 'from-violet-400 to-purple-500',
     storyContent: [
-      { text: 'Close your eyes and imagine a wise, calm version of yourself...', duration: 10 },
+      { text: 'Take a moment to imagine a wise, calm version of yourself...', duration: 10 },
       { text: 'This wise guide has already gotten through everything you\'re facing...', duration: 12 },
       { text: 'They look at you with compassion and say: "You\'re doing better than you think..."', duration: 14 },
       { text: '"The overwhelm is temporary. You have everything you need..."', duration: 12 },
@@ -381,13 +381,13 @@ export const RESETS: Reset[] = [
     duration: 120,
     color: 'from-sky-400 to-blue-500',
     storyContent: [
-      { text: 'Close your eyes and let yourself sink into comfort...', duration: 12 },
+      { text: 'Take a deep breath and let yourself sink into comfort...', duration: 12 },
       { text: 'Imagine gentle ocean waves, rhythmic and soothing...', duration: 15 },
       { text: 'Each wave washes away tension, bringing calm...', duration: 15 },
       { text: 'Your breathing slows, matching the rhythm of the waves...', duration: 15 },
       { text: 'You\'re not sleeping, just deeply resting...', duration: 15 },
       { text: 'This brief rest is restoring your energy and focus...', duration: 15 },
-      { text: 'When ready, slowly return feeling refreshed...', duration: 15 }
+      { text: 'Take one more breath, feeling refreshed and renewed...', duration: 15 }
     ]
   },
   {

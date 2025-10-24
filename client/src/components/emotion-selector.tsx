@@ -37,33 +37,33 @@ export default function EmotionSelector({ onSelect, remainingSessions = 0, isSub
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 p-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header with account and sign out */}
-        <div className="flex justify-between items-center mb-6">
-          <div className="text-sm text-gray-600">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
+          <div className="text-xs sm:text-sm text-gray-600 w-full sm:w-auto">
             {showRemainingSessions && (
-              <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm">
+              <span className="bg-white/80 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full shadow-sm inline-block">
                 {remainingSessions} free {remainingSessions === 1 ? 'reset' : 'resets'} remaining today
               </span>
             )}
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 w-full sm:w-auto justify-end">
             <Button
               variant="ghost"
               size="sm"
               onClick={handleAccount}
-              className="bg-white/80 backdrop-blur-sm hover:bg-white"
+              className="bg-white/80 backdrop-blur-sm hover:bg-white text-xs sm:text-sm"
               data-testid="button-account"
             >
-              <User className="w-4 h-4 mr-2" />
+              <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
               Account
             </Button>
             <Button
               variant="ghost"
               size="sm"
               onClick={handleSignOut}
-              className="bg-white/80 backdrop-blur-sm hover:bg-white"
+              className="bg-white/80 backdrop-blur-sm hover:bg-white text-xs sm:text-sm"
               data-testid="button-signout"
             >
-              <LogOut className="w-4 h-4 mr-2" />
+              <LogOut className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
               Sign Out
             </Button>
           </div>
