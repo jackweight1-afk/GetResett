@@ -123,7 +123,7 @@ export default function Landing() {
             </h1>
 
             <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed font-light px-4">
-              Science-backed 60-second wellness sessions designed for modern minds. 
+              Science-backed guided resets and interactive games designed for modern minds. 
               <span className="text-purple-600 font-semibold"> Instant results</span>, 
               <span className="text-teal-600 font-semibold"> lasting impact</span>.
             </p>
