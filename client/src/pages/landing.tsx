@@ -130,16 +130,15 @@ export default function Landing() {
               <Button 
                 size="lg"
                 onClick={() => window.location.href = '/api/login'}
-                className="text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 shadow-elegant-lg hover:shadow-elegant transition-all duration-300 transform hover:scale-105 font-bold rounded-xl relative overflow-hidden"
+                className="bg-stone-800 hover:bg-stone-900 text-white text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 shadow-elegant-lg hover:shadow-elegant transition-all duration-300 transform hover:scale-105 font-bold rounded-xl relative overflow-hidden"
                 data-testid="button-cta-main"
               >
                 <span className="relative z-10">Try GetResett Free</span>
               </Button>
               <Button 
                 size="lg" 
-                variant="outline"
                 onClick={() => window.location.href = '/api/login'}
-                className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 font-bold hover:shadow-elegant transition-all duration-300 rounded-xl group"
+                className="bg-stone-800 hover:bg-stone-900 text-white text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 font-bold hover:shadow-elegant transition-all duration-300 rounded-xl group"
                 data-testid="button-explore"
               >
                 <Zap className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover:scale-110 transition-transform" />
