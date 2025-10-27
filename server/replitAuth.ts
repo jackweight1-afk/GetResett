@@ -148,10 +148,6 @@ export async function setupAuth(app: Express) {
   });
 
   app.get("/api/callback", (req, res, next) => {
-    console.log("=== CALLBACK START ===");
-    console.log("Query params:", req.query);
-    console.log("Session ID:", req.sessionID);
-    
     // Handle development environment with better fallback
     let hostname = req.hostname;
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
@@ -160,37 +156,16 @@ export async function setupAuth(app: Express) {
     }
     
     const strategyName = `replitauth:${hostname}`;
-    console.log("Using strategy:", strategyName);
     
     if (!(passport as any)._strategies[strategyName]) {
       console.error(`Authentication strategy ${strategyName} not found for callback`);
       return res.redirect("/?error=auth_failed");
     }
     
-    passport.authenticate(strategyName, (err: any, user: any, info: any) => {
-      console.log("=== AUTHENTICATE CALLBACK ===");
-      console.log("Error:", err);
-      console.log("User:", user ? "Present" : "None");
-      console.log("Info:", info);
-      
-      if (err) {
-        console.error("Authentication error:", err);
-        return res.redirect("/?error=auth_failed");
-      }
-      
-      if (!user) {
-        console.error("No user returned from authentication");
-        return res.redirect("/?error=auth_failed");
-      }
-      
-      req.logIn(user, (loginErr) => {
-        if (loginErr) {
-          console.error("Login error:", loginErr);
-          return res.redirect("/?error=auth_failed");
-        }
-        console.log("Login successful!");
-        return res.redirect("/");
-      });
+    passport.authenticate(strategyName, {
+      successReturnToOrRedirect: "/",
+      failureRedirect: "/?error=auth_failed",
+      failureFlash: false,
     })(req, res, next);
   });
 
