@@ -1,3 +1,6 @@
+/* Google Fonts - Neutral Elegance */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,9 +21,6 @@
 .transform {
   will-change: transform;
 }
-
-/* Google Fonts - Neutral Elegance */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap');
 
 /* Optimize font loading */
 @font-face {
@@ -150,7 +150,7 @@ img[loading="lazy"].loaded {
 }
 
 .animated-gradient-text {
-  background: linear-gradient(-45deg, hsl(150, 40%, 25%), hsl(150, 35%, 35%), hsl(25, 35%, 45%), hsl(150, 40%, 25%));
+  background: linear-gradient(-45deg, #1e293b, #0ea5e9, #38bdf8, #1e293b);
   background-size: 400% 400%;
   animation: gradient-shift 4s ease infinite;
   -webkit-background-clip: text;
@@ -287,73 +287,47 @@ img[loading="lazy"].loaded {
   .gradient-violet-indigo {
     background: linear-gradient(135deg, hsl(258, 90%, 66%), hsl(243, 75%, 59%));
   }
-  /* Biophilic-Luxe Design System */
+  /* Minimal Slate Design System */
   
-  /* Premium gradient text */
-  .text-gradient-natural {
-    background: linear-gradient(135deg, hsl(150, 40%, 25%), hsl(150, 35%, 35%));
+  /* Gradient text - slate to accent */
+  .text-gradient-modern {
+    background: linear-gradient(135deg, #1e293b, #0ea5e9);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   
-  /* Layered premium shadows */
+  /* Minimal shadows */
   .shadow-elegant {
-    box-shadow: 0 2px 8px rgba(20, 35, 25, 0.08), 
-                0 8px 24px rgba(20, 35, 25, 0.12);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 
+                0 1px 2px rgba(0, 0, 0, 0.06);
   }
   .shadow-elegant-lg {
-    box-shadow: 0 4px 16px rgba(20, 35, 25, 0.1), 
-                0 12px 40px rgba(20, 35, 25, 0.15);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 
+                0 2px 4px rgba(0, 0, 0, 0.06);
   }
   .shadow-premium {
-    box-shadow: 0 8px 32px rgba(20, 35, 25, 0.12),
-                0 20px 60px rgba(20, 35, 25, 0.18),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1),
+                0 4px 6px rgba(0, 0, 0, 0.05);
   }
   
-  /* Header gradient - deep evergreen */
-  .gradient-forest-sage {
-    background: linear-gradient(135deg, hsl(150, 45%, 20%), hsl(150, 40%, 28%));
+  /* Slate header */
+  .gradient-slate {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
   }
   
-  /* Warm clay colors */
-  .bg-clay {
-    background-color: hsl(25, 35%, 45%);
+  /* Accent button - bright sky blue */
+  .bg-accent {
+    background-color: #0ea5e9;
   }
-  .bg-clay-dark {
-    background-color: hsl(25, 40%, 35%);
-  }
-  .text-clay {
-    color: hsl(25, 35%, 45%);
+  .bg-accent-hover {
+    background-color: #0284c7;
   }
   
-  /* Ivory accent */
-  .text-ivory {
-    color: hsl(40, 30%, 95%);
-  }
-  .bg-ivory {
-    background-color: hsl(40, 30%, 95%);
-  }
-  
-  /* Desaturated sage backgrounds */
-  .bg-sage-light {
-    background-color: hsl(150, 15%, 92%);
-  }
-  .bg-sage-subtle {
-    background-color: hsl(150, 10%, 96%);
-  }
-  
-  /* Premium glassmorphism */
-  .glass-card {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-  }
-  .glass-button {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+  /* Clean white card */
+  .card-modern {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
   }
 }
 

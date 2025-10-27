@@ -9,19 +9,19 @@ Preferred communication style: Simple, everyday language.
 ### UI/UX Preferences
 - Modern mobile-first design is essential - all text must stay within containers, no overflow issues
 - CTAs should encourage trying the app free first rather than pushing subscription immediately
-- **Biophilic-Luxe Design System**: Premium wellness aesthetic with deep evergreen, warm clay, and sophisticated natural tones
-- Primary colors: Deep evergreen (hsl(150, 45%, 20%) to hsl(150, 40%, 28%)), warm clay (hsl(25, 35%, 45%)), ivory (hsl(40, 30%, 95%))
-- Background accents: Desaturated sage (hsl(150, 15%, 92%) and hsl(150, 10%, 96%)) for subtle depth
-- Premium typography: Display (weight 800, tight tracking), Headline (weight 700), Body-light (weight 400, line-height 1.7) using Plus Jakarta Sans for headings, DM Sans for body
-- Layered shadow system with green tint for premium depth (shadow-elegant, shadow-premium with multiple layers)
+- **Minimal Slate Design System**: Ultra-modern, clean aesthetic with slate gray and bright blue accents (like Linear, Raycast)
+- Primary colors: Slate gray (#1e293b, #0f172a) for headers and text, bright sky blue (#0ea5e9) for accents and CTAs
+- Background: Clean white with subtle slate-50 accents for cards
+- Minimal shadows: Light, subtle elevation with rgba(0, 0, 0, 0.08) - no heavy layering
+- Sharp typography: Display (weight 800), Headline (weight 700), Body-light (weight 400, line-height 1.7) using Plus Jakarta Sans for headings, DM Sans for body
 - Emotion state gradients preserved for emotional association (purple, pink, amber, indigo, blue, green/teal)
-- Glassmorphism effects throughout (buttons, cards, footer) with backdrop blur and subtle borders
-- Premium CTA buttons: Warm clay with ivory text, refined rounded corners (rounded-2xl)
-- Secondary buttons: Glassmorphism with backdrop blur
+- CTA buttons: Bright sky blue (#0ea5e9) with white text, sharp rounded-lg corners
+- Secondary buttons: Outline style with slate-200 borders
+- Clean card borders: 1px slate-200 borders, no heavy shadows
 - Touch-friendly button sizes optimized for mobile devices
-- Excellent contrast with emerald-800 accents on light backgrounds
+- High contrast slate-900 text on white backgrounds
 - Responsive typography that scales appropriately across screen sizes
-- Animated gradient text effects for hero headlines (evergreen to clay gradient)
+- Animated gradient text effects for hero headlines (slate to sky blue gradient)
 
 ## System Architecture
 
@@ -66,7 +66,7 @@ The application employs a modern full-stack architecture with a clear separation
   5. If mood rating < 8, offered to try another reset for same emotion (loop-back flow)
   6. If mood rating >= 8, shows success message and returns to emotion selection
 - **Tracking Systems**: Post-session mood ratings stored with emotional state and isPostSession flag for analytics. Dashboard shows consistency metrics and improvement trends.
-- **UI/UX Design**: Premium biophilic-luxe design with deep evergreen and warm clay palette. Sophisticated gradient header (hsl(150, 45%, 20%) to hsl(150, 40%, 28%)) with backdrop blur and glassmorphism. Animated gradient text in hero (evergreen to clay). Layered premium shadows with green tint. Desaturated sage background accents. Warm clay CTA buttons with ivory text. Glassmorphism effects on secondary buttons and cards. Refined typography hierarchy (Display 800, Headline 700, Body-light 400). Rounded-2xl buttons and cards. Mobile-first responsive design. All text properly contained within responsive containers. Account and Sign Out buttons in header. Remaining free sessions displayed for non-subscribed users. Emotion state gradients preserved for psychological association.
+- **UI/UX Design**: Minimal slate modern design with clean slate gray and bright sky blue accents. Dark slate gradient header (#0f172a to #1e293b) with sharp borders. Animated gradient text in hero (slate to sky blue). Minimal shadows for subtle elevation. Clean white backgrounds with slate-50 card accents. Bright sky blue CTA buttons (#0ea5e9) with white text. Outline secondary buttons with slate borders. Refined typography hierarchy (Display 800, Headline 700, Body-light 400). Rounded-lg buttons and cards for modern feel. Mobile-first responsive design. All text properly contained within responsive containers. Account and Sign Out buttons in header. Remaining free sessions displayed for non-subscribed users. Emotion state gradients preserved for psychological association.
 - **Data Flow**: Authentication via Replit Auth → Emotion selection → Reset selection → Interactive/Story experience → Mood rating → Data persistence via PostgreSQL and Drizzle ORM
 - **Monetization**: Implements a comprehensive subscription model with 3 free daily sessions, tracked via localStorage with timezone-aware date keys. On 4th reset attempt, non-subscribed users see GetResett+ paywall. New users receive a 30-day free trial with setup intent (no charge), while returning users who've already had a trial are charged the equivalent of £1.99 GBP in their local currency (calculated using real-time exchange rates - e.g., $2.53 USD, €2.39 EUR, ₹213 INR, ¥382 JPY, etc.) immediately via payment intent. Features mobile-first UX design with Apple Pay and Google Pay support, full international currency support with proper conversion from GBP base price, and seamless trial eligibility detection via Stripe subscription history.
 - **Session Limits**: Free users get 3 resets per day. useSessionLimits hook tracks count in localStorage. Session check happens before starting reset. Increments count for non-subscribers only. Subscribed users and test account (huzefausama25@gmail.com) have unlimited access.
