@@ -9,17 +9,19 @@ Preferred communication style: Simple, everyday language.
 ### UI/UX Preferences
 - Modern mobile-first design is essential - all text must stay within containers, no overflow issues
 - CTAs should encourage trying the app free first rather than pushing subscription immediately
-- **Natural Earthy Design System**: Very dark forest green and rich brown natural color palette with sophisticated earth tones
-- Primary colors: Very dark forest green (hsl(145, 40%, 18%)) and darker sage (hsl(145, 35%, 25%))
-- Accent colors: Dark browns and stone tones for warmth
-- Professional typography: Plus Jakarta Sans/Manrope for headings, DM Sans/Work Sans for body text with generous line-height (1.6-1.8)
-- Natural shadow system with green tint (shadow-elegant, shadow-elegant-lg) for depth and visual hierarchy
+- **Biophilic-Luxe Design System**: Premium wellness aesthetic with deep evergreen, warm clay, and sophisticated natural tones
+- Primary colors: Deep evergreen (hsl(150, 45%, 20%) to hsl(150, 40%, 28%)), warm clay (hsl(25, 35%, 45%)), ivory (hsl(40, 30%, 95%))
+- Background accents: Desaturated sage (hsl(150, 15%, 92%) and hsl(150, 10%, 96%)) for subtle depth
+- Premium typography: Display (weight 800, tight tracking), Headline (weight 700), Body-light (weight 400, line-height 1.7) using Plus Jakarta Sans for headings, DM Sans for body
+- Layered shadow system with green tint for premium depth (shadow-elegant, shadow-premium with multiple layers)
 - Emotion state gradients preserved for emotional association (purple, pink, amber, indigo, blue, green/teal)
-- Glassmorphism effects with backdrop blur and gradient header (forest-sage gradient)
-- Touch-friendly button sizes and spacing optimized for mobile devices
-- Excellent contrast ratios with dark green on light backgrounds
+- Glassmorphism effects throughout (buttons, cards, footer) with backdrop blur and subtle borders
+- Premium CTA buttons: Warm clay with ivory text, refined rounded corners (rounded-2xl)
+- Secondary buttons: Glassmorphism with backdrop blur
+- Touch-friendly button sizes optimized for mobile devices
+- Excellent contrast with emerald-800 accents on light backgrounds
 - Responsive typography that scales appropriately across screen sizes
-- Animated gradient text effects for hero headlines (natural green tones)
+- Animated gradient text effects for hero headlines (evergreen to clay gradient)
 
 ## System Architecture
 
@@ -64,7 +66,7 @@ The application employs a modern full-stack architecture with a clear separation
   5. If mood rating < 8, offered to try another reset for same emotion (loop-back flow)
   6. If mood rating >= 8, shows success message and returns to emotion selection
 - **Tracking Systems**: Post-session mood ratings stored with emotional state and isPostSession flag for analytics. Dashboard shows consistency metrics and improvement trends.
-- **UI/UX Design**: Sophisticated natural earthy design with VERY DARK forest green and rich brown palette. Very dark forest-sage gradient header (hsl(145, 40%, 18%) to hsl(145, 35%, 25%)) with backdrop blur. Animated dark green gradient text in hero section. Dark green-tinted shadows. Stone and brown background accents. Rounded cards (rounded-3xl). Professional typography with improved readability. Mobile-first responsive design. All text properly contained within responsive containers. Account and Sign Out buttons in header. Remaining free sessions displayed for non-subscribed users. Emotion state gradients preserved for psychological association.
+- **UI/UX Design**: Premium biophilic-luxe design with deep evergreen and warm clay palette. Sophisticated gradient header (hsl(150, 45%, 20%) to hsl(150, 40%, 28%)) with backdrop blur and glassmorphism. Animated gradient text in hero (evergreen to clay). Layered premium shadows with green tint. Desaturated sage background accents. Warm clay CTA buttons with ivory text. Glassmorphism effects on secondary buttons and cards. Refined typography hierarchy (Display 800, Headline 700, Body-light 400). Rounded-2xl buttons and cards. Mobile-first responsive design. All text properly contained within responsive containers. Account and Sign Out buttons in header. Remaining free sessions displayed for non-subscribed users. Emotion state gradients preserved for psychological association.
 - **Data Flow**: Authentication via Replit Auth → Emotion selection → Reset selection → Interactive/Story experience → Mood rating → Data persistence via PostgreSQL and Drizzle ORM
 - **Monetization**: Implements a comprehensive subscription model with 3 free daily sessions, tracked via localStorage with timezone-aware date keys. On 4th reset attempt, non-subscribed users see GetResett+ paywall. New users receive a 30-day free trial with setup intent (no charge), while returning users who've already had a trial are charged the equivalent of £1.99 GBP in their local currency (calculated using real-time exchange rates - e.g., $2.53 USD, €2.39 EUR, ₹213 INR, ¥382 JPY, etc.) immediately via payment intent. Features mobile-first UX design with Apple Pay and Google Pay support, full international currency support with proper conversion from GBP base price, and seamless trial eligibility detection via Stripe subscription history.
 - **Session Limits**: Free users get 3 resets per day. useSessionLimits hook tracks count in localStorage. Session check happens before starting reset. Increments count for non-subscribers only. Subscribed users and test account (huzefausama25@gmail.com) have unlimited access.

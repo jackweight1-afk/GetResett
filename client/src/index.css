@@ -150,12 +150,40 @@ img[loading="lazy"].loaded {
 }
 
 .animated-gradient-text {
-  background: linear-gradient(-45deg, hsl(145, 40%, 18%), hsl(145, 35%, 25%), hsl(145, 40%, 18%), hsl(145, 35%, 25%));
+  background: linear-gradient(-45deg, hsl(150, 40%, 25%), hsl(150, 35%, 35%), hsl(25, 35%, 45%), hsl(150, 40%, 25%));
   background-size: 400% 400%;
-  animation: gradient-shift 3s ease infinite;
+  animation: gradient-shift 4s ease infinite;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* Premium Typography System */
+.text-display {
+  font-family: 'Plus Jakarta Sans', 'Manrope', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.text-headline {
+  font-family: 'Plus Jakarta Sans', 'Manrope', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.text-body-light {
+  font-family: 'DM Sans', 'Work Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+.text-body-medium {
+  font-family: 'DM Sans', 'Work Sans', sans-serif;
+  font-weight: 500;
+  line-height: 1.6;
 }
 
 /* Interactive hover effects */
@@ -259,33 +287,73 @@ img[loading="lazy"].loaded {
   .gradient-violet-indigo {
     background: linear-gradient(135deg, hsl(258, 90%, 66%), hsl(243, 75%, 59%));
   }
+  /* Biophilic-Luxe Design System */
+  
+  /* Premium gradient text */
   .text-gradient-natural {
-    background: linear-gradient(135deg, hsl(145, 40%, 18%), hsl(145, 35%, 25%));
+    background: linear-gradient(135deg, hsl(150, 40%, 25%), hsl(150, 35%, 35%));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   
-  /* Natural shadows with dark green tint */
+  /* Layered premium shadows */
   .shadow-elegant {
-    box-shadow: 0 4px 16px rgba(20, 40, 25, 0.15);
+    box-shadow: 0 2px 8px rgba(20, 35, 25, 0.08), 
+                0 8px 24px rgba(20, 35, 25, 0.12);
   }
   .shadow-elegant-lg {
-    box-shadow: 0 8px 32px rgba(20, 40, 25, 0.22);
+    box-shadow: 0 4px 16px rgba(20, 35, 25, 0.1), 
+                0 12px 40px rgba(20, 35, 25, 0.15);
+  }
+  .shadow-premium {
+    box-shadow: 0 8px 32px rgba(20, 35, 25, 0.12),
+                0 20px 60px rgba(20, 35, 25, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   
-  /* Natural gradient backgrounds */
+  /* Header gradient - deep evergreen */
   .gradient-forest-sage {
-    background: linear-gradient(135deg, hsl(145, 40%, 18%), hsl(145, 35%, 25%));
+    background: linear-gradient(135deg, hsl(150, 45%, 20%), hsl(150, 40%, 28%));
   }
   
-  /* Dark brown accents */
-  .bg-dark-brown {
-    background-color: hsl(25, 30%, 25%);
+  /* Warm clay colors */
+  .bg-clay {
+    background-color: hsl(25, 35%, 45%);
+  }
+  .bg-clay-dark {
+    background-color: hsl(25, 40%, 35%);
+  }
+  .text-clay {
+    color: hsl(25, 35%, 45%);
   }
   
-  .text-dark-brown {
-    color: hsl(25, 35%, 22%);
+  /* Ivory accent */
+  .text-ivory {
+    color: hsl(40, 30%, 95%);
+  }
+  .bg-ivory {
+    background-color: hsl(40, 30%, 95%);
+  }
+  
+  /* Desaturated sage backgrounds */
+  .bg-sage-light {
+    background-color: hsl(150, 15%, 92%);
+  }
+  .bg-sage-subtle {
+    background-color: hsl(150, 10%, 96%);
+  }
+  
+  /* Premium glassmorphism */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  .glass-button {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 }
 
