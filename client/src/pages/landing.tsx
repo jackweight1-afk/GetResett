@@ -36,40 +36,39 @@ export default function Landing() {
   ];
 
   const features = [
-    { icon: Timer, title: "Just 60 Seconds", desc: "Perfect for ADHD minds and busy lives. Reset between meetings, during breaks, or whenever you need focus.", color: "bg-warm-sand/20" },
-    { icon: Brain, title: "Science-Backed", desc: "Evidence-based techniques from mindfulness research, designed for maximum impact in minimal time.", color: "bg-muted-olive/20" },
-    { icon: Target, title: "Instant Results", desc: "Feel the difference immediately. Track your mood before and after each session.", color: "bg-warm-sand/20" },
-    { icon: Sparkles, title: "Never Boring", desc: "3 variations of each session type ensure you stay engaged and motivated daily.", color: "bg-muted-olive/20" },
-    { icon: TrendingUp, title: "Track Progress", desc: "Build wellness streaks and see your consistency improve over time with detailed insights.", color: "bg-warm-sand/20" },
-    { icon: Shield, title: "Always Available", desc: "No internet needed once loaded. Your wellness toolkit works anywhere, anytime.", color: "bg-muted-olive/20" }
+    { icon: Timer, title: "Just 60 Seconds", desc: "Perfect for ADHD minds and busy lives. Reset between meetings, during breaks, or whenever you need focus.", color: "bg-purple-50" },
+    { icon: Brain, title: "Science-Backed", desc: "Evidence-based techniques from mindfulness research, designed for maximum impact in minimal time.", color: "bg-violet-50" },
+    { icon: Target, title: "Instant Results", desc: "Feel the difference immediately. Track your mood before and after each session.", color: "bg-purple-50" },
+    { icon: Sparkles, title: "Never Boring", desc: "3 variations of each session type ensure you stay engaged and motivated daily.", color: "bg-violet-50" },
+    { icon: TrendingUp, title: "Track Progress", desc: "Build wellness streaks and see your consistency improve over time with detailed insights.", color: "bg-purple-50" },
+    { icon: Shield, title: "Always Available", desc: "No internet needed once loaded. Your wellness toolkit works anywhere, anytime.", color: "bg-violet-50" }
   ];
 
   const sessionTypes = [
-    { icon: Moon, name: "Sleep Prep", desc: "Wind down for better rest", color: "bg-light-stone" },
-    { icon: Zap, name: "Energy Boost", desc: "Quick vitality recharge", color: "bg-warm-sand/30" },
-    { icon: Brain, name: "Focus Reset", desc: "Clear mental fog instantly", color: "bg-muted-olive/20" },
-    { icon: Heart, name: "Stress Relief", desc: "Calm your nervous system", color: "bg-light-stone" }
+    { icon: Moon, name: "Sleep Prep", desc: "Wind down for better rest", color: "bg-purple-50" },
+    { icon: Zap, name: "Energy Boost", desc: "Quick vitality recharge", color: "bg-violet-50" },
+    { icon: Brain, name: "Focus Reset", desc: "Clear mental fog instantly", color: "bg-purple-50" },
+    { icon: Heart, name: "Stress Relief", desc: "Calm your nervous system", color: "bg-violet-50" }
   ];
 
   return (
     <div className="min-h-screen bg-background overflow-hidden relative">
       {/* Header */}
-      <header className="relative px-4 sm:px-6 py-4 sm:py-6 bg-deep-espresso border-b border-deep-espresso/20 sticky top-0 z-40 shadow-elegant">
+      <header className="relative px-4 sm:px-6 py-4 sm:py-6 gradient-purple-pink border-b border-white/10 sticky top-0 z-40 shadow-elegant backdrop-blur-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-warm-sand rounded-xl sm:rounded-2xl flex items-center justify-center shadow-elegant">
-              <Heart className="w-5 h-5 sm:w-7 sm:h-7 text-deep-espresso" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-elegant border border-white/30">
+              <Heart className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
             </div>
-            <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-light-stone">
+            <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
               GetResett
             </span>
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">
-            <span className="text-xs sm:text-sm text-light-stone/80 font-medium hidden md:block">30-day free trial</span>
+            <span className="text-xs sm:text-sm text-white/90 font-medium hidden md:block">30-day free trial</span>
             <Button 
               onClick={() => window.location.href = '/api/login'}
-              variant="secondary"
-              className="px-4 py-2 sm:px-8 sm:py-3 rounded-xl shadow-elegant font-semibold text-sm sm:text-base transition-all duration-300"
+              className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-4 py-2 sm:px-8 sm:py-3 rounded-xl shadow-elegant font-semibold text-sm sm:text-base transition-all duration-300 border border-white/30"
               data-testid="button-try-free"
             >
               <span className="hidden sm:inline">Try Free</span>
@@ -105,16 +104,16 @@ export default function Landing() {
           
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {/* Floating badge */}
-            <div className="inline-block mb-6 sm:mb-8 px-4 sm:px-6 py-2 bg-light-stone rounded-full border border-muted-olive/30 shadow-elegant">
-              <span className="text-xs sm:text-sm font-semibold text-deep-espresso flex items-center">
-                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-muted-olive" />
+            <div className="inline-block mb-6 sm:mb-8 px-4 sm:px-6 py-2 bg-purple-100 rounded-full border border-purple-200 shadow-elegant">
+              <span className="text-xs sm:text-sm font-semibold text-purple-700 flex items-center">
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-purple-600" />
                 Perfect for ADHD & Busy Minds
               </span>
             </div>
 
             <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-7xl xl:text-8xl font-black text-foreground mb-6 sm:mb-8 leading-[0.9] tracking-tight">
               <span className="block text-4xl sm:text-7xl md:text-8xl lg:text-7xl xl:text-8xl">Reset Your Day,</span>
-              <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-7xl xl:text-8xl animated-gradient-text font-extrabold">
+              <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-7xl xl:text-8xl text-gradient-purple font-extrabold">
                 One Minute
               </span>
               <span className="block text-4xl sm:text-7xl md:text-8xl lg:text-7xl xl:text-8xl">at a Time</span>
@@ -122,8 +121,8 @@ export default function Landing() {
 
             <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed px-4">
               Science-backed guided resets and interactive games designed for modern minds. 
-              <span className="text-deep-espresso font-semibold"> Instant results</span>, 
-              <span className="text-muted-olive font-semibold"> lasting impact</span>.
+              <span className="text-purple-600 font-semibold"> Instant results</span>, 
+              <span className="text-violet-600 font-semibold"> lasting impact</span>.
             </p>
 
             {/* CTA Buttons */}
@@ -152,16 +151,16 @@ export default function Landing() {
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 text-muted-foreground px-4">
               <div className="flex items-center space-x-6 sm:space-x-8">
                 <div className="flex items-center">
-                  <Timer className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-deep-espresso" />
+                  <Timer className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-purple-600" />
                   <span className="font-semibold text-sm sm:text-base">60 Second Sessions</span>
                 </div>
                 <div className="flex items-center">
-                  <Brain className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-deep-espresso" />
+                  <Brain className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-purple-600" />
                   <span className="font-semibold text-sm sm:text-base">Science-Backed</span>
                 </div>
               </div>
               <div className="flex items-center">
-                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-deep-espresso" />
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-purple-600" />
                 <span className="font-semibold text-sm sm:text-base">Free to Try</span>
               </div>
             </div>
@@ -174,7 +173,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
-              Choose Your <span className="text-deep-espresso">Perfect Reset</span>
+              Choose Your <span className="text-gradient-purple">Perfect Reset</span>
             </h2>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
               Each session is carefully crafted with 3 unique variations to keep you engaged and motivated every single day.
@@ -186,7 +185,7 @@ export default function Landing() {
               <Card key={session.name} className={`border border-border/50 shadow-elegant hover:shadow-elegant-lg transition-all duration-300 transform hover:scale-[1.02] ${session.color} cursor-pointer`} data-testid={`session-type-${index}`}>
                 <CardContent className="p-4 sm:p-6 lg:p-8 text-center">
                   <div className="mb-4 sm:mb-6">
-                    <session.icon className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mx-auto text-deep-espresso" />
+                    <session.icon className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mx-auto text-purple-600" />
                   </div>
                   <h3 className="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3 text-foreground">{session.name}</h3>
                   <p className="text-xs sm:text-sm text-muted-foreground">{session.desc}</p>
@@ -201,7 +200,7 @@ export default function Landing() {
       <section className="relative px-4 sm:px-6 py-16 sm:py-20 bg-gradient-to-br from-background to-muted/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-deep-espresso mb-4 sm:mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gradient-purple mb-4 sm:mb-6">
               Why <span className="text-foreground">GetResett</span> Works
             </h2>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-4 leading-relaxed">
@@ -214,7 +213,7 @@ export default function Landing() {
               <Card key={feature.title} className="border border-border/50 shadow-elegant hover:shadow-elegant-lg transition-all duration-300 transform hover:scale-[1.02] bg-card" data-testid={`feature-${index}`}>
                 <CardContent className="p-6 sm:p-8">
                   <div className={`w-12 h-12 sm:w-16 sm:h-16 ${feature.color} rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-elegant`}>
-                    <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-deep-espresso" />
+                    <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
                   </div>
                   <h3 className="text-lg sm:text-xl font-bold text-foreground mb-3 sm:mb-4 text-center">{feature.title}</h3>
                   <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-center">{feature.desc}</p>

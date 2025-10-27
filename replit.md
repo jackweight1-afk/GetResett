@@ -8,15 +8,16 @@ Preferred communication style: Simple, everyday language.
 
 ### UI/UX Preferences
 - Modern mobile-first design is essential - all text must stay within containers, no overflow issues
-- Logo text must be solid black for maximum visibility on all devices (no gradient text that becomes unreadable)
 - CTAs should encourage trying the app free first rather than pushing subscription immediately
-- **Neutral Elegance Design System**: Warm, sophisticated palette with Warm Sand (#D9CBB6), Deep Espresso (#4B3B2F), Muted Olive (#9B8E7E), and Ivory Mist (#FCFAF7)
+- **Vibrant Modern Design System**: Purple/violet gradient theme with vibrant primary color (hsl(262.1, 83.3%, 57.8%)) and bright purple/pink accent (hsl(280, 100%, 70%))
 - Professional typography: Plus Jakarta Sans/Manrope for headings, DM Sans/Work Sans for body text with generous line-height (1.6-1.8)
-- Elegant shadow system (shadow-elegant, shadow-elegant-lg) for subtle depth and visual hierarchy
-- Emotion state gradients preserved for emotional association (purple, pink, amber, indigo, blue, green/teal)
+- Modern shadow system with purple tint (shadow-elegant, shadow-elegant-lg) for depth and visual hierarchy
+- Vibrant emotion state gradients for emotional association (purple, pink, amber, indigo, blue, green/teal)
+- Glassmorphism effects with backdrop blur and gradient header
 - Touch-friendly button sizes and spacing optimized for mobile devices
-- Excellent contrast ratios required for all text elements with neutral palette
+- Excellent contrast ratios with vibrant purple on white backgrounds
 - Responsive typography that scales appropriately across screen sizes
+- Animated gradient text effects for hero headlines
 
 ## System Architecture
 
@@ -61,7 +62,7 @@ The application employs a modern full-stack architecture with a clear separation
   5. If mood rating < 8, offered to try another reset for same emotion (loop-back flow)
   6. If mood rating >= 8, shows success message and returns to emotion selection
 - **Tracking Systems**: Post-session mood ratings stored with emotional state and isPostSession flag for analytics. Dashboard shows consistency metrics and improvement trends.
-- **UI/UX Design**: Neutral Elegance design system with warm, sophisticated colors (Warm Sand, Deep Espresso, Muted Olive, Ivory Mist). Elegant shadow effects for depth. Rounded cards (rounded-3xl). Professional typography with improved readability. Mobile-first responsive design. All text properly contained within responsive containers. Account and Sign Out buttons in header. Remaining free sessions displayed for non-subscribed users. Emotion state gradients preserved for psychological association.
+- **UI/UX Design**: Modern vibrant purple/violet gradient theme with glassmorphism effects. Purple gradient header with backdrop blur. Animated gradient text in hero section. Modern shadows with purple tint. Rounded cards (rounded-3xl). Professional typography with improved readability. Mobile-first responsive design. All text properly contained within responsive containers. Account and Sign Out buttons in header. Remaining free sessions displayed for non-subscribed users. Vibrant emotion state gradients for psychological association.
 - **Data Flow**: Authentication via Replit Auth → Emotion selection → Reset selection → Interactive/Story experience → Mood rating → Data persistence via PostgreSQL and Drizzle ORM
 - **Monetization**: Implements a comprehensive subscription model with 3 free daily sessions, tracked via localStorage with timezone-aware date keys. On 4th reset attempt, non-subscribed users see GetResett+ paywall. New users receive a 30-day free trial with setup intent (no charge), while returning users who've already had a trial are charged the equivalent of £1.99 GBP in their local currency (calculated using real-time exchange rates - e.g., $2.53 USD, €2.39 EUR, ₹213 INR, ¥382 JPY, etc.) immediately via payment intent. Features mobile-first UX design with Apple Pay and Google Pay support, full international currency support with proper conversion from GBP base price, and seamless trial eligibility detection via Stripe subscription history.
 - **Session Limits**: Free users get 3 resets per day. useSessionLimits hook tracks count in localStorage. Session check happens before starting reset. Increments count for non-subscribers only. Subscribed users and test account (huzefausama25@gmail.com) have unlimited access.

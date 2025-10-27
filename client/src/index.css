@@ -59,8 +59,8 @@ img[loading="lazy"].loaded {
 }
 
 @keyframes glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(217, 203, 182, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(217, 203, 182, 0.6); }
+  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.6); }
 }
 
 @keyframes shimmer {
@@ -150,7 +150,7 @@ img[loading="lazy"].loaded {
 }
 
 .animated-gradient-text {
-  background: linear-gradient(-45deg, #D9CBB6, #9B8E7E, #D9CBB6, #9B8E7E);
+  background: linear-gradient(-45deg, hsl(262.1, 83.3%, 57.8%), hsl(280, 100%, 70%), hsl(262.1, 83.3%, 57.8%), hsl(280, 100%, 70%));
   background-size: 400% 400%;
   animation: gradient-shift 3s ease infinite;
   -webkit-background-clip: text;
@@ -177,77 +177,59 @@ img[loading="lazy"].loaded {
 .delay-600 { animation-delay: 0.6s; }
 
 :root {
-  /* Neutral Elegance Palette */
-  --background: hsl(40, 50%, 97%); /* Ivory Mist #FCFAF7 */
-  --foreground: hsl(0, 0%, 16%); /* Charcoal #2A2A2A */
+  /* Modern Vibrant Palette */
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(240, 10%, 3.9%);
   
-  --muted: hsl(30, 22%, 92%); /* Light Stone #F3F0EB */
-  --muted-foreground: hsl(25, 10%, 41%); /* Soft Taupe #6E665E */
+  --muted: hsl(240, 4.8%, 95.9%);
+  --muted-foreground: hsl(240, 3.8%, 46.1%);
   
-  --popover: hsl(30, 22%, 92%); /* Light Stone */
-  --popover-foreground: hsl(0, 0%, 16%); /* Charcoal */
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(240, 10%, 3.9%);
   
-  --card: hsl(30, 22%, 92%); /* Light Stone #F3F0EB */
-  --card-foreground: hsl(0, 0%, 16%); /* Charcoal */
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(240, 10%, 3.9%);
   
-  --border: hsl(30, 22%, 88%); /* Lighter Stone */
-  --input: hsl(30, 22%, 92%); /* Light Stone */
+  --border: hsl(240, 5.9%, 90%);
+  --input: hsl(240, 5.9%, 90%);
   
-  --primary: hsl(25, 15%, 24%); /* Deep Espresso #4B3B2F */
-  --primary-foreground: hsl(30, 22%, 92%); /* Light Stone */
+  --primary: hsl(262.1, 83.3%, 57.8%); /* Vibrant Purple */
+  --primary-foreground: hsl(0, 0%, 100%);
   
-  --secondary: hsl(35, 26%, 79%); /* Warm Sand #D9CBB6 */
-  --secondary-foreground: hsl(25, 15%, 24%); /* Deep Espresso */
+  --secondary: hsl(240, 4.8%, 95.9%);
+  --secondary-foreground: hsl(240, 5.9%, 10%);
   
-  --accent: hsl(32, 14%, 60%); /* Muted Olive #9B8E7E */
-  --accent-foreground: hsl(0, 0%, 16%); /* Charcoal */
+  --accent: hsl(280, 100%, 70%); /* Bright Purple/Pink */
+  --accent-foreground: hsl(0, 0%, 100%);
   
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --destructive-foreground: hsl(0, 0%, 98%);
   
-  --ring: hsl(25, 15%, 24%); /* Deep Espresso */
-  --radius: 0.75rem; /* Slightly larger radius for elegance */
-  
-  /* Custom Neutral Elegance colors */
-  --warm-sand: hsl(35, 26%, 79%); /* #D9CBB6 */
-  --light-stone: hsl(30, 22%, 92%); /* #F3F0EB */
-  --deep-espresso: hsl(25, 15%, 24%); /* #4B3B2F */
-  --muted-olive: hsl(32, 14%, 60%); /* #9B8E7E */
-  --charcoal: hsl(0, 0%, 16%); /* #2A2A2A */
-  --soft-taupe: hsl(25, 10%, 41%); /* #6E665E */
-  --ivory-mist: hsl(40, 50%, 97%); /* #FCFAF7 */
+  --ring: hsl(262.1, 83.3%, 57.8%);
+  --radius: 0.75rem;
 }
 
 .dark {
-  --background: hsl(25, 15%, 12%); /* Dark Espresso */
-  --foreground: hsl(30, 22%, 92%); /* Light Stone */
-  --muted: hsl(25, 15%, 20%);
-  --muted-foreground: hsl(32, 14%, 60%); /* Muted Olive */
-  --popover: hsl(25, 15%, 16%);
-  --popover-foreground: hsl(30, 22%, 92%);
-  --card: hsl(25, 15%, 16%);
-  --card-foreground: hsl(30, 22%, 92%);
-  --border: hsl(25, 15%, 24%);
-  --input: hsl(25, 15%, 24%);
-  --primary: hsl(25, 15%, 24%); /* Deep Espresso */
-  --primary-foreground: hsl(30, 22%, 92%); /* Light Stone */
-  --secondary: hsl(35, 26%, 79%); /* Warm Sand */
-  --secondary-foreground: hsl(25, 15%, 12%);
-  --accent: hsl(32, 14%, 60%); /* Muted Olive */
-  --accent-foreground: hsl(30, 22%, 92%);
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(262.1, 83.3%, 57.8%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(280, 100%, 70%);
+  --accent-foreground: hsl(0, 0%, 100%);
   --destructive: hsl(0, 62.8%, 30.6%);
   --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(35, 26%, 79%);
+  --ring: hsl(262.1, 83.3%, 57.8%);
   --radius: 0.75rem;
-  
-  /* Custom Neutral Elegance colors for dark mode */
-  --warm-sand: hsl(35, 26%, 79%);
-  --light-stone: hsl(30, 22%, 92%);
-  --deep-espresso: hsl(25, 15%, 24%);
-  --muted-olive: hsl(32, 14%, 60%);
-  --charcoal: hsl(0, 0%, 16%);
-  --soft-taupe: hsl(25, 10%, 41%);
-  --ivory-mist: hsl(40, 50%, 97%);
 }
 
 @layer base {
@@ -270,52 +252,26 @@ img[loading="lazy"].loaded {
 }
 
 @layer utilities {
-  /* Neutral Elegance color utilities */
-  .text-warm-sand {
-    color: hsl(var(--warm-sand));
+  /* Modern gradient utilities */
+  .gradient-purple-pink {
+    background: linear-gradient(135deg, hsl(262.1, 83.3%, 57.8%), hsl(280, 100%, 70%));
   }
-  .bg-warm-sand {
-    background-color: hsl(var(--warm-sand));
+  .gradient-violet-indigo {
+    background: linear-gradient(135deg, hsl(258, 90%, 66%), hsl(243, 75%, 59%));
   }
-  .text-deep-espresso {
-    color: hsl(var(--deep-espresso));
-  }
-  .bg-deep-espresso {
-    background-color: hsl(var(--deep-espresso));
-  }
-  .text-muted-olive {
-    color: hsl(var(--muted-olive));
-  }
-  .bg-muted-olive {
-    background-color: hsl(var(--muted-olive));
-  }
-  .text-light-stone {
-    color: hsl(var(--light-stone));
-  }
-  .bg-light-stone {
-    background-color: hsl(var(--light-stone));
-  }
-  .text-soft-taupe {
-    color: hsl(var(--soft-taupe));
-  }
-  .bg-soft-taupe {
-    background-color: hsl(var(--soft-taupe));
+  .text-gradient-purple {
+    background: linear-gradient(135deg, hsl(262.1, 83.3%, 57.8%), hsl(280, 100%, 70%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   
-  /* Gradient utilities */
-  .from-warm-sand {
-    --tw-gradient-from: hsl(var(--warm-sand)) var(--tw-gradient-from-position);
-  }
-  .to-muted-olive {
-    --tw-gradient-to: hsl(var(--muted-olive)) var(--tw-gradient-to-position);
-  }
-  
-  /* Professional shadows */
+  /* Modern shadows with purple tint */
   .shadow-elegant {
-    box-shadow: 0 4px 16px rgba(75, 59, 47, 0.08);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.1);
   }
   .shadow-elegant-lg {
-    box-shadow: 0 8px 32px rgba(75, 59, 47, 0.12);
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.15);
   }
 }
 
@@ -326,12 +282,12 @@ img[loading="lazy"].loaded {
 
 .express-checkout-wrapper .StripeElement {
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(75, 59, 47, 0.08);
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.1);
 }
 
 /* Apple Pay / Google Pay button styling */
 .express-checkout-wrapper [data-testid="payment-element"] {
-  background: linear-gradient(135deg, #D9CBB6 0%, #9B8E7E 100%);
+  background: linear-gradient(135deg, hsl(262.1, 83.3%, 57.8%), hsl(280, 100%, 70%));
   border-radius: 12px;
   padding: 4px;
 }
