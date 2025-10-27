@@ -163,26 +163,10 @@ export async function setupAuth(app: Express) {
       return res.redirect("/?error=auth_failed");
     }
     
-    passport.authenticate(strategyName, (err: any, user: any, info: any) => {
-      if (err) {
-        console.error("Authentication callback error:", err);
-        return res.redirect("/?error=auth_failed");
-      }
-      
-      if (!user) {
-        console.error("Authentication failed - no user returned:", info);
-        return res.redirect("/?error=auth_failed");
-      }
-      
-      req.login(user, (loginErr) => {
-        if (loginErr) {
-          console.error("Session login error:", loginErr);
-          return res.redirect("/?error=auth_failed");
-        }
-        
-        console.log("Authentication successful, redirecting to /");
-        return res.redirect("/");
-      });
+    passport.authenticate(strategyName, {
+      successReturnToOrRedirect: "/",
+      failureRedirect: "/?error=auth_failed",
+      failureFlash: false,
     })(req, res, next);
   });
 
