@@ -19,6 +19,9 @@
   will-change: transform;
 }
 
+/* Google Fonts - Neutral Elegance */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap');
+
 /* Optimize font loading */
 @font-face {
   font-family: 'System';
@@ -56,8 +59,8 @@ img[loading="lazy"].loaded {
 }
 
 @keyframes glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+  0%, 100% { box-shadow: 0 0 20px rgba(217, 203, 182, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(217, 203, 182, 0.6); }
 }
 
 @keyframes shimmer {
@@ -147,7 +150,7 @@ img[loading="lazy"].loaded {
 }
 
 .animated-gradient-text {
-  background: linear-gradient(-45deg, #8b5cf6, #14b8a6, #8b5cf6, #14b8a6);
+  background: linear-gradient(-45deg, #D9CBB6, #9B8E7E, #D9CBB6, #9B8E7E);
   background-size: 400% 400%;
   animation: gradient-shift 3s ease infinite;
   -webkit-background-clip: text;
@@ -174,63 +177,77 @@ img[loading="lazy"].loaded {
 .delay-600 { animation-delay: 0.6s; }
 
 :root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(20, 14.3%, 4.1%);
-  --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(20, 14.3%, 4.1%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(20, 14.3%, 4.1%);
-  --border: hsl(20, 5.9%, 90%);
-  --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(180, 29%, 43%);
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(60, 4.8%, 95.9%);
-  --secondary-foreground: hsl(24, 9.8%, 10%);
-  --accent: hsl(60, 4.8%, 95.9%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
+  /* Neutral Elegance Palette */
+  --background: hsl(40, 50%, 97%); /* Ivory Mist #FCFAF7 */
+  --foreground: hsl(0, 0%, 16%); /* Charcoal #2A2A2A */
+  
+  --muted: hsl(30, 22%, 92%); /* Light Stone #F3F0EB */
+  --muted-foreground: hsl(25, 10%, 41%); /* Soft Taupe #6E665E */
+  
+  --popover: hsl(30, 22%, 92%); /* Light Stone */
+  --popover-foreground: hsl(0, 0%, 16%); /* Charcoal */
+  
+  --card: hsl(30, 22%, 92%); /* Light Stone #F3F0EB */
+  --card-foreground: hsl(0, 0%, 16%); /* Charcoal */
+  
+  --border: hsl(30, 22%, 88%); /* Lighter Stone */
+  --input: hsl(30, 22%, 92%); /* Light Stone */
+  
+  --primary: hsl(35, 26%, 79%); /* Warm Sand #D9CBB6 */
+  --primary-foreground: hsl(25, 15%, 24%); /* Deep Espresso #4B3B2F */
+  
+  --secondary: hsl(25, 15%, 24%); /* Deep Espresso #4B3B2F */
+  --secondary-foreground: hsl(30, 22%, 92%); /* Light Stone */
+  
+  --accent: hsl(32, 14%, 60%); /* Muted Olive #9B8E7E */
+  --accent-foreground: hsl(0, 0%, 16%); /* Charcoal */
+  
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(20, 14.3%, 4.1%);
-  --radius: 0.5rem;
   
-  /* Custom wellness colors - Enhanced green theme with better contrast */
-  --teal: hsl(174, 65%, 45%);
-  --sage: hsl(123, 35%, 45%);
-  --emerald: hsl(160, 84%, 35%);
-  --mint: hsl(151, 50%, 45%);
-  --warm: hsl(48, 100%, 52%);
+  --ring: hsl(25, 15%, 24%); /* Deep Espresso */
+  --radius: 0.75rem; /* Slightly larger radius for elegance */
+  
+  /* Custom Neutral Elegance colors */
+  --warm-sand: hsl(35, 26%, 79%); /* #D9CBB6 */
+  --light-stone: hsl(30, 22%, 92%); /* #F3F0EB */
+  --deep-espresso: hsl(25, 15%, 24%); /* #4B3B2F */
+  --muted-olive: hsl(32, 14%, 60%); /* #9B8E7E */
+  --charcoal: hsl(0, 0%, 16%); /* #2A2A2A */
+  --soft-taupe: hsl(25, 10%, 41%); /* #6E665E */
+  --ivory-mist: hsl(40, 50%, 97%); /* #FCFAF7 */
 }
 
 .dark {
-  --background: hsl(240, 10%, 3.9%);
-  --foreground: hsl(0, 0%, 98%);
-  --muted: hsl(240, 3.7%, 15.9%);
-  --muted-foreground: hsl(240, 5%, 64.9%);
-  --popover: hsl(240, 10%, 3.9%);
-  --popover-foreground: hsl(0, 0%, 98%);
-  --card: hsl(240, 10%, 3.9%);
-  --card-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 3.7%, 15.9%);
-  --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(180, 29%, 43%);
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(240, 3.7%, 15.9%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(240, 3.7%, 15.9%);
-  --accent-foreground: hsl(0, 0%, 98%);
+  --background: hsl(25, 15%, 12%); /* Dark Espresso */
+  --foreground: hsl(30, 22%, 92%); /* Light Stone */
+  --muted: hsl(25, 15%, 20%);
+  --muted-foreground: hsl(32, 14%, 60%); /* Muted Olive */
+  --popover: hsl(25, 15%, 16%);
+  --popover-foreground: hsl(30, 22%, 92%);
+  --card: hsl(25, 15%, 16%);
+  --card-foreground: hsl(30, 22%, 92%);
+  --border: hsl(25, 15%, 24%);
+  --input: hsl(25, 15%, 24%);
+  --primary: hsl(35, 26%, 79%); /* Warm Sand */
+  --primary-foreground: hsl(25, 15%, 12%);
+  --secondary: hsl(25, 15%, 24%);
+  --secondary-foreground: hsl(30, 22%, 92%);
+  --accent: hsl(32, 14%, 60%); /* Muted Olive */
+  --accent-foreground: hsl(30, 22%, 92%);
   --destructive: hsl(0, 62.8%, 30.6%);
   --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(240, 4.9%, 83.9%);
-  --radius: 0.5rem;
+  --ring: hsl(35, 26%, 79%);
+  --radius: 0.75rem;
   
-  /* Custom wellness colors for dark mode - Enhanced green theme */
-  --teal: hsl(174, 65%, 55%);
-  --sage: hsl(123, 35%, 55%);
-  --emerald: hsl(160, 80%, 45%);
-  --mint: hsl(151, 50%, 55%);
-  --warm: hsl(48, 100%, 62%);
+  /* Custom Neutral Elegance colors for dark mode */
+  --warm-sand: hsl(35, 26%, 79%);
+  --light-stone: hsl(30, 22%, 92%);
+  --deep-espresso: hsl(25, 15%, 24%);
+  --muted-olive: hsl(32, 14%, 60%);
+  --charcoal: hsl(0, 0%, 16%);
+  --soft-taupe: hsl(25, 10%, 41%);
+  --ivory-mist: hsl(40, 50%, 97%);
 }
 
 @layer base {
@@ -239,102 +256,66 @@ img[loading="lazy"].loaded {
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply antialiased bg-background text-foreground;
+    font-family: 'DM Sans', 'Work Sans', system-ui, -apple-system, sans-serif;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', 'Manrope', system-ui, -apple-system, sans-serif;
+    line-height: 1.4;
+    font-weight: 600;
   }
 }
 
 @layer utilities {
-  .text-teal {
-    color: hsl(var(--teal));
+  /* Neutral Elegance color utilities */
+  .text-warm-sand {
+    color: hsl(var(--warm-sand));
   }
-  .bg-teal {
-    background-color: hsl(var(--teal));
+  .bg-warm-sand {
+    background-color: hsl(var(--warm-sand));
   }
-  .text-sage {
-    color: hsl(var(--sage));
+  .text-deep-espresso {
+    color: hsl(var(--deep-espresso));
   }
-  .bg-sage {
-    background-color: hsl(var(--sage));
+  .bg-deep-espresso {
+    background-color: hsl(var(--deep-espresso));
   }
-  .text-emerald {
-    color: hsl(var(--emerald));
+  .text-muted-olive {
+    color: hsl(var(--muted-olive));
   }
-  .bg-emerald {
-    background-color: hsl(var(--emerald));
+  .bg-muted-olive {
+    background-color: hsl(var(--muted-olive));
   }
-  .text-mint {
-    color: hsl(var(--mint));
+  .text-light-stone {
+    color: hsl(var(--light-stone));
   }
-  .bg-mint {
-    background-color: hsl(var(--mint));
+  .bg-light-stone {
+    background-color: hsl(var(--light-stone));
   }
-  
-  .bg-teal {
-    background-color: hsl(var(--teal));
+  .text-soft-taupe {
+    color: hsl(var(--soft-taupe));
   }
-  
-  .text-sage {
-    color: hsl(var(--sage));
-  }
-  
-  .bg-sage {
-    background-color: hsl(var(--sage));
+  .bg-soft-taupe {
+    background-color: hsl(var(--soft-taupe));
   }
   
-  .text-warm {
-    color: hsl(var(--warm));
+  /* Gradient utilities */
+  .from-warm-sand {
+    --tw-gradient-from: hsl(var(--warm-sand)) var(--tw-gradient-from-position);
+  }
+  .to-muted-olive {
+    --tw-gradient-to: hsl(var(--muted-olive)) var(--tw-gradient-to-position);
   }
   
-  .bg-warm {
-    background-color: hsl(var(--warm));
+  /* Professional shadows */
+  .shadow-elegant {
+    box-shadow: 0 4px 16px rgba(75, 59, 47, 0.08);
   }
-  
-  .from-teal {
-    --tw-gradient-from: hsl(var(--teal)) var(--tw-gradient-from-position);
-  }
-  
-  .to-sage {
-    --tw-gradient-to: hsl(var(--sage)) var(--tw-gradient-to-position);
-  }
-  
-  .from-teal-50 {
-    --tw-gradient-from: hsl(180, 29%, 96%) var(--tw-gradient-from-position);
-  }
-  
-  .to-sage-50 {
-    --tw-gradient-to: hsl(100, 26%, 96%) var(--tw-gradient-to-position);
-  }
-  
-  .hover\:bg-teal\/90:hover {
-    background-color: hsl(var(--teal) / 0.9);
-  }
-  
-  .hover\:bg-sage\/90:hover {
-    background-color: hsl(var(--sage) / 0.9);
-  }
-  
-  .hover\:text-teal:hover {
-    color: hsl(var(--teal));
-  }
-  
-  .hover\:text-teal\/80:hover {
-    color: hsl(var(--teal) / 0.8);
-  }
-  
-  .border-teal {
-    border-color: hsl(var(--teal));
-  }
-  
-  .bg-teal\/20 {
-    background-color: hsl(var(--teal) / 0.2);
-  }
-  
-  .bg-sage\/20 {
-    background-color: hsl(var(--sage) / 0.2);
-  }
-  
-  .text-teal-100 {
-    color: hsl(180, 29%, 92%);
+  .shadow-elegant-lg {
+    box-shadow: 0 8px 32px rgba(75, 59, 47, 0.12);
   }
 }
 
@@ -345,12 +326,12 @@ img[loading="lazy"].loaded {
 
 .express-checkout-wrapper .StripeElement {
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(75, 59, 47, 0.08);
 }
 
 /* Apple Pay / Google Pay button styling */
 .express-checkout-wrapper [data-testid="payment-element"] {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #D9CBB6 0%, #9B8E7E 100%);
   border-radius: 12px;
   padding: 4px;
 }
