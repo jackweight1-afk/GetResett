@@ -35,11 +35,10 @@ export function getSession() {
     secret: process.env.SESSION_SECRET!,
     store: sessionStore,
     resave: false,
-    saveUninitialized: true, // Changed to true to save auth state
+    saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false, // Changed to false for OAuth callback to work
-      sameSite: 'lax', // Added for cross-origin cookies
+      secure: process.env.NODE_ENV === 'production',
       maxAge: sessionTtl,
     },
   });
@@ -144,14 +143,12 @@ export async function setupAuth(app: Express) {
     }
     
     passport.authenticate(strategyName, {
+      prompt: "login consent",
       scope: ["openid", "email", "profile", "offline_access"],
     })(req, res, next);
   });
 
   app.get("/api/callback", (req, res, next) => {
-    console.log("CALLBACK - Query params:", req.query);
-    console.log("CALLBACK - Has error?", req.query.error);
-    
     // Handle development environment with better fallback
     let hostname = req.hostname;
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
@@ -160,36 +157,16 @@ export async function setupAuth(app: Express) {
     }
     
     const strategyName = `replitauth:${hostname}`;
-    console.log("CALLBACK - Strategy:", strategyName);
     
     if (!(passport as any)._strategies[strategyName]) {
       console.error(`Authentication strategy ${strategyName} not found for callback`);
       return res.redirect("/?error=auth_failed");
     }
     
-    passport.authenticate(strategyName, (err: any, user: any, info: any) => {
-      console.log("AUTH RESULT - Error:", err);
-      console.log("AUTH RESULT - User:", user ? "YES" : "NO");
-      console.log("AUTH RESULT - Info:", info);
-      
-      if (err) {
-        console.error("Authentication error details:", err);
-        return res.redirect("/?error=auth_failed");
-      }
-      
-      if (!user) {
-        console.error("No user - authentication failed");
-        return res.redirect("/?error=auth_failed");
-      }
-      
-      req.logIn(user, (loginErr) => {
-        if (loginErr) {
-          console.error("Login error:", loginErr);
-          return res.redirect("/?error=auth_failed");
-        }
-        console.log("✅ LOGIN SUCCESS - Redirecting to /");
-        return res.redirect("/");
-      });
+    passport.authenticate(strategyName, {
+      successReturnToOrRedirect: "/",
+      failureRedirect: "/?error=auth_failed",
+      failureFlash: false,
     })(req, res, next);
   });
 
