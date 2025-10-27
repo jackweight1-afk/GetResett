@@ -59,8 +59,8 @@ img[loading="lazy"].loaded {
 }
 
 @keyframes glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.6); }
+  0%, 100% { box-shadow: 0 0 20px rgba(34, 87, 50, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(34, 87, 50, 0.6); }
 }
 
 @keyframes shimmer {
@@ -150,7 +150,7 @@ img[loading="lazy"].loaded {
 }
 
 .animated-gradient-text {
-  background: linear-gradient(-45deg, hsl(262.1, 83.3%, 57.8%), hsl(280, 100%, 70%), hsl(262.1, 83.3%, 57.8%), hsl(280, 100%, 70%));
+  background: linear-gradient(-45deg, hsl(145, 50%, 30%), hsl(145, 40%, 45%), hsl(145, 50%, 30%), hsl(145, 40%, 45%));
   background-size: 400% 400%;
   animation: gradient-shift 3s ease infinite;
   -webkit-background-clip: text;
@@ -259,19 +259,24 @@ img[loading="lazy"].loaded {
   .gradient-violet-indigo {
     background: linear-gradient(135deg, hsl(258, 90%, 66%), hsl(243, 75%, 59%));
   }
-  .text-gradient-purple {
-    background: linear-gradient(135deg, hsl(262.1, 83.3%, 57.8%), hsl(280, 100%, 70%));
+  .text-gradient-natural {
+    background: linear-gradient(135deg, hsl(145, 50%, 30%), hsl(145, 40%, 45%));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   
-  /* Modern shadows with purple tint */
+  /* Natural shadows with green tint */
   .shadow-elegant {
-    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.1);
+    box-shadow: 0 4px 16px rgba(34, 87, 50, 0.12);
   }
   .shadow-elegant-lg {
-    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.15);
+    box-shadow: 0 8px 32px rgba(34, 87, 50, 0.18);
+  }
+  
+  /* Natural gradient backgrounds */
+  .gradient-forest-sage {
+    background: linear-gradient(135deg, hsl(145, 50%, 30%), hsl(145, 40%, 45%));
   }
 }
 
@@ -282,12 +287,12 @@ img[loading="lazy"].loaded {
 
 .express-checkout-wrapper .StripeElement {
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.1);
+  box-shadow: 0 4px 16px rgba(34, 87, 50, 0.12);
 }
 
 /* Apple Pay / Google Pay button styling */
 .express-checkout-wrapper [data-testid="payment-element"] {
-  background: linear-gradient(135deg, hsl(262.1, 83.3%, 57.8%), hsl(280, 100%, 70%));
+  background: linear-gradient(135deg, hsl(145, 50%, 30%), hsl(145, 40%, 45%));
   border-radius: 12px;
   padding: 4px;
 }
