@@ -90,13 +90,13 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
     if (currentStep.input === 'text' && currentStep.count) {
       return (
         <div className="space-y-6">
-          <div className="bg-white/50 rounded-2xl p-6 backdrop-blur-sm">
-            <p className="text-sm text-gray-600 mb-2">
+          <div className="bg-muted/50 rounded-2xl p-6 border border-border/50">
+            <p className="text-sm text-muted-foreground mb-2">
               {completedItems.length} of {currentStep.count} complete
             </p>
-            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className="h-2 bg-muted rounded-full overflow-hidden">
               <motion.div
-                className={`h-full bg-gradient-to-r ${reset.color}`}
+                className="h-full bg-gradient-to-r from-muted-olive to-deep-espresso"
                 initial={{ width: 0 }}
                 animate={{ width: `${(completedItems.length / currentStep.count) * 100}%` }}
                 transition={{ duration: 0.3 }}
@@ -112,10 +112,10 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
                   key={idx}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="flex items-center gap-2 bg-green-50 rounded-xl p-3"
+                  className="flex items-center gap-2 bg-muted rounded-xl p-3 border border-border/30"
                 >
-                  <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
-                  <span className="text-sm text-gray-700">{item}</span>
+                  <Check className="w-4 h-4 text-deep-espresso flex-shrink-0" />
+                  <span className="text-sm text-foreground">{item}</span>
                 </motion.div>
               ))}
             </div>
@@ -129,14 +129,14 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="e.g., A blue chair"
-                className="flex-1 rounded-xl border-purple-200 focus:border-purple-400"
+                className="flex-1 rounded-xl border-border/50 focus:border-deep-espresso"
                 data-testid="input-grounding-item"
                 autoFocus
               />
               <Button
                 onClick={handleAddItem}
                 disabled={!inputValue.trim()}
-                className={`rounded-xl bg-gradient-to-r ${reset.color} text-white px-6`}
+                className="rounded-xl bg-gradient-to-r from-muted-olive to-deep-espresso text-light-stone px-6"
                 data-testid="button-add-item"
               >
                 Add
@@ -154,7 +154,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
       return (
         <div className="flex flex-col items-center justify-center py-12">
           <motion.div
-            className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br ${reset.color} shadow-2xl`}
+            className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br ${reset.color} shadow-elegant-lg`}
             animate={{
               scale: isInhale ? [1, 1.5, 1] : [1.5, 1, 1.5],
             }}
@@ -164,7 +164,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
               ease: "easeInOut"
             }}
           />
-          <p className="mt-8 text-lg text-gray-600">
+          <p className="mt-8 text-lg text-muted-foreground">
             {isInhale ? 'Breathe in...' : 'Breathe out...'}
           </p>
         </div>
@@ -179,11 +179,11 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             animate={{ scale: [1, 1.1, 1] }}
             transition={{ duration: 1, repeat: Infinity }}
             className={`w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br ${reset.color} 
-                     shadow-xl flex items-center justify-center cursor-pointer active:scale-95`}
+                     shadow-elegant flex items-center justify-center cursor-pointer active:scale-95`}
           >
             <Hand className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
           </motion.div>
-          <p className="mt-6 text-sm text-gray-500">Follow the rhythm</p>
+          <p className="mt-6 text-sm text-muted-foreground">Follow the rhythm</p>
         </div>
       );
     }

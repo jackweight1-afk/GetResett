@@ -99,9 +99,9 @@ export default function MoodRating({ onSave, onComplete, onTryAnother }: MoodRat
             >
               {selectedRating && selectedRating >= 8 ? (
                 <>
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-deep-espresso to-muted-olive 
                                 flex items-center justify-center mb-6 mx-auto shadow-elegant">
-                    <Smile className="w-10 h-10 text-white" />
+                    <Smile className="w-10 h-10 text-light-stone" />
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">
                     That's wonderful!
@@ -112,9 +112,9 @@ export default function MoodRating({ onSave, onComplete, onTryAnother }: MoodRat
                 </>
               ) : (
                 <>
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-muted-olive via-warm-sand to-deep-espresso 
                                 flex items-center justify-center mb-6 mx-auto shadow-elegant">
-                    <Meh className="w-10 h-10 text-white" />
+                    <Meh className="w-10 h-10 text-light-stone" />
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">
                     Let's try another reset
