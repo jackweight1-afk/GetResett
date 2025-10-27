@@ -32,25 +32,25 @@ export default function MoodRating({ onSave, onComplete, onTryAnother }: MoodRat
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 p-4 sm:p-6 flex items-center">
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted to-background p-4 sm:p-6 flex items-center">
       <div className="max-w-2xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white/90 backdrop-blur-xl rounded-3xl p-8 sm:p-12 shadow-2xl border border-purple-100/50"
+          className="bg-card rounded-3xl p-8 sm:p-12 shadow-elegant-lg border border-border/50"
         >
           {!showResult ? (
             <>
-              <div className={`w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 
-                             flex items-center justify-center mb-8 mx-auto shadow-lg`}>
-                <Smile className="w-10 h-10 text-white" />
+              <div className={`w-20 h-20 rounded-full bg-gradient-to-br from-muted-olive to-deep-espresso 
+                             flex items-center justify-center mb-8 mx-auto shadow-elegant`}>
+                <Smile className="w-10 h-10 text-light-stone" />
               </div>
 
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 text-center mb-3">
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground text-center mb-3">
                 How are you feeling now?
               </h2>
               
-              <p className="text-base sm:text-lg text-gray-600 text-center mb-10">
+              <p className="text-base sm:text-lg text-muted-foreground text-center mb-10">
                 Rate your current mood from 1 to 10
               </p>
 
@@ -68,10 +68,10 @@ export default function MoodRating({ onSave, onComplete, onTryAnother }: MoodRat
                       whileTap={{ scale: 0.95 }}
                       data-testid={`mood-rating-${rating}`}
                       className={`aspect-square rounded-2xl font-bold text-lg sm:text-xl
-                               transition-all duration-200 shadow-md hover:shadow-lg
+                               transition-all duration-200 shadow-elegant hover:shadow-elegant-lg
                                ${isSelected 
-                                 ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white scale-110' 
-                                 : 'bg-white text-gray-700 hover:bg-purple-50'
+                                 ? 'bg-gradient-to-br from-muted-olive to-deep-espresso text-light-stone scale-110' 
+                                 : 'bg-card text-foreground hover:bg-muted border border-border/50'
                                }`}
                     >
                       {rating}
@@ -80,7 +80,7 @@ export default function MoodRating({ onSave, onComplete, onTryAnother }: MoodRat
                 })}
               </div>
 
-              <div className="flex justify-between text-xs sm:text-sm text-gray-500 mb-8">
+              <div className="flex justify-between text-xs sm:text-sm text-muted-foreground mb-8">
                 <span className="flex items-center gap-1">
                   <Frown className="w-4 h-4" />
                   Not great
@@ -100,33 +100,33 @@ export default function MoodRating({ onSave, onComplete, onTryAnother }: MoodRat
               {selectedRating && selectedRating >= 8 ? (
                 <>
                   <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 
-                                flex items-center justify-center mb-6 mx-auto shadow-lg">
+                                flex items-center justify-center mb-6 mx-auto shadow-elegant">
                     <Smile className="w-10 h-10 text-white" />
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">
                     That's wonderful!
                   </h3>
-                  <p className="text-lg text-gray-600 mb-6">
+                  <p className="text-lg text-muted-foreground mb-6">
                     You're feeling better. Keep up the great work!
                   </p>
                 </>
               ) : (
                 <>
                   <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 
-                                flex items-center justify-center mb-6 mx-auto shadow-lg">
+                                flex items-center justify-center mb-6 mx-auto shadow-elegant">
                     <Meh className="w-10 h-10 text-white" />
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">
                     Let's try another reset
                   </h3>
-                  <p className="text-lg text-gray-600 mb-8">
+                  <p className="text-lg text-muted-foreground mb-8">
                     Different techniques work at different times. Let's find what helps you right now.
                   </p>
 
                   <Button
                     onClick={onTryAnother}
-                    className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white 
-                             text-lg py-6 rounded-xl hover:shadow-xl transition-all"
+                    className="w-full bg-gradient-to-r from-muted-olive to-deep-espresso text-light-stone 
+                             text-lg py-6 rounded-xl hover:shadow-elegant-lg transition-all"
                     data-testid="button-try-another"
                   >
                     Choose Another Reset
@@ -137,7 +137,7 @@ export default function MoodRating({ onSave, onComplete, onTryAnother }: MoodRat
           )}
         </motion.div>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-muted-foreground mt-6">
           Your progress is being tracked • You're building healthy habits
         </p>
       </div>

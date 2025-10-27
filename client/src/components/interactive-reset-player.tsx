@@ -193,7 +193,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 p-4 sm:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted to-background p-4 sm:p-6">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="mb-6">
@@ -201,13 +201,13 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             <Button
               onClick={onExit}
               variant="ghost"
-              className="text-gray-600"
+              className="text-muted-foreground hover:text-foreground"
               data-testid="button-finish-early"
             >
               Finish Early
             </Button>
             {timeLeft > 0 && (
-              <div className="flex items-center gap-2 text-sm text-purple-600">
+              <div className="flex items-center gap-2 text-sm text-deep-espresso">
                 <span className="font-mono font-semibold">{timeLeft}s left</span>
               </div>
             )}
@@ -223,21 +223,21 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 sm:p-10 shadow-2xl border border-purple-100"
+            className="bg-card rounded-3xl p-6 sm:p-10 shadow-elegant-lg border border-border/50"
           >
             {/* Icon */}
             <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${reset.color} 
-                           flex items-center justify-center mb-6 mx-auto shadow-lg`}>
+                           flex items-center justify-center mb-6 mx-auto shadow-elegant`}>
               <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
             </div>
 
             {/* Title */}
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-3">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground text-center mb-3">
               {reset.title}
             </h2>
 
             {/* Instruction */}
-            <p className="text-base sm:text-lg text-gray-700 text-center mb-8 leading-relaxed">
+            <p className="text-base sm:text-lg text-muted-foreground text-center mb-8 leading-relaxed">
               {currentStep?.instruction}
             </p>
 
@@ -258,7 +258,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
         </AnimatePresence>
 
         {/* Step counter */}
-        <p className="text-center text-sm text-gray-500 mt-4">
+        <p className="text-center text-sm text-muted-foreground mt-4">
           Step {currentStepIndex + 1} of {steps.length}
         </p>
       </div>
