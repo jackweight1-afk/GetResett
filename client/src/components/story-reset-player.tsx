@@ -52,7 +52,7 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 p-4 sm:p-6 flex items-center">
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted to-background p-4 sm:p-6 flex items-center">
       <div className="max-w-3xl mx-auto w-full">
         {/* Header */}
         <div className="mb-6">
@@ -60,12 +60,12 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
             <Button
               onClick={onComplete}
               variant="ghost"
-              className="text-gray-600"
+              className="text-muted-foreground hover:text-foreground"
               data-testid="button-finish-early"
             >
               Finish Early
             </Button>
-            <div className="flex items-center gap-2 text-sm text-purple-600">
+            <div className="flex items-center gap-2 text-sm text-deep-espresso">
               <span className="font-mono font-semibold">{timeLeft}s</span>
             </div>
           </div>
@@ -84,7 +84,7 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
             className="relative"
           >
             {/* Main story card */}
-            <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-8 sm:p-12 shadow-2xl border border-purple-100/50 min-h-[400px] flex flex-col justify-center">
+            <div className="bg-card rounded-3xl p-8 sm:p-12 shadow-elegant-lg border border-border/50 min-h-[400px] flex flex-col justify-center">
               {/* Decorative gradient orb */}
               <motion.div
                 className={`absolute top-8 right-8 w-32 h-32 rounded-full bg-gradient-to-br ${reset.color} opacity-10 blur-3xl`}
@@ -116,7 +116,7 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-xl sm:text-2xl md:text-3xl text-gray-800 text-center leading-relaxed font-light"
+                className="text-xl sm:text-2xl md:text-3xl text-foreground text-center leading-relaxed font-light"
               >
                 {currentStep?.text}
               </motion.p>
@@ -149,7 +149,7 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
                 onClick={handleSkipToNext}
                 variant="ghost"
                 size="sm"
-                className="text-gray-500 hover:text-gray-700"
+                className="text-muted-foreground hover:text-foreground"
                 data-testid="button-skip"
               >
                 Skip to next
@@ -165,17 +165,17 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
               key={idx}
               className={`h-2 rounded-full transition-all duration-300 ${
                 idx === currentStepIndex
-                  ? 'w-8 bg-purple-500'
+                  ? 'w-8 bg-deep-espresso'
                   : idx < currentStepIndex
-                  ? 'w-2 bg-purple-300'
-                  : 'w-2 bg-gray-300'
+                  ? 'w-2 bg-muted-olive'
+                  : 'w-2 bg-muted-foreground/30'
               }`}
             />
           ))}
         </div>
 
         {/* Bottom hint */}
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-muted-foreground mt-6">
           Relax and listen • Breathe deeply • Let the story guide you
         </p>
       </div>
