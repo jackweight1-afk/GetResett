@@ -68,7 +68,8 @@ export default function Landing() {
             <span className="text-xs sm:text-sm text-light-stone/80 font-medium hidden md:block">30-day free trial</span>
             <Button 
               onClick={() => window.location.href = '/api/login'}
-              className="bg-warm-sand hover:bg-muted-olive text-deep-espresso px-4 py-2 sm:px-8 sm:py-3 rounded-xl shadow-elegant font-semibold text-sm sm:text-base transition-all duration-300"
+              variant="secondary"
+              className="px-4 py-2 sm:px-8 sm:py-3 rounded-xl shadow-elegant font-semibold text-sm sm:text-base transition-all duration-300"
               data-testid="button-try-free"
             >
               <span className="hidden sm:inline">Try Free</span>
@@ -130,7 +131,7 @@ export default function Landing() {
               <Button 
                 size="lg"
                 onClick={() => window.location.href = '/api/login'}
-                className="bg-deep-espresso hover:bg-deep-espresso/90 text-light-stone text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 shadow-elegant-lg hover:shadow-elegant transition-all duration-300 transform hover:scale-105 font-bold rounded-xl relative overflow-hidden"
+                className="text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 shadow-elegant-lg hover:shadow-elegant transition-all duration-300 transform hover:scale-105 font-bold rounded-xl relative overflow-hidden"
                 data-testid="button-cta-main"
               >
                 <span className="relative z-10">Try GetResett Free</span>
@@ -139,7 +140,7 @@ export default function Landing() {
                 size="lg" 
                 variant="outline"
                 onClick={() => window.location.href = '/api/login'}
-                className="border-2 border-deep-espresso text-deep-espresso hover:bg-deep-espresso hover:text-light-stone text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 font-bold hover:shadow-elegant transition-all duration-300 rounded-xl group"
+                className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 font-bold hover:shadow-elegant transition-all duration-300 rounded-xl group"
                 data-testid="button-explore"
               >
                 <Zap className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover:scale-110 transition-transform" />

@@ -193,11 +193,11 @@ img[loading="lazy"].loaded {
   --border: hsl(30, 22%, 88%); /* Lighter Stone */
   --input: hsl(30, 22%, 92%); /* Light Stone */
   
-  --primary: hsl(35, 26%, 79%); /* Warm Sand #D9CBB6 */
-  --primary-foreground: hsl(25, 15%, 24%); /* Deep Espresso #4B3B2F */
+  --primary: hsl(25, 15%, 24%); /* Deep Espresso #4B3B2F */
+  --primary-foreground: hsl(30, 22%, 92%); /* Light Stone */
   
-  --secondary: hsl(25, 15%, 24%); /* Deep Espresso #4B3B2F */
-  --secondary-foreground: hsl(30, 22%, 92%); /* Light Stone */
+  --secondary: hsl(35, 26%, 79%); /* Warm Sand #D9CBB6 */
+  --secondary-foreground: hsl(25, 15%, 24%); /* Deep Espresso */
   
   --accent: hsl(32, 14%, 60%); /* Muted Olive #9B8E7E */
   --accent-foreground: hsl(0, 0%, 16%); /* Charcoal */
@@ -229,10 +229,10 @@ img[loading="lazy"].loaded {
   --card-foreground: hsl(30, 22%, 92%);
   --border: hsl(25, 15%, 24%);
   --input: hsl(25, 15%, 24%);
-  --primary: hsl(35, 26%, 79%); /* Warm Sand */
-  --primary-foreground: hsl(25, 15%, 12%);
-  --secondary: hsl(25, 15%, 24%);
-  --secondary-foreground: hsl(30, 22%, 92%);
+  --primary: hsl(25, 15%, 24%); /* Deep Espresso */
+  --primary-foreground: hsl(30, 22%, 92%); /* Light Stone */
+  --secondary: hsl(35, 26%, 79%); /* Warm Sand */
+  --secondary-foreground: hsl(25, 15%, 12%);
   --accent: hsl(32, 14%, 60%); /* Muted Olive */
   --accent-foreground: hsl(30, 22%, 92%);
   --destructive: hsl(0, 62.8%, 30.6%);
