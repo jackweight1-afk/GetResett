@@ -35,10 +35,11 @@ export function getSession() {
     secret: process.env.SESSION_SECRET!,
     store: sessionStore,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true, // Changed to true to save auth state
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: false, // Changed to false for OAuth callback to work
+      sameSite: 'lax', // Added for cross-origin cookies
       maxAge: sessionTtl,
     },
   });
