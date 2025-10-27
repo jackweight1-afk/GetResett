@@ -9,9 +9,9 @@ Preferred communication style: Simple, everyday language.
 ### UI/UX Preferences
 - Modern mobile-first design is essential - all text must stay within containers, no overflow issues
 - CTAs should encourage trying the app free first rather than pushing subscription immediately
-- **Natural Earthy Design System**: Dark forest green and beige/brown natural color palette with calming earth tones
-- Primary colors: Deep forest green (hsl(145, 50%, 30%)) and sage green (hsl(145, 40%, 45%))
-- Accent colors: Warm amber/beige for contrast and warmth
+- **Natural Earthy Design System**: Very dark forest green and rich brown natural color palette with sophisticated earth tones
+- Primary colors: Very dark forest green (hsl(145, 40%, 18%)) and darker sage (hsl(145, 35%, 25%))
+- Accent colors: Dark browns and stone tones for warmth
 - Professional typography: Plus Jakarta Sans/Manrope for headings, DM Sans/Work Sans for body text with generous line-height (1.6-1.8)
 - Natural shadow system with green tint (shadow-elegant, shadow-elegant-lg) for depth and visual hierarchy
 - Emotion state gradients preserved for emotional association (purple, pink, amber, indigo, blue, green/teal)
@@ -64,7 +64,7 @@ The application employs a modern full-stack architecture with a clear separation
   5. If mood rating < 8, offered to try another reset for same emotion (loop-back flow)
   6. If mood rating >= 8, shows success message and returns to emotion selection
 - **Tracking Systems**: Post-session mood ratings stored with emotional state and isPostSession flag for analytics. Dashboard shows consistency metrics and improvement trends.
-- **UI/UX Design**: Natural earthy design with dark forest green and beige/brown palette. Forest-sage gradient header with backdrop blur. Animated gradient text in hero section (natural green tones). Natural shadows with green tint. Rounded cards (rounded-3xl). Professional typography with improved readability. Mobile-first responsive design. All text properly contained within responsive containers. Account and Sign Out buttons in header. Remaining free sessions displayed for non-subscribed users. Emotion state gradients preserved for psychological association.
+- **UI/UX Design**: Sophisticated natural earthy design with VERY DARK forest green and rich brown palette. Very dark forest-sage gradient header (hsl(145, 40%, 18%) to hsl(145, 35%, 25%)) with backdrop blur. Animated dark green gradient text in hero section. Dark green-tinted shadows. Stone and brown background accents. Rounded cards (rounded-3xl). Professional typography with improved readability. Mobile-first responsive design. All text properly contained within responsive containers. Account and Sign Out buttons in header. Remaining free sessions displayed for non-subscribed users. Emotion state gradients preserved for psychological association.
 - **Data Flow**: Authentication via Replit Auth → Emotion selection → Reset selection → Interactive/Story experience → Mood rating → Data persistence via PostgreSQL and Drizzle ORM
 - **Monetization**: Implements a comprehensive subscription model with 3 free daily sessions, tracked via localStorage with timezone-aware date keys. On 4th reset attempt, non-subscribed users see GetResett+ paywall. New users receive a 30-day free trial with setup intent (no charge), while returning users who've already had a trial are charged the equivalent of £1.99 GBP in their local currency (calculated using real-time exchange rates - e.g., $2.53 USD, €2.39 EUR, ₹213 INR, ¥382 JPY, etc.) immediately via payment intent. Features mobile-first UX design with Apple Pay and Google Pay support, full international currency support with proper conversion from GBP base price, and seamless trial eligibility detection via Stripe subscription history.
 - **Session Limits**: Free users get 3 resets per day. useSessionLimits hook tracks count in localStorage. Session check happens before starting reset. Increments count for non-subscribers only. Subscribed users and test account (huzefausama25@gmail.com) have unlimited access.

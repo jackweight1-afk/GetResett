@@ -36,19 +36,19 @@ export default function Landing() {
   ];
 
   const features = [
-    { icon: Timer, title: "Just 60 Seconds", desc: "Perfect for ADHD minds and busy lives. Reset between meetings, during breaks, or whenever you need focus.", color: "bg-green-50" },
-    { icon: Brain, title: "Science-Backed", desc: "Evidence-based techniques from mindfulness research, designed for maximum impact in minimal time.", color: "bg-amber-50" },
-    { icon: Target, title: "Instant Results", desc: "Feel the difference immediately. Track your mood before and after each session.", color: "bg-green-50" },
-    { icon: Sparkles, title: "Never Boring", desc: "3 variations of each session type ensure you stay engaged and motivated daily.", color: "bg-amber-50" },
-    { icon: TrendingUp, title: "Track Progress", desc: "Build wellness streaks and see your consistency improve over time with detailed insights.", color: "bg-green-50" },
-    { icon: Shield, title: "Always Available", desc: "No internet needed once loaded. Your wellness toolkit works anywhere, anytime.", color: "bg-amber-50" }
+    { icon: Timer, title: "Just 60 Seconds", desc: "Perfect for ADHD minds and busy lives. Reset between meetings, during breaks, or whenever you need focus.", color: "bg-stone-100" },
+    { icon: Brain, title: "Science-Backed", desc: "Evidence-based techniques from mindfulness research, designed for maximum impact in minimal time.", color: "bg-stone-200" },
+    { icon: Target, title: "Instant Results", desc: "Feel the difference immediately. Track your mood before and after each session.", color: "bg-stone-100" },
+    { icon: Sparkles, title: "Never Boring", desc: "3 variations of each session type ensure you stay engaged and motivated daily.", color: "bg-stone-200" },
+    { icon: TrendingUp, title: "Track Progress", desc: "Build wellness streaks and see your consistency improve over time with detailed insights.", color: "bg-stone-100" },
+    { icon: Shield, title: "Always Available", desc: "No internet needed once loaded. Your wellness toolkit works anywhere, anytime.", color: "bg-stone-200" }
   ];
 
   const sessionTypes = [
-    { icon: Moon, name: "Sleep Prep", desc: "Wind down for better rest", color: "bg-green-50" },
-    { icon: Zap, name: "Energy Boost", desc: "Quick vitality recharge", color: "bg-amber-50" },
-    { icon: Brain, name: "Focus Reset", desc: "Clear mental fog instantly", color: "bg-green-50" },
-    { icon: Heart, name: "Stress Relief", desc: "Calm your nervous system", color: "bg-amber-50" }
+    { icon: Moon, name: "Sleep Prep", desc: "Wind down for better rest", color: "bg-stone-100" },
+    { icon: Zap, name: "Energy Boost", desc: "Quick vitality recharge", color: "bg-stone-200" },
+    { icon: Brain, name: "Focus Reset", desc: "Clear mental fog instantly", color: "bg-stone-100" },
+    { icon: Heart, name: "Stress Relief", desc: "Calm your nervous system", color: "bg-stone-200" }
   ];
 
   return (
@@ -104,9 +104,9 @@ export default function Landing() {
           
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {/* Floating badge */}
-            <div className="inline-block mb-6 sm:mb-8 px-4 sm:px-6 py-2 bg-green-100 rounded-full border border-green-200 shadow-elegant">
-              <span className="text-xs sm:text-sm font-semibold text-green-800 flex items-center">
-                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-green-700" />
+            <div className="inline-block mb-6 sm:mb-8 px-4 sm:px-6 py-2 bg-stone-200 rounded-full border border-stone-300 shadow-elegant">
+              <span className="text-xs sm:text-sm font-semibold text-stone-800 flex items-center">
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-stone-700" />
                 Perfect for ADHD & Busy Minds
               </span>
             </div>
@@ -121,8 +121,8 @@ export default function Landing() {
 
             <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed px-4">
               Science-backed guided resets and interactive games designed for modern minds. 
-              <span className="text-green-700 font-semibold"> Instant results</span>, 
-              <span className="text-amber-700 font-semibold"> lasting impact</span>.
+              <span className="text-green-900 font-semibold"> Instant results</span>, 
+              <span className="text-stone-800 font-semibold"> lasting impact</span>.
             </p>
 
             {/* CTA Buttons */}
@@ -151,16 +151,16 @@ export default function Landing() {
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 text-muted-foreground px-4">
               <div className="flex items-center space-x-6 sm:space-x-8">
                 <div className="flex items-center">
-                  <Timer className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-green-700" />
+                  <Timer className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-green-900" />
                   <span className="font-semibold text-sm sm:text-base">60 Second Sessions</span>
                 </div>
                 <div className="flex items-center">
-                  <Brain className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-green-700" />
+                  <Brain className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-green-900" />
                   <span className="font-semibold text-sm sm:text-base">Science-Backed</span>
                 </div>
               </div>
               <div className="flex items-center">
-                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-green-700" />
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-green-900" />
                 <span className="font-semibold text-sm sm:text-base">Free to Try</span>
               </div>
             </div>
@@ -185,7 +185,7 @@ export default function Landing() {
               <Card key={session.name} className={`border border-border/50 shadow-elegant hover:shadow-elegant-lg transition-all duration-300 transform hover:scale-[1.02] ${session.color} cursor-pointer`} data-testid={`session-type-${index}`}>
                 <CardContent className="p-4 sm:p-6 lg:p-8 text-center">
                   <div className="mb-4 sm:mb-6">
-                    <session.icon className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mx-auto text-green-700" />
+                    <session.icon className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mx-auto text-green-900" />
                   </div>
                   <h3 className="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3 text-foreground">{session.name}</h3>
                   <p className="text-xs sm:text-sm text-muted-foreground">{session.desc}</p>
@@ -213,7 +213,7 @@ export default function Landing() {
               <Card key={feature.title} className="border border-border/50 shadow-elegant hover:shadow-elegant-lg transition-all duration-300 transform hover:scale-[1.02] bg-card" data-testid={`feature-${index}`}>
                 <CardContent className="p-6 sm:p-8">
                   <div className={`w-12 h-12 sm:w-16 sm:h-16 ${feature.color} rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-elegant`}>
-                    <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-green-700" />
+                    <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-green-900" />
                   </div>
                   <h3 className="text-lg sm:text-xl font-bold text-foreground mb-3 sm:mb-4 text-center">{feature.title}</h3>
                   <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-center">{feature.desc}</p>
