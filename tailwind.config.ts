@@ -7,22 +7,22 @@ export default {
     // Gradient direction classes
     'bg-gradient-to-br', 'bg-gradient-to-r',
     // Emotional state gradient colors - ALL explicitly listed
-    'from-slate-500', 'to-slate-600',
+    'from-purple-500', 'to-indigo-600',
     'from-pink-500', 'to-rose-600',
     'from-amber-500', 'to-orange-600', 'to-amber-600',
-    'from-slate-400', 'to-slate-500',
+    'from-indigo-500', 'to-purple-600',
     'from-blue-500', 'to-cyan-600',
     'from-green-500', 'to-teal-600',
     'from-teal-500', 'to-teal-600',
     // Landing page feature gradients
-    'from-slate-600', 'to-slate-700',
+    'from-purple-600', 'to-purple-600',
     'from-teal-600', 'to-teal-600',
-    'from-slate-500', 'to-slate-600',
+    'from-indigo-600', 'to-indigo-600',
     'from-pink-600', 'to-pink-600',
     'from-emerald-500', 'to-emerald-600',
     'from-amber-500', 'to-amber-600',
     // Reset card gradients
-    'from-slate-400', 'to-slate-500',
+    'from-purple-400', 'to-indigo-500',
     'from-teal-400', 'to-cyan-500',
   ],
   theme: {

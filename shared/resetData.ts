@@ -42,7 +42,7 @@ export const RESETS: Reset[] = [
     description: 'Guided story to become as steady as a mountain',
     scienceBenefit: 'Visualization therapy helps create inner stability',
     duration: 120,
-    color: 'from-slate-400 to-slate-500',
+    color: 'from-purple-400 to-indigo-500',
     storyContent: [
       { text: 'Take a deep breath and imagine standing at the base of a majestic mountain...', duration: 8 },
       { text: 'This mountain has stood here for thousands of years, unmoved by storms, winds, and changing seasons...', duration: 10 },
@@ -82,7 +82,7 @@ export const RESETS: Reset[] = [
     description: 'Systematically tense and release muscle groups',
     scienceBenefit: 'Reduces cortisol levels and activates relaxation response',
     duration: 60,
-    color: 'from-slate-500 to-pink-500',
+    color: 'from-purple-500 to-pink-500',
     interactiveType: 'body-scan',
     interactiveSteps: [
       { instruction: 'Clench your fists tightly. Hold for 5 seconds...', duration: 7 },
@@ -102,7 +102,7 @@ export const RESETS: Reset[] = [
     description: 'Navy SEAL breathing technique for instant calm',
     scienceBenefit: 'Balances your nervous system',
     duration: 90,
-    color: 'from-slate-500 to-slate-600',
+    color: 'from-indigo-500 to-purple-500',
     interactiveType: 'breathing',
     interactiveSteps: [
       { instruction: 'Breathe in for 4 counts', duration: 4, input: 'breath' },
@@ -121,7 +121,7 @@ export const RESETS: Reset[] = [
     description: 'Use your senses to anchor to the present',
     scienceBenefit: 'Interrupts anxiety spirals instantly',
     duration: 180,
-    color: 'from-slate-500 to-slate-600',
+    color: 'from-purple-500 to-indigo-600',
     interactiveType: 'grounding',
     interactiveSteps: [
       { instruction: 'Name 5 things you can see around you', count: 5, input: 'text' },
@@ -280,7 +280,7 @@ export const RESETS: Reset[] = [
     description: 'Simple, focused micro-tasks',
     scienceBenefit: 'Reduces cognitive load instantly',
     duration: 120,
-    color: 'from-slate-400 to-slate-500',
+    color: 'from-indigo-400 to-purple-500',
     interactiveType: 'visualization',
     interactiveSteps: [
       { instruction: 'Write down just ONE thing overwhelming you', input: 'text', duration: 20 },
@@ -319,7 +319,7 @@ export const RESETS: Reset[] = [
     description: 'Meet your inner wise guide for perspective',
     scienceBenefit: 'DBT wise mind practice balances emotion and logic',
     duration: 90,
-    color: 'from-slate-400 to-slate-500',
+    color: 'from-violet-400 to-purple-500',
     storyContent: [
       { text: 'Take a moment to imagine a wise, calm version of yourself...', duration: 10 },
       { text: 'This wise guide has already gotten through everything you\'re facing...', duration: 12 },
@@ -338,7 +338,7 @@ export const RESETS: Reset[] = [
     description: 'Quick body awareness check-in',
     scienceBenefit: 'Grounds you in physical sensations',
     duration: 120,
-    color: 'from-slate-500 to-pink-500',
+    color: 'from-purple-500 to-pink-500',
     interactiveType: 'body-scan',
     interactiveSteps: [
       { instruction: 'Notice your feet. Are they tense? Relax them...', duration: 12 },
@@ -458,7 +458,7 @@ export const RESETS: Reset[] = [
     description: 'Trace a box to gather wandering thoughts',
     scienceBenefit: 'Visual focus trains attention control',
     duration: 120,
-    color: 'from-slate-400 to-slate-500',
+    color: 'from-purple-400 to-indigo-500',
     interactiveType: 'visualization',
     interactiveSteps: [
       { instruction: 'Imagine a box floating in front of you', duration: 10 },
@@ -523,7 +523,7 @@ export const EMOTIONAL_STATES: Record<EmotionalState, {
 }> = {
   stressed: {
     label: 'Stressed',
-    color: 'from-slate-500 to-slate-600',
+    color: 'from-purple-500 to-indigo-600',
     description: 'Feeling pressure and tension'
   },
   anxiety: {
@@ -538,7 +538,7 @@ export const EMOTIONAL_STATES: Record<EmotionalState, {
   },
   overwhelmed: {
     label: 'Overwhelmed',
-    color: 'from-slate-500 to-slate-600',
+    color: 'from-indigo-500 to-purple-600',
     description: 'Too much to handle'
   },
   tired: {
