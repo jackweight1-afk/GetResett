@@ -33,15 +33,18 @@ export function getSession() {
   });
   return session({
     secret: process.env.SESSION_SECRET!,
+    name: 'connect.sid',
     store: sessionStore,
     resave: true,
     saveUninitialized: true,
     proxy: true,
     cookie: {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       sameSite: 'none',
+      path: '/',
       maxAge: sessionTtl,
+      domain: undefined,
     },
   });
 }
@@ -69,8 +72,15 @@ async function upsertUser(
 }
 
 export async function setupAuth(app: Express) {
-  app.set("trust proxy", 1);
-  app.use(getSession());
+  app.set("trust proxy", true);
+  const sessionMiddleware = getSession();
+  app.use((req, res, next) => {
+    sessionMiddleware(req, res, (err) => {
+      if (err) console.error("Session error:", err);
+      console.log("Session initialized, ID:", req.sessionID);
+      next(err);
+    });
+  });
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -144,10 +154,16 @@ export async function setupAuth(app: Express) {
       });
     }
     
-    passport.authenticate(strategyName, {
-      prompt: "login consent",
-      scope: ["openid", "email", "profile", "offline_access"],
-    })(req, res, next);
+    console.log("🔵 LOGIN - Session ID before auth:", req.sessionID);
+    req.session.save((err) => {
+      if (err) console.error("Session save error:", err);
+      console.log("🔵 LOGIN - Session saved");
+      
+      passport.authenticate(strategyName, {
+        prompt: "login consent",
+        scope: ["openid", "email", "profile", "offline_access"],
+      })(req, res, next);
+    });
   });
 
   app.get("/api/callback", (req, res, next) => {
