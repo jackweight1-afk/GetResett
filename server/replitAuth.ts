@@ -149,7 +149,10 @@ export async function setupAuth(app: Express) {
   });
 
   app.get("/api/callback", (req, res, next) => {
-    // Handle development environment with better fallback
+    console.log("🔵 CALLBACK - Query:", JSON.stringify(req.query));
+    console.log("🔵 CALLBACK - Session ID:", req.sessionID);
+    console.log("🔵 CALLBACK - Cookies:", req.headers.cookie);
+    
     let hostname = req.hostname;
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
       const domains = process.env.REPLIT_DOMAINS!.split(",");
@@ -157,16 +160,37 @@ export async function setupAuth(app: Express) {
     }
     
     const strategyName = `replitauth:${hostname}`;
+    console.log("🔵 CALLBACK - Using strategy:", strategyName);
     
     if (!(passport as any)._strategies[strategyName]) {
-      console.error(`Authentication strategy ${strategyName} not found for callback`);
+      console.error("❌ Strategy not found:", strategyName);
       return res.redirect("/?error=auth_failed");
     }
     
-    passport.authenticate(strategyName, {
-      successReturnToOrRedirect: "/",
-      failureRedirect: "/?error=auth_failed",
-      failureFlash: false,
+    passport.authenticate(strategyName, (err: any, user: any, info: any) => {
+      console.log("🔵 AUTH RESULT:");
+      console.log("  - Error:", err);
+      console.log("  - User:", user ? "YES" : "NO");  
+      console.log("  - Info:", JSON.stringify(info));
+      
+      if (err) {
+        console.error("❌ Authentication error:", err);
+        return res.redirect("/?error=auth_failed");
+      }
+      
+      if (!user) {
+        console.error("❌ No user returned");
+        return res.redirect("/?error=auth_failed");
+      }
+      
+      req.logIn(user, (loginErr) => {
+        if (loginErr) {
+          console.error("❌ Login error:", loginErr);
+          return res.redirect("/?error=auth_failed");
+        }
+        console.log("✅ LOGIN SUCCESS!");
+        return res.redirect("/");
+      });
     })(req, res, next);
   });
 
