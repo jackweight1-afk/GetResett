@@ -167,7 +167,13 @@ export async function setupAuth(app: Express) {
       successReturnToOrRedirect: "/",
       failureRedirect: "/?error=auth_failed",
       failureFlash: false,
-    })(req, res, next);
+    })(req, res, (err: any) => {
+      if (err) {
+        console.error("Authentication callback error:", err);
+        return res.redirect("/?error=auth_failed");
+      }
+      next();
+    });
   });
 
   app.get("/api/logout", (req, res) => {

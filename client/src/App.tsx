@@ -14,7 +14,6 @@ import Account from "@/pages/account";
 import Subscribe from "@/pages/subscribe";
 import Payment from "@/pages/payment";
 import Checkout from "@/pages/checkout";
-import DesignPreview from "@/pages/design-preview";
 import InstallPrompt from "@/components/install-prompt";
 import ErrorBoundary from "@/components/error-boundary";
 
@@ -35,7 +34,6 @@ function Router() {
   return (
     <Switch>
       {/* Public routes - available to everyone */}
-      <Route path="/preview" component={DesignPreview} />
       <Route path="/subscribe" component={Subscribe} />
       <Route path="/payment" component={Payment} />
       <Route path="/checkout" component={Checkout} />

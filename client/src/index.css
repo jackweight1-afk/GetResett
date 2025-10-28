@@ -1,6 +1,3 @@
-/* Google Fonts - Neutral Elegance */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -59,8 +56,8 @@ img[loading="lazy"].loaded {
 }
 
 @keyframes glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(20, 40, 25, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(20, 40, 25, 0.6); }
+  0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
 }
 
 @keyframes shimmer {
@@ -150,40 +147,12 @@ img[loading="lazy"].loaded {
 }
 
 .animated-gradient-text {
-  background: linear-gradient(-45deg, #1e293b, #0ea5e9, #38bdf8, #1e293b);
+  background: linear-gradient(-45deg, #8b5cf6, #14b8a6, #8b5cf6, #14b8a6);
   background-size: 400% 400%;
-  animation: gradient-shift 4s ease infinite;
+  animation: gradient-shift 3s ease infinite;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-/* Premium Typography System */
-.text-display {
-  font-family: 'Plus Jakarta Sans', 'Manrope', sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-.text-headline {
-  font-family: 'Plus Jakarta Sans', 'Manrope', sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-}
-
-.text-body-light {
-  font-family: 'DM Sans', 'Work Sans', sans-serif;
-  font-weight: 400;
-  line-height: 1.7;
-  letter-spacing: 0.01em;
-}
-
-.text-body-medium {
-  font-family: 'DM Sans', 'Work Sans', sans-serif;
-  font-weight: 500;
-  line-height: 1.6;
 }
 
 /* Interactive hover effects */
@@ -205,36 +174,33 @@ img[loading="lazy"].loaded {
 .delay-600 { animation-delay: 0.6s; }
 
 :root {
-  /* Modern Vibrant Palette */
   --background: hsl(0, 0%, 100%);
-  --foreground: hsl(240, 10%, 3.9%);
-  
-  --muted: hsl(240, 4.8%, 95.9%);
-  --muted-foreground: hsl(240, 3.8%, 46.1%);
-  
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
   --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(240, 10%, 3.9%);
-  
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(240, 10%, 3.9%);
-  
-  --border: hsl(240, 5.9%, 90%);
-  --input: hsl(240, 5.9%, 90%);
-  
-  --primary: hsl(262.1, 83.3%, 57.8%); /* Vibrant Purple */
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(180, 29%, 43%);
   --primary-foreground: hsl(0, 0%, 100%);
-  
-  --secondary: hsl(240, 4.8%, 95.9%);
-  --secondary-foreground: hsl(240, 5.9%, 10%);
-  
-  --accent: hsl(280, 100%, 70%); /* Bright Purple/Pink */
-  --accent-foreground: hsl(0, 0%, 100%);
-  
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(0, 0%, 98%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
   
-  --ring: hsl(262.1, 83.3%, 57.8%);
-  --radius: 0.75rem;
+  /* Custom wellness colors - Enhanced green theme with better contrast */
+  --teal: hsl(174, 65%, 45%);
+  --sage: hsl(123, 35%, 45%);
+  --emerald: hsl(160, 84%, 35%);
+  --mint: hsl(151, 50%, 45%);
+  --warm: hsl(48, 100%, 52%);
 }
 
 .dark {
@@ -248,16 +214,23 @@ img[loading="lazy"].loaded {
   --card-foreground: hsl(0, 0%, 98%);
   --border: hsl(240, 3.7%, 15.9%);
   --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(262.1, 83.3%, 57.8%);
+  --primary: hsl(180, 29%, 43%);
   --primary-foreground: hsl(0, 0%, 100%);
   --secondary: hsl(240, 3.7%, 15.9%);
   --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(280, 100%, 70%);
-  --accent-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
   --destructive: hsl(0, 62.8%, 30.6%);
   --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(262.1, 83.3%, 57.8%);
-  --radius: 0.75rem;
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+  
+  /* Custom wellness colors for dark mode - Enhanced green theme */
+  --teal: hsl(174, 65%, 55%);
+  --sage: hsl(123, 35%, 55%);
+  --emerald: hsl(160, 80%, 45%);
+  --mint: hsl(151, 50%, 55%);
+  --warm: hsl(48, 100%, 62%);
 }
 
 @layer base {
@@ -266,68 +239,102 @@ img[loading="lazy"].loaded {
   }
 
   body {
-    @apply antialiased bg-background text-foreground;
-    font-family: 'DM Sans', 'Work Sans', system-ui, -apple-system, sans-serif;
-    line-height: 1.7;
-    letter-spacing: 0.01em;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', 'Manrope', system-ui, -apple-system, sans-serif;
-    line-height: 1.4;
-    font-weight: 600;
+    @apply font-sans antialiased bg-background text-foreground;
   }
 }
 
 @layer utilities {
-  /* Modern gradient utilities */
-  .gradient-purple-pink {
-    background: linear-gradient(135deg, hsl(262.1, 83.3%, 57.8%), hsl(280, 100%, 70%));
+  .text-teal {
+    color: hsl(var(--teal));
   }
-  .gradient-violet-indigo {
-    background: linear-gradient(135deg, hsl(258, 90%, 66%), hsl(243, 75%, 59%));
+  .bg-teal {
+    background-color: hsl(var(--teal));
   }
-  /* Minimal Slate Design System */
-  
-  /* Gradient text - slate to accent */
-  .text-gradient-modern {
-    background: linear-gradient(135deg, #1e293b, #0ea5e9);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+  .text-sage {
+    color: hsl(var(--sage));
   }
-  
-  /* Minimal shadows */
-  .shadow-elegant {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 
-                0 1px 2px rgba(0, 0, 0, 0.06);
+  .bg-sage {
+    background-color: hsl(var(--sage));
   }
-  .shadow-elegant-lg {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 
-                0 2px 4px rgba(0, 0, 0, 0.06);
+  .text-emerald {
+    color: hsl(var(--emerald));
   }
-  .shadow-premium {
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1),
-                0 4px 6px rgba(0, 0, 0, 0.05);
+  .bg-emerald {
+    background-color: hsl(var(--emerald));
+  }
+  .text-mint {
+    color: hsl(var(--mint));
+  }
+  .bg-mint {
+    background-color: hsl(var(--mint));
   }
   
-  /* Slate header */
-  .gradient-slate {
-    background: linear-gradient(135deg, #0f172a, #1e293b);
+  .bg-teal {
+    background-color: hsl(var(--teal));
   }
   
-  /* Accent button - bright sky blue */
-  .bg-accent {
-    background-color: #0ea5e9;
-  }
-  .bg-accent-hover {
-    background-color: #0284c7;
+  .text-sage {
+    color: hsl(var(--sage));
   }
   
-  /* Clean white card */
-  .card-modern {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+  .bg-sage {
+    background-color: hsl(var(--sage));
+  }
+  
+  .text-warm {
+    color: hsl(var(--warm));
+  }
+  
+  .bg-warm {
+    background-color: hsl(var(--warm));
+  }
+  
+  .from-teal {
+    --tw-gradient-from: hsl(var(--teal)) var(--tw-gradient-from-position);
+  }
+  
+  .to-sage {
+    --tw-gradient-to: hsl(var(--sage)) var(--tw-gradient-to-position);
+  }
+  
+  .from-teal-50 {
+    --tw-gradient-from: hsl(180, 29%, 96%) var(--tw-gradient-from-position);
+  }
+  
+  .to-sage-50 {
+    --tw-gradient-to: hsl(100, 26%, 96%) var(--tw-gradient-to-position);
+  }
+  
+  .hover\:bg-teal\/90:hover {
+    background-color: hsl(var(--teal) / 0.9);
+  }
+  
+  .hover\:bg-sage\/90:hover {
+    background-color: hsl(var(--sage) / 0.9);
+  }
+  
+  .hover\:text-teal:hover {
+    color: hsl(var(--teal));
+  }
+  
+  .hover\:text-teal\/80:hover {
+    color: hsl(var(--teal) / 0.8);
+  }
+  
+  .border-teal {
+    border-color: hsl(var(--teal));
+  }
+  
+  .bg-teal\/20 {
+    background-color: hsl(var(--teal) / 0.2);
+  }
+  
+  .bg-sage\/20 {
+    background-color: hsl(var(--sage) / 0.2);
+  }
+  
+  .text-teal-100 {
+    color: hsl(180, 29%, 92%);
   }
 }
 
@@ -338,12 +345,12 @@ img[loading="lazy"].loaded {
 
 .express-checkout-wrapper .StripeElement {
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(20, 40, 25, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Apple Pay / Google Pay button styling */
 .express-checkout-wrapper [data-testid="payment-element"] {
-  background: linear-gradient(135deg, hsl(145, 40%, 18%), hsl(145, 35%, 25%));
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 12px;
   padding: 4px;
 }

@@ -90,13 +90,13 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
     if (currentStep.input === 'text' && currentStep.count) {
       return (
         <div className="space-y-6">
-          <div className="bg-muted/50 rounded-2xl p-6 border border-border/50">
-            <p className="text-sm text-muted-foreground mb-2">
+          <div className="bg-white/50 rounded-2xl p-6 backdrop-blur-sm">
+            <p className="text-sm text-gray-600 mb-2">
               {completedItems.length} of {currentStep.count} complete
             </p>
-            <div className="h-2 bg-muted rounded-full overflow-hidden">
+            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-muted-olive to-deep-espresso"
+                className={`h-full bg-gradient-to-r ${reset.color}`}
                 initial={{ width: 0 }}
                 animate={{ width: `${(completedItems.length / currentStep.count) * 100}%` }}
                 transition={{ duration: 0.3 }}
@@ -112,10 +112,10 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
                   key={idx}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="flex items-center gap-2 bg-muted rounded-xl p-3 border border-border/30"
+                  className="flex items-center gap-2 bg-green-50 rounded-xl p-3"
                 >
-                  <Check className="w-4 h-4 text-deep-espresso flex-shrink-0" />
-                  <span className="text-sm text-foreground">{item}</span>
+                  <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
+                  <span className="text-sm text-gray-700">{item}</span>
                 </motion.div>
               ))}
             </div>
@@ -129,14 +129,14 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="e.g., A blue chair"
-                className="flex-1 rounded-xl border-border/50 focus:border-deep-espresso"
+                className="flex-1 rounded-xl border-purple-200 focus:border-purple-400"
                 data-testid="input-grounding-item"
                 autoFocus
               />
               <Button
                 onClick={handleAddItem}
                 disabled={!inputValue.trim()}
-                className="rounded-xl bg-gradient-to-r from-muted-olive to-deep-espresso text-light-stone px-6"
+                className={`rounded-xl bg-gradient-to-r ${reset.color} text-white px-6`}
                 data-testid="button-add-item"
               >
                 Add
@@ -154,7 +154,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
       return (
         <div className="flex flex-col items-center justify-center py-12">
           <motion.div
-            className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br ${reset.color} shadow-elegant-lg`}
+            className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br ${reset.color} shadow-2xl`}
             animate={{
               scale: isInhale ? [1, 1.5, 1] : [1.5, 1, 1.5],
             }}
@@ -164,7 +164,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
               ease: "easeInOut"
             }}
           />
-          <p className="mt-8 text-lg text-muted-foreground">
+          <p className="mt-8 text-lg text-gray-600">
             {isInhale ? 'Breathe in...' : 'Breathe out...'}
           </p>
         </div>
@@ -179,11 +179,11 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             animate={{ scale: [1, 1.1, 1] }}
             transition={{ duration: 1, repeat: Infinity }}
             className={`w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br ${reset.color} 
-                     shadow-elegant flex items-center justify-center cursor-pointer active:scale-95`}
+                     shadow-xl flex items-center justify-center cursor-pointer active:scale-95`}
           >
             <Hand className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
           </motion.div>
-          <p className="mt-6 text-sm text-muted-foreground">Follow the rhythm</p>
+          <p className="mt-6 text-sm text-gray-500">Follow the rhythm</p>
         </div>
       );
     }
@@ -193,7 +193,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted to-background p-4 sm:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 p-4 sm:p-6">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="mb-6">
@@ -201,13 +201,13 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             <Button
               onClick={onExit}
               variant="ghost"
-              className="text-muted-foreground hover:text-foreground"
+              className="text-gray-600"
               data-testid="button-finish-early"
             >
               Finish Early
             </Button>
             {timeLeft > 0 && (
-              <div className="flex items-center gap-2 text-sm text-deep-espresso">
+              <div className="flex items-center gap-2 text-sm text-purple-600">
                 <span className="font-mono font-semibold">{timeLeft}s left</span>
               </div>
             )}
@@ -223,21 +223,21 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="bg-card rounded-3xl p-6 sm:p-10 shadow-elegant-lg border border-border/50"
+            className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 sm:p-10 shadow-2xl border border-purple-100"
           >
             {/* Icon */}
             <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${reset.color} 
-                           flex items-center justify-center mb-6 mx-auto shadow-elegant`}>
+                           flex items-center justify-center mb-6 mx-auto shadow-lg`}>
               <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
             </div>
 
             {/* Title */}
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground text-center mb-3">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-3">
               {reset.title}
             </h2>
 
             {/* Instruction */}
-            <p className="text-base sm:text-lg text-muted-foreground text-center mb-8 leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-700 text-center mb-8 leading-relaxed">
               {currentStep?.instruction}
             </p>
 
@@ -258,7 +258,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
         </AnimatePresence>
 
         {/* Step counter */}
-        <p className="text-center text-sm text-muted-foreground mt-4">
+        <p className="text-center text-sm text-gray-500 mt-4">
           Step {currentStepIndex + 1} of {steps.length}
         </p>
       </div>
