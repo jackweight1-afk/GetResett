@@ -33,18 +33,13 @@ export function getSession() {
   });
   return session({
     secret: process.env.SESSION_SECRET!,
-    name: 'connect.sid',
     store: sessionStore,
-    resave: true,
-    saveUninitialized: true,
-    proxy: true,
+    resave: false,
+    saveUninitialized: false,
     cookie: {
-      httpOnly: false,
-      secure: true,
-      sameSite: 'none',
-      path: '/',
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
       maxAge: sessionTtl,
-      domain: undefined,
     },
   });
 }
@@ -72,15 +67,8 @@ async function upsertUser(
 }
 
 export async function setupAuth(app: Express) {
-  app.set("trust proxy", true);
-  const sessionMiddleware = getSession();
-  app.use((req, res, next) => {
-    sessionMiddleware(req, res, (err) => {
-      if (err) console.error("Session error:", err);
-      console.log("Session initialized, ID:", req.sessionID);
-      next(err);
-    });
-  });
+  app.set("trust proxy", 1);
+  app.use(getSession());
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -154,23 +142,14 @@ export async function setupAuth(app: Express) {
       });
     }
     
-    console.log("🔵 LOGIN - Session ID before auth:", req.sessionID);
-    req.session.save((err) => {
-      if (err) console.error("Session save error:", err);
-      console.log("🔵 LOGIN - Session saved");
-      
-      passport.authenticate(strategyName, {
-        prompt: "login consent",
-        scope: ["openid", "email", "profile", "offline_access"],
-      })(req, res, next);
-    });
+    passport.authenticate(strategyName, {
+      prompt: "login consent",
+      scope: ["openid", "email", "profile", "offline_access"],
+    })(req, res, next);
   });
 
   app.get("/api/callback", (req, res, next) => {
-    console.log("🔵 CALLBACK - Query:", JSON.stringify(req.query));
-    console.log("🔵 CALLBACK - Session ID:", req.sessionID);
-    console.log("🔵 CALLBACK - Cookies:", req.headers.cookie);
-    
+    // Handle development environment with better fallback
     let hostname = req.hostname;
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
       const domains = process.env.REPLIT_DOMAINS!.split(",");
@@ -178,37 +157,16 @@ export async function setupAuth(app: Express) {
     }
     
     const strategyName = `replitauth:${hostname}`;
-    console.log("🔵 CALLBACK - Using strategy:", strategyName);
     
     if (!(passport as any)._strategies[strategyName]) {
-      console.error("❌ Strategy not found:", strategyName);
+      console.error(`Authentication strategy ${strategyName} not found for callback`);
       return res.redirect("/?error=auth_failed");
     }
     
-    passport.authenticate(strategyName, (err: any, user: any, info: any) => {
-      console.log("🔵 AUTH RESULT:");
-      console.log("  - Error:", err);
-      console.log("  - User:", user ? "YES" : "NO");  
-      console.log("  - Info:", JSON.stringify(info));
-      
-      if (err) {
-        console.error("❌ Authentication error:", err);
-        return res.redirect("/?error=auth_failed");
-      }
-      
-      if (!user) {
-        console.error("❌ No user returned");
-        return res.redirect("/?error=auth_failed");
-      }
-      
-      req.logIn(user, (loginErr) => {
-        if (loginErr) {
-          console.error("❌ Login error:", loginErr);
-          return res.redirect("/?error=auth_failed");
-        }
-        console.log("✅ LOGIN SUCCESS!");
-        return res.redirect("/");
-      });
+    passport.authenticate(strategyName, {
+      successReturnToOrRedirect: "/",
+      failureRedirect: "/?error=auth_failed",
+      failureFlash: false,
     })(req, res, next);
   });
 
