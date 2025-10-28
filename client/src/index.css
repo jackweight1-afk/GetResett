@@ -56,8 +56,8 @@ img[loading="lazy"].loaded {
 }
 
 @keyframes glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+  0%, 100% { box-shadow: 0 0 20px rgba(100, 116, 139, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(100, 116, 139, 0.6); }
 }
 
 @keyframes shimmer {
@@ -147,7 +147,7 @@ img[loading="lazy"].loaded {
 }
 
 .animated-gradient-text {
-  background: linear-gradient(-45deg, #8b5cf6, #14b8a6, #8b5cf6, #14b8a6);
+  background: linear-gradient(-45deg, #64748b, #94a3b8, #64748b, #94a3b8);
   background-size: 400% 400%;
   animation: gradient-shift 3s ease infinite;
   -webkit-background-clip: text;
@@ -350,7 +350,7 @@ img[loading="lazy"].loaded {
 
 /* Apple Pay / Google Pay button styling */
 .express-checkout-wrapper [data-testid="payment-element"] {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
   border-radius: 12px;
   padding: 4px;
 }
