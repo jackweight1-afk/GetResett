@@ -52,7 +52,7 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 p-4 sm:p-6 flex items-center">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 p-4 sm:p-6 flex items-center">
       <div className="max-w-3xl mx-auto w-full">
         {/* Header */}
         <div className="mb-6">
@@ -65,7 +65,7 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
             >
               Finish Early
             </Button>
-            <div className="flex items-center gap-2 text-sm text-purple-600">
+            <div className="flex items-center gap-2 text-sm text-slate-600">
               <span className="font-mono font-semibold">{timeLeft}s</span>
             </div>
           </div>
@@ -84,7 +84,7 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
             className="relative"
           >
             {/* Main story card */}
-            <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-8 sm:p-12 shadow-2xl border border-purple-100/50 min-h-[400px] flex flex-col justify-center">
+            <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-8 sm:p-12 shadow-2xl border border-slate-100/50 min-h-[400px] flex flex-col justify-center">
               {/* Decorative gradient orb */}
               <motion.div
                 className={`absolute top-8 right-8 w-32 h-32 rounded-full bg-gradient-to-br ${reset.color} opacity-10 blur-3xl`}
@@ -165,9 +165,9 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
               key={idx}
               className={`h-2 rounded-full transition-all duration-300 ${
                 idx === currentStepIndex
-                  ? 'w-8 bg-purple-500'
+                  ? 'w-8 bg-slate-500'
                   : idx < currentStepIndex
-                  ? 'w-2 bg-purple-300'
+                  ? 'w-2 bg-slate-300'
                   : 'w-2 bg-gray-300'
               }`}
             />
