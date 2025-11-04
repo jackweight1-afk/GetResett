@@ -123,7 +123,7 @@ export default function Landing() {
               className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-6 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold rounded-full"
               data-testid="button-hero-cta"
             >
-              Start Your Free Trial
+              Try GetResett Free
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
 
@@ -184,7 +184,7 @@ export default function Landing() {
               className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-6 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold rounded-full"
               data-testid="button-cta-bottom"
             >
-              Start Free Trial
+              Try GetResett Free
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </div>

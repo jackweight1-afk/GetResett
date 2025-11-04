@@ -37,6 +37,16 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
   const [dismissedItems, setDismissedItems] = useState<number[]>([]);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isAutoAdvancing, setIsAutoAdvancing] = useState(false);
+  
+  // Bubble pop game state
+  const [bubbles, setBubbles] = useState<Array<{ id: number; x: number; y: number; delay: number }>>(() => 
+    Array.from({ length: 8 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 80 + 10,
+      y: Math.random() * 70 + 10,
+      delay: Math.random() * 2
+    }))
+  );
 
   const steps = reset.interactiveSteps || [];
   const currentStep = steps[currentStepIndex];
@@ -264,6 +274,56 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
           </motion.div>
           <p className="absolute bottom-4 left-0 right-0 text-center text-sm text-gray-500 font-medium">
             Follow the circle with your eyes
+          </p>
+        </div>
+      );
+    }
+
+    // Bubble pop game
+    if (reset.interactiveType === 'bubble-tap' && currentStep.input === 'tap') {
+      const handleBubblePop = (id: number) => {
+        setBubbles(prev => prev.filter(b => b.id !== id));
+        // Generate a new bubble after a short delay
+        setTimeout(() => {
+          setBubbles(prev => [...prev, {
+            id: Date.now(),
+            x: Math.random() * 80 + 10,
+            y: Math.random() * 70 + 10,
+            delay: 0
+          }]);
+        }, 500);
+      };
+
+      return (
+        <div className="relative h-96 overflow-hidden">
+          {bubbles.map((bubble) => (
+            <motion.div
+              key={bubble.id}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ 
+                scale: [0, 1.2, 1], 
+                opacity: 1,
+                y: [0, -20, 0, -10, 0]
+              }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ 
+                delay: bubble.delay,
+                duration: 3,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+              onClick={() => handleBubblePop(bubble.id)}
+              className={`absolute w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${emotionInfo.color} 
+                         shadow-xl cursor-pointer hover:scale-110 transition-transform opacity-80`}
+              style={{ 
+                left: `${bubble.x}%`, 
+                top: `${bubble.y}%`,
+              }}
+              data-testid={`bubble-${bubble.id}`}
+            />
+          ))}
+          <p className="absolute bottom-4 left-0 right-0 text-center text-sm text-gray-500 font-medium">
+            Tap the floating bubbles to pop them
           </p>
         </div>
       );
