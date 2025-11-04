@@ -37,6 +37,7 @@ function Router() {
       <Route path="/subscribe" component={Subscribe} />
       <Route path="/payment" component={Payment} />
       <Route path="/checkout" component={Checkout} />
+      <Route path="/resets" component={Resets} />
       
       {isLoading || !isAuthenticated ? (
         <Route path="/" component={Landing} />
