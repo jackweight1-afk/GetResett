@@ -243,6 +243,32 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
       );
     }
 
+    // Blink-track: Circle moves around the screen
+    if (reset.interactiveType === 'blink-track' && currentStep.input === 'tap') {
+      return (
+        <div className="relative h-96 flex items-center justify-center">
+          <motion.div
+            animate={{
+              x: [0, 150, 150, -150, -150, 0, 0],
+              y: [0, 0, 120, 120, -120, -120, 0],
+            }}
+            transition={{
+              duration: currentStep.duration || 15,
+              ease: "easeInOut",
+              times: [0, 0.15, 0.3, 0.5, 0.65, 0.85, 1]
+            }}
+            className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br ${emotionInfo.color} shadow-2xl flex items-center justify-center`}
+            data-testid="blink-track-circle"
+          >
+            <Eye className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
+          </motion.div>
+          <p className="absolute bottom-4 left-0 right-0 text-center text-sm text-gray-500 font-medium">
+            Follow the circle with your eyes
+          </p>
+        </div>
+      );
+    }
+
     // Tapping/Interactive exercises (covers rhythm-tap, bubble-tap, grid-tap, etc.)
     if (currentStep.input === 'tap') {
       return (
@@ -262,8 +288,7 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
             {reset.interactiveType === 'bubble-tap' && 'Tap to pop bubbles'}
             {reset.interactiveType === 'grid-tap' && 'Tap the lit circles'}
             {reset.interactiveType === 'dot-connect' && 'Tap to connect dots'}
-            {reset.interactiveType === 'blink-track' && 'Follow with your eyes'}
-            {!['rhythm-tap', 'bubble-tap', 'grid-tap', 'dot-connect', 'blink-track'].includes(reset.interactiveType || '') && 'Follow the rhythm'}
+            {!['rhythm-tap', 'bubble-tap', 'grid-tap', 'dot-connect'].includes(reset.interactiveType || '') && 'Follow the rhythm'}
           </p>
         </div>
       );
@@ -360,7 +385,7 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
             {/* Step-specific content */}
             {renderStepContent()}
 
-            {/* Manual Next button for non-auto-advancing steps */}
+            {/* Manual Continue button for non-auto-advancing steps */}
             {(!isAutoAdvancing || !currentStep?.duration) && currentStep?.input !== 'text' && (
               <Button
                 onClick={handleNext}
@@ -373,13 +398,26 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
           </motion.div>
         </AnimatePresence>
 
-        {/* Step counter */}
-        <p className="text-center text-sm text-gray-500 mt-6">
-          Step {currentStepIndex + 1} of {steps.length}
-        </p>
+        {/* Step counter and skip button */}
+        <div className="flex items-center justify-between mt-6">
+          <p className="text-sm text-gray-500">
+            Step {currentStepIndex + 1} of {steps.length}
+          </p>
+          
+          {/* Always show a discreet skip button */}
+          <Button
+            onClick={handleNext}
+            variant="ghost"
+            size="sm"
+            className="text-gray-400 hover:text-gray-600 text-xs"
+            data-testid="button-skip-step"
+          >
+            Skip to next →
+          </Button>
+        </div>
 
         {/* Bottom hint */}
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-gray-500 mt-4">
           Relax and listen • Breathe deeply • Let the reset guide you
         </p>
       </div>
