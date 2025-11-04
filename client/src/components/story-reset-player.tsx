@@ -149,7 +149,7 @@ export default function StoryResetPlayer({ reset, emotion, onComplete, onExit }:
                 transition={{ delay: 0.6 }}
               >
                 <motion.div
-                  className={`w-3 h-3 rounded-full bg-gradient-to-r ${reset.color}`}
+                  className={`w-3 h-3 rounded-full bg-gradient-to-r ${emotionInfo.color}`}
                   animate={{
                     scale: [1, 1.5, 1],
                     opacity: [0.5, 1, 0.5],
@@ -185,9 +185,9 @@ export default function StoryResetPlayer({ reset, emotion, onComplete, onExit }:
               key={idx}
               className={`h-2 rounded-full transition-all duration-300 ${
                 idx === currentStepIndex
-                  ? 'w-8 bg-purple-500'
+                  ? `w-8 bg-gradient-to-r ${emotionInfo.color}`
                   : idx < currentStepIndex
-                  ? 'w-2 bg-purple-300'
+                  ? `w-2 bg-gradient-to-r ${emotionInfo.color} opacity-50`
                   : 'w-2 bg-gray-300'
               }`}
             />

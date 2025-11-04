@@ -100,7 +100,7 @@ export default function ResetSelector({ emotion, onSelect, onBack }: ResetSelect
               </div>
 
               {/* Hover effect */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${reset.color} opacity-0 
+              <div className={`absolute inset-0 bg-gradient-to-br ${emotionInfo.color} opacity-0 
                              group-hover:opacity-5 transition-opacity duration-300 rounded-2xl pointer-events-none`} />
             </motion.button>
           ))}
