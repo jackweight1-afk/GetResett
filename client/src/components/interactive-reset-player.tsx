@@ -33,6 +33,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [completedItems, setCompletedItems] = useState<string[]>([]);
+  const [dismissedItems, setDismissedItems] = useState<number[]>([]);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isAutoAdvancing, setIsAutoAdvancing] = useState(false);
 
@@ -66,9 +67,19 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
     if (currentStepIndex < steps.length - 1) {
       setCurrentStepIndex(prev => prev + 1);
       setInputValue('');
+      setDismissedItems([]);
       setIsAutoAdvancing(false);
     } else {
       onComplete();
+    }
+  };
+
+  const handleDismissStressor = (index: number) => {
+    setDismissedItems(prev => [...prev, index]);
+    
+    // Auto-advance when all stressors are dismissed
+    if (dismissedItems.length + 1 >= completedItems.length) {
+      setTimeout(handleNext, 800);
     }
   };
 
@@ -151,6 +162,44 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
               </Button>
             </div>
           )}
+        </div>
+      );
+    }
+
+    // Stress Sweep: Display collected items for swiping away
+    if (reset.interactiveType === 'stress-sweep' && currentStep.input === 'tap' && completedItems.length > 0) {
+      const remainingCount = completedItems.length - dismissedItems.length;
+      
+      return (
+        <div className="space-y-4 py-8">
+          <p className="text-center text-sm text-gray-600 mb-6">
+            Tap each word to release it
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            {completedItems.map((stressor, idx) => {
+              const isDismissed = dismissedItems.includes(idx);
+              if (isDismissed) return null;
+              
+              return (
+                <motion.button
+                  key={idx}
+                  onClick={() => handleDismissStressor(idx)}
+                  initial={{ opacity: 1, scale: 1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5, x: 100 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`bg-gradient-to-br ${reset.color} text-white rounded-2xl p-4 shadow-lg 
+                             hover:shadow-xl transition-all cursor-pointer active:scale-90`}
+                  data-testid={`stressor-${idx}`}
+                >
+                  <span className="font-medium text-sm sm:text-base">{stressor}</span>
+                </motion.button>
+              );
+            })}
+          </div>
+          <p className="text-center text-xs text-gray-500 mt-4">
+            {remainingCount} {remainingCount === 1 ? 'stressor' : 'stressors'} remaining
+          </p>
         </div>
       );
     }
