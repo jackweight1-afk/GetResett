@@ -11,7 +11,7 @@ export const EMOTIONAL_STATES = {
   },
   anxiety: {
     label: 'Anxious',
-    color: 'from-pink-400 to-rose-500',
+    color: 'from-pink-500 to-rose-600',
     description: 'Worried thoughts and racing mind'
   },
   restless: {
@@ -21,12 +21,12 @@ export const EMOTIONAL_STATES = {
   },
   overwhelmed: {
     label: 'Overwhelmed',
-    color: 'from-indigo-400 to-purple-500',
+    color: 'from-indigo-500 to-purple-600',
     description: 'Too much to handle all at once'
   },
   tired: {
     label: 'Tired',
-    color: 'from-blue-400 to-cyan-500',
+    color: 'from-blue-500 to-cyan-600',
     description: 'Low energy and mental fatigue'
   },
   scattered: {
