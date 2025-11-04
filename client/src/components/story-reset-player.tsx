@@ -110,13 +110,26 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
                 <Sparkles className="w-8 h-8 text-white" />
               </motion.div>
 
+              {/* Step title (if present) */}
+              {currentStep?.title && (
+                <motion.h3
+                  key={`title-${currentStepIndex}`}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center mb-6"
+                >
+                  {currentStep.title}
+                </motion.h3>
+              )}
+
               {/* Story text */}
               <motion.p
                 key={`text-${currentStepIndex}`}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-xl sm:text-2xl md:text-3xl text-gray-800 text-center leading-relaxed font-light"
+                className="text-base sm:text-lg md:text-xl text-gray-700 text-center leading-relaxed font-normal max-w-2xl mx-auto px-4"
               >
                 {currentStep?.text}
               </motion.p>

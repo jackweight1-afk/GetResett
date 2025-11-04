@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { type Reset, type InteractiveStep } from '@shared/resetData';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Eye, Hand, Wind, Activity, Hash, Scan, Check } from 'lucide-react';
+import { Eye, Hand, Wind, Activity, Hash, Scan, Check, Sparkles, Grid3x3, Zap, BarChart3 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 
 interface InteractiveResetPlayerProps {
@@ -18,7 +18,15 @@ const iconMap = {
   breathing: Wind,
   visualization: Activity,
   counting: Hash,
-  'body-scan': Scan
+  'body-scan': Scan,
+  'stress-sweep': Sparkles,
+  'bubble-tap': Sparkles,
+  'rhythm-tap': Hand,
+  'grid-tap': Grid3x3,
+  'dot-connect': Zap,
+  'swipe-sort': Activity,
+  'pressure-valve': BarChart3,
+  'blink-track': Eye
 };
 
 export default function InteractiveResetPlayer({ reset, onComplete, onExit }: InteractiveResetPlayerProps) {
@@ -58,7 +66,6 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
     if (currentStepIndex < steps.length - 1) {
       setCurrentStepIndex(prev => prev + 1);
       setInputValue('');
-      setCompletedItems([]); // Reset completed items for next step
       setIsAutoAdvancing(false);
     } else {
       onComplete();
@@ -67,11 +74,12 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
 
   const handleAddItem = () => {
     if (inputValue.trim()) {
-      setCompletedItems([...completedItems, inputValue.trim()]);
+      const newItems = [...completedItems, inputValue.trim()];
+      setCompletedItems(newItems);
       setInputValue('');
       
       // Auto-advance if we've reached the count
-      if (currentStep.count && completedItems.length + 1 >= currentStep.count) {
+      if (currentStep.count && newItems.length >= currentStep.count) {
         setTimeout(handleNext, 800);
       }
     }
@@ -86,7 +94,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
   const renderStepContent = () => {
     if (!currentStep) return null;
 
-    // Grounding exercise with list inputs
+    // Text input exercises (grounding, stress-sweep, etc.)
     if (currentStep.input === 'text' && currentStep.count) {
       return (
         <div className="space-y-6">
@@ -128,7 +136,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="e.g., A blue chair"
+                placeholder={reset.interactiveType === 'stress-sweep' ? 'e.g., work, money, deadline...' : 'Type your response...'}
                 className="flex-1 rounded-xl border-purple-200 focus:border-purple-400"
                 data-testid="input-grounding-item"
                 autoFocus
@@ -164,31 +172,67 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
               ease: "easeInOut"
             }}
           />
-          <p className="mt-8 text-lg text-gray-600">
+          <p className="mt-8 text-lg text-gray-600 font-medium">
             {isInhale ? 'Breathe in...' : 'Breathe out...'}
           </p>
         </div>
       );
     }
 
-    // Tapping exercise
+    // Tapping/Interactive exercises (covers rhythm-tap, bubble-tap, grid-tap, etc.)
     if (currentStep.input === 'tap') {
       return (
         <div className="flex flex-col items-center justify-center py-12">
           <motion.div
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 1, repeat: Infinity }}
-            className={`w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br ${reset.color} 
-                     shadow-xl flex items-center justify-center cursor-pointer active:scale-95`}
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 0.8, repeat: Infinity }}
+            className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br ${reset.color} 
+                     shadow-2xl flex items-center justify-center cursor-pointer active:scale-95 
+                     hover:shadow-3xl transition-shadow`}
+            data-testid="interactive-tap-circle"
           >
-            <Hand className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
+            <Icon className="w-16 h-16 sm:w-20 sm:h-20 text-white" />
           </motion.div>
-          <p className="mt-6 text-sm text-gray-500">Follow the rhythm</p>
+          <p className="mt-6 text-sm text-gray-500 font-medium">
+            {reset.interactiveType === 'rhythm-tap' && 'Tap to the rhythm'}
+            {reset.interactiveType === 'bubble-tap' && 'Tap to pop bubbles'}
+            {reset.interactiveType === 'grid-tap' && 'Tap the lit circles'}
+            {reset.interactiveType === 'dot-connect' && 'Tap to connect dots'}
+            {reset.interactiveType === 'blink-track' && 'Follow with your eyes'}
+            {!['rhythm-tap', 'bubble-tap', 'grid-tap', 'dot-connect', 'blink-track'].includes(reset.interactiveType || '') && 'Follow the rhythm'}
+          </p>
         </div>
       );
     }
 
-    // Default: just show the instruction
+    // Pressure valve visualization
+    if (reset.interactiveType === 'pressure-valve') {
+      const pressureLevel = Math.max(0, 100 - (currentStepIndex * 25));
+      
+      return (
+        <div className="space-y-6 py-8">
+          <div className="bg-white/50 rounded-2xl p-6 backdrop-blur-sm">
+            <p className="text-sm text-gray-600 mb-3 text-center font-medium">Pressure Level</p>
+            <div className="h-8 bg-gray-200 rounded-full overflow-hidden relative">
+              <motion.div
+                className={`h-full bg-gradient-to-r ${reset.color}`}
+                initial={{ width: '100%' }}
+                animate={{ width: `${pressureLevel}%` }}
+                transition={{ duration: 1, ease: "easeOut" }}
+              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-sm font-bold text-gray-700">{pressureLevel}%</span>
+              </div>
+            </div>
+          </div>
+          <p className="text-center text-sm text-gray-500 italic">
+            Release with each movement...
+          </p>
+        </div>
+      );
+    }
+
+    // Default: just show the instruction (no specific interaction)
     return null;
   };
 
@@ -199,16 +243,16 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
             <Button
-              onClick={onExit}
+              onClick={onComplete}
               variant="ghost"
-              className="text-gray-600"
+              className="text-gray-600 hover:text-gray-900"
               data-testid="button-finish-early"
             >
               Finish Early
             </Button>
             {timeLeft > 0 && (
               <div className="flex items-center gap-2 text-sm text-purple-600">
-                <span className="font-mono font-semibold">{timeLeft}s left</span>
+                <span className="font-mono font-semibold">{timeLeft}s</span>
               </div>
             )}
           </div>
@@ -223,7 +267,8 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 sm:p-10 shadow-2xl border border-purple-100"
+            transition={{ duration: 0.4 }}
+            className="bg-white/90 backdrop-blur-xl rounded-3xl p-6 sm:p-10 shadow-2xl border border-purple-100/50"
           >
             {/* Icon */}
             <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${reset.color} 
@@ -231,13 +276,15 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
               <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
             </div>
 
-            {/* Title */}
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-3">
-              {reset.title}
-            </h2>
+            {/* Title (if step has one) */}
+            {currentStep?.title && (
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 text-center mb-4">
+                {currentStep.title}
+              </h2>
+            )}
 
             {/* Instruction */}
-            <p className="text-base sm:text-lg text-gray-700 text-center mb-8 leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-700 text-center mb-8 leading-relaxed px-2">
               {currentStep?.instruction}
             </p>
 
@@ -248,18 +295,23 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             {(!isAutoAdvancing || !currentStep?.duration) && currentStep?.input !== 'text' && (
               <Button
                 onClick={handleNext}
-                className={`w-full mt-6 rounded-xl bg-gradient-to-r ${reset.color} text-white py-6 text-lg`}
+                className={`w-full mt-6 rounded-xl bg-gradient-to-r ${reset.color} text-white py-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-shadow`}
                 data-testid="button-continue"
               >
-                {currentStepIndex < steps.length - 1 ? 'Continue' : 'Complete'}
+                {currentStepIndex < steps.length - 1 ? 'Continue' : 'Complete Reset'}
               </Button>
             )}
           </motion.div>
         </AnimatePresence>
 
         {/* Step counter */}
-        <p className="text-center text-sm text-gray-500 mt-4">
+        <p className="text-center text-sm text-gray-500 mt-6">
           Step {currentStepIndex + 1} of {steps.length}
+        </p>
+
+        {/* Bottom hint */}
+        <p className="text-center text-sm text-gray-500 mt-6">
+          Relax and listen • Breathe deeply • Let the reset guide you
         </p>
       </div>
     </div>
