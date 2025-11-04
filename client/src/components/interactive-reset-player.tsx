@@ -46,6 +46,12 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
   useEffect(() => {
     if (!currentStep?.duration || currentStep.input === 'text') return;
     
+    // Don't auto-advance for stress-sweep tap step - wait for user to dismiss all items
+    if (reset.interactiveType === 'stress-sweep' && currentStep.input === 'tap') {
+      setIsAutoAdvancing(false);
+      return;
+    }
+    
     setTimeLeft(currentStep.duration);
     setIsAutoAdvancing(true);
     
@@ -68,6 +74,10 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
       setCurrentStepIndex(prev => prev + 1);
       setInputValue('');
       setDismissedItems([]);
+      // Only reset completedItems for non-stress-sweep resets
+      if (reset.interactiveType !== 'stress-sweep') {
+        setCompletedItems([]);
+      }
       setIsAutoAdvancing(false);
     } else {
       onComplete();
