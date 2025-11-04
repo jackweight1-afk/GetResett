@@ -66,7 +66,11 @@ The application employs a modern full-stack architecture with a clear separation
 - **Internationalization**: Automatically detects user's country via IP geolocation and browser locale, displays pricing in local currency using real-time exchange rates, and processes payments in the user's local currency. Supports 18+ major currencies including USD, EUR, JPY, KRW, INR, and others with proper formatting and conversion.
 - **Performance Optimization**: Comprehensive speed optimizations including instant fallback data for currency detection, extended caching (24hr for location, 1hr for exchange rates), GPU-accelerated animations, lazy loading components, virtual scrolling for large lists, DNS prefetch for external APIs, debounced/throttled user interactions, and intersection observer hooks for viewport-based loading. Critical CSS is inlined and font loading is optimized with swap display.
 - **Testing Access**: Unlimited access granted to huzefausama25@gmail.com for comprehensive app testing (bypasses session limits and subscription requirements, shows 999 remaining sessions).
-- **Authentication Improvements**: Enhanced authentication flow to better support Google 2FA with improved error handling and user feedback. Uses "select_account consent" prompt to ensure proper account selection for users with multiple Google accounts and 2FA enabled. Fixed critical authentication strategy hostname handling for development environment with robust fallback system, resolving 500 errors on login endpoints.
+- **Authentication Improvements**: Enhanced authentication flow to better support Google 2FA with improved error handling and user feedback. Uses "select_account consent" prompt to ensure proper account selection for users with multiple Google accounts and 2FA enabled. Fixed critical authentication strategy hostname handling for development environment with robust fallback system, resolving 500 errors on login endpoints. User upsert now uses email as conflict target (preventing duplicate key violations) and preserves existing user IDs to avoid foreign key constraint errors.
+- **Recent Updates (Nov 2025)**:
+  - Landing page CTAs changed from "Start Your Free Trial" to "Try GetResett Free" to encourage trying app first
+  - Bubble Pop Calm (anxiety reset) now features fully interactive bubble-tap game: 8 floating bubbles with click-to-pop functionality, timed respawn (500ms), and emotion-specific gradient colors
+  - Added /resets as public route to fix 404 navigation issues
 
 ## External Dependencies
 
