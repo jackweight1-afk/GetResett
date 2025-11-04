@@ -141,11 +141,12 @@ export default function Resets() {
     );
   }
 
-  if (step === 'reset-play' && selectedReset) {
+  if (step === 'reset-play' && selectedReset && selectedEmotion) {
     if (selectedReset.type === 'story') {
       return (
         <StoryResetPlayer
           reset={selectedReset}
+          emotion={selectedEmotion}
           onComplete={handleResetComplete}
           onExit={handleExit}
         />
@@ -154,6 +155,7 @@ export default function Resets() {
       return (
         <InteractiveResetPlayer
           reset={selectedReset}
+          emotion={selectedEmotion}
           onComplete={handleResetComplete}
           onExit={handleExit}
         />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { type Reset, type InteractiveStep } from '@shared/resetData';
+import { type Reset, type InteractiveStep, EMOTIONAL_STATES, type EmotionalState } from '@shared/resetData';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Eye, Hand, Wind, Activity, Hash, Scan, Check, Sparkles, Grid3x3, Zap, BarChart3 } from 'lucide-react';
@@ -8,6 +8,7 @@ import { Progress } from '@/components/ui/progress';
 
 interface InteractiveResetPlayerProps {
   reset: Reset;
+  emotion: EmotionalState;
   onComplete: () => void;
   onExit: () => void;
 }
@@ -29,7 +30,7 @@ const iconMap = {
   'blink-track': Eye
 };
 
-export default function InteractiveResetPlayer({ reset, onComplete, onExit }: InteractiveResetPlayerProps) {
+export default function InteractiveResetPlayer({ reset, emotion, onComplete, onExit }: InteractiveResetPlayerProps) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [completedItems, setCompletedItems] = useState<string[]>([]);
@@ -41,6 +42,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
   const currentStep = steps[currentStepIndex];
   const progress = ((currentStepIndex + 1) / steps.length) * 100;
   const Icon = reset.interactiveType ? iconMap[reset.interactiveType] : Activity;
+  const emotionInfo = EMOTIONAL_STATES[emotion];
 
   // Auto-advance timer for steps with duration
   useEffect(() => {
@@ -125,7 +127,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             </p>
             <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
               <motion.div
-                className={`h-full bg-gradient-to-r ${reset.color}`}
+                className={`h-full bg-gradient-to-r ${emotionInfo.color}`}
                 initial={{ width: 0 }}
                 animate={{ width: `${(completedItems.length / currentStep.count) * 100}%` }}
                 transition={{ duration: 0.3 }}
@@ -158,14 +160,17 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder={reset.interactiveType === 'stress-sweep' ? 'e.g., work, money, deadline...' : 'Type your response...'}
-                className="flex-1 rounded-xl border-purple-200 focus:border-purple-400"
+                className="flex-1 rounded-xl border-gray-300 focus:ring-2 focus:ring-offset-0"
+                style={{
+                  '--tw-ring-color': `var(--gradient-${emotion})`,
+                } as React.CSSProperties}
                 data-testid="input-grounding-item"
                 autoFocus
               />
               <Button
                 onClick={handleAddItem}
                 disabled={!inputValue.trim()}
-                className={`rounded-xl bg-gradient-to-r ${reset.color} text-white px-6`}
+                className={`rounded-xl bg-gradient-to-r ${emotionInfo.color} text-white px-6 shadow-md hover:shadow-lg transition-shadow`}
                 data-testid="button-add-item"
               >
                 Add
@@ -198,7 +203,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5, x: 100 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`bg-gradient-to-br ${reset.color} text-white rounded-2xl p-4 shadow-lg 
+                  className={`bg-gradient-to-br ${emotionInfo.color} text-white rounded-2xl p-4 shadow-lg 
                              hover:shadow-xl transition-all cursor-pointer active:scale-90`}
                   data-testid={`stressor-${idx}`}
                 >
@@ -221,7 +226,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
       return (
         <div className="flex flex-col items-center justify-center py-12">
           <motion.div
-            className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br ${reset.color} shadow-2xl`}
+            className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br ${emotionInfo.color} shadow-2xl`}
             animate={{
               scale: isInhale ? [1, 1.5, 1] : [1.5, 1, 1.5],
             }}
@@ -245,7 +250,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
           <motion.div
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 0.8, repeat: Infinity }}
-            className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br ${reset.color} 
+            className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br ${emotionInfo.color} 
                      shadow-2xl flex items-center justify-center cursor-pointer active:scale-95 
                      hover:shadow-3xl transition-shadow`}
             data-testid="interactive-tap-circle"
@@ -274,7 +279,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             <p className="text-sm text-gray-600 mb-3 text-center font-medium">Pressure Level</p>
             <div className="h-8 bg-gray-200 rounded-full overflow-hidden relative">
               <motion.div
-                className={`h-full bg-gradient-to-r ${reset.color}`}
+                className={`h-full bg-gradient-to-r ${emotionInfo.color}`}
                 initial={{ width: '100%' }}
                 animate={{ width: `${pressureLevel}%` }}
                 transition={{ duration: 1, ease: "easeOut" }}
@@ -310,13 +315,18 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
               Finish Early
             </Button>
             {timeLeft > 0 && (
-              <div className="flex items-center gap-2 text-sm text-purple-600">
+              <div className={`flex items-center gap-2 text-sm bg-gradient-to-r ${emotionInfo.color} bg-clip-text text-transparent font-bold`}>
                 <span className="font-mono font-semibold">{timeLeft}s</span>
               </div>
             )}
           </div>
 
-          <Progress value={progress} className="h-2 mb-4" data-testid="progress-bar" />
+          <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden mb-4">
+            <div 
+              className={`h-full bg-gradient-to-r ${emotionInfo.color} transition-all duration-300`}
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
 
         {/* Main Content */}
@@ -327,10 +337,10 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4 }}
-            className="bg-white/90 backdrop-blur-xl rounded-3xl p-6 sm:p-10 shadow-2xl border border-purple-100/50"
+            className="bg-white/90 backdrop-blur-xl rounded-3xl p-6 sm:p-10 shadow-2xl border border-gray-200"
           >
             {/* Icon */}
-            <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${reset.color} 
+            <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${emotionInfo.color} 
                            flex items-center justify-center mb-6 mx-auto shadow-lg`}>
               <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
             </div>
@@ -354,7 +364,7 @@ export default function InteractiveResetPlayer({ reset, onComplete, onExit }: In
             {(!isAutoAdvancing || !currentStep?.duration) && currentStep?.input !== 'text' && (
               <Button
                 onClick={handleNext}
-                className={`w-full mt-6 rounded-xl bg-gradient-to-r ${reset.color} text-white py-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-shadow`}
+                className={`w-full mt-6 rounded-xl bg-gradient-to-r ${emotionInfo.color} text-white py-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-shadow`}
                 data-testid="button-continue"
               >
                 {currentStepIndex < steps.length - 1 ? 'Continue' : 'Complete Reset'}

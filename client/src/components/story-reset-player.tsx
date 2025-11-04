@@ -1,23 +1,25 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { type Reset, type StoryStep } from '@shared/resetData';
+import { type Reset, type StoryStep, EMOTIONAL_STATES, type EmotionalState } from '@shared/resetData';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Sparkles } from 'lucide-react';
 
 interface StoryResetPlayerProps {
   reset: Reset;
+  emotion: EmotionalState;
   onComplete: () => void;
   onExit: () => void;
 }
 
-export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryResetPlayerProps) {
+export default function StoryResetPlayer({ reset, emotion, onComplete, onExit }: StoryResetPlayerProps) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
 
   const steps = reset.storyContent || [];
   const currentStep = steps[currentStepIndex];
   const progress = ((currentStepIndex + 1) / steps.length) * 100;
+  const emotionInfo = EMOTIONAL_STATES[emotion];
 
   // Auto-advance through story steps
   useEffect(() => {
@@ -65,12 +67,17 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
             >
               Finish Early
             </Button>
-            <div className="flex items-center gap-2 text-sm text-purple-600">
+            <div className={`flex items-center gap-2 text-sm bg-gradient-to-r ${emotionInfo.color} bg-clip-text text-transparent font-bold`}>
               <span className="font-mono font-semibold">{timeLeft}s</span>
             </div>
           </div>
 
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
+          <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div 
+              className={`h-full bg-gradient-to-r ${emotionInfo.color} transition-all duration-300`}
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
 
         {/* Story Content */}
@@ -84,10 +91,10 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
             className="relative"
           >
             {/* Main story card */}
-            <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-8 sm:p-12 shadow-2xl border border-purple-100/50 min-h-[400px] flex flex-col justify-center">
+            <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-8 sm:p-12 shadow-2xl border border-gray-200 min-h-[400px] flex flex-col justify-center">
               {/* Decorative gradient orb */}
               <motion.div
-                className={`absolute top-8 right-8 w-32 h-32 rounded-full bg-gradient-to-br ${reset.color} opacity-10 blur-3xl`}
+                className={`absolute top-8 right-8 w-32 h-32 rounded-full bg-gradient-to-br ${emotionInfo.color} opacity-10 blur-3xl`}
                 animate={{
                   scale: [1, 1.2, 1],
                   opacity: [0.1, 0.2, 0.1],
@@ -104,7 +111,7 @@ export default function StoryResetPlayer({ reset, onComplete, onExit }: StoryRes
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.2 }}
-                className={`w-16 h-16 rounded-full bg-gradient-to-br ${reset.color} 
+                className={`w-16 h-16 rounded-full bg-gradient-to-br ${emotionInfo.color} 
                            flex items-center justify-center mb-8 mx-auto shadow-lg`}
               >
                 <Sparkles className="w-8 h-8 text-white" />

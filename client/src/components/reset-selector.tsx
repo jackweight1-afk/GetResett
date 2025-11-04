@@ -20,6 +20,9 @@ function formatDuration(seconds: number): string {
 export default function ResetSelector({ emotion, onSelect, onBack }: ResetSelectorProps) {
   const resets = getResetsByEmotion(emotion);
   const emotionInfo = EMOTIONAL_STATES[emotion];
+  
+  // Extract color classes for dynamic use
+  const gradientColor = emotionInfo.color;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 p-4 sm:p-6">
@@ -59,18 +62,18 @@ export default function ResetSelector({ emotion, onSelect, onBack }: ResetSelect
               transition={{ delay: index * 0.1 }}
               onClick={() => onSelect(reset)}
               data-testid={`reset-${reset.id}`}
-              className="group relative bg-white/90 backdrop-blur-sm rounded-2xl p-5 sm:p-6
+              className="group relative bg-white/90 backdrop-blur-sm rounded-3xl p-5 sm:p-6
                        shadow-md hover:shadow-xl transition-all duration-300 
                        hover:scale-[1.02] active:scale-[0.98] border border-purple-100/50
                        text-left overflow-hidden"
             >
               {/* Gradient accent */}
-              <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${reset.color}`} />
+              <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${emotionInfo.color}`} />
               
               {/* Duration badge */}
               <div className="absolute top-4 right-4">
-                <div className="flex items-center gap-1 px-3 py-1.5 rounded-full 
-                               bg-purple-500 text-white text-xs sm:text-sm font-medium shadow-md">
+                <div className={`flex items-center gap-1 px-3 py-1.5 rounded-full 
+                               bg-gradient-to-r ${emotionInfo.color} text-white text-xs sm:text-sm font-medium shadow-md`}>
                   <Clock className="w-3 h-3" />
                   {formatDuration(reset.duration)}
                 </div>
@@ -87,9 +90,10 @@ export default function ResetSelector({ emotion, onSelect, onBack }: ResetSelect
                 </p>
 
                 {/* Science benefit */}
-                <div className="flex items-start gap-2 mt-3 pt-3 border-t border-purple-100">
-                  <Info className="w-4 h-4 text-purple-500 mt-0.5 flex-shrink-0" />
-                  <p className="text-xs sm:text-sm text-purple-700 font-medium">
+                <div className="flex items-start gap-2 mt-3 pt-3 border-t border-gray-200">
+                  <Info className={`w-4 h-4 mt-0.5 flex-shrink-0 bg-gradient-to-r ${emotionInfo.color} bg-clip-text text-transparent`} 
+                       style={{WebkitTextFillColor: 'transparent'}} />
+                  <p className="text-xs sm:text-sm text-gray-700 font-medium">
                     {reset.scienceBenefit}
                   </p>
                 </div>
