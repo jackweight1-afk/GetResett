@@ -14,260 +14,252 @@ export interface Reset {
   // For story resets
   storyContent?: StoryStep[];
   // For interactive resets
-  interactiveType?: 'grounding' | 'breathing' | 'visualization' | 'tapping' | 'counting' | 'body-scan';
+  interactiveType?: 'grounding' | 'breathing' | 'visualization' | 'tapping' | 'counting' | 'body-scan' | 'stress-sweep' | 'bubble-tap' | 'rhythm-tap' | 'grid-tap' | 'dot-connect' | 'swipe-sort' | 'pressure-valve' | 'blink-track';
   interactiveSteps?: InteractiveStep[];
 }
 
 export interface StoryStep {
+  title?: string;
   text: string;
   duration: number; // seconds to show this step
   background?: string; // optional background color/gradient
 }
 
 export interface InteractiveStep {
+  title?: string;
   instruction: string;
   duration?: number;
   input?: 'text' | 'tap' | 'breath' | 'none';
   count?: number; // for exercises that need counting
 }
 
-// All 24 resets: 4 per emotional state (2 story + 2 interactive)
+// All 24 resets: 4 per emotional state
 export const RESETS: Reset[] = [
   // ============ STRESSED (4 resets) ============
   {
-    id: 'stressed-mountain',
+    id: 'stressed-grounding-walk',
     emotionalState: 'stressed',
     type: 'story',
-    title: 'Mountain Meditation',
-    description: 'Guided story to become as steady as a mountain',
-    scienceBenefit: 'Visualization therapy helps create inner stability',
-    duration: 120,
+    title: 'Grounding Walk',
+    description: 'A sensory grounding journey to calm your mind',
+    scienceBenefit: 'Scientifically shown to reduce stress through sensory awareness',
+    duration: 60,
     color: 'from-purple-400 to-indigo-500',
     storyContent: [
-      { text: 'Take a deep breath and imagine standing at the base of a majestic mountain...', duration: 8 },
-      { text: 'This mountain has stood here for thousands of years, unmoved by storms, winds, and changing seasons...', duration: 10 },
-      { text: 'Feel yourself becoming like this mountain - solid, grounded, unshakeable...', duration: 10 },
-      { text: 'Stress may swirl around you like passing clouds, but your core remains steady and strong...', duration: 12 },
-      { text: 'With each breath, you sink deeper roots into the earth beneath you...', duration: 10 },
-      { text: 'The mountain does not fight the storm. It simply exists, patient and enduring...', duration: 12 },
-      { text: 'You are this mountain. Strong. Grounded. At peace...', duration: 10 },
-      { text: 'Take a final deep breath, carrying this steadiness with you...', duration: 8 }
+      { title: 'Grounding Walk', text: 'We\'re going to ground your mind using a simple imagined walk. Keep your eyes open and follow each step.', duration: 6 },
+      { title: 'Picture the Path', text: 'Imagine stepping onto a quiet path. Visualise the space opening around you — the sky, the trees, the open air.', duration: 8 },
+      { title: 'Your Pace', text: 'Imagine taking slow, steady steps. Feel the ground supporting you with each one. Match the rhythm of these steps with your breathing.', duration: 10 },
+      { title: 'Notice the Scene', text: 'Picture 5 things around you: The colours of the sky… The shapes of the trees… The sound of your steps… A soft breeze… And the clear space ahead.', duration: 12 },
+      { title: 'Breathe', text: 'Inhale gently with a step… Exhale with the next… Each slow breath releases more of the pressure you\'ve been holding.', duration: 12 },
+      { title: 'Reset Complete', text: 'Your mind is clearer. Your body is lighter. Reset complete.', duration: 8 }
     ]
   },
   {
-    id: 'stressed-haven',
+    id: 'stressed-waves-release',
     emotionalState: 'stressed',
     type: 'story',
-    title: 'Safe Haven Journey',
-    description: 'Walk through a peaceful sanctuary in your mind',
-    scienceBenefit: 'CBT safe place technique creates instant calm',
-    duration: 120,
-    color: 'from-teal-400 to-cyan-500',
+    title: 'Waves of Release',
+    description: 'Use gentle wave imagery to release tension',
+    scienceBenefit: 'Visualization paired with breathing reduces stress',
+    duration: 75,
+    color: 'from-purple-400 to-indigo-500',
     storyContent: [
-      { text: 'Imagine a place where you feel completely safe and at peace...', duration: 8 },
-      { text: 'It might be a quiet beach, a cozy room, or a serene forest clearing...', duration: 10 },
-      { text: 'Notice every detail - the colors, the sounds, the temperature of the air...', duration: 12 },
-      { text: 'In this place, stress cannot reach you. You are completely protected...', duration: 12 },
-      { text: 'Feel your shoulders drop, your jaw relax, your breathing slow...', duration: 10 },
-      { text: 'This sanctuary exists within you. You can return here anytime you need...', duration: 12 },
-      { text: 'Take one more moment to soak in this peace...', duration: 8 },
-      { text: 'When you\'re ready, slowly return, bringing this calm with you...', duration: 8 }
+      { title: 'Waves of Release', text: 'We\'re going to use steady visualisation to help release stress from your body. Keep your eyes open and follow each step.', duration: 6 },
+      { title: 'Calm Water', text: 'Imagine gentle waves moving across calm water. Let your gaze rest softly on the screen as you picture it.', duration: 8 },
+      { title: 'Gather the Tension', text: 'Picture a wave lifting up. As it rises, imagine it collecting the tension you\'re holding in your shoulders and chest.', duration: 10 },
+      { title: 'Release', text: 'Now imagine the wave falling. As it lowers, let the tension move away from you with it. Exhale as the wave settles.', duration: 10 },
+      { title: 'Again', text: 'Let the next wave rise — gathering any strain around your neck and face. Let it fall — releasing everything you don\'t need.', duration: 12 },
+      { title: 'One More', text: 'Inhale as the last wave rises gently. Exhale as it falls and carries away the rest of your stress.', duration: 12 },
+      { title: 'Reset Complete', text: 'You\'re calm, clear, and present. Reset complete.', duration: 8 }
     ]
   },
   {
-    id: 'stressed-progressive',
+    id: 'stressed-tense-release',
     emotionalState: 'stressed',
     type: 'interactive',
-    title: 'Progressive Relaxation',
-    description: 'Systematically tense and release muscle groups',
-    scienceBenefit: 'Reduces cortisol levels and activates relaxation response',
-    duration: 60,
+    title: 'Full-Body Tense & Release',
+    description: 'Progressive muscle relaxation for instant calm',
+    scienceBenefit: 'Reduces cortisol and activates relaxation response',
+    duration: 90,
     color: 'from-purple-500 to-pink-500',
     interactiveType: 'body-scan',
     interactiveSteps: [
-      { instruction: 'Clench your fists tightly. Hold for 5 seconds...', duration: 7 },
-      { instruction: 'Release. Feel the tension flow out...', duration: 5 },
-      { instruction: 'Tense your shoulders up to your ears. Hold...', duration: 7 },
-      { instruction: 'Drop them down. Notice the relief...', duration: 5 },
-      { instruction: 'Scrunch your face muscles. Hold tight...', duration: 7 },
-      { instruction: 'Release completely. Let everything soften...', duration: 5 },
-      { instruction: 'Take a deep breath. Feel the calm in your relaxed body...', duration: 14 }
+      { title: 'Full-Body Tense & Release', instruction: 'In this reset, we\'ll quickly release the stress stored in your muscles. Follow each short step, keep your eyes open, and move at your own pace.', duration: 6 },
+      { title: 'Hands', instruction: 'Clench both fists firmly. Hold the tension for… 3… 2… 1… Now release. Let your fingers soften and drop.', duration: 8 },
+      { title: 'Arms', instruction: 'Tense your forearms and biceps by gently pulling them in. Hold for… 3… 2… 1… Release. Feel the warmth as your arms relax.', duration: 10 },
+      { title: 'Shoulders', instruction: 'Bring your shoulders slightly up toward your ears. Hold the tension for… 3… 2… 1… Let them drop. Let your shoulders feel heavier and looser.', duration: 10 },
+      { title: 'Stomach', instruction: 'Tighten your stomach muscles gently — not too hard. Hold for… 3… 2… 1… Release. Let your breathing flow naturally again.', duration: 10 },
+      { title: 'Legs', instruction: 'Tense your thighs and calves at the same time. Hold for… 3… 2… 1… Release. Feel your legs sink and soften.', duration: 10 },
+      { title: 'Full Body', instruction: 'Tense your whole body just a little — arms, shoulders, stomach, legs. Hold for… 3… 2… 1… Release everything. Let your whole body loosen.', duration: 12 },
+      { title: 'Reset Complete', instruction: 'Your body should now feel softer, lighter, and clearer. Reset complete.', duration: 8 }
     ]
   },
   {
-    id: 'stressed-box-breathing',
+    id: 'stressed-stress-sweep',
     emotionalState: 'stressed',
     type: 'interactive',
-    title: 'Box Breathing',
-    description: 'Navy SEAL breathing technique for instant calm',
-    scienceBenefit: 'Balances your nervous system',
-    duration: 90,
+    title: 'Stress Sweep',
+    description: 'Type and swipe away your stressors',
+    scienceBenefit: 'Expressive release reduces stress hormones',
+    duration: 60,
     color: 'from-indigo-500 to-purple-500',
-    interactiveType: 'breathing',
+    interactiveType: 'stress-sweep',
     interactiveSteps: [
-      { instruction: 'Breathe in for 4 counts', duration: 4, input: 'breath' },
-      { instruction: 'Hold for 4 counts', duration: 4, input: 'none' },
-      { instruction: 'Breathe out for 4 counts', duration: 4, input: 'breath' },
-      { instruction: 'Hold for 4 counts', duration: 4, input: 'none' }
+      { title: 'Stress Sweep', instruction: 'Let\'s clear the thoughts that are stressing you right now. You\'ll type them in, then swipe them away one by one.', duration: 6 },
+      { title: 'What\'s stressing you?', instruction: 'Type up to 5 words or short phrases that describe what\'s weighing on you. Examples: "work", "money", "pressure", "tired".', input: 'text', count: 5, duration: 25 },
+      { title: 'You\'re in control', instruction: 'These words will now float on your screen. Your task is simple: tap or swipe each one away. This helps your mind release them.', duration: 8 },
+      { title: 'Clear Your Stress', instruction: 'Tap or swipe each word to clear it. Take your time. Each swipe represents letting go.', input: 'tap', duration: 20 },
+      { title: 'Reset Complete', instruction: 'You\'ve cleared what was weighing on you. Take a breath and notice the space you\'ve created.', duration: 8 }
     ]
   },
 
   // ============ ANXIETY (4 resets) ============
   {
-    id: 'anxiety-grounding',
-    emotionalState: 'anxiety',
-    type: 'interactive',
-    title: 'Grounding 5-4-3-2-1',
-    description: 'Use your senses to anchor to the present',
-    scienceBenefit: 'Interrupts anxiety spirals instantly',
-    duration: 180,
-    color: 'from-purple-500 to-indigo-600',
-    interactiveType: 'grounding',
-    interactiveSteps: [
-      { instruction: 'Name 5 things you can see around you', count: 5, input: 'text' },
-      { instruction: 'Name 4 things you can touch or feel', count: 4, input: 'text' },
-      { instruction: 'Name 3 things you can hear right now', count: 3, input: 'text' },
-      { instruction: 'Name 2 things you can smell', count: 2, input: 'text' },
-      { instruction: 'Name 1 thing you can taste', count: 1, input: 'text' }
-    ]
-  },
-  {
-    id: 'anxiety-worry-release',
-    emotionalState: 'anxiety',
-    type: 'interactive',
-    title: 'Worry Release Ritual',
-    description: 'Guided practice to let worries float away',
-    scienceBenefit: 'Expressive writing therapy reduces anxiety',
-    duration: 120,
-    color: 'from-pink-400 to-rose-500',
-    interactiveType: 'visualization',
-    interactiveSteps: [
-      { instruction: 'Write down your biggest worry right now', input: 'text', duration: 20 },
-      { instruction: 'Imagine placing it in a balloon...', duration: 10 },
-      { instruction: 'Watch the balloon slowly float up into the sky...', duration: 15 },
-      { instruction: 'See it get smaller and smaller until it disappears...', duration: 15 },
-      { instruction: 'Notice how light you feel without carrying that worry...', duration: 15 },
-      { instruction: 'Take a deep breath of relief...', duration: 10 }
-    ]
-  },
-  {
-    id: 'anxiety-body-anchor',
+    id: 'anxiety-breathing-storm',
     emotionalState: 'anxiety',
     type: 'story',
-    title: 'Body Anchor Story',
-    description: 'Use your body as a safe anchor in the present',
-    scienceBenefit: 'Somatic experiencing grounds you when thoughts spiral',
-    duration: 120,
-    color: 'from-teal-500 to-emerald-500',
+    title: 'Breathing Through the Storm',
+    description: 'Calm anxiety with guided breathing',
+    scienceBenefit: 'Regulates autonomic nervous system',
+    duration: 60,
+    color: 'from-pink-400 to-rose-500',
     storyContent: [
-      { text: 'When anxiety takes you into the future, your body keeps you in the now...', duration: 10 },
-      { text: 'Feel your feet on the ground. Solid. Stable. Real...', duration: 10 },
-      { text: 'Notice the weight of your body in your seat. You are here. You are safe...', duration: 12 },
-      { text: 'Your body is like an anchor, holding you steady in stormy mental waters...', duration: 12 },
-      { text: 'Anxiety lives in thoughts about the future. Your body exists only right now...', duration: 14 },
-      { text: 'Press your feet firmly down. Feel the connection to the earth...', duration: 12 },
-      { text: 'You are anchored. Present. Safe in this moment...', duration: 10 },
-      { text: 'Breathe deeply, knowing your body is your safe home...', duration: 10 }
+      { title: 'Breathing Through the Storm', text: 'We\'re going to guide your mind and body to calm with a simple breathing exercise. Focus on the screen and follow the steps.', duration: 6 },
+      { title: 'Imagine the Storm', text: 'Picture a storm in the distance, dark clouds, and distant thunder. Now picture the storm slowly moving further away. Let the sound of the thunder become softer with each breath you take.', duration: 12 },
+      { title: 'Slow Down Your Breathing', text: 'Take a slow, deep breath in for 4 counts. Hold for 4 counts. Now slowly exhale for 6 counts, pushing the tension out. Repeat: Inhale for 4... Hold for 4... Exhale for 6…', duration: 18 },
+      { title: 'Let It Fade', text: 'With each breath, imagine the storm becoming quieter, the clouds drifting away. Feel your body relax with every exhale. Your mind is clearer, your body at ease.', duration: 12 },
+      { title: 'Reset Complete', text: 'The storm is now far away, and you are calm. Feel the space between your thoughts. Reset complete.', duration: 8 }
+    ]
+  },
+  {
+    id: 'anxiety-grounding',
+    emotionalState: 'anxiety',
+    type: 'story',
+    title: '5-4-3-2-1 Grounding',
+    description: 'Ground yourself using your five senses',
+    scienceBenefit: 'Interrupts anxious thoughts and brings you present',
+    duration: 90,
+    color: 'from-pink-400 to-rose-500',
+    storyContent: [
+      { title: '5-4-3-2-1 Grounding', text: 'This is a quick exercise that helps ground you by focusing on your senses. Follow along and feel your stress melt away.', duration: 6 },
+      { title: 'Focus on What You See', text: 'Look around you and pick out 5 things you can see. Focus on the details of each — shapes, colours, texture. List them quietly in your mind. Feel your mind start to settle.', duration: 14 },
+      { title: 'Focus on What You Feel', text: 'Now, pay attention to 4 things you can feel. It could be the sensation of the floor beneath your feet, the clothes on your skin, or your own breathing. Allow yourself to feel present in these sensations.', duration: 14 },
+      { title: 'Focus on What You Hear', text: 'Next, focus on 3 things you can hear. It could be a distant sound, the air conditioning, or the sound of your own breath. Stay with these sounds and let them anchor you in the present.', duration: 12 },
+      { title: 'Focus on What You Smell', text: 'Now, take a moment to notice 2 smells around you. It could be the air, a scent in the room, or something in your environment. Inhale gently and focus on the sensation of the smell. Notice how your body feels more grounded.', duration: 14 },
+      { title: 'Focus on What You Taste', text: 'Finally, notice the taste in your mouth. Is it a lingering flavour from your last meal? Or perhaps the freshness of water? Focus on it and let it bring you into the present moment.', duration: 12 },
+      { title: 'Reset Complete', text: 'You\'ve just grounded yourself in the present moment. Feel how much calmer and more focused you are. Reset complete.', duration: 8 }
     ]
   },
   {
     id: 'anxiety-calm-counting',
     emotionalState: 'anxiety',
     type: 'interactive',
-    title: 'Calm Counting',
+    title: 'Counting Horizons',
     description: 'Count slowly with guided breathing',
     scienceBenefit: 'Activates prefrontal cortex, regulating anxiety',
-    duration: 90,
+    duration: 60,
     color: 'from-blue-400 to-indigo-500',
     interactiveType: 'counting',
     interactiveSteps: [
-      { instruction: 'Count 1... breathe in slowly', duration: 5, input: 'breath' },
-      { instruction: 'Count 2... breathe out slowly', duration: 5, input: 'breath' },
-      { instruction: 'Count 3... breathe in deeply', duration: 5, input: 'breath' },
-      { instruction: 'Count 4... breathe out fully', duration: 5, input: 'breath' },
-      { instruction: 'Count 5... feel yourself calming', duration: 5, input: 'breath' },
-      { instruction: 'Continue counting breaths up to 10...', duration: 30, count: 10 }
+      { title: 'Counting Horizons', instruction: 'We\'ll count slowly together, using your breath as an anchor.', duration: 5 },
+      { instruction: 'Count 1... breathe in slowly for 3', duration: 4, input: 'breath' },
+      { instruction: 'Count 2... breathe out slowly for 3', duration: 4, input: 'breath' },
+      { instruction: 'Count 3... breathe in deeply for 3', duration: 4, input: 'breath' },
+      { instruction: 'Count 4... breathe out fully for 3', duration: 4, input: 'breath' },
+      { instruction: 'Count 5... feel yourself calming', duration: 4, input: 'breath' },
+      { instruction: 'Continue counting breaths up to 10...', duration: 24, count: 10, input: 'breath' },
+      { title: 'Reset Complete', instruction: 'Your mind is calmer. Your anxiety has eased. Reset complete.', duration: 6 }
+    ]
+  },
+  {
+    id: 'anxiety-bubble-calm',
+    emotionalState: 'anxiety',
+    type: 'interactive',
+    title: 'Bubble Pop Calm',
+    description: 'Quick focus challenge to shift from anxiety',
+    scienceBenefit: 'Cognitive distraction breaks anxious thought cycles',
+    duration: 75,
+    color: 'from-purple-500 to-indigo-600',
+    interactiveType: 'bubble-tap',
+    interactiveSteps: [
+      { title: 'Bubble Pop Calm', instruction: 'This game will help you shift focus from anxiety to something light and engaging. You\'ll need to tap on the floating bubbles to clear them.', duration: 6 },
+      { title: 'Tap the Bubbles', instruction: 'Bubbles will float across the screen. Tap to pop the bubbles before they float away. Each pop releases a small piece of tension.', duration: 8 },
+      { title: 'Pop the Bubbles', instruction: 'Pop as many bubbles as you can in the next 50 seconds. The faster you tap, the more relaxed you\'ll feel. Keep the rhythm steady and notice the calm building.', input: 'tap', duration: 50 },
+      { title: 'Reset Complete', instruction: 'You\'ve just focused your mind and released anxiety with this simple task. Take a moment to notice how much lighter you feel. Reset complete.', duration: 8 }
     ]
   },
 
   // ============ RESTLESS (4 resets) ============
   {
-    id: 'restless-finger-tapping',
-    emotionalState: 'restless',
-    type: 'interactive',
-    title: 'Finger Tapping',
-    description: 'Follow rhythmic tapping patterns',
-    scienceBenefit: 'Channels restless energy productively',
-    duration: 120,
-    color: 'from-amber-400 to-orange-500',
-    interactiveType: 'tapping',
-    interactiveSteps: [
-      { instruction: 'Tap each finger to your thumb: 1-2-3-4', duration: 8, input: 'tap' },
-      { instruction: 'Reverse: 4-3-2-1', duration: 8, input: 'tap' },
-      { instruction: 'Repeat on other hand: 1-2-3-4', duration: 8, input: 'tap' },
-      { instruction: 'Reverse: 4-3-2-1', duration: 8, input: 'tap' },
-      { instruction: 'Both hands together: 1-2-3-4', duration: 8, input: 'tap' },
-      { instruction: 'Notice the restless energy transforming...', duration: 10 },
-      { instruction: 'Continue at your own pace...', duration: 60, input: 'tap' }
-    ]
-  },
-  {
-    id: 'restless-energy-flow',
+    id: 'restless-micro-movement',
     emotionalState: 'restless',
     type: 'story',
-    title: 'Energy Flow Story',
-    description: 'Visualize energy moving through your body',
-    scienceBenefit: 'Guided imagery redirects restless energy',
-    duration: 120,
-    color: 'from-yellow-400 to-amber-500',
+    title: 'Micro-Movement Reset',
+    description: 'Channel restless energy with controlled movements',
+    scienceBenefit: 'Somatic regulation through intentional movement',
+    duration: 75,
+    color: 'from-amber-400 to-orange-500',
     storyContent: [
-      { text: 'That restless energy you feel? It\'s not your enemy - it\'s life force...', duration: 10 },
-      { text: 'Imagine it as golden light, buzzing through your body...', duration: 10 },
-      { text: 'Instead of fighting it, guide it - down your arms and out your fingertips...', duration: 12 },
-      { text: 'Watch it flow down your legs and into the earth below...', duration: 12 },
-      { text: 'The earth absorbs this energy, transforming it into something useful...', duration: 14 },
-      { text: 'With each breath out, more restless energy flows away...', duration: 12 },
-      { text: 'What remains is calm, focused energy you can use...', duration: 10 },
-      { text: 'Take one more breath, feeling grounded and ready...', duration: 10 }
+      { title: 'The Micro-Movement Reset', text: 'When you feel restless, your body wants to move. Instead of fighting it, we\'re going to guide that energy in a controlled, calming way.', duration: 8 },
+      { title: 'Hands', text: 'Spread your fingers wide for 3 seconds… Now bring them back in gently. Repeat this twice, slowly.', duration: 10 },
+      { title: 'Forearms', text: 'Rotate your forearms slowly in circles. Three circles clockwise, then three anti-clockwise. Keep it slow and controlled.', duration: 12 },
+      { title: 'Shoulders', text: 'Lift your shoulders slightly, then roll them back. Do this slowly for three gentle rolls. Feel some of the tension melt away.', duration: 12 },
+      { title: 'Loosen the Restlessness', text: 'Now let your whole body relax. Let the small movements settle. Let stillness return naturally.', duration: 12 },
+      { title: 'Reset Complete', text: 'Your body has released the restlessness. You should feel calmer and more centred. Reset complete.', duration: 8 }
     ]
   },
   {
-    id: 'restless-moving-meditation',
+    id: 'restless-mind-focusing',
+    emotionalState: 'restless',
+    type: 'story',
+    title: 'Mind Focusing Path',
+    description: 'Direct your attention to calm restless energy',
+    scienceBenefit: 'Single-focus attention reduces restlessness',
+    duration: 60,
+    color: 'from-amber-400 to-orange-500',
+    storyContent: [
+      { title: 'Mind Focusing Path', text: 'This reset will focus your attention in a single direction to calm your mind. Look at the screen and follow each step.', duration: 7 },
+      { title: 'Choose Your Point', text: 'Choose a fixed point on the screen — a corner, a shape, or a dot. Keep your eyes gently focused on it.', duration: 8 },
+      { title: 'Breathe Steadily', text: 'Take a slow breath in for 3… And out for 4… Keep your focus on that single point.', duration: 10 },
+      { title: 'Trace the Path', text: 'Now slowly move your eyes in a simple path on the screen. Down… across… up… back across. Do this twice more. Let the path guide your focus.', duration: 15 },
+      { title: 'Let It Settle', text: 'Bring your eyes back to the original point. Stay here for one slow breath in, and one slow breath out.', duration: 10 },
+      { title: 'Reset Complete', text: 'Your focus is steadier, and the restlessness has eased. Reset complete.', duration: 7 }
+    ]
+  },
+  {
+    id: 'restless-tap-rhythm',
     emotionalState: 'restless',
     type: 'interactive',
-    title: 'Moving Meditation',
-    description: 'Trace flowing patterns with your finger',
-    scienceBenefit: 'Channels energy into mindful activity',
-    duration: 120,
-    color: 'from-green-400 to-emerald-500',
-    interactiveType: 'visualization',
+    title: 'Tap Rhythm Sync',
+    description: 'Follow rhythmic patterns to calm energy',
+    scienceBenefit: 'Bilateral stimulation regulates nervous system',
+    duration: 90,
+    color: 'from-yellow-400 to-amber-500',
+    interactiveType: 'rhythm-tap',
     interactiveSteps: [
-      { instruction: 'Trace slow circles in the air with your finger', duration: 15, input: 'tap' },
-      { instruction: 'Switch to figure-8 patterns', duration: 15, input: 'tap' },
-      { instruction: 'Draw a square slowly and deliberately', duration: 15, input: 'tap' },
-      { instruction: 'Create your own flowing pattern', duration: 20, input: 'tap' },
-      { instruction: 'Feel the restless energy becoming focused movement', duration: 15 },
-      { instruction: 'Let your hands rest. Notice the calm...', duration: 20 }
+      { title: 'Tap Rhythm Sync', instruction: 'You\'ll see a simple rhythm pattern appear on-screen. Tap the screen in time with the rhythm. Let the rhythm calm the restlessness.', duration: 7 },
+      { title: 'Follow the Beat', instruction: 'Tap left… tap right… Tap left… tap right… Match the on-screen indicators as they appear.', input: 'tap', duration: 15 },
+      { title: 'Keep the Rhythm', instruction: 'The rhythm will get slightly faster. Stay with it — tap left, tap right, tap left, tap right. Let the steady pattern settle your energy.', input: 'tap', duration: 20 },
+      { title: 'Slow Down', instruction: 'The rhythm will now slow. Follow it all the way down until it stops. Your mind follows the rhythm. Your body follows the calm.', input: 'tap', duration: 30 },
+      { title: 'Reset Complete', instruction: 'Your nervous system has synced with the slower rhythm. Restlessness should feel reduced. Reset complete.', duration: 8 }
     ]
   },
   {
-    id: 'restless-gentle-stretches',
+    id: 'restless-focus-grid',
     emotionalState: 'restless',
     type: 'interactive',
-    title: 'Gentle Stretches',
-    description: 'Quick restorative stretch sequence',
-    scienceBenefit: 'Increases blood flow and oxygen',
-    duration: 120,
+    title: 'Focus Grid Breaker',
+    description: 'Quick tapping game to channel fidgeting',
+    scienceBenefit: 'Cognitive redirect reduces restless energy',
+    duration: 90,
     color: 'from-lime-400 to-green-500',
-    interactiveType: 'body-scan',
+    interactiveType: 'grid-tap',
     interactiveSteps: [
-      { instruction: 'Roll your shoulders back 5 times', duration: 10, count: 5 },
-      { instruction: 'Tilt your head side to side gently', duration: 10 },
-      { instruction: 'Stretch your arms up high, then release', duration: 10 },
-      { instruction: 'Rotate your wrists in circles', duration: 10 },
-      { instruction: 'Flex and point your feet', duration: 10 },
-      { instruction: 'Take a full body stretch and sigh it out', duration: 15 },
-      { instruction: 'Notice how your energy feels now...', duration: 15 }
+      { title: 'Focus Grid Breaker', instruction: 'You\'ll see a grid of circles. One circle will light up at a time. Tap the lit circle as quickly as you can.', duration: 7 },
+      { title: 'Quick Taps', instruction: 'A circle will glow. Tap it. Another one will glow. Tap that too. Stay focused. Keep tapping.', input: 'tap', duration: 20 },
+      { title: 'Faster Lights', instruction: 'The glowing circles will now appear faster. Tap them as they show up. Feel your mind becoming fully focused.', input: 'tap', duration: 25 },
+      { title: 'Final Focus Push', instruction: 'One last quick burst — Tap the final few circles as they appear. Almost there.', input: 'tap', duration: 20 },
+      { title: 'Reset Complete', instruction: 'You\'ve channelled your restless energy into focused action. Feel the calm that follows. Reset complete.', duration: 8 }
     ]
   },
 
@@ -275,280 +267,232 @@ export const RESETS: Reset[] = [
   {
     id: 'overwhelmed-one-thing',
     emotionalState: 'overwhelmed',
-    type: 'interactive',
-    title: 'One Thing at a Time',
-    description: 'Simple, focused micro-tasks',
-    scienceBenefit: 'Reduces cognitive load instantly',
-    duration: 120,
+    type: 'story',
+    title: 'The One-Thing Horizon',
+    description: 'Focus on just one thing to reduce overwhelm',
+    scienceBenefit: 'Narrowing attention reduces cognitive load',
+    duration: 60,
     color: 'from-indigo-400 to-purple-500',
-    interactiveType: 'visualization',
-    interactiveSteps: [
-      { instruction: 'Write down just ONE thing overwhelming you', input: 'text', duration: 20 },
-      { instruction: 'Now write the smallest possible step you could take', input: 'text', duration: 20 },
-      { instruction: 'Imagine doing just that one tiny step...', duration: 15 },
-      { instruction: 'Notice how manageable it feels when it\'s just one thing...', duration: 15 },
-      { instruction: 'Everything else can wait. Just this one thing...', duration: 15 },
-      { instruction: 'Take a breath. You\'ve got this...', duration: 15 }
-    ]
-  },
-  {
-    id: 'overwhelmed-simplify',
-    emotionalState: 'overwhelmed',
-    type: 'story',
-    title: 'Simplify Story',
-    description: 'Guided journey to declutter your mind',
-    scienceBenefit: 'External organization reduces mental overwhelm',
-    duration: 120,
-    color: 'from-blue-400 to-cyan-500',
     storyContent: [
-      { text: 'Imagine your mind as a room filled with scattered papers...', duration: 10 },
-      { text: 'Each paper represents a thought, a task, a worry...', duration: 10 },
-      { text: 'You don\'t need to deal with all of them right now...', duration: 10 },
-      { text: 'Pick up just one paper. Look at it. Then set it aside in an organized pile...', duration: 14 },
-      { text: 'One by one, you\'re not doing the tasks - just organizing them...', duration: 14 },
-      { text: 'The room becomes clearer. You can breathe easier...', duration: 12 },
-      { text: 'You see now that it\'s manageable. One thing at a time...', duration: 12 },
-      { text: 'Take a final breath, feeling clearer and more organized...', duration: 10 }
+      { title: 'The One-Thing Horizon', text: 'When everything feels like too much, your mind is trying to hold hundreds of things at once. This reset brings you back to one.', duration: 8 },
+      { title: 'Pick an Anchor', text: 'Look around and choose a single object near you — your phone, a light, a cup, anything. This will be your focus point.', duration: 10 },
+      { title: 'Anchor In', text: 'Look at your object. Take a slow breath in for 3… And out for 4… Hold your attention there.', duration: 10 },
+      { title: 'Simple Details', text: 'Silently describe one detail you can see — a colour, a shape, a texture. That\'s all you need to focus on.', duration: 10 },
+      { title: 'Reduce the Noise', text: 'Anything you were worrying about can wait. Right now, there is only this one thing.', duration: 10 },
+      { title: 'Reset Complete', text: 'Your mind has shifted from everything to one thing. Overwhelm should feel lighter. Reset complete.', duration: 8 }
     ]
   },
   {
-    id: 'overwhelmed-wise-mind',
+    id: 'overwhelmed-shortest-path',
     emotionalState: 'overwhelmed',
     type: 'story',
-    title: 'Wise Mind Guide',
-    description: 'Meet your inner wise guide for perspective',
-    scienceBenefit: 'DBT wise mind practice balances emotion and logic',
+    title: 'The Shortest Path Home',
+    description: 'Quick grounding to signal safety',
+    scienceBenefit: 'Visual orientation regulates nervous system',
     duration: 90,
-    color: 'from-violet-400 to-purple-500',
+    color: 'from-indigo-400 to-purple-500',
     storyContent: [
-      { text: 'Take a moment to imagine a wise, calm version of yourself...', duration: 10 },
-      { text: 'This wise guide has already gotten through everything you\'re facing...', duration: 12 },
-      { text: 'They look at you with compassion and say: "You\'re doing better than you think..."', duration: 14 },
-      { text: '"The overwhelm is temporary. You have everything you need..."', duration: 12 },
-      { text: '"Break it down. Breathe. One step at a time..."', duration: 12 },
-      { text: 'Feel their calm confidence flowing into you...', duration: 10 },
-      { text: 'You ARE this wise guide. This wisdom is within you...', duration: 10 }
+      { title: 'The Shortest Path Home', text: 'When you feel overwhelmed, your body needs one message: You are safe. We\'ll guide your nervous system back there now.', duration: 8 },
+      { title: 'Look Around', text: 'Gently look left, then right. Let your eyes scan the space around you. This signals to your brain that there is no immediate threat.', duration: 12 },
+      { title: 'Breath Reset', text: 'Inhale for 3… Hold for 1… Exhale for 5… Do this twice more.', duration: 15 },
+      { title: 'Feel the Ground', text: 'Notice how your body is supported. Your feet, your back, your hands. Feel the weight of your body being held.', duration: 14 },
+      { title: 'Bring It Back', text: 'Now bring your eyes to one point on your screen. Breathe once more, slowly.', duration: 12 },
+      { title: 'Reset Complete', text: 'Your nervous system has softened. Overwhelm fades as your body returns to safety. Reset complete.', duration: 10 }
     ]
   },
   {
-    id: 'overwhelmed-body-scan',
+    id: 'overwhelmed-thought-sorter',
     emotionalState: 'overwhelmed',
     type: 'interactive',
-    title: 'Body Scan',
-    description: 'Quick body awareness check-in',
-    scienceBenefit: 'Grounds you in physical sensations',
-    duration: 120,
-    color: 'from-purple-500 to-pink-500',
-    interactiveType: 'body-scan',
+    title: 'Thought Sorter',
+    description: 'Sort bubbles to organize your mind',
+    scienceBenefit: 'Categorization reduces perceived chaos',
+    duration: 90,
+    color: 'from-blue-400 to-cyan-500',
+    interactiveType: 'swipe-sort',
     interactiveSteps: [
-      { instruction: 'Notice your feet. Are they tense? Relax them...', duration: 12 },
-      { instruction: 'Scan your legs. Let any tension melt away...', duration: 12 },
-      { instruction: 'Feel your belly. Breathe deeply into it...', duration: 12 },
-      { instruction: 'Check your shoulders. Drop them down...', duration: 12 },
-      { instruction: 'Relax your jaw and face muscles...', duration: 12 },
-      { instruction: 'Feel your whole body, calm and grounded...', duration: 15 },
-      { instruction: 'Take one more deep, releasing breath...', duration: 15 }
+      { title: 'Thought Sorter', instruction: 'You\'ll sort bubbles on screen into two simple categories. This helps your brain feel clearer and more organised.', duration: 7 },
+      { title: 'Simple Choices', instruction: 'Choose two categories, like: "Now" vs "Later" • "Important" vs "Not Important" • "Work" vs "Life". Your choice.', duration: 10 },
+      { title: 'Drag to Sort', instruction: 'Bubbles will appear on the screen with simple words on them. Drag each bubble to one of your two categories.', input: 'tap', duration: 20 },
+      { title: 'Keep Going', instruction: 'The bubbles come a little faster now. Trust your instinct. Just place them where they feel right.', input: 'tap', duration: 20 },
+      { title: 'Last Few', instruction: 'Just a few more bubbles. Sort them into place — almost done.', input: 'tap', duration: 15 },
+      { title: 'Reset Complete', instruction: 'You\'ve turned overwhelm into order. Your brain should feel clearer and lighter. Reset complete.', duration: 8 }
+    ]
+  },
+  {
+    id: 'overwhelmed-pressure-valve',
+    emotionalState: 'overwhelmed',
+    type: 'interactive',
+    title: 'The Pressure Valve',
+    description: 'Release tension with visual feedback',
+    scienceBenefit: 'Isometric tensing reduces stress hormones',
+    duration: 75,
+    color: 'from-purple-500 to-pink-500',
+    interactiveType: 'pressure-valve',
+    interactiveSteps: [
+      { title: 'The Pressure Valve', instruction: 'You\'ll release overwhelm through small, controlled muscle squeezes. As you do, the on-screen bar will show your pressure releasing.', duration: 7 },
+      { title: 'Hands First', instruction: 'Gently squeeze your hands into fists for 2 seconds. Release slowly. Watch the bar drop.', duration: 8 },
+      { title: 'Shoulder Release', instruction: 'Lift your shoulders slightly, hold for 2… and release. The pressure bar drops again.', duration: 10 },
+      { title: 'Soften the Jaw', instruction: 'Gently clench your jaw for 2 seconds… Then soften it completely. The bar falls once more.', duration: 10 },
+      { title: 'Full-Body Ease', instruction: 'Take one slow breath. Visualise the bar emptying as your body softens.', duration: 12 },
+      { title: 'Reset Complete', instruction: 'Your physical tension has eased, and your overwhelm has loosened its grip. Reset complete.', duration: 10 }
     ]
   },
 
   // ============ TIRED (4 resets) ============
   {
-    id: 'tired-energy-restoration',
+    id: 'tired-two-minute-reboot',
     emotionalState: 'tired',
     type: 'story',
-    title: 'Energy Restoration Story',
-    description: 'Visualize gathering energy from nature',
-    scienceBenefit: 'Guided imagery increases mental energy',
+    title: 'The Two-Minute Reboot',
+    description: 'Quick sensory activation for alertness',
+    scienceBenefit: 'Stimulates reticular activating system',
     duration: 90,
-    color: 'from-amber-400 to-yellow-500',
+    color: 'from-blue-400 to-cyan-500',
     storyContent: [
-      { text: 'Imagine standing in a warm beam of sunlight...', duration: 10 },
-      { text: 'This golden light is pure energy, flowing into you with each breath...', duration: 12 },
-      { text: 'It fills your chest, spreading warmth and vitality throughout your body...', duration: 12 },
-      { text: 'Your cells drink in this light like plants absorbing sunshine...', duration: 12 },
-      { text: 'Feel energy returning to your muscles, clarity to your mind...', duration: 12 },
-      { text: 'You are being recharged, renewed, restored...', duration: 12 },
-      { text: 'Take a deep breath, feeling more awake and energized...', duration: 10 }
+      { title: 'The Two-Minute Reboot', text: 'When you feel tired, your senses go into low power mode. This reset gently switches them back online.', duration: 8 },
+      { title: 'Look Around', text: 'Turn your head slightly and look around your environment. Notice three things that catch your eye. Anything.', duration: 12 },
+      { title: 'Small Adjustment', text: 'Straighten your back just a little. Open your chest. Let your body shift into a more alert position.', duration: 12 },
+      { title: 'Breath Lift', text: 'Inhale for 2 seconds… Exhale for 2 seconds… Repeat twice. This breath pattern gently increases alertness.', duration: 14 },
+      { title: 'Wake Up Your Mind', text: 'Focus on one detail on your screen right now. Hold your attention on it for three seconds. That\'s it.', duration: 12 },
+      { title: 'Reset Complete', text: 'Your senses are sharper, your posture is lifted, and your mind is more awake. Reset complete.', duration: 10 }
     ]
   },
   {
-    id: 'tired-power-nap-sounds',
+    id: 'tired-slow-rise',
     emotionalState: 'tired',
     type: 'story',
-    title: 'Power Nap Sounds',
-    description: 'Calming sounds for quick recovery',
-    scienceBenefit: 'Restores mental energy rapidly',
-    duration: 120,
-    color: 'from-sky-400 to-blue-500',
+    title: 'The Slow Rise Story',
+    description: 'Gentle cognitive activation',
+    scienceBenefit: 'Gradual mental ramping increases wakefulness',
+    duration: 90,
+    color: 'from-blue-400 to-cyan-500',
     storyContent: [
-      { text: 'Take a deep breath and let yourself sink into comfort...', duration: 12 },
-      { text: 'Imagine gentle ocean waves, rhythmic and soothing...', duration: 15 },
-      { text: 'Each wave washes away tension, bringing calm...', duration: 15 },
-      { text: 'Your breathing slows, matching the rhythm of the waves...', duration: 15 },
-      { text: 'You\'re not sleeping, just deeply resting...', duration: 15 },
-      { text: 'This brief rest is restoring your energy and focus...', duration: 15 },
-      { text: 'Take one more breath, feeling refreshed and renewed...', duration: 15 }
+      { title: 'The Slow Rise Story', text: 'Fatigue makes your mind feel foggy and slow. This reset wakes you up gradually, without forcing it.', duration: 8 },
+      { title: 'Notice the Space', text: 'Look around your environment. Find one thing that\'s bright or contrasting. Hold your attention there.', duration: 12 },
+      { title: 'Small Motion', text: 'Roll your shoulders gently, once forward, once back. Tiny movements signal your body to reactivate.', duration: 10 },
+      { title: 'Simple Thinking Task', text: 'Name silently: One sound you hear • One thing you can see • One thing you can touch. This shifts your brain out of fog mode.', duration: 16 },
+      { title: 'One Energising Breath', text: 'Inhale for 3… Exhale for 2… Repeat once.', duration: 12 },
+      { title: 'Reset Complete', text: 'Your mind has risen gently from tiredness into clarity. Reset complete.', duration: 10 }
     ]
   },
   {
-    id: 'tired-energizing-breath',
+    id: 'tired-tap-to-wake',
     emotionalState: 'tired',
     type: 'interactive',
-    title: 'Energizing Breath',
-    description: 'Quick breathing technique for alertness',
-    scienceBenefit: 'Increases oxygen and alertness',
-    duration: 60,
+    title: 'Tap to Wake',
+    description: 'Rhythmic tapping for alertness',
+    scienceBenefit: 'Activates motor circuits and mental alertness',
+    duration: 90,
     color: 'from-orange-400 to-red-400',
-    interactiveType: 'breathing',
+    interactiveType: 'rhythm-tap',
     interactiveSteps: [
-      { instruction: 'Take a quick, sharp inhale through your nose', duration: 2, input: 'breath' },
-      { instruction: 'Exhale forcefully through your mouth', duration: 2, input: 'breath' },
-      { instruction: 'Repeat: Quick in, strong out', duration: 3, input: 'breath' },
-      { instruction: 'Continue this pattern 10 times', duration: 30, count: 10, input: 'breath' },
-      { instruction: 'Return to normal breathing...', duration: 10 },
-      { instruction: 'Notice increased alertness and energy', duration: 10 }
+      { title: 'Tap to Wake', instruction: 'You\'ll tap the screen in simple rhythms. This activates the brain areas linked to attention and alertness.', duration: 7 },
+      { title: 'Slow Start', instruction: 'Tap the circle on screen once every second. A soft pulse guides you.', input: 'tap', duration: 12 },
+      { title: 'Pick Up the Rhythm', instruction: 'The circle now glows slightly faster. Tap to match the new pace.', input: 'tap', duration: 15 },
+      { title: 'Short Activation', instruction: 'For 5 seconds, tap as quickly as you comfortably can. This gives your brain a fast energy spike.', input: 'tap', duration: 15 },
+      { title: 'Settle the Rhythm', instruction: 'The circle slows again. Match the steady pulse for a few more taps.', input: 'tap', duration: 20 },
+      { title: 'Reset Complete', instruction: 'Your brain should feel more awake and alert. Reset complete.', duration: 8 }
     ]
   },
   {
-    id: 'tired-gentle-stretches',
+    id: 'tired-blink-breaker',
     emotionalState: 'tired',
     type: 'interactive',
-    title: 'Gentle Stretches',
-    description: 'Quick restorative stretch sequence',
-    scienceBenefit: 'Increases blood flow and oxygen',
-    duration: 120,
+    title: 'Blink Breaker',
+    description: 'Visual stimulation to boost wakefulness',
+    scienceBenefit: 'Blink rate increases dopamine and alertness',
+    duration: 60,
     color: 'from-green-400 to-teal-500',
-    interactiveType: 'body-scan',
+    interactiveType: 'blink-track',
     interactiveSteps: [
-      { instruction: 'Reach your arms overhead and stretch tall', duration: 10 },
-      { instruction: 'Roll your shoulders back 5 times', duration: 10, count: 5 },
-      { instruction: 'Tilt your head gently side to side', duration: 10 },
-      { instruction: 'Twist gently at your waist, left then right', duration: 15 },
-      { instruction: 'Shake out your hands and feet', duration: 10 },
-      { instruction: 'Take 3 deep, energizing breaths', duration: 15, count: 3 },
-      { instruction: 'Notice the increased energy in your body', duration: 15 }
+      { title: 'Blink Breaker', instruction: 'This reset uses visual focus and blinking patterns to wake up your eyes and mind.', duration: 6 },
+      { title: 'Hold the Spot', instruction: 'A circle appears in the centre of your screen. Look directly at it for three seconds.', duration: 8 },
+      { title: 'Fast Blinks', instruction: 'Blink quickly 5 times while keeping your eyes on the circle. This refreshes your visual system.', duration: 10 },
+      { title: 'Follow It', instruction: 'The circle now moves slowly around the screen. Follow it with your eyes.', input: 'tap', duration: 15 },
+      { title: 'Sharpen In', instruction: 'The circle returns to the centre. Hold your gaze steady for 2 seconds.', duration: 8 },
+      { title: 'Reset Complete', instruction: 'Your eyes and mind are refreshed, and the fatigue should feel lighter. Reset complete.', duration: 8 }
     ]
   },
 
   // ============ SCATTERED (4 resets) ============
   {
-    id: 'scattered-one-breath',
-    emotionalState: 'scattered',
-    type: 'interactive',
-    title: 'One Breath Focus',
-    description: 'Return to center with intentional breathing',
-    scienceBenefit: 'Activates focus centers in the brain',
-    duration: 90,
-    color: 'from-cyan-400 to-blue-500',
-    interactiveType: 'breathing',
-    interactiveSteps: [
-      { instruction: 'Focus all your attention on your next breath in...', duration: 6, input: 'breath' },
-      { instruction: 'And all your attention on the breath out...', duration: 6, input: 'breath' },
-      { instruction: 'One breath. Just this one. Fully present...', duration: 8, input: 'breath' },
-      { instruction: 'Repeat. Each breath an anchor to now...', duration: 30, input: 'breath' },
-      { instruction: 'When your mind wanders, gently return to breath...', duration: 15 },
-      { instruction: 'Feel your scattered energy gathering back to center...', duration: 15 }
-    ]
-  },
-  {
-    id: 'scattered-box-visualization',
-    emotionalState: 'scattered',
-    type: 'interactive',
-    title: 'Box Visualization',
-    description: 'Trace a box to gather wandering thoughts',
-    scienceBenefit: 'Visual focus trains attention control',
-    duration: 120,
-    color: 'from-purple-400 to-indigo-500',
-    interactiveType: 'visualization',
-    interactiveSteps: [
-      { instruction: 'Imagine a box floating in front of you', duration: 10 },
-      { instruction: 'Trace the top edge slowly with your eyes', duration: 10, input: 'tap' },
-      { instruction: 'Trace down the right side', duration: 10, input: 'tap' },
-      { instruction: 'Along the bottom edge', duration: 10, input: 'tap' },
-      { instruction: 'Up the left side, completing the box', duration: 10, input: 'tap' },
-      { instruction: 'Repeat, going slower each time', duration: 30, input: 'tap' },
-      { instruction: 'Feel your scattered attention gathering to one point', duration: 15 }
-    ]
-  },
-  {
-    id: 'scattered-anchor-story',
+    id: 'scattered-one-thing-anchor',
     emotionalState: 'scattered',
     type: 'story',
-    title: 'Attention Anchor Story',
-    description: 'Guided imagery to reclaim your focus',
-    scienceBenefit: 'Metaphor helps reorganize scattered attention',
-    duration: 120,
-    color: 'from-teal-400 to-cyan-500',
+    title: 'The One-Thing Anchor',
+    description: 'Narrow attention to regain focus',
+    scienceBenefit: 'Single-stimulus focus reduces mental overload',
+    duration: 75,
+    color: 'from-green-400 to-teal-500',
     storyContent: [
-      { text: 'Imagine your attention like leaves scattered by the wind...', duration: 12 },
-      { text: 'Each thought pulling you in a different direction...', duration: 10 },
-      { text: 'Now picture a magnet, pulling all those scattered pieces back...', duration: 12 },
-      { text: 'One by one, the leaves return, gathering at your center...', duration: 14 },
-      { text: 'Your scattered energy becomes a single, focused beam of light...', duration: 14 },
-      { text: 'You are not fighting distraction. You are choosing focus...', duration: 12 },
-      { text: 'Feel yourself centered, gathered, ready...', duration: 12 },
-      { text: 'Breathe in your renewed clarity and purpose...', duration: 10 }
+      { title: 'The One-Thing Anchor', text: 'When your mind feels scattered, focusing on one simple thing helps pull everything back together. We\'ll anchor your attention in a calm, steady way.', duration: 10 },
+      { title: 'Pick One Point', text: 'Look at one point on your screen. Any point. Hold your focus there.', duration: 10 },
+      { title: 'Match the Moment', text: 'Inhale gently for 3 seconds… Exhale for 3 seconds… Keep your eyes on your chosen point.', duration: 12 },
+      { title: 'The Quietening', text: 'Imagine your thoughts moving behind the anchor point, like they\'re fading into the background. Let each breath make the point feel steadier.', duration: 15 },
+      { title: 'Reset Complete', text: 'Your attention has narrowed and your mind is calmer. Reset complete.', duration: 10 }
     ]
   },
   {
-    id: 'scattered-sensory-focus',
+    id: 'scattered-thought-path',
+    emotionalState: 'scattered',
+    type: 'story',
+    title: 'The Thought Path',
+    description: 'Organize scattered thoughts with sequencing',
+    scienceBenefit: 'Sequencing reduces mental fragmentation',
+    duration: 60,
+    color: 'from-green-400 to-teal-500',
+    storyContent: [
+      { title: 'The Thought Path', text: 'A scattered mind usually means your thoughts are jumping around. We\'ll straighten the path with a simple ordering reset.', duration: 8 },
+      { title: 'Look Around', text: 'Look around your space and silently pick three objects you can see. Just notice them.', duration: 10 },
+      { title: 'Order Them', text: 'Now mentally arrange those three objects in a simple order: First… Second… Third.', duration: 12 },
+      { title: 'Walk the Path', text: 'Now repeat the order once more in your mind. This helps your brain shift from scattered to structured.', duration: 12 },
+      { title: 'Reset Complete', text: 'Your mind has a clearer path and your thoughts feel more organised. Reset complete.', duration: 8 }
+    ]
+  },
+  {
+    id: 'scattered-dot-connect',
     emotionalState: 'scattered',
     type: 'interactive',
-    title: 'Single Sense Focus',
-    description: 'Anchor attention through one sense at a time',
-    scienceBenefit: 'Trains selective attention and reduces mental clutter',
+    title: 'Dot Connect',
+    description: 'Connect dots to strengthen focus',
+    scienceBenefit: 'Sequential tasks improve attentional switching',
     duration: 90,
-    color: 'from-emerald-400 to-green-500',
-    interactiveType: 'grounding',
+    color: 'from-cyan-400 to-blue-500',
+    interactiveType: 'dot-connect',
     interactiveSteps: [
-      { instruction: 'Focus only on what you can hear for 20 seconds', duration: 20 },
-      { instruction: 'Now shift: focus only on what you can feel (touch)', duration: 20 },
-      { instruction: 'Finally: focus only on what you can see', duration: 20 },
-      { instruction: 'Notice how your scattered attention is now under your control', duration: 15 },
-      { instruction: 'You can choose where to place your focus', duration: 15 }
+      { title: 'Dot Connect', instruction: 'You\'ll connect dots on your screen in the correct order. This helps your mind shift from scattered to focused.', duration: 7 },
+      { title: 'Begin', instruction: 'Tap dot number 1. A glow will show you where to go next.', input: 'tap', duration: 10 },
+      { title: 'Keep Connecting', instruction: 'Tap the dots in order: 1… 2… 3… and so on. Let the sequence guide your attention.', input: 'tap', duration: 40 },
+      { title: 'One Last Tap', instruction: 'Tap the final dot in the sequence. Feel your focus narrow and settle.', input: 'tap', duration: 15 },
+      { title: 'Reset Complete', instruction: 'Your mind has shifted from scattered to centred. Reset complete.', duration: 8 }
+    ]
+  },
+  {
+    id: 'scattered-swipe-sort',
+    emotionalState: 'scattered',
+    type: 'interactive',
+    title: 'Swipe to Sort',
+    description: 'Categorize tasks to clear mental clutter',
+    scienceBenefit: 'Quick sorting activates executive processes',
+    duration: 75,
+    color: 'from-purple-400 to-indigo-500',
+    interactiveType: 'swipe-sort',
+    interactiveSteps: [
+      { title: 'Swipe to Sort', instruction: 'You\'ll see simple words appear on your screen. Swipe them left or right based on whether they feel "Important Now" or "Later".', duration: 8 },
+      { title: 'First Words', instruction: 'A word appears. Swipe it left for "Later" or right for "Important Now". Trust your instinct.', input: 'tap', duration: 15 },
+      { title: 'Keep Going', instruction: 'More words now—keep swiping. Your brain is organising itself as you go.', input: 'tap', duration: 25 },
+      { title: 'Last Swipe', instruction: 'Here\'s your last word. Swipe it where it belongs.', input: 'tap', duration: 12 },
+      { title: 'Reset Complete', instruction: 'Your brain has sorted and simplified. You should feel clearer and more focused. Reset complete.', duration: 8 }
     ]
   }
 ];
 
-// Helper to get resets by emotional state
+// Helper functions
 export function getResetsByEmotion(emotion: EmotionalState): Reset[] {
-  return RESETS.filter(r => r.emotionalState === emotion);
+  return RESETS.filter(reset => reset.emotionalState === emotion);
 }
 
-// Emotional state info
-export const EMOTIONAL_STATES: Record<EmotionalState, {
-  label: string;
-  color: string;
-  description: string;
-}> = {
-  stressed: {
-    label: 'Stressed',
-    color: 'from-purple-500 to-indigo-600',
-    description: 'Feeling pressure and tension'
-  },
-  anxiety: {
-    label: 'Anxious',
-    color: 'from-pink-500 to-rose-600',
-    description: 'Worried or uneasy'
-  },
-  restless: {
-    label: 'Restless',
-    color: 'from-amber-500 to-orange-600',
-    description: 'Unable to stay still'
-  },
-  overwhelmed: {
-    label: 'Overwhelmed',
-    color: 'from-indigo-500 to-purple-600',
-    description: 'Too much to handle'
-  },
-  tired: {
-    label: 'Tired',
-    color: 'from-blue-500 to-cyan-600',
-    description: 'Low energy and fatigued'
-  },
-  scattered: {
-    label: 'Scattered',
-    color: 'from-green-500 to-teal-600',
-    description: 'Unfocused and distracted'
-  }
-};
+export function getResetById(id: string): Reset | undefined {
+  return RESETS.find(reset => reset.id === id);
+}
