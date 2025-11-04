@@ -2,6 +2,40 @@
 export type EmotionalState = 'stressed' | 'anxiety' | 'restless' | 'overwhelmed' | 'tired' | 'scattered';
 export type ResetType = 'story' | 'interactive';
 
+// Emotion state definitions
+export const EMOTIONAL_STATES = {
+  stressed: {
+    label: 'Stressed',
+    color: 'from-purple-400 to-indigo-500',
+    description: 'Feeling overwhelmed by pressure or demands'
+  },
+  anxiety: {
+    label: 'Anxious',
+    color: 'from-pink-400 to-rose-500',
+    description: 'Worried thoughts and racing mind'
+  },
+  restless: {
+    label: 'Restless',
+    color: 'from-amber-400 to-orange-500',
+    description: 'Unable to settle or focus your energy'
+  },
+  overwhelmed: {
+    label: 'Overwhelmed',
+    color: 'from-indigo-400 to-purple-500',
+    description: 'Too much to handle all at once'
+  },
+  tired: {
+    label: 'Tired',
+    color: 'from-blue-400 to-cyan-500',
+    description: 'Low energy and mental fatigue'
+  },
+  scattered: {
+    label: 'Scattered',
+    color: 'from-green-400 to-teal-500',
+    description: 'Difficulty focusing or staying present'
+  }
+} as const;
+
 export interface Reset {
   id: string;
   emotionalState: EmotionalState;
