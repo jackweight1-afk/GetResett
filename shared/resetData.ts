@@ -53,7 +53,7 @@ export interface Reset {
   // For story resets
   storyContent?: StoryStep[];
   // For interactive resets
-  interactiveType?: 'grounding' | 'breathing' | 'visualization' | 'tapping' | 'counting' | 'body-scan' | 'stress-sweep' | 'bubble-tap' | 'rhythm-tap' | 'grid-tap' | 'dot-connect' | 'swipe-sort' | 'pressure-valve' | 'blink-track' | 'movement-workout' | 'shadowboxing' | 'breath-movement' | 'walking-pace';
+  interactiveType?: 'grounding' | 'breathing' | 'visualization' | 'tapping' | 'counting' | 'body-scan' | 'stress-sweep' | 'bubble-tap' | 'rhythm-tap' | 'grid-tap' | 'dot-connect' | 'swipe-sort' | 'pressure-valve' | 'blink-track' | 'movement-workout' | 'shadowboxing' | 'breath-movement' | 'walking-pace' | 'fact-vs-story' | 'two-minute-triage' | 'progressive-muscle' | 'visual-grounding';
   interactiveSteps?: InteractiveStep[];
   requiresDisclaimer?: boolean;
 }
@@ -80,79 +80,77 @@ export interface InteractiveStep {
 export const RESETS: Reset[] = [
   // ============ STRESSED (4 resets) ============
   {
-    id: 'stressed-grounding-walk',
-    emotionalState: 'stressed',
-    type: 'story',
-    title: 'Grounding Walk',
-    description: 'A sensory grounding journey to calm your mind',
-    scienceBenefit: 'Scientifically shown to reduce stress through sensory awareness',
-    duration: 60,
-    color: 'from-purple-400 to-indigo-500',
-    storyContent: [
-      { title: 'Grounding Walk', text: 'We\'re going to ground your mind using a simple imagined walk. Keep your eyes open and follow each step.', duration: 6 },
-      { title: 'Picture the Path', text: 'Imagine stepping onto a quiet path. Visualise the space opening around you — the sky, the trees, the open air.', duration: 8 },
-      { title: 'Your Pace', text: 'Imagine taking slow, steady steps. Feel the ground supporting you with each one. Match the rhythm of these steps with your breathing.', duration: 10 },
-      { title: 'Notice the Scene', text: 'Picture 5 things around you: The colours of the sky… The shapes of the trees… The sound of your steps… A soft breeze… And the clear space ahead.', duration: 12 },
-      { title: 'Breathe', text: 'Inhale gently with a step… Exhale with the next… Each slow breath releases more of the pressure you\'ve been holding.', duration: 12 },
-      { title: 'Reset Complete', text: 'Your mind is clearer. Your body is lighter. Reset complete.', duration: 8 }
-    ]
-  },
-  {
-    id: 'stressed-waves-release',
-    emotionalState: 'stressed',
-    type: 'story',
-    title: 'Waves of Release',
-    description: 'Use gentle wave imagery to release tension',
-    scienceBenefit: 'Visualization paired with breathing reduces stress',
-    duration: 75,
-    color: 'from-purple-400 to-indigo-500',
-    storyContent: [
-      { title: 'Waves of Release', text: 'We\'re going to use steady visualisation to help release stress from your body. Keep your eyes open and follow each step.', duration: 6 },
-      { title: 'Calm Water', text: 'Imagine gentle waves moving across calm water. Let your gaze rest softly on the screen as you picture it.', duration: 8 },
-      { title: 'Gather the Tension', text: 'Picture a wave lifting up. As it rises, imagine it collecting the tension you\'re holding in your shoulders and chest.', duration: 10 },
-      { title: 'Release', text: 'Now imagine the wave falling. As it lowers, let the tension move away from you with it. Exhale as the wave settles.', duration: 10 },
-      { title: 'Again', text: 'Let the next wave rise — gathering any strain around your neck and face. Let it fall — releasing everything you don\'t need.', duration: 12 },
-      { title: 'One More', text: 'Inhale as the last wave rises gently. Exhale as it falls and carries away the rest of your stress.', duration: 12 },
-      { title: 'Reset Complete', text: 'You\'re calm, clear, and present. Reset complete.', duration: 8 }
-    ]
-  },
-  {
     id: 'stressed-tense-release',
     emotionalState: 'stressed',
     type: 'interactive',
     title: 'Full-Body Tense & Release',
     description: 'Progressive muscle relaxation for instant calm',
-    scienceBenefit: 'Reduces cortisol and activates relaxation response',
-    duration: 90,
-    color: 'from-purple-500 to-pink-500',
-    interactiveType: 'body-scan',
+    scienceBenefit: 'Triggers parasympathetic calm and releases physical tension',
+    duration: 75,
+    color: 'from-purple-400 to-indigo-500',
+    interactiveType: 'progressive-muscle',
     interactiveSteps: [
-      { title: 'Full-Body Tense & Release', instruction: 'In this reset, we\'ll quickly release the stress stored in your muscles. Follow each short step, keep your eyes open, and move at your own pace.', duration: 6 },
-      { title: 'Hands', instruction: 'Clench both fists firmly. Hold the tension for… 3… 2… 1… Now release. Let your fingers soften and drop.', duration: 8 },
-      { title: 'Arms', instruction: 'Tense your forearms and biceps by gently pulling them in. Hold for… 3… 2… 1… Release. Feel the warmth as your arms relax.', duration: 10 },
-      { title: 'Shoulders', instruction: 'Bring your shoulders slightly up toward your ears. Hold the tension for… 3… 2… 1… Let them drop. Let your shoulders feel heavier and looser.', duration: 10 },
-      { title: 'Stomach', instruction: 'Tighten your stomach muscles gently — not too hard. Hold for… 3… 2… 1… Release. Let your breathing flow naturally again.', duration: 10 },
-      { title: 'Legs', instruction: 'Tense your thighs and calves at the same time. Hold for… 3… 2… 1… Release. Feel your legs sink and soften.', duration: 10 },
-      { title: 'Full Body', instruction: 'Tense your whole body just a little — arms, shoulders, stomach, legs. Hold for… 3… 2… 1… Release everything. Let your whole body loosen.', duration: 12 },
-      { title: 'Reset Complete', instruction: 'Your body should now feel softer, lighter, and clearer. Reset complete.', duration: 8 }
+      { title: 'Tense & Release', instruction: 'We\'ll quickly ease the tension from your body.\n\nFollow the short steps and let each release soften your stress.' },
+      { title: 'Hands', instruction: 'Clench both fists.\n\nHold the tension — 3 … 2 … 1 … now release.\n\nLet your fingers drop loose.' },
+      { title: 'Shoulders', instruction: 'Lift your shoulders slightly toward your ears.\n\nHold 3 … 2 … 1 … and let them fall.\n\nFeel the weight slide off.' },
+      { title: 'Jaw', instruction: 'Gently clench your teeth for two seconds.\n\nNow release completely.\n\nNotice the warmth that follows.' },
+      { title: 'Stomach', instruction: 'Tighten your stomach a little — then let go.\n\nLet the breath move freely again.' },
+      { title: 'Reset Complete', instruction: 'Your body is lighter, looser, calmer.\n\nReset complete.' }
     ]
   },
   {
-    id: 'stressed-stress-sweep',
+    id: 'stressed-fact-vs-story',
     emotionalState: 'stressed',
     type: 'interactive',
-    title: 'Stress Sweep',
-    description: 'Type and swipe away your stressors',
-    scienceBenefit: 'Expressive release reduces stress hormones',
-    duration: 60,
-    color: 'from-indigo-500 to-purple-500',
-    interactiveType: 'stress-sweep',
+    title: 'Fact vs Story',
+    description: 'Separate reality from worry',
+    scienceBenefit: 'Labelling thoughts reduces amygdala activation and restores perspective',
+    duration: 90,
+    color: 'from-purple-500 to-indigo-600',
+    interactiveType: 'fact-vs-story',
     interactiveSteps: [
-      { title: 'Stress Sweep', instruction: 'Let\'s clear the thoughts that are stressing you right now. You\'ll type them in, then swipe them away one by one.', duration: 6 },
-      { title: 'What\'s stressing you?', instruction: 'Type up to 5 words or short phrases that describe what\'s weighing on you. Examples: "work", "money", "pressure", "tired".', input: 'text', count: 5, duration: 25 },
-      { title: 'You\'re in control', instruction: 'These words will now float on your screen. Your task is simple: tap or swipe each one away. This helps your mind release them.', duration: 8 },
-      { title: 'Clear Your Stress', instruction: 'Tap or swipe each word to clear it. Take your time. Each swipe represents letting go.', input: 'tap', duration: 20 },
-      { title: 'Reset Complete', instruction: 'You\'ve cleared what was weighing on you. Take a breath and notice the space you\'ve created.', duration: 8 }
+      { title: 'Fact vs Story', instruction: 'When you\'re stressed, your mind mixes what\'s real with what you fear.\n\nLet\'s separate the two.' },
+      { title: 'What\'s stressing you?', instruction: 'Type a short phrase that sums it up.\n\nExample: deadline, money, pressure.', input: 'text', count: 3 },
+      { title: 'Sort the Thought', instruction: 'Drag each phrase into Facts or Story.\n\nFacts = what\'s true now.\nStory = what you\'re predicting.', input: 'tap' },
+      { title: 'Shift the Meaning', instruction: 'Pick one gentle reframe:\n\n• It\'s temporary\n• I can ask for help\n• One step at a time', input: 'tap' },
+      { title: 'Reset Complete', instruction: 'You\'ve pulled fact from fiction.\n\nClarity replaces chaos.\n\nReset complete.' }
+    ]
+  },
+  {
+    id: 'stressed-safety-scan',
+    emotionalState: 'stressed',
+    type: 'interactive',
+    title: 'Safety Scan',
+    description: 'Visual orientation and grounding',
+    scienceBenefit: 'Visual scanning signals safety, calming the stress response',
+    duration: 75,
+    color: 'from-indigo-500 to-purple-500',
+    interactiveType: 'visual-grounding',
+    interactiveSteps: [
+      { title: 'Safety Scan', instruction: 'Stress makes your body act like danger is close.\n\nLet\'s remind it that you\'re safe.' },
+      { title: 'Left Side', instruction: 'Turn your eyes gently to the left.\n\nNotice colours, shapes, movement.' },
+      { title: 'Right Side', instruction: 'Now look slowly to the right.\n\nTake in what\'s there without judging.' },
+      { title: 'Anchor Object', instruction: 'Spot one ordinary thing around you — a cup, a chair, a wall.\n\nLet it remind you you\'re safe here.' },
+      { title: 'Settle In', instruction: 'Keep your eyes on that object.\n\nTake one easy breath in … and out.' },
+      { title: 'Reset Complete', instruction: 'Your body has scanned, oriented, and settled.\n\nStress response down.\n\nReset complete.' }
+    ]
+  },
+  {
+    id: 'stressed-two-minute-triage',
+    emotionalState: 'stressed',
+    type: 'interactive',
+    title: 'Two-Minute Triage',
+    description: 'Categorize and prioritize your tasks',
+    scienceBenefit: 'Externalizes worry, freeing working memory and lowering stress',
+    duration: 90,
+    color: 'from-purple-400 to-pink-500',
+    interactiveType: 'two-minute-triage',
+    interactiveSteps: [
+      { title: 'Two-Minute Triage', instruction: 'When stress piles up, your brain tries to hold everything at once.\n\nLet\'s clear the queue.' },
+      { title: 'What\'s on your mind?', instruction: 'Type up to three things causing pressure.\n\nKeep them short — one or two words each.', input: 'text', count: 3 },
+      { title: 'Now / Soon / Later', instruction: 'Tap each item and place it under Now, Soon, or Later.\n\nYou can\'t do everything at once — and you don\'t need to.', input: 'tap' },
+      { title: 'Just One', instruction: 'Pick one "Now" item and choose a two-minute action:\n\nsend message, draft line, stand up.', input: 'tap' },
+      { title: 'Reset Complete', instruction: 'Your load is lighter.\n\nYou know what matters next.\n\nReset complete.' }
     ]
   },
 

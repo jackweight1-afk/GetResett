@@ -32,7 +32,11 @@ const iconMap = {
   'movement-workout': Dumbbell,
   'shadowboxing': Zap,
   'breath-movement': Wind,
-  'walking-pace': Activity
+  'walking-pace': Activity,
+  'progressive-muscle': Hand,
+  'fact-vs-story': Scan,
+  'visual-grounding': Eye,
+  'two-minute-triage': Activity
 };
 
 export default function InteractiveResetPlayer({ reset, emotion, onComplete, onExit }: InteractiveResetPlayerProps) {
