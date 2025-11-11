@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { type Reset, type InteractiveStep, EMOTIONAL_STATES, type EmotionalState } from '@shared/resetData';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Eye, Hand, Wind, Activity, Hash, Scan, Check, Sparkles, Grid3x3, Zap, BarChart3 } from 'lucide-react';
+import { Eye, Hand, Wind, Activity, Hash, Scan, Check, Sparkles, Grid3x3, Zap, BarChart3, Dumbbell, Play, Pause, SkipForward, SkipBack } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 
 interface InteractiveResetPlayerProps {
@@ -27,7 +27,11 @@ const iconMap = {
   'dot-connect': Zap,
   'swipe-sort': Activity,
   'pressure-valve': BarChart3,
-  'blink-track': Eye
+  'blink-track': Eye,
+  'movement-workout': Dumbbell,
+  'shadowboxing': Zap,
+  'breath-movement': Wind,
+  'walking-pace': Activity
 };
 
 export default function InteractiveResetPlayer({ reset, emotion, onComplete, onExit }: InteractiveResetPlayerProps) {
@@ -37,6 +41,7 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
   const [dismissedItems, setDismissedItems] = useState<number[]>([]);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isAutoAdvancing, setIsAutoAdvancing] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   
   // Bubble pop game state
   const [bubbles, setBubbles] = useState<Array<{ id: number; x: number; y: number; delay: number }>>(() => 
@@ -54,11 +59,11 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
   const Icon = reset.interactiveType ? iconMap[reset.interactiveType] : Activity;
   const emotionInfo = EMOTIONAL_STATES[emotion];
 
-  // Auto-advance timer for steps with duration
+  // Initialize timeLeft when step changes (not when pause state changes)
   useEffect(() => {
     if (!currentStep?.duration || currentStep.input === 'text') return;
     
-    // Don't auto-advance for stress-sweep tap step - wait for user to dismiss all items
+    // Don't auto-advance for stress-sweep tap step
     if (reset.interactiveType === 'stress-sweep' && currentStep.input === 'tap') {
       setIsAutoAdvancing(false);
       return;
@@ -66,11 +71,16 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
     
     setTimeLeft(currentStep.duration);
     setIsAutoAdvancing(true);
+    setIsPaused(false); // Reset pause state on step change
+  }, [currentStepIndex]);
+
+  // Timer countdown - runs independently from pause state
+  useEffect(() => {
+    if (!isAutoAdvancing || timeLeft <= 0 || isPaused) return;
     
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         if (prev <= 1) {
-          clearInterval(timer);
           handleNext();
           return 0;
         }
@@ -79,7 +89,7 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [currentStepIndex]);
+  }, [timeLeft, isAutoAdvancing, isPaused]);
 
   const handleNext = () => {
     if (currentStepIndex < steps.length - 1) {
@@ -381,6 +391,58 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
       );
     }
 
+    // Movement exercises (workout, shadowboxing, breath-movement, walking)
+    if (currentStep.input === 'movement') {
+      const isStretchStep = currentStep.isStretch;
+      
+      return (
+        <div className={`space-y-6 py-6 rounded-2xl p-6 ${isStretchStep ? 'bg-orange-50 border border-orange-200' : ''}`}>
+          {/* Stretch badge */}
+          {isStretchStep && (
+            <div className="flex justify-center mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500 text-white text-sm font-semibold shadow-md">
+                <Activity className="w-4 h-4" />
+                <span>STRETCH FIRST</span>
+              </div>
+            </div>
+          )}
+
+          {/* Visual aid image */}
+          {currentStep.visualAid && (
+            <div className="flex justify-center">
+              <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden bg-gray-50 border-2 border-gray-200 shadow-lg">
+                <img
+                  src={currentStep.visualAid}
+                  alt={currentStep.title || 'Exercise demonstration'}
+                  className="w-full h-full object-contain"
+                  data-testid="movement-visual-aid"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Alternative move instruction */}
+          {currentStep.alternativeMove && (
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+              <p className="text-sm text-blue-800">
+                <span className="font-semibold">Low-impact option:</span> {currentStep.alternativeMove}
+              </p>
+            </div>
+          )}
+
+          {/* Movement timer visualization */}
+          {currentStep.duration && timeLeft > 0 && (
+            <div className="text-center">
+              <div className={`inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br ${emotionInfo.color} shadow-xl`}>
+                <span className="text-3xl font-bold text-white">{timeLeft}</span>
+              </div>
+              <p className="mt-2 text-xs text-gray-500 font-medium">seconds remaining</p>
+            </div>
+          )}
+        </div>
+      );
+    }
+
     // Default: just show the instruction (no specific interaction)
     return null;
   };
@@ -392,13 +454,54 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
             <Button
-              onClick={onComplete}
+              onClick={onExit}
               variant="ghost"
               className="text-gray-600 hover:text-gray-900"
               data-testid="button-finish-early"
             >
               Finish Early
             </Button>
+
+            {/* Playback controls for movement resets */}
+            {(reset.interactiveType === 'movement-workout' || 
+              reset.interactiveType === 'shadowboxing' || 
+              reset.interactiveType === 'breath-movement' || 
+              reset.interactiveType === 'walking-pace') && (
+              <div className="flex items-center gap-2">
+                {currentStepIndex > 0 && (
+                  <Button
+                    onClick={() => setCurrentStepIndex(prev => Math.max(0, prev - 1))}
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0 text-gray-600 hover:text-gray-900"
+                    data-testid="button-prev-step"
+                  >
+                    <SkipBack className="w-4 h-4" />
+                  </Button>
+                )}
+                {timeLeft > 0 && (
+                  <Button
+                    onClick={() => setIsPaused(prev => !prev)}
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0 text-gray-600 hover:text-gray-900"
+                    data-testid="button-pause-play"
+                  >
+                    {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+                  </Button>
+                )}
+                <Button
+                  onClick={handleNext}
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 text-gray-600 hover:text-gray-900"
+                  data-testid="button-next-step"
+                >
+                  <SkipForward className="w-4 h-4" />
+                </Button>
+              </div>
+            )}
+
             {timeLeft > 0 && (
               <div className={`flex items-center gap-2 text-sm bg-gradient-to-r ${emotionInfo.color} bg-clip-text text-transparent font-bold`}>
                 <span className="font-mono font-semibold">{timeLeft}s</span>

@@ -1,5 +1,5 @@
 // Reset types and emotional states
-export type EmotionalState = 'stressed' | 'anxiety' | 'restless' | 'overwhelmed' | 'tired' | 'scattered';
+export type EmotionalState = 'stressed' | 'anxiety' | 'restless' | 'overwhelmed' | 'tired' | 'scattered' | 'energy';
 export type ResetType = 'story' | 'interactive';
 
 // Emotion state definitions
@@ -33,6 +33,11 @@ export const EMOTIONAL_STATES = {
     label: 'Scattered',
     color: 'from-green-400 to-teal-500',
     description: 'Difficulty focusing or staying present'
+  },
+  energy: {
+    label: 'Energy to Burn',
+    color: 'from-red-500 to-orange-600',
+    description: 'Excess energy that needs physical release'
   }
 } as const;
 
@@ -48,8 +53,9 @@ export interface Reset {
   // For story resets
   storyContent?: StoryStep[];
   // For interactive resets
-  interactiveType?: 'grounding' | 'breathing' | 'visualization' | 'tapping' | 'counting' | 'body-scan' | 'stress-sweep' | 'bubble-tap' | 'rhythm-tap' | 'grid-tap' | 'dot-connect' | 'swipe-sort' | 'pressure-valve' | 'blink-track';
+  interactiveType?: 'grounding' | 'breathing' | 'visualization' | 'tapping' | 'counting' | 'body-scan' | 'stress-sweep' | 'bubble-tap' | 'rhythm-tap' | 'grid-tap' | 'dot-connect' | 'swipe-sort' | 'pressure-valve' | 'blink-track' | 'movement-workout' | 'shadowboxing' | 'breath-movement' | 'walking-pace';
   interactiveSteps?: InteractiveStep[];
+  requiresDisclaimer?: boolean;
 }
 
 export interface StoryStep {
@@ -63,8 +69,11 @@ export interface InteractiveStep {
   title?: string;
   instruction: string;
   duration?: number;
-  input?: 'text' | 'tap' | 'breath' | 'none';
+  input?: 'text' | 'tap' | 'breath' | 'none' | 'movement';
   count?: number; // for exercises that need counting
+  visualAid?: string; // path to image/animation for movement guidance
+  alternativeMove?: string; // low-impact alternative instruction
+  isStretch?: boolean; // marks this as a stretch step
 }
 
 // All 24 resets: 4 per emotional state
@@ -518,6 +527,125 @@ export const RESETS: Reset[] = [
       { title: 'Keep Going', instruction: 'More words now—keep swiping. Your brain is organising itself as you go.', input: 'tap', duration: 25 },
       { title: 'Last Swipe', instruction: 'Here\'s your last word. Swipe it where it belongs.', input: 'tap', duration: 12 },
       { title: 'Reset Complete', instruction: 'Your brain has sorted and simplified. You should feel clearer and more focused. Reset complete.', duration: 8 }
+    ]
+  },
+
+  // ============ ENERGY TO BURN (4 resets) ============
+  {
+    id: 'energy-micro-workout',
+    emotionalState: 'energy',
+    type: 'interactive',
+    title: '3-Minute Micro-Workout',
+    description: 'Quick full-body movements to burn excess energy',
+    scienceBenefit: 'High-intensity movement rapidly reduces restlessness',
+    duration: 180,
+    color: 'from-red-500 to-orange-600',
+    interactiveType: 'movement-workout',
+    requiresDisclaimer: true,
+    interactiveSteps: [
+      { title: '3-Minute Micro-Workout', instruction: 'This quick workout will help you burn that extra energy. We\'ll start with stretches, then move into energizing exercises. Follow the visuals and move at your own pace.', duration: 8, isStretch: false },
+      
+      // Stretch section (compulsory)
+      { title: 'Stretch: Neck Rolls', instruction: 'Gently roll your head in a circle. 3 times clockwise, then 3 times counterclockwise. This loosens your neck and prepares you for movement.', duration: 15, input: 'movement', isStretch: true },
+      { title: 'Stretch: Arm Circles', instruction: 'Extend your arms out to the sides. Make 5 large circles forward, then 5 backward. Feel your shoulders warm up.', duration: 15, input: 'movement', isStretch: true },
+      { title: 'Stretch: Torso Twists', instruction: 'Stand with feet hip-width apart. Twist your torso gently left and right, letting your arms swing naturally. 6 times each side.', duration: 15, input: 'movement', isStretch: true },
+      
+      // Main workout
+      { title: 'Jumping Jacks', instruction: 'Do jumping jacks for 30 seconds. Jump while spreading your legs and raising your arms overhead. Keep a steady rhythm.', duration: 30, input: 'movement', visualAid: '/movement/jumping-jacks.png', alternativeMove: 'Step side-to-side instead of jumping' },
+      { title: 'High Knees', instruction: 'Run in place, bringing your knees up high. Pump your arms. Keep going for 20 seconds!', duration: 20, input: 'movement', alternativeMove: 'March in place at your own pace' },
+      { title: 'Bodyweight Squats', instruction: 'Stand with feet shoulder-width apart. Lower into a squat, keeping your chest up. Do 10 squats at your pace.', duration: 25, input: 'movement', visualAid: '/movement/squats.png', alternativeMove: 'Hold onto a chair for balance' },
+      { title: 'Arm Pulses', instruction: 'Extend arms forward, palms down. Make small, quick up-and-down pulses for 20 seconds. Feel the burn!', duration: 20, input: 'movement' },
+      { title: 'Rest & Breathe', instruction: 'Take a quick breather. Inhale deeply for 3... Exhale fully for 3... Let your heart rate settle.', duration: 10, input: 'breath' },
+      { title: 'Burpees (Modified)', instruction: 'Step back into plank, step forward, then reach up. Do 5 reps. Move with control.', duration: 25, input: 'movement', alternativeMove: 'Skip the plank, just step and reach' },
+      { title: 'Cool Down', instruction: 'Shake out your arms and legs. Take 3 deep breaths. Notice how alive your body feels.', duration: 10, input: 'movement' },
+      { title: 'Reset Complete', instruction: 'You\'ve burned that excess energy. Your body feels lighter and your mind clearer. Reset complete.', duration: 7 }
+    ]
+  },
+  {
+    id: 'energy-shadowboxing',
+    emotionalState: 'energy',
+    type: 'interactive',
+    title: 'Quick Shadowboxing',
+    description: 'Channel energy through boxing movements',
+    scienceBenefit: 'Explosive movement releases tension and improves focus',
+    duration: 150,
+    color: 'from-orange-500 to-red-500',
+    interactiveType: 'shadowboxing',
+    requiresDisclaimer: true,
+    interactiveSteps: [
+      { title: 'Quick Shadowboxing', instruction: 'Release your energy through controlled punches and movements. We\'ll stretch first, then get into the flow. No equipment needed.', duration: 7, isStretch: false },
+      
+      // Stretch section
+      { title: 'Stretch: Shoulder Rolls', instruction: 'Roll your shoulders backward 5 times, then forward 5 times. Loosen up those muscles.', duration: 12, input: 'movement', isStretch: true },
+      { title: 'Stretch: Wrist Circles', instruction: 'Make fists and rotate your wrists in circles. 5 circles each direction. This protects your wrists.', duration: 12, input: 'movement', isStretch: true },
+      { title: 'Stretch: Hip Circles', instruction: 'Hands on hips. Make slow circles with your hips. 3 times clockwise, 3 times counterclockwise.', duration: 12, input: 'movement', isStretch: true },
+      
+      // Boxing movements
+      { title: 'Stance', instruction: 'Stand with feet shoulder-width apart, knees slightly bent. Raise your fists to chin level, elbows in. This is your fighting stance.', duration: 10, input: 'movement', visualAid: '/movement/boxing-stance.png' },
+      { title: 'Jab Practice', instruction: 'Throw quick jabs with your lead hand. Snap it out and back. Do 20 jabs. Keep your guard up!', duration: 20, input: 'movement', visualAid: '/movement/jab.png' },
+      { title: 'Cross Punches', instruction: 'Now throw cross punches with your rear hand. Rotate your hips for power. 15 crosses.', duration: 18, input: 'movement', visualAid: '/movement/cross-punch.png' },
+      { title: 'Jab-Cross Combo', instruction: 'Combine them: Jab, Cross. Repeat this combo 10 times. Stay light on your feet.', duration: 20, input: 'movement' },
+      { title: 'Hooks', instruction: 'Throw hooks in a wide arc at shoulder level. Left hook, right hook. 10 each side. Feel the rotation!', duration: 20, input: 'movement' },
+      { title: 'Speed Round', instruction: 'Throw any combination of punches as fast as you can for 15 seconds. Let it all out!', duration: 15, input: 'movement' },
+      { title: 'Cool Down', instruction: 'Drop your hands. Shake out your arms. Roll your shoulders back. Deep breath in... and out.', duration: 12, input: 'movement' },
+      { title: 'Reset Complete', instruction: 'You\'ve channeled that energy into focused power. Feel the satisfaction. Reset complete.', duration: 7 }
+    ]
+  },
+  {
+    id: 'energy-breath-movement',
+    emotionalState: 'energy',
+    type: 'interactive',
+    title: 'Breath-Plus-Movement',
+    description: 'Synchronized breathing with dynamic stretches',
+    scienceBenefit: 'Combines cardio with breath control for balanced energy release',
+    duration: 120,
+    color: 'from-amber-500 to-orange-500',
+    interactiveType: 'breath-movement',
+    requiresDisclaimer: true,
+    interactiveSteps: [
+      { title: 'Breath-Plus-Movement', instruction: 'We\'ll move your body while controlling your breath. This balances physical energy with mental calm. Gentle stretches first.', duration: 8, isStretch: false },
+      
+      // Stretch section
+      { title: 'Stretch: Standing Side Bend', instruction: 'Reach your right arm overhead and bend left. Hold for 5 seconds. Switch sides. Repeat twice.', duration: 15, input: 'movement', isStretch: true, visualAid: '/movement/side-bend.png' },
+      { title: 'Stretch: Forward Fold', instruction: 'Hinge at your hips and reach toward the ground. Let your head and arms hang. Hold for 8 seconds.', duration: 12, input: 'movement', isStretch: true },
+      
+      // Breath + movement
+      { title: 'Reach & Squat', instruction: 'INHALE: Reach your arms up high. EXHALE: Squat down, arms forward. Repeat 8 times. Sync breath with movement.', duration: 25, input: 'movement' },
+      { title: 'Lunge & Twist', instruction: 'Step forward into a lunge. INHALE: Arms overhead. EXHALE: Twist toward your front leg. 4 reps each side.', duration: 30, input: 'movement', visualAid: '/movement/lunge-twist.png', alternativeMove: 'Hold a chair for balance' },
+      { title: 'Plank Hold', instruction: 'Hold a plank position (on hands or forearms). Breathe steadily for 15 seconds. Keep your core tight.', duration: 15, input: 'movement', visualAid: '/movement/plank.png', alternativeMove: 'Do plank from your knees' },
+      { title: 'Mountain Climbers', instruction: 'From plank, alternate bringing knees to chest. Do 10 each leg. Keep breathing!', duration: 20, input: 'movement', visualAid: '/movement/mountain-climbers.png', alternativeMove: 'Step slowly instead of running' },
+      { title: 'Standing Twist', instruction: 'Stand tall. INHALE: Center. EXHALE: Twist right. INHALE: Center. EXHALE: Twist left. 6 times total.', duration: 18, input: 'movement' },
+      { title: 'Final Breath', instruction: 'Stand still. Inhale deeply through your nose for 4... Hold for 2... Exhale through your mouth for 6. Repeat twice.', duration: 20, input: 'breath' },
+      { title: 'Reset Complete', instruction: 'You\'ve balanced movement with breath. Your energy is centered. Reset complete.', duration: 7 }
+    ]
+  },
+  {
+    id: 'energy-walk-it-off',
+    emotionalState: 'energy',
+    type: 'interactive',
+    title: 'Walk It Off',
+    description: 'Guided walking pace to burn energy mindfully',
+    scienceBenefit: 'Rhythmic walking regulates nervous system and burns energy',
+    duration: 180,
+    color: 'from-yellow-500 to-orange-500',
+    interactiveType: 'walking-pace',
+    requiresDisclaimer: true,
+    interactiveSteps: [
+      { title: 'Walk It Off', instruction: 'This reset guides you through a 3-minute walking routine. You can do this in place or moving around your space. We\'ll vary the pace to burn that energy. Quick stretch first!', duration: 10, isStretch: false },
+      
+      // Stretch section
+      { title: 'Stretch: Ankle Rolls', instruction: 'Lift one foot slightly. Roll your ankle in circles. 5 times each direction, then switch feet.', duration: 15, input: 'movement', isStretch: true },
+      { title: 'Stretch: Leg Swings', instruction: 'Hold onto something for balance. Swing one leg forward and back 5 times. Switch legs.', duration: 15, input: 'movement', isStretch: true },
+      
+      // Walking routine
+      { title: 'Slow Warm-Up', instruction: 'Start walking at a slow, easy pace. Feel your feet touching the ground. Swing your arms naturally.', duration: 20, input: 'movement' },
+      { title: 'Medium Pace', instruction: 'Pick up the pace. Walk a bit faster now. Pump your arms. Keep your posture tall.', duration: 30, input: 'movement' },
+      { title: 'Power Walk', instruction: 'Walk as fast as you comfortably can. Quick steps, strong arm swings. Feel your heart rate rise!', duration: 30, input: 'movement', visualAid: '/movement/power-walk.png' },
+      { title: 'Recovery Walk', instruction: 'Slow down to a moderate pace. Let your breathing settle. Keep moving.', duration: 20, input: 'movement' },
+      { title: 'High Knee Walk', instruction: 'Lift your knees higher with each step. Exaggerate the movement. 20 seconds. Feel the burn!', duration: 20, input: 'movement', alternativeMove: 'Regular marching is fine' },
+      { title: 'Cool Down Walk', instruction: 'Return to a slow, relaxed pace. Let your arms swing loosely. Take deep breaths.', duration: 25, input: 'movement' },
+      { title: 'Final Stretch', instruction: 'Stop walking. Reach your arms up overhead and take a deep breath in. Lower arms and exhale. Repeat 3 times.', duration: 15, input: 'movement' },
+      { title: 'Reset Complete', instruction: 'You\'ve walked off that excess energy. Your body feels satisfied and your mind is calm. Reset complete.', duration: 10 }
     ]
   }
 ];

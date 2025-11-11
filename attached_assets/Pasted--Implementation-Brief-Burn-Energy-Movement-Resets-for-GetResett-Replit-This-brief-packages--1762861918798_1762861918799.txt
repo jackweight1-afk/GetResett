@@ -1,0 +1,97 @@
+# Implementation Brief – “Burn Energy” Movement Resets for GetResett (Replit)
+
+
+This brief packages the **product scope**, **acceptance criteria**, and **drop‑in React/TypeScript code** to add tile‑driven, follow‑along micro‑workouts with **stretch‑first guidance**, **visual aids**, and a **first‑run disclaimer**. Everything is client‑side and Tailwind‑styled to match your dashboard.
+
+
+---
+
+
+## 1) Scope & user story
+- As a user on the GetResett dashboard, I see an additional emotion tile: **“Burn Energy”** (alt label: **“Energy to Burn”**).
+- Tapping the tile presents an **Important Disclaimer**. Once accepted, a modal opens with short **follow‑along resets**:
+1. **3‑minute Micro‑Workout**
+2. **Quick Shadowboxing**
+3. **Breath‑plus‑Movement**
+4. **“Walk it off” Guided Reset** (cadence‑based pacing)
+- **Every routine starts with a short stretch block** (compulsory), then moves into the main set.
+- Each step has: large timer, spoken cues (en‑GB), audible beeps, and a **visual aid** (static icon **or** picture **or** animation) showing the movement pattern.
+- Works great on mobile and desktop; keyboard shortcuts supported.
+
+
+## 2) Acceptance criteria
+- New dashboard tile appears in the same grid as other emotions and uses existing card styles.
+- Clicking the tile shows a **disclaimer dialog** with **Agree & Continue** / **Cancel**.
+- On acceptance, store `burnEnergyDisclaimerAccepted = "true"` in `localStorage` and do **not** show again unless storage is cleared.
+- Modal opens only after acceptance and shows routine list and descriptions.
+- Starting any routine triggers a **Stretch First** stage (1–2 mins total) before the main blocks.
+- Each step shows: current move name, time left, big progress bar, **visual aid (image/animation)**, and optional low‑impact alternative.
+- “Pause/Start/Next/Back/Restart” controls present; space/←/→ shortcuts work.
+- Voice cues use Web Speech API in **British English** (fallback silent if unsupported).
+- No external libraries beyond React + Tailwind by default; **optional animations** can use Lottie if available.
+- `onComplete` callback exposes analytics payload so you can log to your backend.
+- **Styling and tone match the rest of the app** via design tokens (CSS variables) and shared components where present.
+
+
+## 3) File changes (drop‑in)
+Create the following files (or adapt the paths):
+
+
+```
+src/
+components/
+FitnessTile.tsx
+WorkoutModal.tsx
+DisclaimerModal.tsx
+MovementVisual.tsx
+hooks/
+useVoiceAndBeep.ts
+data/
+workouts.ts
+lib/
+theme.ts
+resets-adapter.ts
+```
+
+
+> If your project is JS not TS, rename `.tsx`→`.jsx` and remove the types.
+
+
+## 4) Styling assumptions & design system alignment
+- **Do use** the app’s existing components if available (e.g. `Card`, `Button`, `Modal`).
+- **Tokens:** this module reads CSS variables for colours, radius and shadows so it inherits your theme.
+- **Classes:** Tailwind utilities remain, but key values use `var(--*)` tokens.
+
+
+### Theme tokens (`src/lib/theme.ts`)
+```ts
+export const theme = {
+card: "rounded-[var(--radius-xl)] border border-[color:var(--border)] bg-[color:var(--surface)] shadow-[var(--shadow-sm)]",
+button: "rounded-[var(--radius-md)] border border-[color:var(--border-strong)] bg-[color:var(--btn-bg)] text-[color:var(--btn-fg)] hover:bg-[color:var(--btn-bg-hover)]",
+accent: "bg-[color:var(--accent)] text-[color:var(--on-accent)]",
+};
+```
+
+
+> Ensure your global CSS defines tokens like:
+> ```css
+> :root{
+> --surface:#fff; --border:#e7e5e4; --border-strong:#d6d3d1;
+> --btn-bg:#0c0a09; --btn-bg-hover:#1c1917; --btn-fg:#fff;
+> --accent:#0c0a09; --on-accent:#fff; --radius-md:12px; --radius-xl:22px;
+> --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+> }
+> ```
+
+
+---
+
+
+## 5) Visual aids (pictures / animations)
+We support **three** visual modes per step via `MovementVisual`:
+1) **Built‑in SVG icon** (no assets, default)
+2) **Image** (PNG/JPG/WebP/GIF) – drop files in `/public/movement/…`
+3) **Animation** via **Lottie** (optional) if your app already includes the `<lottie-player>` web component (e.g. `@lottiefiles/lottie-player`). If not present, we **gracefully fallback** to the SVG icon.
+
+
+— End of brief —

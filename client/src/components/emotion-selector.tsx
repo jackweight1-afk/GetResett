@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { EMOTIONAL_STATES, type EmotionalState } from '@shared/resetData';
 import { motion } from 'framer-motion';
-import { Brain, Heart, Zap, CloudRain, Battery, Sparkles, LogOut, User } from 'lucide-react';
+import { Brain, Heart, Zap, CloudRain, Battery, Sparkles, LogOut, User, Dumbbell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
+import EnergyDisclaimerModal from '@/components/energy-disclaimer-modal';
 
 interface EmotionSelectorProps {
   onSelect: (emotion: EmotionalState) => void;
@@ -17,10 +19,13 @@ const emotionIcons: Record<EmotionalState, typeof Brain> = {
   overwhelmed: Brain,
   tired: Battery,
   scattered: Sparkles,
+  energy: Dumbbell,
 };
 
 export default function EmotionSelector({ onSelect, remainingSessions = 0, isSubscribed = false }: EmotionSelectorProps) {
   const [, setLocation] = useLocation();
+  const [showDisclaimerModal, setShowDisclaimerModal] = useState(false);
+  const [pendingEmotion, setPendingEmotion] = useState<EmotionalState | null>(null);
 
   const handleSignOut = () => {
     window.location.href = '/api/logout';
@@ -28,6 +33,35 @@ export default function EmotionSelector({ onSelect, remainingSessions = 0, isSub
 
   const handleAccount = () => {
     setLocation('/account');
+  };
+
+  const handleEmotionSelect = (emotion: EmotionalState) => {
+    // Check if this is the energy emotion and if disclaimer has been accepted
+    if (emotion === 'energy') {
+      const disclaimerAccepted = localStorage.getItem('burnEnergyDisclaimerAccepted') === 'true';
+      
+      if (!disclaimerAccepted) {
+        setPendingEmotion(emotion);
+        setShowDisclaimerModal(true);
+        return;
+      }
+    }
+    
+    onSelect(emotion);
+  };
+
+  const handleDisclaimerAgree = () => {
+    localStorage.setItem('burnEnergyDisclaimerAccepted', 'true');
+    setShowDisclaimerModal(false);
+    if (pendingEmotion) {
+      onSelect(pendingEmotion);
+      setPendingEmotion(null);
+    }
+  };
+
+  const handleDisclaimerCancel = () => {
+    setShowDisclaimerModal(false);
+    setPendingEmotion(null);
   };
 
   // Show remaining sessions only for non-subscribed users with limited sessions
@@ -93,8 +127,8 @@ export default function EmotionSelector({ onSelect, remainingSessions = 0, isSub
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  onClick={() => onSelect(emotion)}
-                  data-testid={`emotion-${emotion}`}
+                  onClick={() => handleEmotionSelect(emotion)}
+                  data-testid={`emotion-card-${emotion}`}
                   className="group relative bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 
                            shadow-lg hover:shadow-2xl transition-all duration-300 
                            hover:scale-105 active:scale-95 border border-purple-100/50
@@ -140,6 +174,13 @@ export default function EmotionSelector({ onSelect, remainingSessions = 0, isSub
           All resets are under 2 minutes • Science-backed techniques • Instant relief
         </motion.p>
       </div>
+
+      {/* Energy to Burn Disclaimer Modal */}
+      <EnergyDisclaimerModal
+        isOpen={showDisclaimerModal}
+        onAgree={handleDisclaimerAgree}
+        onCancel={handleDisclaimerCancel}
+      />
     </div>
   );
 }
