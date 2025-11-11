@@ -82,75 +82,81 @@ export const RESETS: Reset[] = [
   {
     id: 'stressed-tense-release',
     emotionalState: 'stressed',
-    type: 'interactive',
+    type: 'story',
     title: 'Full-Body Tense & Release',
     description: 'Progressive muscle relaxation for instant calm',
-    scienceBenefit: 'Triggers parasympathetic calm and releases physical tension',
-    duration: 75,
+    scienceBenefit: 'Brief cycles of tense→release lower muscle tone and nudge the nervous system toward parasympathetic calm',
+    duration: 100,
     color: 'from-purple-400 to-indigo-500',
-    interactiveType: 'progressive-muscle',
-    interactiveSteps: [
-      { title: 'Tense & Release', instruction: 'We\'ll quickly ease the tension from your body.\n\nFollow the short steps and let each release soften your stress.' },
-      { title: 'Hands', instruction: 'Clench both fists.\n\nHold the tension — 3 … 2 … 1 … now release.\n\nLet your fingers drop loose.' },
-      { title: 'Shoulders', instruction: 'Lift your shoulders slightly toward your ears.\n\nHold 3 … 2 … 1 … and let them fall.\n\nFeel the weight slide off.' },
-      { title: 'Jaw', instruction: 'Gently clench your teeth for two seconds.\n\nNow release completely.\n\nNotice the warmth that follows.' },
-      { title: 'Stomach', instruction: 'Tighten your stomach a little — then let go.\n\nLet the breath move freely again.' },
-      { title: 'Reset Complete', instruction: 'Your body is lighter, looser, calmer.\n\nReset complete.' }
+    storyContent: [
+      { title: 'Tense & Release', text: 'We\'ll quickly ease the tension from your body. Keep your eyes on the screen and follow each short cue.', duration: 10 },
+      { title: 'Hands', text: 'Clench both fists. Hold 3… 2… 1… Release. Let your fingers hang loose.', duration: 10 },
+      { title: 'Shoulders', text: 'Lift your shoulders a little towards your ears. Hold 3… 2… 1… Drop them. Notice the weight fall away.', duration: 12 },
+      { title: 'Jaw', text: 'Gently press teeth together for 2 seconds; soften the jaw, lips and brow. Feel the warmth that follows.', duration: 12 },
+      { title: 'Centre', text: 'Tighten your stomach lightly for 3 seconds; release and let the breath move freely again.', duration: 12 },
+      { title: 'Ground', text: 'Press feet into the floor for 2 seconds; release and let knees soften. Sense the support beneath you.', duration: 12 },
+      { title: 'Full Body', text: 'Tense the whole body just a little — 2 seconds — and let everything go at once. Notice the contrast.', duration: 14 },
+      { title: 'Reset Complete', text: 'Your body is lighter, looser, calmer. Take one easy breath in… and out.', duration: 10 }
     ]
   },
   {
-    id: 'stressed-fact-vs-story',
+    id: 'stressed-fact-story-lens',
     emotionalState: 'stressed',
-    type: 'interactive',
-    title: 'Fact vs Story',
-    description: 'Separate reality from worry',
-    scienceBenefit: 'Labelling thoughts reduces amygdala activation and restores perspective',
-    duration: 90,
+    type: 'story',
+    title: 'Fact–Story Lens',
+    description: 'Separate what\'s real from what you fear',
+    scienceBenefit: 'Labelling what\'s observable vs predicted reduces amygdala reactivity and restores perspective',
+    duration: 110,
     color: 'from-purple-500 to-indigo-600',
-    interactiveType: 'fact-vs-story',
-    interactiveSteps: [
-      { title: 'Fact vs Story', instruction: 'When you\'re stressed, your mind mixes what\'s real with what you fear.\n\nLet\'s separate the two.' },
-      { title: 'What\'s stressing you?', instruction: 'Type a short phrase that sums it up.\n\nExample: deadline, money, pressure.', input: 'text', count: 3 },
-      { title: 'Sort the Thought', instruction: 'Drag each phrase into Facts or Story.\n\nFacts = what\'s true now.\nStory = what you\'re predicting.', input: 'tap' },
-      { title: 'Shift the Meaning', instruction: 'Pick one gentle reframe:\n\n• It\'s temporary\n• I can ask for help\n• One step at a time', input: 'tap' },
-      { title: 'Reset Complete', instruction: 'You\'ve pulled fact from fiction.\n\nClarity replaces chaos.\n\nReset complete.' }
+    storyContent: [
+      { title: 'Fact–Story Lens', text: 'When you\'re stressed, your mind mixes what\'s real with what you fear. We\'ll gently separate the two.', duration: 12 },
+      { title: 'One Topic', text: 'Think of the thing that\'s loudest right now. Hold it in mind while you read.', duration: 12 },
+      { title: 'Create Distance', text: 'Say quietly in your head: "I\'m noticing a thought about…". You\'re observing it, not being it.', duration: 14 },
+      { title: 'What\'s True Now', text: 'Identify up to two things you can actually observe (times, dates, messages, numbers). Facts are steady.', duration: 14 },
+      { title: 'What-Ifs & Predictions', text: 'Notice what the mind is predicting or assuming. That\'s the story. Stories can change.', duration: 14 },
+      { title: 'Shift the Meaning', text: 'Pick one calm line to hold: "It\'s temporary." / "One step at a time." / "I can ask for help." Let it settle.', duration: 16 },
+      { title: 'First Pebble', text: 'Picture one tiny action you could take later (a message, a line of a draft, a calendar nudge). Just visualise it clearly.', duration: 14 },
+      { title: 'Reset Complete', text: 'You\'ve pulled fact from fiction. Clarity replaces chaos. Notice the extra space in your chest.', duration: 12 }
     ]
   },
   {
     id: 'stressed-safety-scan',
     emotionalState: 'stressed',
-    type: 'interactive',
+    type: 'story',
     title: 'Safety Scan',
     description: 'Visual orientation and grounding',
-    scienceBenefit: 'Visual scanning signals safety, calming the stress response',
-    duration: 75,
+    scienceBenefit: 'Eyes-open orientation and familiar cues signal "no immediate threat", calming the stress response',
+    duration: 95,
     color: 'from-indigo-500 to-purple-500',
-    interactiveType: 'visual-grounding',
-    interactiveSteps: [
-      { title: 'Safety Scan', instruction: 'Stress makes your body act like danger is close.\n\nLet\'s remind it that you\'re safe.' },
-      { title: 'Left Side', instruction: 'Turn your eyes gently to the left.\n\nNotice colours, shapes, movement.' },
-      { title: 'Right Side', instruction: 'Now look slowly to the right.\n\nTake in what\'s there without judging.' },
-      { title: 'Anchor Object', instruction: 'Spot one ordinary thing around you — a cup, a chair, a wall.\n\nLet it remind you you\'re safe here.' },
-      { title: 'Settle In', instruction: 'Keep your eyes on that object.\n\nTake one easy breath in … and out.' },
-      { title: 'Reset Complete', instruction: 'Your body has scanned, oriented, and settled.\n\nStress response down.\n\nReset complete.' }
+    storyContent: [
+      { title: 'Safety Scan', text: 'Stress makes your body act like danger is close. We\'ll remind it that you\'re safe.', duration: 10 },
+      { title: 'Left Side', text: 'Without moving your head much, let your eyes travel left. Notice colours, shapes and any stillness there.', duration: 12 },
+      { title: 'Right Side', text: 'Now to the right. Take in what\'s there without judging. Shoulders soften a fraction.', duration: 12 },
+      { title: 'Orient', text: 'Let your eyes find the corners of the room or space you\'re in. Corners mean structure; structure means safety.', duration: 14 },
+      { title: 'Anchor', text: 'Choose one ordinary thing nearby — a cup, a chair, the wall. Hold a soft gaze on it.', duration: 12 },
+      { title: 'Stay With It', text: 'Keep eyes on the object. Take one steady breath in… and a longer breath out. Let your jaw relax.', duration: 14 },
+      { title: 'Peripheral View', text: 'Keep the object in view while noticing the space around it. Wider vision, wider calm.', duration: 12 },
+      { title: 'Reset Complete', text: 'Your body has scanned, oriented and settled. Stress response down.', duration: 10 }
     ]
   },
   {
-    id: 'stressed-two-minute-triage',
+    id: 'stressed-mental-triage',
     emotionalState: 'stressed',
-    type: 'interactive',
-    title: 'Two-Minute Triage',
-    description: 'Categorize and prioritize your tasks',
-    scienceBenefit: 'Externalizes worry, freeing working memory and lowering stress',
-    duration: 90,
+    type: 'story',
+    title: 'Mental Triage',
+    description: 'Clear the mental queue without typing',
+    scienceBenefit: 'Mentally sorting demands into simple containers reduces working-memory load and perceived pressure',
+    duration: 105,
     color: 'from-purple-400 to-pink-500',
-    interactiveType: 'two-minute-triage',
-    interactiveSteps: [
-      { title: 'Two-Minute Triage', instruction: 'When stress piles up, your brain tries to hold everything at once.\n\nLet\'s clear the queue.' },
-      { title: 'What\'s on your mind?', instruction: 'Type up to three things causing pressure.\n\nKeep them short — one or two words each.', input: 'text', count: 3 },
-      { title: 'Now / Soon / Later', instruction: 'Tap each item and place it under Now, Soon, or Later.\n\nYou can\'t do everything at once — and you don\'t need to.', input: 'tap' },
-      { title: 'Just One', instruction: 'Pick one "Now" item and choose a two-minute action:\n\nsend message, draft line, stand up.', input: 'tap' },
-      { title: 'Reset Complete', instruction: 'Your load is lighter.\n\nYou know what matters next.\n\nReset complete.' }
+    storyContent: [
+      { title: 'Mental Triage', text: 'When stress piles up, your brain tries to hold everything at once. We\'ll clear the queue without typing.', duration: 12 },
+      { title: 'Now / Soon / Later', text: 'Imagine three calm boxes on the screen: Now, Soon, Later. They\'re open and waiting.', duration: 12 },
+      { title: 'Anchor', text: 'Choose one small, meaningful task for today. Picture placing it in Now. The box glows a little brighter.', duration: 14 },
+      { title: 'Park', text: 'Pick one or two items that can wait. See them slide into Soon. Your shoulders drop slightly.', duration: 14 },
+      { title: 'Quiet the Noise', text: 'Let the remaining clutter drift into Later. The lid closes with a quiet click.', duration: 12 },
+      { title: 'Just This', text: 'Look again at Now. Imagine the first tiny move you\'ll make when you leave this screen. Hold that image for a breath.', duration: 14 },
+      { title: 'Down-Shift', text: 'Inhale through the nose for 4, exhale through the mouth for 6. Feel the extra room in your mind.', duration: 14 },
+      { title: 'Reset Complete', text: 'Your load is lighter and your next move is clear.', duration: 10 }
     ]
   },
 

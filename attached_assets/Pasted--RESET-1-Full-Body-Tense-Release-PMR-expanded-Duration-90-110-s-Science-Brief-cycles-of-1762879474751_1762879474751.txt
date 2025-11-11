@@ -1,0 +1,167 @@
+🟣 RESET 1 — Full-Body Tense & Release (PMR, expanded)
+
+Duration: ~90–110 s
+Science: Brief cycles of tense→release lower muscle tone and nudge the nervous system toward parasympathetic calm.
+
+STEP 1 — Introduction
+Title: Tense & Release
+Text: We’ll quickly ease the tension from your body. Keep your eyes on the screen and follow each short cue.
+
+STEP 2 — Hands
+Title: Hands
+Text: Clench both fists. Hold 3… 2… 1… Release. Let your fingers hang loose.
+
+STEP 3 — Shoulders
+Title: Shoulders
+Text: Lift your shoulders a little towards your ears. Hold 3… 2… 1… Drop them. Notice the weight fall away.
+
+STEP 4 — Jaw & Face
+Title: Jaw
+Text: Gently press teeth together for 2 seconds; soften the jaw, lips and brow. Feel the warmth that follows.
+
+STEP 5 — Chest & Stomach
+Title: Centre
+Text: Tighten your stomach lightly for 3 seconds; release and let the breath move freely again.
+
+STEP 6 — Legs & Feet
+Title: Ground
+Text: Press feet into the floor for 2 seconds; release and let knees soften. Sense the support beneath you.
+
+STEP 7 — Whole Body Check
+Title: Full Body
+Text: Tense the whole body just a little — 2 seconds — and let everything go at once. Notice the contrast.
+
+STEP 8 — Completion
+Title: Reset Complete
+Text: Your body is lighter, looser, calmer. Take one easy breath in… and out.
+
+🟣 RESET 2 — Fact–Story Lens (Cognitive Reappraisal, no input)
+
+Duration: ~90–120 s
+Science: Labelling what’s observable vs predicted reduces amygdala reactivity and restores perspective.
+
+STEP 1 — Introduction
+Title: Fact–Story Lens
+Text: When you’re stressed, your mind mixes what’s real with what you fear. We’ll gently separate the two.
+
+STEP 2 — Bring One Stressor to Mind
+Title: One Topic
+Text: Think of the thing that’s loudest right now. Hold it in mind while you read.
+
+STEP 3 — Name It as a Thought
+Title: Create Distance
+Text: Say quietly in your head: “I’m noticing a thought about…”. You’re observing it, not being it.
+
+STEP 4 — Spot Two Facts
+Title: What’s True Now
+Text: Identify up to two things you can actually observe (times, dates, messages, numbers). Facts are steady.
+
+STEP 5 — Spot the Story
+Title: What-Ifs & Predictions
+Text: Notice what the mind is predicting or assuming. That’s the story. Stories can change.
+
+STEP 6 — Choose a Reframe
+Title: Shift the Meaning
+Text: Pick one calm line to hold: “It’s temporary.” / “One step at a time.” / “I can ask for help.” Let it settle.
+
+STEP 7 — Small Next Move (Mental)
+Title: First Pebble
+Text: Picture one tiny action you could take later (a message, a line of a draft, a calendar nudge). Just visualise it clearly.
+
+STEP 8 — Completion
+Title: Reset Complete
+Text: You’ve pulled fact from fiction. Clarity replaces chaos. Notice the extra space in your chest.
+
+🟣 RESET 3 — Safety Scan (Visual Orientation & Grounding, richer)
+
+Duration: ~80–100 s
+Science: Eyes-open orientation and familiar cues signal “no immediate threat”, calming the stress response.
+
+STEP 1 — Introduction
+Title: Safety Scan
+Text: Stress makes your body act like danger is close. We’ll remind it that you’re safe.
+
+STEP 2 — Left
+Title: Left Side
+Text: Without moving your head much, let your eyes travel left. Notice colours, shapes and any stillness there.
+
+STEP 3 — Right
+Title: Right Side
+Text: Now to the right. Take in what’s there without judging. Shoulders soften a fraction.
+
+STEP 4 — Corners
+Title: Orient
+Text: Let your eyes find the corners of the room or space you’re in. Corners mean structure; structure means safety.
+
+STEP 5 — Familiar Object
+Title: Anchor
+Text: Choose one ordinary thing nearby — a cup, a chair, the wall. Hold a soft gaze on it.
+
+STEP 6 — Settle
+Title: Stay With It
+Text: Keep eyes on the object. Take one steady breath in… and a longer breath out. Let your jaw relax.
+
+STEP 7 — Widen
+Title: Peripheral View
+Text: Keep the object in view while noticing the space around it. Wider vision, wider calm.
+
+STEP 8 — Completion
+Title: Reset Complete
+Text: Your body has scanned, oriented and settled. Stress response down.
+
+🟣 RESET 4 — Mental Triage (Cognitive Off-Loading, no typing)
+
+Duration: ~90–120 s
+Science: Mentally sorting demands into simple containers reduces working-memory load and perceived pressure.
+
+STEP 1 — Introduction
+Title: Mental Triage
+Text: When stress piles up, your brain tries to hold everything at once. We’ll clear the queue without typing.
+
+STEP 2 — See Three Boxes
+Title: Now / Soon / Later
+Text: Imagine three calm boxes on the screen: Now, Soon, Later. They’re open and waiting.
+
+STEP 3 — Place One in “Now”
+Title: Anchor
+Text: Choose one small, meaningful task for today. Picture placing it in Now. The box glows a little brighter.
+
+STEP 4 — Place Two in “Soon”
+Title: Park
+Text: Pick one or two items that can wait. See them slide into Soon. Your shoulders drop slightly.
+
+STEP 5 — Move the Rest to “Later”
+Title: Quiet the Noise
+Text: Let the remaining clutter drift into Later. The lid closes with a quiet click.
+
+STEP 6 — Single Focus
+Title: Just This
+Text: Look again at Now. Imagine the first tiny move you’ll make when you leave this screen. Hold that image for a breath.
+
+STEP 7 — Settle the Body
+Title: Down-Shift
+Text: Inhale through the nose for 4, exhale through the mouth for 6. Feel the extra room in your mind.
+
+STEP 8 — Completion
+Title: Reset Complete
+Text: Your load is lighter and your next move is clear.
+
+Implementation notes (for your dev)
+
+Zero input: No fields, no drag-and-drop. All “sorting” happens as guided imagery with visual metaphors (boxes, glow states).
+
+Timing: Aim ~8–12 s per step; allow tap-to-advance so users don’t feel rushed.
+
+Visual aids:
+
+PMR: subtle pulse on target body area icon; soft “release” whoosh.
+
+Fact–Story: two gentle badges (“Fact” / “Story”) that highlight as the user reads the step.
+
+Safety Scan: left/right arrows, corner markers, then a steady “anchor” icon.
+
+Mental Triage: three glowing boxes that subtly brighten/dim as the narrative moves.
+
+Audio (optional): soft ticks at step changes; no voiceover required, but works well if you add it later (en-GB).
+
+Tone: British English; short, grounded lines; no “close your eyes” cues.
