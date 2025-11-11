@@ -83,6 +83,17 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
     }))
   );
 
+  // Fact vs Story state
+  const [factItems, setFactItems] = useState<string[]>([]);
+  const [storyItems, setStoryItems] = useState<string[]>([]);
+  const [selectedReframe, setSelectedReframe] = useState<string>('');
+
+  // Two-Minute Triage state
+  const [nowItems, setNowItems] = useState<string[]>([]);
+  const [soonItems, setSoonItems] = useState<string[]>([]);
+  const [laterItems, setLaterItems] = useState<string[]>([]);
+  const [selectedAction, setSelectedAction] = useState<string>('');
+
   const steps = reset.interactiveSteps || [];
   const currentStep = steps[currentStepIndex];
   const progress = ((currentStepIndex + 1) / steps.length) * 100;
@@ -563,6 +574,210 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
           <p className="text-center text-sm text-gray-500 font-medium">
             Tap the lit circles • {gridCells.filter(c => c.lit).length} active
           </p>
+        </div>
+      );
+    }
+
+    // Fact vs Story - Sort the Thought step
+    if (reset.interactiveType === 'fact-vs-story' && currentStep.title === 'Sort the Thought' && completedItems.length > 0) {
+      const handleCategorize = (item: string, category: 'fact' | 'story') => {
+        if (category === 'fact') {
+          setFactItems(prev => [...prev, item]);
+        } else {
+          setStoryItems(prev => [...prev, item]);
+        }
+        setDismissedItems(prev => [...prev, completedItems.indexOf(item)]);
+      };
+
+      const uncategorizedItems = completedItems.filter((_, idx) => !dismissedItems.includes(idx));
+
+      return (
+        <div className="space-y-6 py-6">
+          {uncategorizedItems.map((item, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white/70 rounded-2xl p-6 backdrop-blur-sm shadow-lg"
+            >
+              <p className="text-center text-lg font-semibold text-gray-800 mb-4">{item}</p>
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => handleCategorize(item, 'fact')}
+                  className="flex-1 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-4 shadow-md hover:shadow-lg transition-shadow"
+                  data-testid={`button-fact-${idx}`}
+                >
+                  Fact
+                </Button>
+                <Button
+                  onClick={() => handleCategorize(item, 'story')}
+                  className="flex-1 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white py-4 shadow-md hover:shadow-lg transition-shadow"
+                  data-testid={`button-story-${idx}`}
+                >
+                  Story
+                </Button>
+              </div>
+            </motion.div>
+          ))}
+          
+          {factItems.length > 0 || storyItems.length > 0 && (
+            <div className="grid grid-cols-2 gap-4 mt-6">
+              <div className="bg-blue-50 rounded-xl p-4">
+                <h4 className="font-bold text-blue-900 mb-2">Facts</h4>
+                {factItems.map((item, idx) => (
+                  <p key={idx} className="text-sm text-blue-700">• {item}</p>
+                ))}
+              </div>
+              <div className="bg-purple-50 rounded-xl p-4">
+                <h4 className="font-bold text-purple-900 mb-2">Stories</h4>
+                {storyItems.map((item, idx) => (
+                  <p key={idx} className="text-sm text-purple-700">• {item}</p>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Fact vs Story - Reframe selection step
+    if (reset.interactiveType === 'fact-vs-story' && currentStep.title === 'Shift the Meaning') {
+      const reframes = ["It's temporary", "I can ask for help", "One step at a time"];
+      
+      return (
+        <div className="space-y-4 py-6">
+          {reframes.map((reframe, idx) => (
+            <motion.button
+              key={idx}
+              onClick={() => setSelectedReframe(reframe)}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              className={`w-full rounded-2xl p-6 text-left transition-all ${
+                selectedReframe === reframe
+                  ? `bg-gradient-to-r ${emotionInfo.color} text-white shadow-xl scale-105`
+                  : 'bg-white/70 text-gray-800 shadow-md hover:shadow-lg'
+              }`}
+              data-testid={`reframe-${idx}`}
+            >
+              <p className="font-semibold text-lg">• {reframe}</p>
+            </motion.button>
+          ))}
+        </div>
+      );
+    }
+
+    // Two-Minute Triage - Now/Soon/Later categorization
+    if (reset.interactiveType === 'two-minute-triage' && currentStep.title === 'Now / Soon / Later' && completedItems.length > 0) {
+      const handleTriageCategorize = (item: string, category: 'now' | 'soon' | 'later') => {
+        if (category === 'now') {
+          setNowItems(prev => [...prev, item]);
+        } else if (category === 'soon') {
+          setSoonItems(prev => [...prev, item]);
+        } else {
+          setLaterItems(prev => [...prev, item]);
+        }
+        setDismissedItems(prev => [...prev, completedItems.indexOf(item)]);
+      };
+
+      const uncategorizedItems = completedItems.filter((_, idx) => !dismissedItems.includes(idx));
+
+      return (
+        <div className="space-y-6 py-6">
+          {uncategorizedItems.map((item, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white/70 rounded-2xl p-6 backdrop-blur-sm shadow-lg"
+            >
+              <p className="text-center text-lg font-semibold text-gray-800 mb-4">{item}</p>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => handleTriageCategorize(item, 'now')}
+                  className="flex-1 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 text-white py-3 text-sm shadow-md hover:shadow-lg transition-shadow"
+                  data-testid={`button-now-${idx}`}
+                >
+                  Now
+                </Button>
+                <Button
+                  onClick={() => handleTriageCategorize(item, 'soon')}
+                  className="flex-1 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-500 text-white py-3 text-sm shadow-md hover:shadow-lg transition-shadow"
+                  data-testid={`button-soon-${idx}`}
+                >
+                  Soon
+                </Button>
+                <Button
+                  onClick={() => handleTriageCategorize(item, 'later')}
+                  className="flex-1 rounded-xl bg-gradient-to-r from-green-500 to-teal-500 text-white py-3 text-sm shadow-md hover:shadow-lg transition-shadow"
+                  data-testid={`button-later-${idx}`}
+                >
+                  Later
+                </Button>
+              </div>
+            </motion.div>
+          ))}
+          
+          {(nowItems.length > 0 || soonItems.length > 0 || laterItems.length > 0) && (
+            <div className="grid grid-cols-3 gap-3 mt-6">
+              <div className="bg-red-50 rounded-xl p-3">
+                <h4 className="font-bold text-red-900 text-sm mb-2">Now</h4>
+                {nowItems.map((item, idx) => (
+                  <p key={idx} className="text-xs text-red-700">• {item}</p>
+                ))}
+              </div>
+              <div className="bg-yellow-50 rounded-xl p-3">
+                <h4 className="font-bold text-yellow-900 text-sm mb-2">Soon</h4>
+                {soonItems.map((item, idx) => (
+                  <p key={idx} className="text-xs text-yellow-700">• {item}</p>
+                ))}
+              </div>
+              <div className="bg-green-50 rounded-xl p-3">
+                <h4 className="font-bold text-green-900 text-sm mb-2">Later</h4>
+                {laterItems.map((item, idx) => (
+                  <p key={idx} className="text-xs text-green-700">• {item}</p>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Two-Minute Triage - Action selection step
+    if (reset.interactiveType === 'two-minute-triage' && currentStep.title === 'Just One') {
+      const actions = ["send message", "draft line", "stand up"];
+      
+      return (
+        <div className="space-y-4 py-6">
+          {nowItems.length > 0 && (
+            <div className="bg-red-50 rounded-xl p-4 mb-6">
+              <h4 className="font-bold text-red-900 mb-2">Your "Now" items:</h4>
+              {nowItems.map((item, idx) => (
+                <p key={idx} className="text-sm text-red-700">• {item}</p>
+              ))}
+            </div>
+          )}
+          
+          <p className="text-center text-sm text-gray-600 mb-4">Pick a quick 2-minute action:</p>
+          
+          {actions.map((action, idx) => (
+            <motion.button
+              key={idx}
+              onClick={() => setSelectedAction(action)}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              className={`w-full rounded-2xl p-6 text-left transition-all ${
+                selectedAction === action
+                  ? `bg-gradient-to-r ${emotionInfo.color} text-white shadow-xl scale-105`
+                  : 'bg-white/70 text-gray-800 shadow-md hover:shadow-lg'
+              }`}
+              data-testid={`action-${idx}`}
+            >
+              <p className="font-semibold text-lg">• {action}</p>
+            </motion.button>
+          ))}
         </div>
       );
     }
