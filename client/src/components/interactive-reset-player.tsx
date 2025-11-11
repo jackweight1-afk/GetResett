@@ -74,6 +74,14 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
   const [sortedCount, setSortedCount] = useState(0);
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
 
+  // Grid-tap game state
+  const [gridCells, setGridCells] = useState<Array<{ id: number; lit: boolean }>>(() => 
+    Array.from({ length: 9 }, (_, i) => ({
+      id: i,
+      lit: Math.random() > 0.6
+    }))
+  );
+
   const steps = reset.interactiveSteps || [];
   const currentStep = steps[currentStepIndex];
   const progress = ((currentStepIndex + 1) / steps.length) * 100;
@@ -109,6 +117,13 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
       setSortedCount(0);
       setCurrentWord(sortWords[0]);
       setSwipeDirection(null);
+    }
+    
+    if (reset.interactiveType === 'grid-tap') {
+      setGridCells(Array.from({ length: 9 }, (_, i) => ({
+        id: i,
+        lit: Math.random() > 0.6
+      })));
     }
   }, [currentStepIndex]);
 
@@ -284,6 +299,8 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
       return (
         <div className="flex flex-col items-center justify-center py-12">
           <motion.div
+            key={`breath-${currentStepIndex}`}
+            initial={{ scale: 1 }}
             className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br ${emotionInfo.color} shadow-2xl`}
             animate={{
               scale: isInhale ? [1, 1.5, 1] : [1.5, 1, 1.5],
@@ -306,6 +323,8 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
       return (
         <div className="relative h-96 flex items-center justify-center">
           <motion.div
+            key={`blink-${currentStepIndex}`}
+            initial={{ x: 0, y: 0 }}
             animate={{
               x: [0, 150, 150, -150, -150, 0, 0],
               y: [0, 0, 120, 120, -120, -120, 0],
@@ -313,7 +332,8 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
             transition={{
               duration: currentStep.duration || 15,
               ease: "easeInOut",
-              times: [0, 0.15, 0.3, 0.5, 0.65, 0.85, 1]
+              times: [0, 0.15, 0.3, 0.5, 0.65, 0.85, 1],
+              repeat: Infinity
             }}
             className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br ${emotionInfo.color} shadow-2xl flex items-center justify-center`}
             data-testid="blink-track-circle"
@@ -501,13 +521,105 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
       );
     }
 
-    // Tapping/Interactive exercises (covers rhythm-tap, grid-tap, etc.)
+    // Rhythm-tap game: Pulsing circle with rhythm animation
+    if (reset.interactiveType === 'rhythm-tap' && currentStep.input === 'tap') {
+      return (
+        <div className="flex flex-col items-center justify-center py-12">
+          <motion.div
+            key={`rhythm-${currentStepIndex}`}
+            initial={{ scale: 1, opacity: 1 }}
+            animate={{ 
+              scale: [1, 1.2, 1],
+              opacity: [1, 0.9, 1]
+            }}
+            transition={{ 
+              duration: 1.2, 
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br ${emotionInfo.color} 
+                     shadow-2xl flex items-center justify-center cursor-pointer active:scale-95 
+                     hover:shadow-3xl transition-shadow`}
+            data-testid="rhythm-tap-circle"
+          >
+            <Hand className="w-16 h-16 sm:w-20 sm:h-20 text-white" />
+          </motion.div>
+          <p className="mt-6 text-sm text-gray-500 font-medium">
+            Tap to the rhythm
+          </p>
+        </div>
+      );
+    }
+
+    // Grid-tap game: Grid of clickable circles
+    if (reset.interactiveType === 'grid-tap' && currentStep.input === 'tap') {
+      const handleGridTap = (id: number) => {
+        setGridCells(prev => prev.map(cell => 
+          cell.id === id ? { ...cell, lit: false } : cell
+        ));
+        // Light up a random unlit cell after a delay
+        setTimeout(() => {
+          setGridCells(prev => {
+            const unlitCells = prev.filter(c => !c.lit);
+            if (unlitCells.length > 0) {
+              const randomCell = unlitCells[Math.floor(Math.random() * unlitCells.length)];
+              return prev.map(cell => 
+                cell.id === randomCell.id ? { ...cell, lit: true } : cell
+              );
+            }
+            return prev;
+          });
+        }, 300);
+      };
+
+      return (
+        <div className="space-y-6 py-8">
+          <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto">
+            {gridCells.map((cell) => (
+              <motion.div
+                key={`grid-${currentStepIndex}-${cell.id}`}
+                initial={{ scale: 0.8, opacity: 0.5 }}
+                animate={{ 
+                  scale: cell.lit ? [1, 1.1, 1] : 0.8,
+                  opacity: cell.lit ? 1 : 0.3,
+                  backgroundColor: cell.lit ? undefined : 'rgba(156, 163, 175, 0.3)'
+                }}
+                transition={{ 
+                  duration: 0.6,
+                  repeat: cell.lit ? Infinity : 0,
+                  ease: "easeInOut"
+                }}
+                onClick={() => cell.lit && handleGridTap(cell.id)}
+                className={`aspect-square rounded-2xl flex items-center justify-center
+                           cursor-pointer transition-all shadow-lg
+                           ${cell.lit 
+                             ? `bg-gradient-to-br ${emotionInfo.color}` 
+                             : 'bg-gray-300'
+                           }`}
+                data-testid={`grid-cell-${cell.id}`}
+              >
+                {cell.lit && (
+                  <Grid3x3 className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+                )}
+              </motion.div>
+            ))}
+          </div>
+          <p className="text-center text-sm text-gray-500 font-medium">
+            Tap the lit circles • {gridCells.filter(c => c.lit).length} active
+          </p>
+        </div>
+      );
+    }
+
+    // Tapping/Interactive fallback for other tap types
     if (currentStep.input === 'tap') {
       return (
         <div className="flex flex-col items-center justify-center py-12">
           <motion.div
+            key={`tap-${currentStepIndex}`}
+            initial={{ scale: 1, opacity: 1 }}
             animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 0.8, repeat: Infinity }}
+            transition={{ duration: 0.8, repeat: Infinity, ease: "easeInOut" }}
             className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br ${emotionInfo.color} 
                      shadow-2xl flex items-center justify-center cursor-pointer active:scale-95 
                      hover:shadow-3xl transition-shadow`}
@@ -516,9 +628,7 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
             <Icon className="w-16 h-16 sm:w-20 sm:h-20 text-white" />
           </motion.div>
           <p className="mt-6 text-sm text-gray-500 font-medium">
-            {reset.interactiveType === 'rhythm-tap' && 'Tap to the rhythm'}
-            {reset.interactiveType === 'grid-tap' && 'Tap the lit circles'}
-            {!['rhythm-tap', 'grid-tap'].includes(reset.interactiveType || '') && 'Follow the rhythm'}
+            Follow the rhythm
           </p>
         </div>
       );
@@ -534,6 +644,7 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
             <p className="text-sm text-gray-600 mb-3 text-center font-medium">Pressure Level</p>
             <div className="h-8 bg-gray-200 rounded-full overflow-hidden relative">
               <motion.div
+                key={`pressure-${currentStepIndex}`}
                 className={`h-full bg-gradient-to-r ${emotionInfo.color}`}
                 initial={{ width: '100%' }}
                 animate={{ width: `${pressureLevel}%` }}
