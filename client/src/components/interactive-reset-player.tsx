@@ -40,9 +40,6 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
   const [inputValue, setInputValue] = useState('');
   const [completedItems, setCompletedItems] = useState<string[]>([]);
   const [dismissedItems, setDismissedItems] = useState<number[]>([]);
-  const [timeLeft, setTimeLeft] = useState(0);
-  const [isAutoAdvancing, setIsAutoAdvancing] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
   
   // Bubble pop game state
   const [bubbles, setBubbles] = useState<Array<{ id: number; x: number; y: number; delay: number }>>(() => 
@@ -88,21 +85,8 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
   const Icon = reset.interactiveType ? iconMap[reset.interactiveType] : Activity;
   const emotionInfo = EMOTIONAL_STATES[emotion];
 
-  // Initialize timeLeft when step changes (not when pause state changes)
+  // Reset game states when step changes
   useEffect(() => {
-    if (!currentStep?.duration || currentStep.input === 'text') return;
-    
-    // Don't auto-advance for stress-sweep tap step
-    if (reset.interactiveType === 'stress-sweep' && currentStep.input === 'tap') {
-      setIsAutoAdvancing(false);
-      return;
-    }
-    
-    setTimeLeft(currentStep.duration);
-    setIsAutoAdvancing(true);
-    setIsPaused(false); // Reset pause state on step change
-
-    // Reset game states when step changes
     if (reset.interactiveType === 'dot-connect') {
       setDotSequence(Array.from({ length: 10 }, (_, i) => ({
         number: i + 1,
@@ -127,33 +111,12 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
     }
   }, [currentStepIndex]);
 
-  // Timer countdown - runs independently from pause state
-  useEffect(() => {
-    if (!isAutoAdvancing || timeLeft <= 0 || isPaused) return;
-    
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) {
-          handleNext();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [timeLeft, isAutoAdvancing, isPaused]);
-
   const handleNext = () => {
     if (currentStepIndex < steps.length - 1) {
       setCurrentStepIndex(prev => prev + 1);
       setInputValue('');
       setDismissedItems([]);
-      // Only reset completedItems for non-stress-sweep resets
-      if (reset.interactiveType !== 'stress-sweep') {
-        setCompletedItems([]);
-      }
-      setIsAutoAdvancing(false);
+      setCompletedItems([]);
     } else {
       onComplete();
     }
@@ -161,23 +124,12 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
 
   const handleDismissStressor = (index: number) => {
     setDismissedItems(prev => [...prev, index]);
-    
-    // Auto-advance when all stressors are dismissed
-    if (dismissedItems.length + 1 >= completedItems.length) {
-      setTimeout(handleNext, 800);
-    }
   };
 
   const handleAddItem = () => {
     if (inputValue.trim()) {
-      const newItems = [...completedItems, inputValue.trim()];
-      setCompletedItems(newItems);
+      setCompletedItems(prev => [...prev, inputValue.trim()]);
       setInputValue('');
-      
-      // Auto-advance if we've reached the count
-      if (currentStep.count && newItems.length >= currentStep.count) {
-        setTimeout(handleNext, 800);
-      }
     }
   };
 
@@ -672,7 +624,6 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
           visualAid={currentStep.visualAid}
           alternativeMove={currentStep.alternativeMove}
           isStretch={currentStep.isStretch}
-          timeLeft={timeLeft}
           energyColors={energyColors}
         />
       );
@@ -707,46 +658,16 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
             {(reset.interactiveType === 'movement-workout' || 
               reset.interactiveType === 'shadowboxing' || 
               reset.interactiveType === 'breath-movement' || 
-              reset.interactiveType === 'walking-pace') && (
-              <div className="flex items-center gap-2">
-                {currentStepIndex > 0 && (
-                  <Button
-                    onClick={() => setCurrentStepIndex(prev => Math.max(0, prev - 1))}
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0 text-gray-600 hover:text-gray-900"
-                    data-testid="button-prev-step"
-                  >
-                    <SkipBack className="w-4 h-4" />
-                  </Button>
-                )}
-                {timeLeft > 0 && (
-                  <Button
-                    onClick={() => setIsPaused(prev => !prev)}
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0 text-gray-600 hover:text-gray-900"
-                    data-testid="button-pause-play"
-                  >
-                    {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
-                  </Button>
-                )}
-                <Button
-                  onClick={handleNext}
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0 text-gray-600 hover:text-gray-900"
-                  data-testid="button-next-step"
-                >
-                  <SkipForward className="w-4 h-4" />
-                </Button>
-              </div>
-            )}
-
-            {timeLeft > 0 && (
-              <div className={`flex items-center gap-2 text-sm bg-gradient-to-r ${emotionInfo.color} bg-clip-text text-transparent font-bold`}>
-                <span className="font-mono font-semibold">{timeLeft}s</span>
-              </div>
+              reset.interactiveType === 'walking-pace') && currentStepIndex > 0 && (
+              <Button
+                onClick={() => setCurrentStepIndex(prev => Math.max(0, prev - 1))}
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0 text-gray-600 hover:text-gray-900"
+                data-testid="button-prev-step"
+              >
+                <SkipBack className="w-4 h-4" />
+              </Button>
             )}
           </div>
 
@@ -789,8 +710,8 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
             {/* Step-specific content */}
             {renderStepContent()}
 
-            {/* Manual Continue button for non-auto-advancing steps */}
-            {(!isAutoAdvancing || !currentStep?.duration) && currentStep?.input !== 'text' && (
+            {/* Continue button (always show except for text input steps) */}
+            {currentStep?.input !== 'text' && (
               <Button
                 onClick={handleNext}
                 className={`w-full mt-6 rounded-xl bg-gradient-to-r ${emotionInfo.color} text-white py-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-shadow`}

@@ -6,7 +6,6 @@ interface MovementCardProps {
   visualAid?: string;
   alternativeMove?: string;
   isStretch?: boolean;
-  timeLeft?: number;
   energyColors: string;
 }
 
@@ -15,7 +14,6 @@ export default function MovementCard({
   visualAid,
   alternativeMove,
   isStretch,
-  timeLeft,
   energyColors
 }: MovementCardProps) {
   return (
@@ -74,25 +72,6 @@ export default function MovementCard({
         >
           <p className="text-sm text-blue-900">
             <span className="font-bold text-blue-700">💡 Low-Impact:</span> {alternativeMove}
-          </p>
-        </motion.div>
-      )}
-
-      {/* Timer - prominent display */}
-      {timeLeft !== undefined && timeLeft > 0 && (
-        <motion.div 
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.1, type: "spring" }}
-          className="flex flex-col items-center pt-4"
-        >
-          <div className={`relative w-32 h-32 rounded-full bg-gradient-to-br ${energyColors} shadow-2xl ring-4 ring-orange-100 flex items-center justify-center`}>
-            <span className="text-5xl font-bold text-white drop-shadow-2xl tabular-nums">
-              {timeLeft}
-            </span>
-          </div>
-          <p className="mt-3 text-sm text-gray-600 font-semibold uppercase tracking-wider">
-            seconds
           </p>
         </motion.div>
       )}
