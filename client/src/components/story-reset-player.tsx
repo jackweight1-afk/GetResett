@@ -35,7 +35,7 @@ export default function StoryResetPlayer({ reset, emotion, onComplete, onExit }:
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
             <Button
-              onClick={onComplete}
+              onClick={onExit}
               variant="ghost"
               className="text-gray-600"
               data-testid="button-finish-early"
