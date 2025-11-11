@@ -54,6 +54,26 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
     }))
   );
 
+  // Dot connect game state
+  const [dotSequence, setDotSequence] = useState<Array<{ number: number; x: number; y: number; tapped: boolean }>>(() =>
+    Array.from({ length: 10 }, (_, i) => ({
+      number: i + 1,
+      x: Math.random() * 75 + 5,
+      y: Math.random() * 70 + 5,
+      tapped: false
+    }))
+  );
+  const [nextDotToTap, setNextDotToTap] = useState(1);
+
+  // Swipe sort game state
+  const sortWords = [
+    'Email', 'Lunch', 'Meeting', 'Exercise', 'Call Mom', 'Report', 'Groceries', 'Walk',
+    'Invoice', 'Birthday', 'Dentist', 'Project', 'Bills', 'Reading', 'Laundry', 'Music'
+  ];
+  const [currentWord, setCurrentWord] = useState(sortWords[0]);
+  const [sortedCount, setSortedCount] = useState(0);
+  const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
+
   const steps = reset.interactiveSteps || [];
   const currentStep = steps[currentStepIndex];
   const progress = ((currentStepIndex + 1) / steps.length) * 100;
@@ -73,6 +93,23 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
     setTimeLeft(currentStep.duration);
     setIsAutoAdvancing(true);
     setIsPaused(false); // Reset pause state on step change
+
+    // Reset game states when step changes
+    if (reset.interactiveType === 'dot-connect') {
+      setDotSequence(Array.from({ length: 10 }, (_, i) => ({
+        number: i + 1,
+        x: Math.random() * 75 + 5,
+        y: Math.random() * 70 + 5,
+        tapped: false
+      })));
+      setNextDotToTap(1);
+    }
+    
+    if (reset.interactiveType === 'swipe-sort') {
+      setSortedCount(0);
+      setCurrentWord(sortWords[0]);
+      setSwipeDirection(null);
+    }
   }, [currentStepIndex]);
 
   // Timer countdown - runs independently from pause state
@@ -340,7 +377,131 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
       );
     }
 
-    // Tapping/Interactive exercises (covers rhythm-tap, bubble-tap, grid-tap, etc.)
+    // Dot connect game
+    if (reset.interactiveType === 'dot-connect' && currentStep.input === 'tap') {
+      const handleDotTap = (number: number) => {
+        if (number === nextDotToTap) {
+          setDotSequence(prev => prev.map(dot => 
+            dot.number === number ? { ...dot, tapped: true } : dot
+          ));
+          setNextDotToTap(prev => prev + 1);
+        }
+      };
+
+      return (
+        <div className="relative h-96 overflow-hidden bg-white/30 rounded-2xl backdrop-blur-sm">
+          {dotSequence.map((dot) => (
+            <motion.div
+              key={dot.number}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: dot.number * 0.1 }}
+              onClick={() => handleDotTap(dot.number)}
+              className={`absolute w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center
+                         font-bold text-lg sm:text-xl cursor-pointer transition-all duration-300
+                         ${dot.tapped 
+                           ? 'bg-gray-300 text-gray-500 scale-90' 
+                           : dot.number === nextDotToTap
+                             ? `bg-gradient-to-br ${emotionInfo.color} text-white shadow-2xl scale-110 ring-4 ring-white/50 animate-pulse`
+                             : 'bg-white text-gray-700 shadow-lg hover:scale-105'
+                         }`}
+              style={{ 
+                left: `${dot.x}%`, 
+                top: `${dot.y}%`,
+              }}
+              data-testid={`dot-${dot.number}`}
+            >
+              {dot.number}
+            </motion.div>
+          ))}
+          <p className="absolute bottom-4 left-0 right-0 text-center text-sm text-gray-600 font-medium">
+            Tap dot #{nextDotToTap} • {dotSequence.filter(d => d.tapped).length}/10 connected
+          </p>
+        </div>
+      );
+    }
+
+    // Swipe sort game
+    if (reset.interactiveType === 'swipe-sort' && currentStep.input === 'tap') {
+      const handleSort = (direction: 'left' | 'right') => {
+        setSwipeDirection(direction);
+        setTimeout(() => {
+          setSortedCount(prev => prev + 1);
+          if (sortedCount + 1 < sortWords.length) {
+            setCurrentWord(sortWords[sortedCount + 1]);
+          }
+          setSwipeDirection(null);
+        }, 300);
+      };
+
+      return (
+        <div className="space-y-8 py-8">
+          {/* Category labels */}
+          <div className="flex justify-between items-center px-4">
+            <div className="text-center">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center mb-2 mx-auto">
+                <span className="text-2xl">←</span>
+              </div>
+              <p className="text-xs sm:text-sm font-semibold text-blue-700">Later</p>
+            </div>
+            <div className="text-center">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-green-500 text-white flex items-center justify-center mb-2 mx-auto">
+                <span className="text-2xl">→</span>
+              </div>
+              <p className="text-xs sm:text-sm font-semibold text-green-700">Now</p>
+            </div>
+          </div>
+
+          {/* Word card */}
+          {sortedCount < sortWords.length && (
+            <motion.div
+              key={currentWord}
+              initial={{ x: 0, opacity: 1, scale: 1 }}
+              animate={swipeDirection ? {
+                x: swipeDirection === 'left' ? -300 : 300,
+                opacity: 0,
+                scale: 0.8
+              } : {
+                x: 0,
+                opacity: 1,
+                scale: 1
+              }}
+              transition={{ duration: 0.3 }}
+              className={`mx-auto w-64 sm:w-72 h-40 rounded-3xl bg-gradient-to-br ${emotionInfo.color} 
+                         text-white shadow-2xl flex items-center justify-center`}
+            >
+              <h3 className="text-3xl sm:text-4xl font-bold">{currentWord}</h3>
+            </motion.div>
+          )}
+
+          {/* Swipe buttons */}
+          {sortedCount < sortWords.length && (
+            <div className="flex gap-4 justify-center">
+              <Button
+                onClick={() => handleSort('left')}
+                className="w-32 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-lg font-semibold shadow-lg"
+                data-testid="button-sort-later"
+              >
+                ← Later
+              </Button>
+              <Button
+                onClick={() => handleSort('right')}
+                className="w-32 h-14 bg-green-500 hover:bg-green-600 text-white rounded-xl text-lg font-semibold shadow-lg"
+                data-testid="button-sort-now"
+              >
+                Now →
+              </Button>
+            </div>
+          )}
+
+          <p className="text-center text-sm text-gray-600 font-medium">
+            {sortedCount}/{sortWords.length} sorted
+          </p>
+        </div>
+      );
+    }
+
+    // Tapping/Interactive exercises (covers rhythm-tap, grid-tap, etc.)
     if (currentStep.input === 'tap') {
       return (
         <div className="flex flex-col items-center justify-center py-12">
@@ -356,10 +517,8 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
           </motion.div>
           <p className="mt-6 text-sm text-gray-500 font-medium">
             {reset.interactiveType === 'rhythm-tap' && 'Tap to the rhythm'}
-            {reset.interactiveType === 'bubble-tap' && 'Tap to pop bubbles'}
             {reset.interactiveType === 'grid-tap' && 'Tap the lit circles'}
-            {reset.interactiveType === 'dot-connect' && 'Tap to connect dots'}
-            {!['rhythm-tap', 'bubble-tap', 'grid-tap', 'dot-connect'].includes(reset.interactiveType || '') && 'Follow the rhythm'}
+            {!['rhythm-tap', 'grid-tap'].includes(reset.interactiveType || '') && 'Follow the rhythm'}
           </p>
         </div>
       );
@@ -399,7 +558,6 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
       return (
         <MovementCard
           title={currentStep.title}
-          instruction={currentStep.instruction || ''}
           visualAid={currentStep.visualAid}
           alternativeMove={currentStep.alternativeMove}
           isStretch={currentStep.isStretch}

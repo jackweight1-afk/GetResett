@@ -3,7 +3,6 @@ import { Activity, Dumbbell } from 'lucide-react';
 
 interface MovementCardProps {
   title?: string;
-  instruction: string;
   visualAid?: string;
   alternativeMove?: string;
   isStretch?: boolean;
@@ -13,16 +12,12 @@ interface MovementCardProps {
 
 export default function MovementCard({
   title,
-  instruction,
   visualAid,
   alternativeMove,
   isStretch,
   timeLeft,
   energyColors
 }: MovementCardProps) {
-  // Split instruction into lines for better readability
-  const instructionLines = instruction.split('\n').filter(line => line.trim());
-
   return (
     <div className={`space-y-6 rounded-3xl p-6 sm:p-8 ${
       isStretch 
@@ -68,23 +63,6 @@ export default function MovementCard({
           </div>
         </motion.div>
       )}
-
-      {/* Instructions - left-aligned with generous spacing */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="space-y-4"
-      >
-        {instructionLines.map((line, index) => (
-          <p 
-            key={index} 
-            className="text-base sm:text-lg text-gray-800 leading-relaxed font-medium"
-          >
-            {line}
-          </p>
-        ))}
-      </motion.div>
 
       {/* Alternative move - low-impact option */}
       {alternativeMove && (
