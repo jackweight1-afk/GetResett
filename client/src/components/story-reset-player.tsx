@@ -14,38 +14,13 @@ interface StoryResetPlayerProps {
 
 export default function StoryResetPlayer({ reset, emotion, onComplete, onExit }: StoryResetPlayerProps) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(0);
 
   const steps = reset.storyContent || [];
   const currentStep = steps[currentStepIndex];
   const progress = ((currentStepIndex + 1) / steps.length) * 100;
   const emotionInfo = EMOTIONAL_STATES[emotion];
 
-  // Auto-advance through story steps
-  useEffect(() => {
-    if (!currentStep) return;
-
-    setTimeLeft(currentStep.duration);
-
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          if (currentStepIndex < steps.length - 1) {
-            setCurrentStepIndex(prev => prev + 1);
-          } else {
-            onComplete();
-          }
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [currentStepIndex, currentStep]);
-
-  const handleSkipToNext = () => {
+  const handleContinue = () => {
     if (currentStepIndex < steps.length - 1) {
       setCurrentStepIndex(prev => prev + 1);
     } else {
@@ -67,9 +42,6 @@ export default function StoryResetPlayer({ reset, emotion, onComplete, onExit }:
             >
               Finish Early
             </Button>
-            <div className={`flex items-center gap-2 text-sm bg-gradient-to-r ${emotionInfo.color} bg-clip-text text-transparent font-bold`}>
-              <span className="font-mono font-semibold">{timeLeft}s</span>
-            </div>
           </div>
 
           <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -163,16 +135,15 @@ export default function StoryResetPlayer({ reset, emotion, onComplete, onExit }:
               </motion.div>
             </div>
 
-            {/* Skip button */}
-            <div className="flex justify-center mt-4">
+            {/* Continue button */}
+            <div className="flex justify-center mt-8">
               <Button
-                onClick={handleSkipToNext}
-                variant="ghost"
-                size="sm"
-                className="text-gray-500 hover:text-gray-700"
-                data-testid="button-skip"
+                onClick={handleContinue}
+                size="lg"
+                className={`bg-gradient-to-r ${emotionInfo.color} text-white hover:opacity-90 shadow-lg px-12 py-6 text-lg font-semibold rounded-2xl`}
+                data-testid="button-continue"
               >
-                Skip to next
+                {currentStepIndex < steps.length - 1 ? 'Continue' : 'Complete Reset'}
               </Button>
             </div>
           </motion.div>
