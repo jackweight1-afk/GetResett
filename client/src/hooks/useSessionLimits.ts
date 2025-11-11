@@ -65,10 +65,23 @@ export function useSessionLimits() {
   // Calculate session limits
   const isSubscribed = subscriptionData?.isSubscribed || false;
   const testAccounts = ['huzefausama25@gmail.com', 'jackweight1@gmail.com'];
-  const hasUnlimitedAccess = testAccounts.includes(user?.email || '');
+  const userEmail = user?.email?.toLowerCase() || '';
+  const hasUnlimitedAccess = testAccounts.includes(userEmail);
   const dailyLimit = 3;
   const canAccess = isSubscribed || hasUnlimitedAccess || localCount < dailyLimit;
   const remainingSessions = hasUnlimitedAccess ? 999 : Math.max(0, dailyLimit - localCount);
+  
+  // Debug logging for test account bypass
+  if (userEmail && testAccounts.some(email => userEmail === email)) {
+    console.log('[SessionLimits] Test account detected:', {
+      userEmail,
+      hasUnlimitedAccess,
+      canAccess,
+      localCount,
+      isSubscribed,
+      remainingSessions
+    });
+  }
 
   // Calculate reset time (midnight)
   const getResetTime = () => {
