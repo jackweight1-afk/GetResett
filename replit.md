@@ -83,6 +83,8 @@ The application employs a modern full-stack architecture with a clear separation
   - Bubble Pop Calm (anxiety reset) now features fully interactive bubble-tap game: 8 floating bubbles with click-to-pop functionality, timed respawn (500ms), and emotion-specific gradient colors
   - Added /resets as public route to fix 404 navigation issues
   - Energy to Burn resets completely redesigned with professional coaching instructions and distinct visual theme (Nov 11, 2025)
+  - Movement instructions simplified from 80-95 words to 45-60 words using three-section format (Setup & Move / Breath & Form / Safety & Options) for mobile-first readability
+  - Fixed Energy color consistency: Updated EMOTIONAL_STATES energy color from `from-red-500 to-orange-600` to `from-orange-500 to-red-500` to match icon backgrounds, ensuring duration badges, hover effects, and all Energy UI elements use consistent orange-to-red gradient
 
 ## External Dependencies
 

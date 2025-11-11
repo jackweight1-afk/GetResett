@@ -36,7 +36,7 @@ export const EMOTIONAL_STATES = {
   },
   energy: {
     label: 'Energy to Burn',
-    color: 'from-red-500 to-orange-600',
+    color: 'from-orange-500 to-red-500',
     description: 'Excess energy that needs physical release'
   }
 } as const;
