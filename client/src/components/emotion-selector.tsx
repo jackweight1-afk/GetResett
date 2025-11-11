@@ -140,7 +140,7 @@ export default function EmotionSelector({ onSelect, remainingSessions = 0, isSub
                   
                   {/* Content */}
                   <div className="relative z-10">
-                    <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br ${info.color} 
+                    <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br ${emotion === 'energy' ? 'from-orange-500 to-red-500' : info.color} 
                                    flex items-center justify-center mb-4 shadow-lg group-hover:shadow-xl
                                    transition-all duration-300 group-hover:scale-110`}>
                       <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
@@ -156,7 +156,7 @@ export default function EmotionSelector({ onSelect, remainingSessions = 0, isSub
                   </div>
 
                   {/* Decorative element */}
-                  <div className={`absolute -right-8 -bottom-8 w-24 h-24 rounded-full bg-gradient-to-br ${info.color} 
+                  <div className={`absolute -right-8 -bottom-8 w-24 h-24 rounded-full bg-gradient-to-br ${emotion === 'energy' ? 'from-orange-500 to-red-500' : info.color} 
                                  opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
                 </motion.button>
               );
