@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Eye, Hand, Wind, Activity, Hash, Scan, Check, Sparkles, Grid3x3, Zap, BarChart3, Dumbbell, Play, Pause, SkipForward, SkipBack } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import MovementCard from '@/components/movement-card';
 
 interface InteractiveResetPlayerProps {
   reset: Reset;
@@ -393,61 +394,18 @@ export default function InteractiveResetPlayer({ reset, emotion, onComplete, onE
 
     // Movement exercises (workout, shadowboxing, breath-movement, walking)
     if (currentStep.input === 'movement') {
-      const isStretchStep = currentStep.isStretch;
       const energyColors = isEnergyReset ? 'from-orange-500 to-red-500' : emotionInfo.color;
       
       return (
-        <div className={`space-y-6 py-6 rounded-2xl p-6 ${isStretchStep ? 'bg-orange-50 border-2 border-orange-300' : 'bg-white/50 backdrop-blur-sm border-2 border-orange-200'}`}>
-          {/* Stretch badge */}
-          {isStretchStep && (
-            <div className="flex justify-center mb-4">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-semibold shadow-md">
-                <Activity className="w-4 h-4" />
-                <span>WARM-UP STRETCH</span>
-              </div>
-            </div>
-          )}
-
-          {/* Visual aid image */}
-          {currentStep.visualAid && (
-            <div className="flex justify-center mb-6">
-              <div className="relative w-full max-w-sm sm:max-w-md rounded-3xl overflow-hidden bg-gradient-to-br from-orange-100 to-red-100 border-4 border-orange-300 shadow-2xl p-4">
-                <img
-                  src={currentStep.visualAid}
-                  alt={currentStep.title || 'Exercise demonstration'}
-                  className="w-full h-auto object-contain rounded-xl"
-                  data-testid="movement-visual-aid"
-                  onError={(e) => {
-                    console.log(`Image failed to load: ${currentStep.visualAid}`);
-                    e.currentTarget.style.display = 'none';
-                  }}
-                />
-                <div className="absolute top-2 right-2 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
-                  FORM GUIDE
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Alternative move instruction */}
-          {currentStep.alternativeMove && (
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl p-4 shadow-md">
-              <p className="text-sm text-blue-900">
-                <span className="font-bold text-blue-700">💡 Low-Impact Option:</span> {currentStep.alternativeMove}
-              </p>
-            </div>
-          )}
-
-          {/* Movement timer visualization */}
-          {currentStep.duration && timeLeft > 0 && (
-            <div className="text-center">
-              <div className={`inline-flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-br ${energyColors} shadow-2xl ring-4 ring-orange-200`}>
-                <span className="text-4xl font-bold text-white drop-shadow-lg">{timeLeft}</span>
-              </div>
-              <p className="mt-3 text-sm text-orange-700 font-semibold uppercase tracking-wide">seconds remaining</p>
-            </div>
-          )}
-        </div>
+        <MovementCard
+          title={currentStep.title}
+          instruction={currentStep.instruction || ''}
+          visualAid={currentStep.visualAid}
+          alternativeMove={currentStep.alternativeMove}
+          isStretch={currentStep.isStretch}
+          timeLeft={timeLeft}
+          energyColors={energyColors}
+        />
       );
     }
 
