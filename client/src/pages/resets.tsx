@@ -30,15 +30,28 @@ export default function Resets() {
   };
 
   const handleResetSelect = (reset: Reset) => {
+    // Debug logging for session limits
+    console.log('[Resets] handleResetSelect:', {
+      userEmail: user?.email,
+      canAccess: sessionLimits.canAccess,
+      isSubscribed: sessionLimits.isSubscribed,
+      dailyCount: sessionLimits.dailyCount,
+      remainingSessions: sessionLimits.remainingSessions
+    });
+    
     // Check session limits before starting reset
     if (!sessionLimits.canAccess && !sessionLimits.isSubscribed) {
+      console.log('[Resets] Showing paywall');
       setShowPaywall(true);
       return;
     }
     
     // Increment session count for non-subscribers
     if (!sessionLimits.isSubscribed) {
+      console.log('[Resets] Incrementing count (non-subscriber)');
       sessionLimits.incrementCount();
+    } else {
+      console.log('[Resets] NOT incrementing count (subscriber or test account)');
     }
     
     setSelectedReset(reset);
