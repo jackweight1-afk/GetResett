@@ -64,7 +64,8 @@ export function useSessionLimits() {
 
   // Calculate session limits
   const isSubscribed = subscriptionData?.isSubscribed || false;
-  const hasUnlimitedAccess = user?.email === 'huzefausama25@gmail.com';
+  const testAccounts = ['huzefausama25@gmail.com', 'jackweight1@gmail.com'];
+  const hasUnlimitedAccess = testAccounts.includes(user?.email || '');
   const dailyLimit = 3;
   const canAccess = isSubscribed || hasUnlimitedAccess || localCount < dailyLimit;
   const remainingSessions = hasUnlimitedAccess ? 999 : Math.max(0, dailyLimit - localCount);
