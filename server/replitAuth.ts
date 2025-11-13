@@ -35,12 +35,11 @@ export function getSession() {
     secret: process.env.SESSION_SECRET!,
     store: sessionStore,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
       maxAge: sessionTtl,
-      sameSite: 'lax',
     },
   });
 }
@@ -79,111 +78,49 @@ export async function setupAuth(app: Express) {
     tokens: client.TokenEndpointResponse & client.TokenEndpointResponseHelpers,
     verified: passport.AuthenticateCallback
   ) => {
-    try {
-      console.log("Authentication verify function called");
-      const user = {};
-      updateUserSession(user, tokens);
-      const claims = tokens.claims();
-      console.log("User claims received:", { sub: claims?.sub, email: claims?.email });
-      await upsertUser(claims);
-      console.log("User upserted successfully");
-      verified(null, user);
-    } catch (error) {
-      console.error("Error in verify function:", error);
-      verified(error as Error, false);
-    }
+    const user = {};
+    updateUserSession(user, tokens);
+    await upsertUser(tokens.claims());
+    verified(null, user);
   };
 
-  for (const domain of process.env
-    .REPLIT_DOMAINS!.split(",")) {
-    const strategy = new Strategy(
-      {
-        name: `replitauth:${domain}`,
-        config,
-        scope: "openid email profile offline_access",
-        callbackURL: `https://${domain}/api/callback`,
-      },
-      verify,
-    );
-    passport.use(strategy);
-  }
-  
-  // Also create a localhost strategy for development
-  const localhostStrategy = new Strategy(
-    {
-      name: `replitauth:localhost`,
-      config,
-      scope: "openid email profile offline_access",
-      callbackURL: `https://${process.env.REPLIT_DOMAINS!.split(",")[0]}/api/callback`,
-    },
-    verify,
-  );
-  passport.use(localhostStrategy);
+  // Keep track of registered strategies
+  const registeredStrategies = new Set<string>();
+
+  // Helper function to ensure strategy exists for a domain
+  const ensureStrategy = (domain: string) => {
+    const strategyName = `replitauth:${domain}`;
+    if (!registeredStrategies.has(strategyName)) {
+      const strategy = new Strategy(
+        {
+          name: strategyName,
+          config,
+          scope: "openid email profile offline_access",
+          callbackURL: `https://${domain}/api/callback`,
+        },
+        verify,
+      );
+      passport.use(strategy);
+      registeredStrategies.add(strategyName);
+    }
+  };
 
   passport.serializeUser((user: Express.User, cb) => cb(null, user));
   passport.deserializeUser((user: Express.User, cb) => cb(null, user));
 
   app.get("/api/login", (req, res, next) => {
-    // Handle development environment with better fallback
-    let hostname = req.hostname;
-    if (hostname === 'localhost' || hostname === '127.0.0.1') {
-      // Use the first domain from REPLIT_DOMAINS for local development
-      const domains = process.env.REPLIT_DOMAINS!.split(",");
-      hostname = domains[0];
-    }
-    
-    const strategyName = `replitauth:${hostname}`;
-    
-    // Check if strategy exists before using it
-    if (!(passport as any)._strategies[strategyName]) {
-      console.error(`Authentication strategy ${strategyName} not found. Available strategies:`, Object.keys((passport as any)._strategies || {}));
-      return res.status(500).json({ 
-        message: "Authentication not configured properly",
-        error: `Strategy ${strategyName} not found`
-      });
-    }
-    
-    passport.authenticate(strategyName)(req, res, next);
+    ensureStrategy(req.hostname);
+    passport.authenticate(`replitauth:${req.hostname}`, {
+      prompt: "login consent",
+      scope: ["openid", "email", "profile", "offline_access"],
+    })(req, res, next);
   });
 
   app.get("/api/callback", (req, res, next) => {
-    console.log("Callback route hit, query params:", req.query);
-    
-    // Handle development environment with better fallback
-    let hostname = req.hostname;
-    if (hostname === 'localhost' || hostname === '127.0.0.1') {
-      const domains = process.env.REPLIT_DOMAINS!.split(",");
-      hostname = domains[0];
-    }
-    
-    const strategyName = `replitauth:${hostname}`;
-    console.log("Using authentication strategy:", strategyName);
-    
-    if (!(passport as any)._strategies[strategyName]) {
-      console.error(`Authentication strategy ${strategyName} not found for callback`);
-      return res.redirect("/?error=auth_failed");
-    }
-    
-    passport.authenticate(strategyName, (err: any, user: any, info: any) => {
-      if (err) {
-        console.error("Authentication callback error:", err);
-        return res.redirect("/?error=auth_failed");
-      }
-      
-      if (!user) {
-        console.error("Authentication failed: no user returned", { info });
-        return res.redirect("/?error=auth_failed");
-      }
-      
-      console.log("User received from passport, attempting login");
-      req.logIn(user, (err) => {
-        if (err) {
-          console.error("Session login error:", err);
-          return res.redirect("/?error=auth_failed");
-        }
-        console.log("User logged in successfully, redirecting to /resets");
-        return res.redirect("/resets");
-      });
+    ensureStrategy(req.hostname);
+    passport.authenticate(`replitauth:${req.hostname}`, {
+      successReturnToOrRedirect: "/resets",
+      failureRedirect: "/api/login",
     })(req, res, next);
   });
 
