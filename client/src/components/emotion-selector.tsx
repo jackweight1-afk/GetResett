@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import { EMOTIONAL_STATES, type EmotionalState } from '@shared/resetData';
 import { motion } from 'framer-motion';
-import { Brain, Heart, Zap, CloudRain, Battery, Sparkles, LogOut, User, Dumbbell } from 'lucide-react';
+import { Heart, Zap, CloudRain, Battery, Sparkles, LogOut, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
-import EnergyDisclaimerModal from '@/components/energy-disclaimer-modal';
 
 interface EmotionSelectorProps {
   onSelect: (emotion: EmotionalState) => void;
@@ -12,20 +10,16 @@ interface EmotionSelectorProps {
   isSubscribed?: boolean;
 }
 
-const emotionIcons: Record<EmotionalState, typeof Brain> = {
+const emotionIcons: Record<EmotionalState, typeof CloudRain> = {
   stressed: CloudRain,
   anxiety: Heart,
   restless: Zap,
-  overwhelmed: Brain,
   tired: Battery,
   scattered: Sparkles,
-  energy: Dumbbell,
 };
 
 export default function EmotionSelector({ onSelect, remainingSessions = 0, isSubscribed = false }: EmotionSelectorProps) {
   const [, setLocation] = useLocation();
-  const [showDisclaimerModal, setShowDisclaimerModal] = useState(false);
-  const [pendingEmotion, setPendingEmotion] = useState<EmotionalState | null>(null);
 
   const handleSignOut = () => {
     window.location.href = '/api/logout';
@@ -33,35 +27,6 @@ export default function EmotionSelector({ onSelect, remainingSessions = 0, isSub
 
   const handleAccount = () => {
     setLocation('/account');
-  };
-
-  const handleEmotionSelect = (emotion: EmotionalState) => {
-    // Check if this is the energy emotion and if disclaimer has been accepted
-    if (emotion === 'energy') {
-      const disclaimerAccepted = localStorage.getItem('burnEnergyDisclaimerAccepted') === 'true';
-      
-      if (!disclaimerAccepted) {
-        setPendingEmotion(emotion);
-        setShowDisclaimerModal(true);
-        return;
-      }
-    }
-    
-    onSelect(emotion);
-  };
-
-  const handleDisclaimerAgree = () => {
-    localStorage.setItem('burnEnergyDisclaimerAccepted', 'true');
-    setShowDisclaimerModal(false);
-    if (pendingEmotion) {
-      onSelect(pendingEmotion);
-      setPendingEmotion(null);
-    }
-  };
-
-  const handleDisclaimerCancel = () => {
-    setShowDisclaimerModal(false);
-    setPendingEmotion(null);
   };
 
   // Show remaining sessions only for non-subscribed users with limited sessions
@@ -127,7 +92,7 @@ export default function EmotionSelector({ onSelect, remainingSessions = 0, isSub
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  onClick={() => handleEmotionSelect(emotion)}
+                  onClick={() => onSelect(emotion)}
                   data-testid={`emotion-card-${emotion}`}
                   className="group relative bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 
                            shadow-lg hover:shadow-2xl transition-all duration-300 
@@ -140,7 +105,7 @@ export default function EmotionSelector({ onSelect, remainingSessions = 0, isSub
                   
                   {/* Content */}
                   <div className="relative z-10">
-                    <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br ${emotion === 'energy' ? 'from-orange-500 to-red-500' : info.color} 
+                    <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br ${info.color} 
                                    flex items-center justify-center mb-4 shadow-lg group-hover:shadow-xl
                                    transition-all duration-300 group-hover:scale-110`}>
                       <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
@@ -156,7 +121,7 @@ export default function EmotionSelector({ onSelect, remainingSessions = 0, isSub
                   </div>
 
                   {/* Decorative element */}
-                  <div className={`absolute -right-8 -bottom-8 w-24 h-24 rounded-full bg-gradient-to-br ${emotion === 'energy' ? 'from-orange-500 to-red-500' : info.color} 
+                  <div className={`absolute -right-8 -bottom-8 w-24 h-24 rounded-full bg-gradient-to-br ${info.color} 
                                  opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
                 </motion.button>
               );
@@ -174,13 +139,6 @@ export default function EmotionSelector({ onSelect, remainingSessions = 0, isSub
           All resets are under 2 minutes • Science-backed techniques • Instant relief
         </motion.p>
       </div>
-
-      {/* Energy to Burn Disclaimer Modal */}
-      <EnergyDisclaimerModal
-        isOpen={showDisclaimerModal}
-        onAgree={handleDisclaimerAgree}
-        onCancel={handleDisclaimerCancel}
-      />
     </div>
   );
 }

@@ -181,8 +181,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           'restless': { sessionType: 'Energy Boost', duration: 90 },
           'tired': { sessionType: 'Sleep Story', duration: 105 },
           'scattered': { sessionType: 'Focus Reset', duration: 90 },
-          'overwhelmed': { sessionType: 'Mindful Moment', duration: 90 },
-          'energy': { sessionType: 'Energy Boost', duration: 90 },
         };
         
         const config = emotionConfig[feelingData.feeling];

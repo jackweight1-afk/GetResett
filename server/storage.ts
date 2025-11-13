@@ -22,7 +22,7 @@ import {
   type InsertDailyUsage,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, count, avg, and, gte, like, or } from "drizzle-orm";
+import { eq, desc, count, avg, and, gte, like, or, sql } from "drizzle-orm";
 
 // Interface for storage operations
 export interface IStorage {
@@ -148,9 +148,14 @@ export class DatabaseStorage implements IStorage {
       const sourceUser = existingByEmail;
       const profile = buildProfile(sourceUser, existingById);
 
+      let newUserCreated = false;
       try {
         // Temporarily free the email constraint
-        await tx.update(users).set({ email: null, updatedAt: now }).where(eq(users.id, sourceUser.id));
+        const updateResult = await tx.update(users).set({ email: null, updatedAt: now }).where(eq(users.id, sourceUser.id)).returning();
+        
+        if (updateResult.length === 0) {
+          throw new Error(`Failed to clear email for source user ${sourceUser.id} - user not found`);
+        }
 
         // Create or update destination user
         let destinationUser: User;
@@ -160,6 +165,7 @@ export class DatabaseStorage implements IStorage {
             .set(profile)
             .where(eq(users.id, userData.id))
             .returning();
+          newUserCreated = true;
         } else {
           [destinationUser] = await tx
             .insert(users)
@@ -169,6 +175,7 @@ export class DatabaseStorage implements IStorage {
               createdAt: sourceUser.createdAt ?? now,
             })
             .returning();
+          newUserCreated = true;
         }
 
         const oldId = sourceUser.id;
@@ -202,8 +209,9 @@ export class DatabaseStorage implements IStorage {
         await tx.delete(users).where(eq(users.id, oldId));
         return destinationUser;
       } catch (error) {
-        // Restore email on failure to prevent leaving user without contact info
-        if (sourceUser.email) {
+        // Only restore email if we haven't successfully created the new user yet
+        // If the new user was created, it now owns the email and we should NOT restore it
+        if (!newUserCreated && sourceUser.email) {
           await tx.update(users).set({ email: sourceUser.email, updatedAt: now }).where(eq(users.id, sourceUser.id));
         }
         throw error;

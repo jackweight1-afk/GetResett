@@ -45,7 +45,12 @@ The application employs a modern full-stack architecture with a clear separation
 - **Authentication System**: 
   - Uses Replit Auth with OpenID Connect (OIDC prompt set to "consent" only)
   - PostgreSQL-backed sessions with secure HTTP-only cookies
-  - Transactional user upsert handles OIDC ID changes by migrating user data atomically
+  - Transactional user upsert handles OIDC ID changes by migrating user data atomically:
+    - Temporarily clears source user's email to free unique constraint
+    - Creates/updates destination user with freed email
+    - Migrates all child table data (sessions, feelings, daily_usage with deduplication)
+    - Deletes source user record
+    - Guarded rollback prevents duplicate key errors by only restoring email if new user wasn't created
   - Daily usage deduplication merges session counts when user IDs change
   - Redirects to /resets page after successful login
   - Test accounts (huzefausama25@gmail.com, jackweight1@gmail.com) have unlimited access

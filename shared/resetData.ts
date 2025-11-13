@@ -1,5 +1,5 @@
 // Reset types and emotional states
-export type EmotionalState = 'stressed' | 'anxiety' | 'restless' | 'overwhelmed' | 'tired' | 'scattered' | 'energy';
+export type EmotionalState = 'stressed' | 'anxiety' | 'restless' | 'tired' | 'scattered';
 export type ResetType = 'story' | 'interactive';
 
 // Emotion state definitions
@@ -19,11 +19,6 @@ export const EMOTIONAL_STATES = {
     color: 'from-amber-400 to-orange-500',
     description: 'Unable to settle or focus your energy'
   },
-  overwhelmed: {
-    label: 'Overwhelmed',
-    color: 'from-indigo-500 to-purple-600',
-    description: 'Too much to handle all at once'
-  },
   tired: {
     label: 'Tired',
     color: 'from-blue-500 to-cyan-600',
@@ -33,11 +28,6 @@ export const EMOTIONAL_STATES = {
     label: 'Scattered',
     color: 'from-green-400 to-teal-500',
     description: 'Difficulty focusing or staying present'
-  },
-  energy: {
-    label: 'Energy to Burn',
-    color: 'from-orange-500 to-red-500',
-    description: 'Excess energy that needs physical release'
   }
 } as const;
 
@@ -142,55 +132,38 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-2',
         title: 'Hands',
         lines: [
-          'Clench both fists.',
-          'Hold the tension — 5 … 4 … 3 … 2 … 1 … now release.',
-          'Now spread your fingers apart from one another',
-          'Continue to spread your fingers out until you feel tension',
-          'Hold this for 5 … 4 … 3 … 2 … 1 … Now Release',
-          'Let your hands go soft',
-          'Feel as the tension in this area starts to subside'
+          'Clench both fists tight. Hold for 5 seconds... now release.',
+          'Spread your fingers wide until you feel tension. Hold for 5 seconds.',
+          'Let your hands go soft and feel the tension melt away.'
         ]
       },
       {
         id: 'step-3',
         title: 'Shoulders',
         lines: [
-          'Lift your shoulders toward your ears.',
-          'Push your shoulders back whilst they are lifted',
-          'Now tense and continue slowly pushing your shoulders back until you feel tension',
-          'Hold this tension for 5 … 4 … 3 … 2 … 1 …',
-          'Now return back to a comfortable position',
-          'If you\'re at at a desk, try to keep proper posture where possible'
+          'Lift your shoulders toward your ears and push them back.',
+          'Feel the tension build. Hold for 5 seconds... now release.',
+          'Return to a comfortable position with good posture.'
         ]
       },
       {
         id: 'step-4',
         title: 'Stomach & Core',
         lines: [
-          'Notice your stomach muscles',
-          'Try to connect your mind to them by slightly tensing your stomach',
-          'Now you\'ve made this connection we can begin this reset',
-          'We are going to be doing breathing exercise take a deep breath in for 5..4..3..2..1.. Notice your body filling up with air - click continue',
-          'After a couple of seconds tense your stomach and breathe out for 5..4..3..2..1.. Now breathe normally',
-          'We\'re now going to repeat this section',
-          'Take a deep breathe in for 4..3..2..1.. Click Continue',
-          'Now as you breathe out tense your stomach and hold for 5..4..3..2..1.. Now breathe normally',
-          'Notice as the tension in the core of your body starts to release'
+          'Breathe in deep for 5 seconds. Feel your body fill with air.',
+          'As you breathe out, tense your stomach for 5 seconds. Breathe normally.',
+          'Repeat once more: breathe in for 4... tense as you breathe out for 5.',
+          'Feel the tension in your core start to release.'
         ]
       },
       {
         id: 'step-5',
         title: 'Legs',
         lines: [
-          'Whilst seated or standing, gently clench your glutes (Bottom)',
-          'Hold this under tension for 5 … 4 … 3 … 2 … 1 … Now release',
-          'Now, gently tense the top muscles in your legs (quads)',
-          'Hold this tension for 5 … 4 … 3 … 2 … 1 … Now release',
-          'Curl your toes up underneath your feet and squeeze them in tight',
-          'Hold this squeeze for 5 .. 4 .. 3 .. 2 .. 1 .. Now release',
-          'Notice how your whole body should now feel lighter and less tense',
-          'If you feel like any other areas in your body could benefit from tension do this now',
-          'Hold for 5..4..3..2..1.. Now release'
+          'Gently clench your glutes. Hold for 5 seconds... now release.',
+          'Tense your quads (top leg muscles). Hold for 5 seconds... release.',
+          'Curl your toes tight and squeeze. Hold for 5 seconds... release.',
+          'Notice how your whole body feels lighter and less tense.'
         ]
       },
       {
@@ -215,84 +188,63 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-1',
         title: 'Grounding Walk',
         lines: [
-          'We\'ll take a short, guided walk in your mind to settle your system.',
-          'Keep your eyes open and follow each cue on screen.',
-          'You don\'t need to move from where you are—just imagine it vividly.',
-          'Click Continue on each page to pass through your guided reset.'
+          'We\'ll take a short guided walk in your mind to settle your system.',
+          'Keep your eyes open and imagine it vividly—no need to move.',
+          'Click Continue on each page.'
         ]
       },
       {
         id: 'step-2',
         title: 'The Path',
         lines: [
-          'Picture a clear, open path ahead of you, Firm ground, easy to walk on.',
-          'Hold your phone comfortably; let your shoulders drop a touch.',
-          'Imagine taking your first step.',
-          'Feel the heel touch, the foot roll, the toes leave the ground.',
-          'Now the other foot. A simple, steady rhythm.',
-          'Click Continue to begin the walk.'
+          'Picture a clear, open path ahead. Firm ground, easy to walk on.',
+          'Hold your phone comfortably and let your shoulders drop.',
+          'Imagine taking your first step—feel the rhythm. Click Continue.'
         ]
       },
       {
         id: 'step-3',
         title: 'Your Pace',
         lines: [
-          'In your mind, walk at a calm, even pace.',
-          'Match your steps to your breathing:',
-          '• Inhale over 2 steps …',
-          '• Exhale over 3 steps (a fraction longer).',
-          'Repeat this pattern once more: in for 2 … out for 3.',
-          'Let the body feel heavier, the mind quieter.',
-          'Click Continue.'
+          'Walk at a calm, even pace in your mind.',
+          'Match your steps to breathing: inhale over 2 steps, exhale over 3.',
+          'Repeat once more. Let the body feel heavier, the mind quieter.'
         ]
       },
       {
         id: 'step-4',
         title: 'What You See',
         lines: [
-          'Let the scene become clearer.',
-          'Notice three things you can see:',
-          '• The colour of the sky (soft, steady).',
-          '• The texture of the path (smooth, familiar).',
-          '• Something at the edge of your view (a tree, a fence, a building).',
-          'Each detail is ordinary—and ordinary is safe.',
-          'Take one breath: in for 2 steps … out for 3.',
-          'Click Continue.'
+          'Let the scene become clearer. Notice three things:',
+          'The colour of the sky, the texture of the path, something at the edge.',
+          'Ordinary is safe. Take one breath: in for 2, out for 3.'
         ]
       },
       {
         id: 'step-5',
         title: 'What You Hear',
         lines: [
-          'Pick up two layers of sound:',
-          '• A far sound (wind, distant traffic, quiet chatter).',
-          '• A near sound (your imagined footsteps, the rustle of clothing).',
+          'Pick up two layers of sound: far (wind, traffic) and near (footsteps).',
           'Hold far and near together—like two gentle lines.',
-          'Breathe with your steps: in for 2 … out for 3.',
-          'Click Continue.'
+          'Breathe with your steps: in for 2, out for 3.'
         ]
       },
       {
         id: 'step-6',
         title: 'What You Feel',
         lines: [
-          'Sense weight through your heels, then toes, as each step lands.',
-          'Imagine the ground carrying you, steady, predictable, solid.',
-          'Let your hands relax on the phone; soften the jaw and the shoulders.',
-          'Take one longer exhale as if it travels down through your legs.',
-          'Click Continue.'
+          'Sense weight through your heels and toes as each step lands.',
+          'The ground carries you—steady, predictable, solid.',
+          'Relax your hands, soften your jaw. Take one longer exhale down through your legs.'
         ]
       },
       {
         id: 'step-7',
         title: 'Space Ahead',
         lines: [
-          'Lift your imagined gaze to the horizon, the path opens out.',
-          'With the next three breaths think only about what matters today.',
-          'Your family, your friends, your pets, things you hold close to you.',
-          'Imagine these people or things are at the end of your path, waiting for you',
-          'Imagine the joy, the relief, the calm',
-          'Click Continue.'
+          'Lift your gaze to the horizon—the path opens out.',
+          'With the next three breaths, think about what matters: family, friends, things you hold close.',
+          'Imagine them waiting at the end of your path. Feel the joy, relief, calm.'
         ]
       },
       {
@@ -300,9 +252,8 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Reset Complete',
         lines: [
           'Let the path slow to a comfortable stop.',
-          'Notice: your breathing is steadier, your shoulders softer, your head clearer.',
-          'Carry this pace into the next thing you do.',
-          'Reset complete.'
+          'Notice: breathing steadier, shoulders softer, head clearer.',
+          'Carry this pace into the next thing you do. Reset complete.'
         ]
       }
     ]
@@ -321,17 +272,15 @@ const NEW_RESETS: ResetSpec[] = [
         lines: [
           'Stress makes the body act like danger is close.',
           'We\'ll use your eyes to show your system it\'s safe.',
-          'Keep your phone in a relaxed grip and follow each cue.',
-          'When you\'re ready, tap Continue.'
+          'Relaxed grip on your phone. When you\'re ready, tap Continue.'
         ]
       },
       {
         id: 'step-2',
         title: 'Left Side',
         lines: [
-          'Without moving your head much, let your eyes travel left.',
-          'Notice three simple things there: a colour… a shape… something still.',
-          'No judging, just seeing.',
+          'Let your eyes travel left without moving your head much.',
+          'Notice three things: a colour, a shape, something still. No judging.',
           'Hold for one calm breath, then tap Continue.'
         ]
       },
@@ -340,19 +289,16 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Right Side',
         lines: [
           'Now let your eyes move right.',
-          'Again, spot three details: a line… a texture… a light or shadow.',
-          'Shoulders soften a fraction.',
-          'One calm breath; tap Continue.'
+          'Spot three details: a line, a texture, light or shadow.',
+          'Soften your shoulders. One calm breath; tap Continue.'
         ]
       },
       {
         id: 'step-4',
         title: 'Orient the Room',
         lines: [
-          'Touch your gaze to the corners of the room or space you\'re in—',
-          'top-left, top-right, bottom-right, bottom-left—one by one.',
-          'Notice any door or window as a point of orientation.',
-          'Corners mean structure; structure feels safe.',
+          'Touch your gaze to each corner: top-left, top-right, bottom-right, bottom-left.',
+          'Notice any door or window. Corners mean structure; structure feels safe.',
           'Tap Continue.'
         ]
       },
@@ -360,10 +306,8 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-5',
         title: 'Depth of Field',
         lines: [
-          'Bring your focus to something near (the phone, your hand).',
-          'Then to something farther away across the room.',
-          'Back to middle distance.',
-          'Your world has depth—and room.',
+          'Focus on something near (phone, hand), then something far across the room.',
+          'Back to middle distance. Your world has depth—and room.',
           'Tap Continue.'
         ]
       },
@@ -371,11 +315,9 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-6',
         title: 'Anchor Object',
         lines: [
-          'Choose one ordinary thing in view—',
-          'a cup, a chair, a picture frame, a patch of wall.',
+          'Choose one ordinary thing in view: a cup, chair, frame, or wall.',
           'Hold a soft gaze there for a few seconds.',
-          'Ordinary means familiar; familiar means safe.',
-          'Tap Continue.'
+          'Ordinary means familiar; familiar means safe. Tap Continue.'
         ]
       },
       {
@@ -383,8 +325,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Widen & Settle',
         lines: [
           'Keep your anchor in view while letting the edges of your vision soften.',
-          'Take one easy breath in… and a slightly longer breath out.',
-          'Let jaw, shoulders and grip on the phone relax 5%.',
+          'Easy breath in, longer breath out. Relax jaw, shoulders, and grip 5%.',
           'Hold the quiet for a moment, then tap Continue.'
         ]
       },
@@ -392,10 +333,9 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-8',
         title: 'Reset Complete',
         lines: [
-          'You\'ve scanned, oriented and anchored.',
+          'You\'ve scanned, oriented, and anchored.',
           'Notice: breathing steadier, shoulders softer, head clearer.',
-          'Carry this steadiness into whatever comes next.',
-          'Reset complete.'
+          'Carry this steadiness into whatever comes next. Reset complete.'
         ]
       }
     ]
@@ -413,31 +353,25 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Two-Minute Triage',
         lines: [
           'When stress builds, your brain tries to hold everything at once.',
-          'For the next minute or two, we\'ll sort it into simple places so your mind can breathe.',
-          'Keep your eyes on the screen and follow each cue.',
-          'Tap Continue when you\'re ready.'
+          'We\'ll sort it into simple places so your mind can breathe.',
+          'Follow each cue. Tap Continue when ready.'
         ]
       },
       {
         id: 'step-2',
         title: 'Three Trays',
         lines: [
-          'Imagine three small trays in front of you: they are labelled \'Now\', \'Soon\', and \'Later\'.',
-          'They\'re empty, a clear place for you to park your thoughts',
-          'Tap Continue.'
+          'Imagine three small trays: \'Now\', \'Soon\', and \'Later\'.',
+          'They\'re empty, a clear place to park your thoughts. Tap Continue.'
         ]
       },
       {
         id: 'step-3',
         title: 'Choose the Anchor',
         lines: [
-          'Think of one small thing that truly matters today.',
-          'Maybe it\'s a job you need to complete, a chore you need to do or a phone call you need to make.',
-          'Picture placing it on the Now tray',
-          'Imagine the tray glowing green as you place it down',
-          'You now have your most important thought for the day.',
-          'Even if you only complete this one thing, you\'re succeeding.',
-          'Prioritise this and after this reset, go and do it.',
+          'Think of one thing that truly matters today—a task, chore, or call.',
+          'Picture placing it on the Now tray. Watch the tray glow green.',
+          'This is your priority. Completing just this one thing means success.',
           'Hold that thought for one easy breath, then tap Continue.'
         ]
       },
@@ -445,59 +379,44 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-4',
         title: 'Park the Near-Future',
         lines: [
-          'Now that your most important thing has been parked it\'s time to sort other items that are whirring around in your head.',
-          'Think of these and pick one or two items that can comfortably wait until after you\'ve completed your first item.',
-          'Place these items into your \'soon\' tray',
-          'Imagine as the tray glows yellow as you do this',
-          'You\'ve got time, they\'re not important in this very moment',
-          'Your shoulders drop a fraction as time opens up.',
-          'Tap Continue.'
+          'Pick one or two things that can wait until after your first task.',
+          'Place them in the \'Soon\' tray. Watch it glow yellow.',
+          'You\'ve got time. Your shoulders drop as time opens up. Tap Continue.'
         ]
       },
       {
         id: 'step-5',
         title: 'Quiet the Noise',
         lines: [
-          'Now, let your thoughts circle in your brain',
-          'It\'s time to dump these thoughts into your later tray',
-          'They\'re not important right now, you don\'t need to worry about them in this present moment',
-          'Imagine as these thoughts turn red as you place them in the tray',
-          'A lid rests over it—not gone, they\'re not gone, just quiet for now.',
-          'You can return when you choose.',
-          'Tap Continue.'
+          'Let your remaining thoughts circle, then dump them in the \'Later\' tray.',
+          'Watch them turn red as you place them down. A lid rests over it.',
+          'Not gone, just quiet for now. You can return when you choose.'
         ]
       },
       {
         id: 'step-6',
         title: 'Space Before Action',
         lines: [
-          'Before you start the Now item, picture a gentle 60-second runway:',
-          'a sip of water, stand and roll the shoulders, one slow breath.',
-          'Space before action makes action easier.',
-          'Tap Continue.'
+          'Before starting your Now task, picture a 60-second runway.',
+          'A sip of water, roll your shoulders, one slow breath.',
+          'Space before action makes action easier. Tap Continue.'
         ]
       },
       {
         id: 'step-7',
         title: 'Just the First Minute',
         lines: [
-          'Now, let\'s return to your now item',
-          'Think only of the first minute',
-          'Type out the essay title, type in the phone number, write one line… send one message.',
-          'Only the first minute. Simple and real.',
-          'Take a slightly longer out-breath.',
-          'Tap Continue.'
+          'Return to your Now item. Think only of the first minute.',
+          'One title, one number, one line. Simple and real.',
+          'Take a slightly longer out-breath. Tap Continue.'
         ]
       },
       {
         id: 'step-8',
         title: 'Reset Complete',
         lines: [
-          'Now, continue with your now thought',
-          'Watch as you find more motivation to complete it',
-          'Maybe now you can begin to think of your \'soon\' thoughts\'',
           'Everything has a place; your first step is clear.',
-          'Carry this steady pace into the next thing you do.',
+          'Watch as motivation builds. Carry this steady pace forward.',
           'Reset complete.'
         ]
       }
@@ -518,19 +437,16 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'The Calm Corridor',
         lines: [
           'When anxiety builds, the mind feels boxed in.',
-          'For the next couple of minutes, we\'ll walk a simple, steady path out of that box.',
-          'Keep your eyes on the screen and follow each cue.',
-          'When you\'re ready, tap Continue.'
+          'We\'ll walk a simple, steady path out of that box.',
+          'Follow each cue. When you\'re ready, tap Continue.'
         ]
       },
       {
         id: 'step-2',
         title: 'Picture the Corridor',
         lines: [
-          'Imagine you\'re standing at the start of a long, quiet corridor.',
-          'The light is soft; the air feels still and safe.',
-          'The floor is level under your feet.',
-          'At the far end, a door stands slightly open with a warm glow behind it.',
+          'Imagine a long, quiet corridor. Soft light, still air, level floor.',
+          'At the far end, a door stands open with a warm glow behind it.',
           'Tap Continue.'
         ]
       },
@@ -538,73 +454,54 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-3',
         title: 'Set the Pace',
         lines: [
-          'Begin to "walk" in your mind at an easy, even pace.',
-          'Match it to your breathing:',
-          '• Inhale for 2 steps …',
-          '• Exhale for 3 steps (a touch longer).',
-          'Repeat once more: in for 2 … out for 3.',
-          'Let shoulders drop a fraction as you settle.',
-          'Tap Continue.'
+          'Begin to walk in your mind at an easy, even pace.',
+          'Match breathing to steps: inhale for 2, exhale for 3 (a touch longer).',
+          'Repeat once more. Shoulders drop as you settle. Tap Continue.'
         ]
       },
       {
         id: 'step-4',
         title: 'More Room, More Air',
         lines: [
-          'With each step, picture the corridor widening a little.',
-          'Walls slowly ease away from you; the ceiling lifts a touch.',
-          'There\'s more air to breathe, more room to think.',
-          'Keep your breath pattern: in 2 … out 3.',
-          'Tap Continue.'
+          'With each step, the corridor widens. Walls ease away, ceiling lifts.',
+          'More air to breathe, more room to think.',
+          'Keep breathing: in 2, out 3. Tap Continue.'
         ]
       },
       {
         id: 'step-5',
         title: 'Sight • Sound • Feel',
         lines: [
-          'See: a calm, even light along the skirting; a gentle glow at the door.',
-          'Hear: a soft, distant hush; your quiet footfall in your mind.',
-          'Feel: weight through heels → toes as each step "lands"; your grip on the phone relaxing 5%.',
-          'Hold that steadiness for one slow breath.',
-          'Tap Continue.'
+          'See: calm light along the skirting, gentle glow at the door.',
+          'Hear: soft hush, quiet footfall. Feel: weight through heels and toes.',
+          'Grip relaxes 5%. Hold steadiness for one slow breath. Tap Continue.'
         ]
       },
       {
         id: 'step-6',
         title: 'The Door Ahead',
         lines: [
-          'The light at the door feels familiar and welcoming.',
-          'As you draw closer, the air warms slightly — cosy, not hot.',
-          'Tell yourself quietly: "I\'m safe. I\'m on my way."',
-          'Keep walking: in 2 … out 3.',
-          'Tap Continue.'
+          'The light at the door feels familiar and welcoming. Air warms slightly.',
+          'Tell yourself: "I\'m safe. I\'m on my way."',
+          'Keep walking: in 2, out 3. Tap Continue.'
         ]
       },
       {
         id: 'step-7',
         title: 'Open & Enter',
         lines: [
-          'The door opens easily beneath your hand.',
-          'Step through into a quiet room: soft light, calm air, comfortable space, you notice fresh air coming in through a window.',
-          'With your next three exhales, we\'re going to release your tension and release into this calm and safe room',
-          'They will be wrapped in light and safety',
-          '• Exhale 1 — put down the noise, in your brain',
-          '• Exhale 2 — put down the "what-if thoughts, think about the present moment".',
-          '• Exhale 3 — keep only what matters right now in your mind.',
-          'Tap Continue.'
+          'The door opens easily. Step into a quiet room: soft light, calm air, fresh breeze.',
+          'With three exhales, release: 1—the noise, 2—the what-ifs, 3—keep only what matters now.',
+          'Wrapped in light and safety. Tap Continue.'
         ]
       },
       {
         id: 'step-8',
         title: 'Reset Complete',
         lines: [
-          'Stand inside the quiet room for a moment.',
-          'Notice: your troubles sitting around you, not bothering you',
-          'breathing steadier, chest softer, head clearer.',
-          'Notice as your worries fade away out of the open window',
-          'The room is clear, representing your mind',
-          'Carry this calm space into your day and the next thing you do',
-          'Reset complete.'
+          'Stand in the quiet room. Your troubles sit around, not bothering you.',
+          'Breathing steadier, chest softer, head clearer. Worries fade out the window.',
+          'The room is clear, like your mind. Carry this calm forward. Reset complete.'
         ]
       }
     ]
@@ -622,17 +519,16 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Anchor in the Body',
         lines: [
           'Anxiety pulls you into the future.',
-          'For the next couple of minutes, we\'ll come back to the body, here and now.',
-          'Keep your eyes on the screen and follow each cue.',
-          'Tap Continue when you\'re ready.'
+          'We\'ll come back to the body, here and now.',
+          'Follow each cue. Tap Continue when ready.'
         ]
       },
       {
         id: 'step-2',
         title: 'Ground & Hold',
         lines: [
-          'Notice your feet on the floor. Toes, arches, heels.',
-          'Notice your seat or the surface beneath you. Let your weight melt into it.',
+          'Notice your feet on the floor: toes, arches, heels.',
+          'Notice your seat or surface beneath you. Let your weight melt into it.',
           'Feel the air on your skin, cool, warm, neutral. All fine.',
           'These are your anchor points.',
           'Tap Continue.'
@@ -642,10 +538,8 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-3',
         title: 'Slow the Exhale',
         lines: [
-          'Breathe in through the nose for 3.. 2.. 1..',
-          'Breathe out through the mouth for 5.. 4.. 3.. 2.. 1..',
-          'Again: in for 3.. 2.. 1.. And out for 5.. 4.. 3.. 2.. 1..',
-          'One more time, in for 3.. 2.. 1.. And out for 5.. 4.. 3.. 2.. 1.. Longer out-breaths release more carbon dioxide, which helps the body feel calmer.',
+          'Breathe in through the nose for 3... out through the mouth for 5.',
+          'Repeat twice more: in for 3, out for 5. Longer exhales calm the body.',
           'Tap Continue.'
         ]
       },
@@ -653,35 +547,26 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-4',
         title: 'Heartbeat = Information',
         lines: [
-          'Rest one hand lightly on your chest (over clothes is fine).',
-          'Feel your heartbeat, fast or slow, it\'s okay.',
-          'You don\'t need to change it.',
-          'Just let it be,actively use your longer breaths to settle it\'s beating',
-          'Breathe in for 3..2..1.. And out for 5..4..3..2..1..',
-          'Notice as you feel the beat of your heart soften',
-          'As your racing heart slows, as does your breath',
-          'Tap Continue.'
+          'Rest one hand on your chest. Feel your heartbeat—fast or slow is okay.',
+          'Use longer breaths to settle it: in for 3, out for 5.',
+          'Notice the beat soften. As your heart slows, so does your breath. Tap Continue.'
         ]
       },
       {
         id: 'step-5',
         title: 'Release Signals',
         lines: [
-          'Unclench your jaw; let the tongue rest.',
-          'Drop your shoulders down,shoulders back, correct your posture',
-          'Unclench your hands; loosen your grip on the phone by 5%.',
-          'Each release is a small message to yourself, \'I\'m safe\'',
-          'Tap Continue.'
+          'Unclench your jaw and let your tongue rest. Drop shoulders, correct posture.',
+          'Loosen your grip on the phone by 5%.',
+          'Each release says, "I\'m safe." Tap Continue.'
         ]
       },
       {
         id: 'step-6',
         title: 'Send the Breath Low',
         lines: [
-          'As you breathe, imagine the in-breath travelling down to your belly…',
-          'and the out-breath flowing out and down your legs into the ground.',
-          'Do two quiet rounds in for 3..2..1.. And out for 5..4..3..2..1..',
-          'Notice as your anxieties leave your body and flow into the ground',
+          'Imagine the in-breath traveling to your belly, the out-breath down your legs.',
+          'Do two rounds: in for 3, out for 5. Feel anxieties flow into the ground.',
           'Tap Continue.'
         ]
       },
@@ -689,9 +574,8 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-7',
         title: 'Stay with the Body',
         lines: [
-          'Feel your anchors together: feet on the ground, the clothes on your skin , air on your face, beat of your heart',
-          'Hold the calm for one more long out-breath.',
-          'Notice the extra space in your chest.',
+          'Feel your anchors: feet on ground, clothes on skin, air on face, heartbeat.',
+          'Hold the calm for one more long out-breath. Notice the extra space in your chest.',
           'Tap Continue.'
         ]
       },
@@ -699,10 +583,9 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-8',
         title: 'Reset Complete',
         lines: [
-          'You\'re centred, you\'ve moved from alarm to total awareness.',
+          'You\'ve moved from alarm to total awareness.',
           'Breath steadier, body heavier, mind clearer.',
-          'Carry this calmer pace into the next thing you do.',
-          'Reset complete.'
+          'Carry this calmer pace into the next thing you do. Reset complete.'
         ]
       }
     ]
@@ -720,18 +603,16 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Control the Controllable',
         lines: [
           'Anxiety swells when everything feels uncertain.',
-          'For the next couple of minutes, we\'ll draw a clear line: what\'s yours to act on, and what isn\'t.',
-          'Keep your eyes on the screen and follow each cue.',
-          'Tap Continue when you\'re ready.'
+          'We\'ll draw a clear line: what\'s yours to act on, and what isn\'t.',
+          'Follow each cue. Tap Continue when ready.'
         ]
       },
       {
         id: 'step-2',
         title: 'What\'s on Repeat?',
         lines: [
-          'Think of the single worry that\'s been looping in your mind.',
-          'Just one. Keep it in mind while you complete this reset',
-          'You don\'t need to fix it yet,just name it & identify it',
+          'Think of the single worry looping in your mind. Just one.',
+          'Keep it in mind—you don\'t need to fix it yet, just name it.',
           'Tap Continue.'
         ]
       },
@@ -739,65 +620,44 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-3',
         title: 'Make Space to Think',
         lines: [
-          'Loosen your jaw and drop your shoulders, correct your posture.',
-          'Take one easy breath in and gold for 3..2..1.. and a slightly longer breath out, hold for 5..4..3..2..1..',
-          'A calmer body makes clearer decisions.',
-          'Tap Continue.'
+          'Loosen your jaw, drop your shoulders, correct your posture.',
+          'Easy breath in for 3... longer breath out for 5.',
+          'A calmer body makes clearer decisions. Tap Continue.'
         ]
       },
       {
         id: 'step-4',
         title: 'In or Out of Your Hands',
         lines: [
-          'Come back to your worry.',
-          'Ask yourself, plainly: Can I do something about this in the next 24 hours?',
-          'If yes → it\'s in your control.',
-          'If no → it\'s outside your control for now.',
-          'Hold your answer.',
-          'Tap Continue.'
+          'Come back to your worry. Ask: Can I do something about this in 24 hours?',
+          'If yes → in your control. If no → outside your control for now.',
+          'Hold your answer. Tap Continue.'
         ]
       },
       {
         id: 'step-5',
         title: 'First Tiny Step or Box & Shelf',
         lines: [
-          'IF IT\'S IN YOUR CONTROL:',
-          'Picture the smallest useful move you could take after this reset:',
-          'Name what this step could be, identify the first step you can take',
-          'Imagine yourself taking this step, visualise what this looks like',
-          'See yourself starting it. Make it simple, don\'t overcomplicate.',
-          '',
-          'IF IT\'S OUT OF YOUR CONTROL:',
-          'Imagine a neutral coloured box beside the screen.',
-          'Notice as it looks solid and strong, the lid is open',
-          'Take your worry that you cannot control right now, and place it in this box, shut the lid tight.',
-          'Notice as the box is labelled "Parked".',
-          'Not gone — you\'re just not carrying the burden at this moment in time.',
-          'Come back to it when you can take action against the thought',
-          'Tap Continue.'
+          'IN YOUR CONTROL: Picture the smallest move you could take after this reset. Visualize starting it.',
+          'OUT OF YOUR CONTROL: Imagine a solid box. Place your worry inside, shut the lid. It\'s labeled "Parked."',
+          'Not gone—just not carried at this moment. Tap Continue.'
         ]
       },
       {
         id: 'step-6',
         title: 'Keep This Thought',
         lines: [
-          'Now you\'ve chosen a path and de-cluttered your mind,Soften your shoulders, hold your hand to your chest, breathe slowly, notice as your heart rate lowers',
-          'Complete some affirmations, to help you justify your plan',
-          '• "I can do this, one step at a time, I have a plan"',
-          '• "I can ask for help, I know people who will be able to help me"',
-          '• "The thought is parked, it can wait until I am in a position to sort it"',
-          'Hold this affirmation for one long out-breath.',
-          'Tap Continue.'
+          'Soften your shoulders, hand to your chest. Breathe slowly, heart rate lowers.',
+          'Choose one: "I can do this, one step at a time" or "The thought is parked."',
+          'Hold this affirmation for one long out-breath. Tap Continue.'
         ]
       },
       {
         id: 'step-7',
         title: 'Make It Real',
         lines: [
-          'If you chose a step: quietly pair it with when and where you\'ll start —',
-          '"After this reset, at my desk, 10 minutes on the first line."',
-          'If you parked it: decide when you\'ll review the box —',
-          '"Tomorrow afternoon, after lunch."',
+          'Chose a step? Pair it with when and where: "After this reset, at my desk."',
+          'Parked it? Decide when you\'ll review: "Tomorrow afternoon."',
           'Tap Continue.'
         ]
       },
@@ -805,10 +665,8 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-8',
         title: 'Reset Complete',
         lines: [
-          'Line drawn.',
-          'What\'s yours to act on is clear; what isn\'t is parked.',
-          'Take one steady out-breath and carry this calm into your day.',
-          'Reset complete.'
+          'Line drawn. What\'s yours to act on is clear; what isn\'t is parked.',
+          'Take one steady out-breath. Carry this calm into your day. Reset complete.'
         ]
       }
     ]
@@ -828,9 +686,8 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'The Pulse Reset',
         lines: [
           'When you\'re restless, your energy scatters in all directions.',
-          'For the next couple of minutes we\'ll give your body one steady rhythm to follow.',
-          'Keep your phone in a relaxed grip and follow each cue.',
-          'Tap Continue when you\'re ready.'
+          'We\'ll give your body one steady rhythm to follow.',
+          'Relaxed grip on your phone. Tap Continue when ready.'
         ]
       },
       {
@@ -838,59 +695,43 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Tap In',
         lines: [
           'Rest your forearms on your thighs or desk.',
-          'Begin a light alternating tap: left thigh… right thigh… left… right…',
-          'Keep it smooth and even — gentle, not loud.',
-          'Let the sound be your metronome.',
-          'Go at the pace which feels comfortable to you',
-          'Once you\'ve found your pace, Tap Continue.'
+          'Begin a light alternating tap: left... right... left... right. Smooth and gentle.',
+          'Find a comfortable pace. Let the sound be your metronome. Tap Continue.'
         ]
       },
       {
         id: 'step-3',
         title: 'Sync It Up',
         lines: [
-          'Stay with the left–right taps.',
-          'Breathe in for four taps …',
-          'Breathe out for four taps.',
-          'Repeat once more: in for 4 taps… out for 4 taps.',
-          'Drop your shoulders a fraction and correct your posture as the body finds the groove.',
-          'Tap Continue.'
+          'Stay with the left-right taps. Breathe in for 4 taps, out for 4 taps.',
+          'Repeat once more: in for 4, out for 4.',
+          'Drop your shoulders as the body finds the groove. Tap Continue.'
         ]
       },
       {
         id: 'step-4',
         title: 'Shoulders & Hands',
         lines: [
-          'Keep tapping at the same tempo,',
-          'As you continue through the taps slowly start to bring the tempo down',
-          'Loosen the stiffness in your shoulders, neck, arms, wrists and hands',
-          'Bring the movements to slow tiny taps',
-          'Slowly bring your breathing down to the same pace as the slow taps',
-          'Take note of the tap, feel the energy go through your arms into your legs',
-          'You should now be at a slow, steady pace with you taps and your breathing',
-          'Tap Continue.'
+          'Slowly bring the tempo down. Loosen shoulders, neck, arms, wrists, hands.',
+          'Bring movements to slow, tiny taps. Match breathing to the slow pace.',
+          'Feel energy flow through your arms into your legs. Slow and steady. Tap Continue.'
         ]
       },
       {
         id: 'step-5',
         title: 'Continue the tempo',
         lines: [
-          'Continue at the slow steady tempo for a further 6 counts of 4',
-          'Ensuring you\'re matching your breathing with your slow taps',
-          'Start to take notice of other sense in this section',
-          'What can you hear & smell?',
-          'Notice as your mind and body start to become one again',
-          'Tap Continue.'
+          'Continue the slow tempo for 6 more counts of 4. Match breathing with taps.',
+          'Notice other senses: What can you hear? Smell?',
+          'Your mind and body become one again. Tap Continue.'
         ]
       },
       {
         id: 'step-6',
         title: 'The Quiet Space',
         lines: [
-          'Keep the relaxed tapping.',
-          'Between each pair of taps there\'s a tiny pocket of quiet.',
-          'Rest your attention in that quiet for a moment, then the next.',
-          'Left (quiet) … right (quiet) … like waves arriving and receding.',
+          'Keep the relaxed tapping. Between each tap is a tiny pocket of quiet.',
+          'Rest your attention there: left (quiet)... right (quiet)... like waves.',
           'Tap Continue.'
         ]
       },
@@ -898,21 +739,17 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-7',
         title: 'Land the Rhythm',
         lines: [
-          'Let the taps get softer… and slower… and then stop.',
-          'Place both hands open on your thighs.',
-          'Feel the echo of the rhythm in your chest — steady, not hurried.',
-          'Take one last breath in for 4, out for 6.',
-          'Tap Continue.'
+          'Let the taps get softer... slower... then stop. Hands open on your thighs.',
+          'Feel the rhythm echo in your chest—steady, not hurried.',
+          'One last breath: in for 4, out for 6. Tap Continue.'
         ]
       },
       {
         id: 'step-8',
         title: 'Reset Complete',
         lines: [
-          'Your rhythm is steady again.',
-          'Energy gathered, not scattered.',
-          'Carry this calmer beat into whatever comes next.',
-          'Reset complete.'
+          'Your rhythm is steady again. Energy gathered, not scattered.',
+          'Carry this calmer beat into whatever comes next. Reset complete.'
         ]
       }
     ],
@@ -932,19 +769,16 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-1',
         title: 'Settle in',
         lines: [
-          'Hold your phone with a light grip.',
-          'Place both feet flat, hip-width apart.',
-          'We\'ll lift posture a notch at a time so energy rises without strain.',
-          'Tap Continue.'
+          'Light grip on your phone. Feet flat, hip-width apart.',
+          'We\'ll lift posture a notch at a time so energy rises without strain. Tap Continue.'
         ]
       },
       {
         id: 'step-2',
         title: 'Find an easy height',
         lines: [
-          'Imagine a tiny thread lifting the crown of your head.',
-          'Grow one centimetre taller; keep ribs soft, bum relaxed.',
-          'Notice the extra space for air under your collarbones.',
+          'Imagine a tiny thread lifting the crown of your head. Grow 1cm taller.',
+          'Keep ribs soft, bum relaxed. Notice extra space for air under your collarbones.',
           'Tap Continue.'
         ]
       },
@@ -952,19 +786,16 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-3',
         title: 'Roll some space open',
         lines: [
-          'Roll both shoulders up… back… down.',
-          'Pause. Repeat once, a touch slower.',
-          'Feel the shoulder blades settle lower; chest widens naturally.',
-          'Tap Continue.'
+          'Roll both shoulders up... back... down. Pause. Repeat once, slower.',
+          'Feel shoulder blades settle lower; chest widens naturally. Tap Continue.'
         ]
       },
       {
         id: 'step-4',
         title: 'Line up the head',
         lines: [
-          'Glide your chin gently back (not down) so ears stack over shoulders.',
-          'Unclench the jaw; let the tongue rest on the roof of your mouth.',
-          'Breathing often clears here — Take a note of this, breathe deeply and slowly',
+          'Glide your chin gently back so ears stack over shoulders.',
+          'Unclench the jaw; tongue rests on roof of mouth. Breathe deeply and slowly.',
           'Tap Continue.'
         ]
       },
@@ -972,10 +803,8 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-5',
         title: 'Let the ribs breathe',
         lines: [
-          'Inhale and exaggerate the rib movement, feel yourself widen like an umbrella.',
-          'As you exhale, push the air out of your chest, whilst keeping the form you\'ve built in the inhale',
-          'You\'ve made space and found a position of calm and confidence',
-          'Sit in this pose for a second, feel how your body feels powerful and alert',
+          'Inhale and feel yourself widen like an umbrella. Exhale, push air out, keep the form.',
+          'You\'ve made space—a position of calm and confidence. Feel powerful and alert.',
           'Tap Continue.'
         ]
       },
@@ -983,9 +812,8 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-6',
         title: 'Sweep and reset',
         lines: [
-          'Sweep your forearms forward and down, as if clearing the air in front of you',
-          'Let the shoulder blades glide down your back; elongate the neck upwards, stretching it out.',
-          'Don\'t tense your face muscles, let them stay easy',
+          'Sweep your forearms forward and down, clearing the air in front of you.',
+          'Shoulder blades glide down; neck elongates upward. Face stays easy.',
           'Tap Continue.'
         ]
       },
@@ -994,18 +822,15 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Anchor tall',
         lines: [
           'Rest forearms on thighs or desk with light contact.',
-          'Feel support below the elbows and length above the waist at the same time.',
-          'Balanced, not rigid.',
-          'Tap Continue.'
+          'Feel support below elbows and length above waist. Balanced, not rigid. Tap Continue.'
         ]
       },
       {
         id: 'step-8',
         title: 'Wrap up',
         lines: [
-          'One clean breath in through the nose… a longer, steady breath out through the mouth.',
-          'Calm body, awake mind.',
-          'Reset complete.'
+          'One clean breath in through the nose... longer breath out through the mouth.',
+          'Calm body, awake mind. Reset complete.'
         ]
       }
     ]
@@ -1022,34 +847,24 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-1',
         title: 'Set the screen',
         lines: [
-          'Hold the phone about arm\'s length away.',
-          'Keep your head fairly still; we\'ll let the eyes do the travelling.',
-          'Shoulders loose, face soft.',
-          'Tap Continue.'
+          'Hold the phone arm\'s length away. Head fairly still—eyes do the traveling.',
+          'Shoulders loose, face soft. Tap Continue.'
         ]
       },
       {
         id: 'step-2',
         title: 'Freshen the eyes',
         lines: [
-          'Fixate on a small spot in the centre of the screen.',
-          'Blink 5–7 quick times.',
-          'Your vision should feel a touch brighter and less gritty.',
-          'Tap Continue.'
+          'Fixate on a small spot in the centre of the screen. Blink 5-7 quick times.',
+          'Vision should feel brighter and less gritty. Tap Continue.'
         ]
       },
       {
         id: 'step-3',
         title: 'Left and right',
         lines: [
-          'Jump your gaze to the far left edge, then the far right edge.',
-          'Pause a heartbeat each side.',
-          'One rep is 4 gaze jumps',
-          'Left, right, left right',
-          'Pause for a second after every 4th gaze jump',
-          'Complete 5-10 sets of gaze jumps',
-          'Notice as your heart rate and breath increase with the rapid eye movement',
-          'You\'re slowly starting to wake up your nervous system',
+          'Jump gaze to far left, then far right. Pause each side. One rep = 4 jumps.',
+          'Complete 5-10 sets. Notice heart rate and breath increase—nervous system waking.',
           'Tap Continue.'
         ]
       },
@@ -1057,45 +872,32 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-4',
         title: 'Up and down',
         lines: [
-          'Eyes to the top edge, then the bottom edge.',
-          'Same small pause.',
-          'Do four cycles again following the pattern on the previous page',
-          'Pause for a second after every 4th gaze jump',
-          'Complete 5-10 sets of gaze jumps',
-          'Your focus sharpens without strain.',
-          'Tap Continue.'
+          'Eyes to top edge, then bottom edge. Same small pause.',
+          'Complete 5-10 sets of 4 jumps. Focus sharpens without strain. Tap Continue.'
         ]
       },
       {
         id: 'step-5',
         title: 'Diagonals',
         lines: [
-          'Now we\'re going from top-left → bottom-right… then top-right → bottom-left.',
-          'Pause for a second after every 4th gaze jump',
-          'Complete 5-10 sets of gaze jumps',
-          'Jaw stays loose; shoulders easy; head quiet.',
-          'Tap Continue.'
+          'Top-left to bottom-right, then top-right to bottom-left. Complete 5-10 sets.',
+          'Jaw loose, shoulders easy, head quiet. Tap Continue.'
         ]
       },
       {
         id: 'step-6',
         title: 'Soft circles',
         lines: [
-          'Trace a large, slow circle once clockwise, once anticlockwise.',
-          'Make it silky, not jerky.',
-          'Do this 5 times',
-          'If eyes feel dry, add one soft blink and rejoin.',
-          'Once done, Tap Continue.'
+          'Trace a large, slow circle once clockwise, once anticlockwise. Silky, not jerky.',
+          'Do this 5 times. If eyes feel dry, blink softly and rejoin. Tap Continue.'
         ]
       },
       {
         id: 'step-7',
         title: 'Hold the centre',
         lines: [
-          'Return to the centre point.',
-          'Let the edges of your vision soften while the centre stays crisp.',
-          'Small inhale… longer exhale. Feel clarity arrive.',
-          'Once done, Tap Continue.'
+          'Return to the centre point. Let edges soften, centre stays crisp.',
+          'Small inhale... longer exhale. Feel clarity arrive. Tap Continue.'
         ]
       },
       {
@@ -1103,8 +905,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Wrap up',
         lines: [
           'Notice the extra brightness in your view and the lift behind your eyes.',
-          'Time to get at it, carry this alertness into your next task .',
-          'Reset complete.'
+          'Carry this alertness into your next task. Reset complete.'
         ]
       }
     ]
@@ -1121,60 +922,48 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-1',
         title: 'Arrive',
         lines: [
-          'Sit or stand with a bit of space.',
-          'We\'ll use small, joint-friendly movements.',
-          'If anything isn\'t comfortable, ease or skip it.',
-          'Read each page, complete the exercise, then Tap Continue.'
+          'Sit or stand with a bit of space. We\'ll use small, joint-friendly movements.',
+          'If anything isn\'t comfortable, ease or skip it. Tap Continue.'
         ]
       },
       {
         id: 'step-2',
         title: 'Wake the calves',
         lines: [
-          'Standing: lift both heels off the ground then lower, 10–12 easy reps.',
-          'Seated: alternate toe-presses into the ground into toe lifts, again 10-12 easy reps.',
-          'Feel warmth move up the shins; breathing stays steady.',
-          'Tap Continue.'
+          'Standing: lift heels off ground then lower, 10-12 reps.',
+          'Seated: alternate toe-presses and lifts, 10-12 reps. Feel warmth up the shins. Tap Continue.'
         ]
       },
       {
         id: 'step-3',
         title: 'Wake the hands',
         lines: [
-          'Circle both wrists five times each way.',
-          'Then give the hands a light shake for a second or two.',
-          'Tingling in fingers = blood flow returning.',
-          'Once done, Tap Continue.'
+          'Circle both wrists 5 times each way. Then light shake for a second or two.',
+          'Tingling in fingers = blood flow returning. Tap Continue.'
         ]
       },
       {
         id: 'step-4',
         title: 'Open the shoulders',
         lines: [
-          'Elbows tucked by your sides, palms forward.',
-          'Rotate forearms so palms face the sky; pause; return to palms facing the floor',
-          'Do three slow reps. Chest opens; neck stays long.',
-          'Once done, Tap Continue.'
+          'Elbows tucked, palms forward. Rotate forearms: palms to sky, pause, back down.',
+          'Three slow reps. Chest opens, neck stays long. Tap Continue.'
         ]
       },
       {
         id: 'step-5',
         title: 'Gentle spine wave',
         lines: [
-          'On a soft inhale, lift the breastbone a few millimetres.',
-          'On the exhale, ease back to neutral.',
-          'Do three smooth waves — no crunching or slumping.',
-          'Once done, Tap Continue.'
+          'Soft inhale: lift breastbone a few millimetres. Exhale: ease back to neutral.',
+          'Three smooth waves—no crunching or slumping. Tap Continue.'
         ]
       },
       {
         id: 'step-6',
         title: 'Light rhythm',
         lines: [
-          'Standing: small march on the spot 15–20 seconds.',
-          'Seated: brisk heel taps or alternate knee lifts.',
-          'Let breath find the beat; keep shoulders relaxed.',
-          'Tap Continue.'
+          'Standing: small march on the spot 15-20 seconds. Seated: brisk heel taps.',
+          'Let breath find the beat; keep shoulders relaxed. Tap Continue.'
         ]
       },
       {
@@ -1182,17 +971,15 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Come back taller',
         lines: [
           'Return to stillness a touch taller than when you began.',
-          'Notice a quiet hum in the body rather than heaviness.',
-          'Tap Continue.'
+          'Notice a quiet hum in the body rather than heaviness. Tap Continue.'
         ]
       },
       {
         id: 'step-8',
         title: 'Wrap up',
         lines: [
-          'Breathe In through the nose; out a fraction longer through the mouth.',
-          'Warm, switched on, ready.',
-          'Reset complete.'
+          'Breathe in through the nose; out a fraction longer through the mouth.',
+          'Warm, switched on, ready. Reset complete.'
         ]
       }
     ],
@@ -1211,80 +998,63 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Start here',
         lines: [
           'We\'ll wake touch and sound so your system switches on without a jolt.',
-          'Keep your grip on the phone relaxed.',
-          'Read each page, complete the exercise, then Tap Continue.'
+          'Keep your grip on the phone relaxed. Tap Continue.'
         ]
       },
       {
         id: 'step-2',
         title: 'Heat in the hands',
         lines: [
-          'Rub your palms together for 5–7 seconds.',
-          'Pause and notice the heat spreading into fingers and thumbs.',
-          'That warmth is your "on" signal.',
-          'Tap Continue.'
+          'Rub your palms together for 5-7 seconds. Notice heat spreading into fingers and thumbs.',
+          'That warmth is your "on" signal. Tap Continue.'
         ]
       },
       {
         id: 'step-3',
         title: 'Freshen the face',
         lines: [
-          'With warm hands, lightly press the palms of your hands on your cheeks → temples → scalp once.',
-          'Repeat this 5 times',
-          'Lift the skin rather than dragging it.',
-          'Tap Continue.'
+          'With warm hands, lightly press palms on cheeks, temples, scalp. Repeat 5 times.',
+          'Lift the skin rather than dragging it. Tap Continue.'
         ]
       },
       {
         id: 'step-4',
         title: 'Switch on the ears',
         lines: [
-          'Run thumb and finger up the outer ear edge from lobe of your ears to the tops on both sides,',
-          'then a tiny upward tug.',
-          'Then run your fingers back down to your lobes',
-          'Repeat this 5 times',
-          'This adds an unnatural movement that awakens the mind.',
-          'Tap Continue.'
+          'Run thumb and finger up outer ear edge from lobe to top, tiny upward tug, back down.',
+          'Repeat 5 times. This awakens the mind. Tap Continue.'
         ]
       },
       {
         id: 'step-5',
         title: 'Brush the forearms',
         lines: [
-          'Brush one forearm from wrist to elbow three slow passes, then swap.',
-          'Notice the skin sensation and the temperature changes of your skin',
-          'Do this 3 times on each arm',
-          'Tap Continue.'
+          'Brush one forearm from wrist to elbow, 3 slow passes, then swap.',
+          'Notice skin sensation and temperature changes. Tap Continue.'
         ]
       },
       {
         id: 'step-6',
         title: 'Sort the sound',
         lines: [
-          'Pick out a sound that is far away, notice it, identify it and stay with it for 5 seconds',
-          'Then pick out a near sound (even your breath), notice this, identify it and stay with it for 5 seconds',
-          'Then try to notice your stillness for 5 seconds',
-          'Tap Continue.'
+          'Pick a far sound. Notice it, stay with it for 5 seconds.',
+          'Pick a near sound (even breath). Notice it, stay with it for 5 seconds. Tap Continue.'
         ]
       },
       {
         id: 'step-7',
         title: 'Snap the focus',
         lines: [
-          'Choose a tiny detail on the screen — a letter, an icon corner.',
-          'Hold it clearly for three seconds, then soften your gaze.',
-          'Feel attention sharpen without strain.',
-          'Tap Continue.'
+          'Choose a tiny detail on the screen—a letter, an icon corner.',
+          'Hold it clearly for 3 seconds, then soften your gaze. Attention sharpens. Tap Continue.'
         ]
       },
       {
         id: 'step-8',
         title: 'Wrap up',
         lines: [
-          'Sit or stand a touch taller.',
-          'Short clean inhale; longer steady exhale.',
-          'Senses on; mind clear.',
-          'Reset complete.'
+          'Sit or stand a touch taller. Short clean inhale; longer steady exhale.',
+          'Senses on, mind clear. Reset complete.'
         ]
       }
     ]
