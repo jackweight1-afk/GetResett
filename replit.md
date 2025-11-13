@@ -43,7 +43,7 @@ The application employs a modern full-stack architecture with a clear separation
 
 ### Key Components & Design
 - **Authentication System**: 
-  - Uses Replit Auth with OpenID Connect (OIDC prompt set to "consent" only)
+  - Uses Replit Auth with OpenID Connect
   - PostgreSQL-backed sessions with secure HTTP-only cookies
   - Transactional user upsert handles OIDC ID changes by migrating user data atomically:
     - Temporarily clears source user's email to free unique constraint
