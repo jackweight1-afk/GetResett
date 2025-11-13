@@ -41,6 +41,30 @@ export const EMOTIONAL_STATES = {
   }
 } as const;
 
+// ============ NEW SCHEMA (ResetSpec) ============
+// Canonical data structure for all new resets
+
+export interface ResetStep {
+  id: string;
+  title: string;
+  lines: string[];
+  animationKey?: string;
+  helperHint?: string;
+}
+
+export interface ResetSpec {
+  id: string;
+  emotion: EmotionalState;
+  name: string;
+  description: string;
+  scienceBenefit: string;
+  durationHintSeconds?: number;
+  steps: ResetStep[];
+  safetyNote?: string;
+}
+
+// ============ LEGACY SCHEMA (backward compatibility) ============
+
 export interface Reset {
   id: string;
   emotionalState: EmotionalState;
@@ -50,10 +74,8 @@ export interface Reset {
   scienceBenefit: string;
   duration: number; // in seconds
   color: string;
-  // For story resets
   storyContent?: StoryStep[];
-  // For interactive resets
-  interactiveType?: 'grounding' | 'breathing' | 'visualization' | 'tapping' | 'counting' | 'body-scan' | 'stress-sweep' | 'bubble-tap' | 'rhythm-tap' | 'grid-tap' | 'dot-connect' | 'swipe-sort' | 'pressure-valve' | 'blink-track' | 'movement-workout' | 'shadowboxing' | 'breath-movement' | 'walking-pace' | 'fact-vs-story' | 'two-minute-triage' | 'progressive-muscle' | 'visual-grounding';
+  interactiveType?: 'grounding' | 'breathing' | 'visualization' | 'tapping' | 'counting' | 'body-scan' | 'stress-sweep' | 'bubble-tap' | 'rhythm-tap' | 'grid-tap' | 'dot-connect' | 'swipe-sort' | 'pressure-valve' | 'blink-track' | 'movement-workout' | 'shadowboxing' | 'breath-movement' | 'walking-pace';
   interactiveSteps?: InteractiveStep[];
   requiresDisclaimer?: boolean;
 }
@@ -61,8 +83,8 @@ export interface Reset {
 export interface StoryStep {
   title?: string;
   text: string;
-  duration: number; // seconds to show this step
-  background?: string; // optional background color/gradient
+  duration: number;
+  background?: string;
 }
 
 export interface InteractiveStep {
@@ -70,595 +92,1535 @@ export interface InteractiveStep {
   instruction: string;
   duration?: number;
   input?: 'text' | 'tap' | 'breath' | 'none' | 'movement';
-  count?: number; // for exercises that need counting
-  visualAid?: string; // path to image/animation for movement guidance
-  alternativeMove?: string; // low-impact alternative instruction
-  isStretch?: boolean; // marks this as a stretch step
+  count?: number;
+  visualAid?: string;
+  alternativeMove?: string;
+  isStretch?: boolean;
 }
 
-// All 24 resets: 4 per emotional state
-export const RESETS: Reset[] = [
-  // ============ STRESSED (4 resets) ============
+// ============ ADAPTER FUNCTION ============
+// Converts new ResetSpec format to legacy Reset format
+
+function adaptResetSpecToLegacy(spec: ResetSpec): Reset {
+  const emotionInfo = EMOTIONAL_STATES[spec.emotion];
+  
+  return {
+    id: spec.id,
+    emotionalState: spec.emotion,
+    type: 'story',
+    title: spec.name,
+    description: spec.description,
+    scienceBenefit: spec.scienceBenefit,
+    duration: spec.durationHintSeconds || 120,
+    color: emotionInfo.color,
+    storyContent: spec.steps.map(step => ({
+      title: step.title,
+      text: step.lines.join('\n\n'),
+      duration: 15
+    }))
+  };
+}
+
+// ============ NEW RESETS DATA (ResetSpec format) ============
+
+const NEW_RESETS: ResetSpec[] = [
+  // ============ STRESSED RESETS (4 resets) ============
   {
     id: 'stressed-tense-release',
-    emotionalState: 'stressed',
-    type: 'story',
-    title: 'Full-Body Tense & Release',
+    emotion: 'stressed',
+    name: 'Full-Body Tense & Release',
     description: 'Progressive muscle relaxation for instant calm',
-    scienceBenefit: 'Brief cycles of tense→release lower muscle tone and nudge the nervous system toward parasympathetic calm',
-    duration: 100,
-    color: 'from-purple-400 to-indigo-500',
-    storyContent: [
-      { title: 'Tense & Release', text: 'We\'ll quickly ease the tension from your body. Keep your eyes on the screen and follow each short cue.', duration: 10 },
-      { title: 'Hands', text: 'Clench both fists. Hold 3… 2… 1… Release. Let your fingers hang loose.', duration: 10 },
-      { title: 'Shoulders', text: 'Lift your shoulders a little towards your ears. Hold 3… 2… 1… Drop them. Notice the weight fall away.', duration: 12 },
-      { title: 'Jaw', text: 'Gently press teeth together for 2 seconds; soften the jaw, lips and brow. Feel the warmth that follows.', duration: 12 },
-      { title: 'Centre', text: 'Tighten your stomach lightly for 3 seconds; release and let the breath move freely again.', duration: 12 },
-      { title: 'Ground', text: 'Press feet into the floor for 2 seconds; release and let knees soften. Sense the support beneath you.', duration: 12 },
-      { title: 'Full Body', text: 'Tense the whole body just a little — 2 seconds — and let everything go at once. Notice the contrast.', duration: 14 },
-      { title: 'Reset Complete', text: 'Your body is lighter, looser, calmer. Take one easy breath in… and out.', duration: 10 }
+    scienceBenefit: 'Progressive muscle relaxation triggers parasympathetic calm and releases physical tension linked to stress',
+    durationHintSeconds: 75,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Tense & Release',
+        lines: ['Using a progressive muscle tension and relaxation technique, we\'ll help you ease the tension from your body.']
+      },
+      {
+        id: 'step-2',
+        title: 'Hands',
+        lines: [
+          'Clench both fists.',
+          'Hold the tension — 5 … 4 … 3 … 2 … 1 … now release.',
+          'Now spread your fingers apart from one another',
+          'Continue to spread your fingers out until you feel tension',
+          'Hold this for 5 … 4 … 3 … 2 … 1 … Now Release',
+          'Let your hands go soft',
+          'Feel as the tension in this area starts to subside'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Shoulders',
+        lines: [
+          'Lift your shoulders toward your ears.',
+          'Push your shoulders back whilst they are lifted',
+          'Now tense and continue slowly pushing your shoulders back until you feel tension',
+          'Hold this tension for 5 … 4 … 3 … 2 … 1 …',
+          'Now return back to a comfortable position',
+          'If you\'re at at a desk, try to keep proper posture where possible'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Stomach & Core',
+        lines: [
+          'Notice your stomach muscles',
+          'Try to connect your mind to them by slightly tensing your stomach',
+          'Now you\'ve made this connection we can begin this reset',
+          'We are going to be doing breathing exercise take a deep breath in for 5..4..3..2..1.. Notice your body filling up with air - click continue',
+          'After a couple of seconds tense your stomach and breathe out for 5..4..3..2..1.. Now breathe normally',
+          'We\'re now going to repeat this section',
+          'Take a deep breathe in for 4..3..2..1.. Click Continue',
+          'Now as you breathe out tense your stomach and hold for 5..4..3..2..1.. Now breathe normally',
+          'Notice as the tension in the core of your body starts to release'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Legs',
+        lines: [
+          'Whilst seated or standing, gently clench your glutes (Bottom)',
+          'Hold this under tension for 5 … 4 … 3 … 2 … 1 … Now release',
+          'Now, gently tense the top muscles in your legs (quads)',
+          'Hold this tension for 5 … 4 … 3 … 2 … 1 … Now release',
+          'Curl your toes up underneath your feet and squeeze them in tight',
+          'Hold this squeeze for 5 .. 4 .. 3 .. 2 .. 1 .. Now release',
+          'Notice how your whole body should now feel lighter and less tense',
+          'If you feel like any other areas in your body could benefit from tension do this now',
+          'Hold for 5..4..3..2..1.. Now release'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Reset Complete',
+        lines: [
+          'Your body should feel lighter & calmer.',
+          'Reset complete.'
+        ]
+      }
     ]
   },
   {
-    id: 'stressed-fact-story-lens',
-    emotionalState: 'stressed',
-    type: 'story',
-    title: 'Fact–Story Lens',
-    description: 'Separate what\'s real from what you fear',
-    scienceBenefit: 'Labelling what\'s observable vs predicted reduces amygdala reactivity and restores perspective',
-    duration: 110,
-    color: 'from-purple-500 to-indigo-600',
-    storyContent: [
-      { title: 'Fact–Story Lens', text: 'When you\'re stressed, your mind mixes what\'s real with what you fear. We\'ll gently separate the two.', duration: 12 },
-      { title: 'One Topic', text: 'Think of the thing that\'s loudest right now. Hold it in mind while you read.', duration: 12 },
-      { title: 'Create Distance', text: 'Say quietly in your head: "I\'m noticing a thought about…". You\'re observing it, not being it.', duration: 14 },
-      { title: 'What\'s True Now', text: 'Identify up to two things you can actually observe (times, dates, messages, numbers). Facts are steady.', duration: 14 },
-      { title: 'What-Ifs & Predictions', text: 'Notice what the mind is predicting or assuming. That\'s the story. Stories can change.', duration: 14 },
-      { title: 'Shift the Meaning', text: 'Pick one calm line to hold: "It\'s temporary." / "One step at a time." / "I can ask for help." Let it settle.', duration: 16 },
-      { title: 'First Pebble', text: 'Picture one tiny action you could take later (a message, a line of a draft, a calendar nudge). Just visualise it clearly.', duration: 14 },
-      { title: 'Reset Complete', text: 'You\'ve pulled fact from fiction. Clarity replaces chaos. Notice the extra space in your chest.', duration: 12 }
+    id: 'stressed-grounding-walk',
+    emotion: 'stressed',
+    name: 'Grounding Walk',
+    description: 'Guided visualization for settling your system',
+    scienceBenefit: 'Visual orientation + sensory grounding (sight/sound/touch) reduce threat scanning and restore a sense of safety and control',
+    durationHintSeconds: 105,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Grounding Walk',
+        lines: [
+          'We\'ll take a short, guided walk in your mind to settle your system.',
+          'Keep your eyes open and follow each cue on screen.',
+          'You don\'t need to move from where you are—just imagine it vividly.',
+          'Click Continue on each page to pass through your guided reset.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'The Path',
+        lines: [
+          'Picture a clear, open path ahead of you, Firm ground, easy to walk on.',
+          'Hold your phone comfortably; let your shoulders drop a touch.',
+          'Imagine taking your first step.',
+          'Feel the heel touch, the foot roll, the toes leave the ground.',
+          'Now the other foot. A simple, steady rhythm.',
+          'Click Continue to begin the walk.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Your Pace',
+        lines: [
+          'In your mind, walk at a calm, even pace.',
+          'Match your steps to your breathing:',
+          '• Inhale over 2 steps …',
+          '• Exhale over 3 steps (a fraction longer).',
+          'Repeat this pattern once more: in for 2 … out for 3.',
+          'Let the body feel heavier, the mind quieter.',
+          'Click Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'What You See',
+        lines: [
+          'Let the scene become clearer.',
+          'Notice three things you can see:',
+          '• The colour of the sky (soft, steady).',
+          '• The texture of the path (smooth, familiar).',
+          '• Something at the edge of your view (a tree, a fence, a building).',
+          'Each detail is ordinary—and ordinary is safe.',
+          'Take one breath: in for 2 steps … out for 3.',
+          'Click Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'What You Hear',
+        lines: [
+          'Pick up two layers of sound:',
+          '• A far sound (wind, distant traffic, quiet chatter).',
+          '• A near sound (your imagined footsteps, the rustle of clothing).',
+          'Hold far and near together—like two gentle lines.',
+          'Breathe with your steps: in for 2 … out for 3.',
+          'Click Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'What You Feel',
+        lines: [
+          'Sense weight through your heels, then toes, as each step lands.',
+          'Imagine the ground carrying you, steady, predictable, solid.',
+          'Let your hands relax on the phone; soften the jaw and the shoulders.',
+          'Take one longer exhale as if it travels down through your legs.',
+          'Click Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Space Ahead',
+        lines: [
+          'Lift your imagined gaze to the horizon, the path opens out.',
+          'With the next three breaths think only about what matters today.',
+          'Your family, your friends, your pets, things you hold close to you.',
+          'Imagine these people or things are at the end of your path, waiting for you',
+          'Imagine the joy, the relief, the calm',
+          'Click Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Reset Complete',
+        lines: [
+          'Let the path slow to a comfortable stop.',
+          'Notice: your breathing is steadier, your shoulders softer, your head clearer.',
+          'Carry this pace into the next thing you do.',
+          'Reset complete.'
+        ]
+      }
     ]
   },
   {
     id: 'stressed-safety-scan',
-    emotionalState: 'stressed',
-    type: 'story',
-    title: 'Safety Scan',
+    emotion: 'stressed',
+    name: 'Safety Scan',
     description: 'Visual orientation and grounding',
-    scienceBenefit: 'Eyes-open orientation and familiar cues signal "no immediate threat", calming the stress response',
-    duration: 95,
-    color: 'from-indigo-500 to-purple-500',
-    storyContent: [
-      { title: 'Safety Scan', text: 'Stress makes your body act like danger is close. We\'ll remind it that you\'re safe.', duration: 10 },
-      { title: 'Left Side', text: 'Without moving your head much, let your eyes travel left. Notice colours, shapes and any stillness there.', duration: 12 },
-      { title: 'Right Side', text: 'Now to the right. Take in what\'s there without judging. Shoulders soften a fraction.', duration: 12 },
-      { title: 'Orient', text: 'Let your eyes find the corners of the room or space you\'re in. Corners mean structure; structure means safety.', duration: 14 },
-      { title: 'Anchor', text: 'Choose one ordinary thing nearby — a cup, a chair, the wall. Hold a soft gaze on it.', duration: 12 },
-      { title: 'Stay With It', text: 'Keep eyes on the object. Take one steady breath in… and a longer breath out. Let your jaw relax.', duration: 14 },
-      { title: 'Peripheral View', text: 'Keep the object in view while noticing the space around it. Wider vision, wider calm.', duration: 12 },
-      { title: 'Reset Complete', text: 'Your body has scanned, oriented and settled. Stress response down.', duration: 10 }
+    scienceBenefit: 'Eyes-open orientation (left/right, corners, near/far) and a familiar anchor signal "no immediate threat", reducing hypervigilance',
+    durationHintSeconds: 100,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Safety Scan',
+        lines: [
+          'Stress makes the body act like danger is close.',
+          'We\'ll use your eyes to show your system it\'s safe.',
+          'Keep your phone in a relaxed grip and follow each cue.',
+          'When you\'re ready, tap Continue.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Left Side',
+        lines: [
+          'Without moving your head much, let your eyes travel left.',
+          'Notice three simple things there: a colour… a shape… something still.',
+          'No judging, just seeing.',
+          'Hold for one calm breath, then tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Right Side',
+        lines: [
+          'Now let your eyes move right.',
+          'Again, spot three details: a line… a texture… a light or shadow.',
+          'Shoulders soften a fraction.',
+          'One calm breath; tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Orient the Room',
+        lines: [
+          'Touch your gaze to the corners of the room or space you\'re in—',
+          'top-left, top-right, bottom-right, bottom-left—one by one.',
+          'Notice any door or window as a point of orientation.',
+          'Corners mean structure; structure feels safe.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Depth of Field',
+        lines: [
+          'Bring your focus to something near (the phone, your hand).',
+          'Then to something farther away across the room.',
+          'Back to middle distance.',
+          'Your world has depth—and room.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Anchor Object',
+        lines: [
+          'Choose one ordinary thing in view—',
+          'a cup, a chair, a picture frame, a patch of wall.',
+          'Hold a soft gaze there for a few seconds.',
+          'Ordinary means familiar; familiar means safe.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Widen & Settle',
+        lines: [
+          'Keep your anchor in view while letting the edges of your vision soften.',
+          'Take one easy breath in… and a slightly longer breath out.',
+          'Let jaw, shoulders and grip on the phone relax 5%.',
+          'Hold the quiet for a moment, then tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Reset Complete',
+        lines: [
+          'You\'ve scanned, oriented and anchored.',
+          'Notice: breathing steadier, shoulders softer, head clearer.',
+          'Carry this steadiness into whatever comes next.',
+          'Reset complete.'
+        ]
+      }
     ]
   },
   {
     id: 'stressed-mental-triage',
-    emotionalState: 'stressed',
-    type: 'story',
-    title: 'Mental Triage',
-    description: 'Clear the mental queue without typing',
-    scienceBenefit: 'Mentally sorting demands into simple containers reduces working-memory load and perceived pressure',
-    duration: 105,
-    color: 'from-purple-400 to-pink-500',
-    storyContent: [
-      { title: 'Mental Triage', text: 'When stress piles up, your brain tries to hold everything at once. We\'ll clear the queue without typing.', duration: 12 },
-      { title: 'Now / Soon / Later', text: 'Imagine three calm boxes on the screen: Now, Soon, Later. They\'re open and waiting.', duration: 12 },
-      { title: 'Anchor', text: 'Choose one small, meaningful task for today. Picture placing it in Now. The box glows a little brighter.', duration: 14 },
-      { title: 'Park', text: 'Pick one or two items that can wait. See them slide into Soon. Your shoulders drop slightly.', duration: 14 },
-      { title: 'Quiet the Noise', text: 'Let the remaining clutter drift into Later. The lid closes with a quiet click.', duration: 12 },
-      { title: 'Just This', text: 'Look again at Now. Imagine the first tiny move you\'ll make when you leave this screen. Hold that image for a breath.', duration: 14 },
-      { title: 'Down-Shift', text: 'Inhale through the nose for 4, exhale through the mouth for 6. Feel the extra room in your mind.', duration: 14 },
-      { title: 'Reset Complete', text: 'Your load is lighter and your next move is clear.', duration: 10 }
+    emotion: 'stressed',
+    name: 'Two-Minute Triage',
+    description: 'Cognitive off-loading via mental imagery',
+    scienceBenefit: 'Mentally "parking" items into simple containers reduces working-memory load and eases the stress response',
+    durationHintSeconds: 105,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Two-Minute Triage',
+        lines: [
+          'When stress builds, your brain tries to hold everything at once.',
+          'For the next minute or two, we\'ll sort it into simple places so your mind can breathe.',
+          'Keep your eyes on the screen and follow each cue.',
+          'Tap Continue when you\'re ready.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Three Trays',
+        lines: [
+          'Imagine three small trays in front of you: they are labelled \'Now\', \'Soon\', and \'Later\'.',
+          'They\'re empty, a clear place for you to park your thoughts',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Choose the Anchor',
+        lines: [
+          'Think of one small thing that truly matters today.',
+          'Maybe it\'s a job you need to complete, a chore you need to do or a phone call you need to make.',
+          'Picture placing it on the Now tray',
+          'Imagine the tray glowing green as you place it down',
+          'You now have your most important thought for the day.',
+          'Even if you only complete this one thing, you\'re succeeding.',
+          'Prioritise this and after this reset, go and do it.',
+          'Hold that thought for one easy breath, then tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Park the Near-Future',
+        lines: [
+          'Now that your most important thing has been parked it\'s time to sort other items that are whirring around in your head.',
+          'Think of these and pick one or two items that can comfortably wait until after you\'ve completed your first item.',
+          'Place these items into your \'soon\' tray',
+          'Imagine as the tray glows yellow as you do this',
+          'You\'ve got time, they\'re not important in this very moment',
+          'Your shoulders drop a fraction as time opens up.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Quiet the Noise',
+        lines: [
+          'Now, let your thoughts circle in your brain',
+          'It\'s time to dump these thoughts into your later tray',
+          'They\'re not important right now, you don\'t need to worry about them in this present moment',
+          'Imagine as these thoughts turn red as you place them in the tray',
+          'A lid rests over it—not gone, they\'re not gone, just quiet for now.',
+          'You can return when you choose.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Space Before Action',
+        lines: [
+          'Before you start the Now item, picture a gentle 60-second runway:',
+          'a sip of water, stand and roll the shoulders, one slow breath.',
+          'Space before action makes action easier.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Just the First Minute',
+        lines: [
+          'Now, let\'s return to your now item',
+          'Think only of the first minute',
+          'Type out the essay title, type in the phone number, write one line… send one message.',
+          'Only the first minute. Simple and real.',
+          'Take a slightly longer out-breath.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Reset Complete',
+        lines: [
+          'Now, continue with your now thought',
+          'Watch as you find more motivation to complete it',
+          'Maybe now you can begin to think of your \'soon\' thoughts\'',
+          'Everything has a place; your first step is clear.',
+          'Carry this steady pace into the next thing you do.',
+          'Reset complete.'
+        ]
+      }
     ]
   },
 
-  // ============ ANXIETY (4 resets) ============
+  // ============ ANXIETY RESETS (3 new + 1 existing bubble game) ============
   {
-    id: 'anxiety-breathing-storm',
-    emotionalState: 'anxiety',
-    type: 'story',
-    title: 'Breathing Through the Storm',
-    description: 'Calm anxiety with guided breathing',
-    scienceBenefit: 'Regulates autonomic nervous system',
-    duration: 60,
-    color: 'from-pink-400 to-rose-500',
-    storyContent: [
-      { title: 'Breathing Through the Storm', text: 'We\'re going to guide your mind and body to calm with a simple breathing exercise. Focus on the screen and follow the steps.', duration: 6 },
-      { title: 'Imagine the Storm', text: 'Picture a storm in the distance, dark clouds, and distant thunder. Now picture the storm slowly moving further away. Let the sound of the thunder become softer with each breath you take.', duration: 12 },
-      { title: 'Slow Down Your Breathing', text: 'Take a slow, deep breath in for 4 counts. Hold for 4 counts. Now slowly exhale for 6 counts, pushing the tension out. Repeat: Inhale for 4... Hold for 4... Exhale for 6…', duration: 18 },
-      { title: 'Let It Fade', text: 'With each breath, imagine the storm becoming quieter, the clouds drifting away. Feel your body relax with every exhale. Your mind is clearer, your body at ease.', duration: 12 },
-      { title: 'Reset Complete', text: 'The storm is now far away, and you are calm. Feel the space between your thoughts. Reset complete.', duration: 8 }
+    id: 'anxiety-calm-corridor',
+    emotion: 'anxiety',
+    name: 'The Calm Corridor',
+    description: 'Guided imagery to ease anxiety',
+    scienceBenefit: 'Guided imagery + autonomic regulation lowers limbic activation and restores perceived safety',
+    durationHintSeconds: 120,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'The Calm Corridor',
+        lines: [
+          'When anxiety builds, the mind feels boxed in.',
+          'For the next couple of minutes, we\'ll walk a simple, steady path out of that box.',
+          'Keep your eyes on the screen and follow each cue.',
+          'When you\'re ready, tap Continue.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Picture the Corridor',
+        lines: [
+          'Imagine you\'re standing at the start of a long, quiet corridor.',
+          'The light is soft; the air feels still and safe.',
+          'The floor is level under your feet.',
+          'At the far end, a door stands slightly open with a warm glow behind it.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Set the Pace',
+        lines: [
+          'Begin to "walk" in your mind at an easy, even pace.',
+          'Match it to your breathing:',
+          '• Inhale for 2 steps …',
+          '• Exhale for 3 steps (a touch longer).',
+          'Repeat once more: in for 2 … out for 3.',
+          'Let shoulders drop a fraction as you settle.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'More Room, More Air',
+        lines: [
+          'With each step, picture the corridor widening a little.',
+          'Walls slowly ease away from you; the ceiling lifts a touch.',
+          'There\'s more air to breathe, more room to think.',
+          'Keep your breath pattern: in 2 … out 3.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Sight • Sound • Feel',
+        lines: [
+          'See: a calm, even light along the skirting; a gentle glow at the door.',
+          'Hear: a soft, distant hush; your quiet footfall in your mind.',
+          'Feel: weight through heels → toes as each step "lands"; your grip on the phone relaxing 5%.',
+          'Hold that steadiness for one slow breath.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'The Door Ahead',
+        lines: [
+          'The light at the door feels familiar and welcoming.',
+          'As you draw closer, the air warms slightly — cosy, not hot.',
+          'Tell yourself quietly: "I\'m safe. I\'m on my way."',
+          'Keep walking: in 2 … out 3.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Open & Enter',
+        lines: [
+          'The door opens easily beneath your hand.',
+          'Step through into a quiet room: soft light, calm air, comfortable space, you notice fresh air coming in through a window.',
+          'With your next three exhales, we\'re going to release your tension and release into this calm and safe room',
+          'They will be wrapped in light and safety',
+          '• Exhale 1 — put down the noise, in your brain',
+          '• Exhale 2 — put down the "what-if thoughts, think about the present moment".',
+          '• Exhale 3 — keep only what matters right now in your mind.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Reset Complete',
+        lines: [
+          'Stand inside the quiet room for a moment.',
+          'Notice: your troubles sitting around you, not bothering you',
+          'breathing steadier, chest softer, head clearer.',
+          'Notice as your worries fade away out of the open window',
+          'The room is clear, representing your mind',
+          'Carry this calm space into your day and the next thing you do',
+          'Reset complete.'
+        ]
+      }
     ]
   },
   {
-    id: 'anxiety-grounding',
-    emotionalState: 'anxiety',
-    type: 'story',
-    title: '5-4-3-2-1 Grounding',
-    description: 'Ground yourself using your five senses',
-    scienceBenefit: 'Interrupts anxious thoughts and brings you present',
-    duration: 90,
-    color: 'from-pink-400 to-rose-500',
-    storyContent: [
-      { title: '5-4-3-2-1 Grounding', text: 'This is a quick exercise that helps ground you by focusing on your senses. Follow along and feel your stress melt away.', duration: 6 },
-      { title: 'Focus on What You See', text: 'Look around you and pick out 5 things you can see. Focus on the details of each — shapes, colours, texture. List them quietly in your mind. Feel your mind start to settle.', duration: 14 },
-      { title: 'Focus on What You Feel', text: 'Now, pay attention to 4 things you can feel. It could be the sensation of the floor beneath your feet, the clothes on your skin, or your own breathing. Allow yourself to feel present in these sensations.', duration: 14 },
-      { title: 'Focus on What You Hear', text: 'Next, focus on 3 things you can hear. It could be a distant sound, the air conditioning, or the sound of your own breath. Stay with these sounds and let them anchor you in the present.', duration: 12 },
-      { title: 'Focus on What You Smell', text: 'Now, take a moment to notice 2 smells around you. It could be the air, a scent in the room, or something in your environment. Inhale gently and focus on the sensation of the smell. Notice how your body feels more grounded.', duration: 14 },
-      { title: 'Focus on What You Taste', text: 'Finally, notice the taste in your mouth. Is it a lingering flavour from your last meal? Or perhaps the freshness of water? Focus on it and let it bring you into the present moment.', duration: 12 },
-      { title: 'Reset Complete', text: 'You\'ve just grounded yourself in the present moment. Feel how much calmer and more focused you are. Reset complete.', duration: 8 }
+    id: 'anxiety-anchor-body',
+    emotion: 'anxiety',
+    name: 'Anchor in the Body',
+    description: 'Interoceptive grounding to calm anxiety',
+    scienceBenefit: 'Interoception + longer exhales reduce anxious dissociation and rebalance the autonomic nervous system',
+    durationHintSeconds: 120,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Anchor in the Body',
+        lines: [
+          'Anxiety pulls you into the future.',
+          'For the next couple of minutes, we\'ll come back to the body, here and now.',
+          'Keep your eyes on the screen and follow each cue.',
+          'Tap Continue when you\'re ready.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Ground & Hold',
+        lines: [
+          'Notice your feet on the floor. Toes, arches, heels.',
+          'Notice your seat or the surface beneath you. Let your weight melt into it.',
+          'Feel the air on your skin, cool, warm, neutral. All fine.',
+          'These are your anchor points.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Slow the Exhale',
+        lines: [
+          'Breathe in through the nose for 3.. 2.. 1..',
+          'Breathe out through the mouth for 5.. 4.. 3.. 2.. 1..',
+          'Again: in for 3.. 2.. 1.. And out for 5.. 4.. 3.. 2.. 1..',
+          'One more time, in for 3.. 2.. 1.. And out for 5.. 4.. 3.. 2.. 1.. Longer out-breaths release more carbon dioxide, which helps the body feel calmer.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Heartbeat = Information',
+        lines: [
+          'Rest one hand lightly on your chest (over clothes is fine).',
+          'Feel your heartbeat, fast or slow, it\'s okay.',
+          'You don\'t need to change it.',
+          'Just let it be,actively use your longer breaths to settle it\'s beating',
+          'Breathe in for 3..2..1.. And out for 5..4..3..2..1..',
+          'Notice as you feel the beat of your heart soften',
+          'As your racing heart slows, as does your breath',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Release Signals',
+        lines: [
+          'Unclench your jaw; let the tongue rest.',
+          'Drop your shoulders down,shoulders back, correct your posture',
+          'Unclench your hands; loosen your grip on the phone by 5%.',
+          'Each release is a small message to yourself, \'I\'m safe\'',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Send the Breath Low',
+        lines: [
+          'As you breathe, imagine the in-breath travelling down to your belly…',
+          'and the out-breath flowing out and down your legs into the ground.',
+          'Do two quiet rounds in for 3..2..1.. And out for 5..4..3..2..1..',
+          'Notice as your anxieties leave your body and flow into the ground',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Stay with the Body',
+        lines: [
+          'Feel your anchors together: feet on the ground, the clothes on your skin , air on your face, beat of your heart',
+          'Hold the calm for one more long out-breath.',
+          'Notice the extra space in your chest.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Reset Complete',
+        lines: [
+          'You\'re centred, you\'ve moved from alarm to total awareness.',
+          'Breath steadier, body heavier, mind clearer.',
+          'Carry this calmer pace into the next thing you do.',
+          'Reset complete.'
+        ]
+      }
     ]
   },
   {
-    id: 'anxiety-calm-counting',
-    emotionalState: 'anxiety',
-    type: 'interactive',
-    title: 'Counting Horizons',
-    description: 'Count slowly with guided breathing',
-    scienceBenefit: 'Activates prefrontal cortex, regulating anxiety',
-    duration: 60,
-    color: 'from-blue-400 to-indigo-500',
-    interactiveType: 'counting',
-    interactiveSteps: [
-      { title: 'Counting Horizons', instruction: 'We\'ll count slowly together, using your breath as an anchor.', duration: 5 },
-      { instruction: 'Count 1... breathe in slowly for 3', duration: 4, input: 'breath' },
-      { instruction: 'Count 2... breathe out slowly for 3', duration: 4, input: 'breath' },
-      { instruction: 'Count 3... breathe in deeply for 3', duration: 4, input: 'breath' },
-      { instruction: 'Count 4... breathe out fully for 3', duration: 4, input: 'breath' },
-      { instruction: 'Count 5... feel yourself calming', duration: 4, input: 'breath' },
-      { instruction: 'Continue counting breaths up to 10...', duration: 24, count: 10, input: 'breath' },
-      { title: 'Reset Complete', instruction: 'Your mind is calmer. Your anxiety has eased. Reset complete.', duration: 6 }
-    ]
-  },
-  {
-    id: 'anxiety-bubble-calm',
-    emotionalState: 'anxiety',
-    type: 'interactive',
-    title: 'Bubble Pop Calm',
-    description: 'Quick focus challenge to shift from anxiety',
-    scienceBenefit: 'Cognitive distraction breaks anxious thought cycles',
-    duration: 75,
-    color: 'from-purple-500 to-indigo-600',
-    interactiveType: 'bubble-tap',
-    interactiveSteps: [
-      { title: 'Bubble Pop Calm', instruction: 'This game will help you shift focus from anxiety to something light and engaging. You\'ll need to tap on the floating bubbles to clear them.', duration: 6 },
-      { title: 'Tap the Bubbles', instruction: 'Bubbles will float across the screen. Tap to pop the bubbles before they float away. Each pop releases a small piece of tension.', duration: 8 },
-      { title: 'Pop the Bubbles', instruction: 'Pop as many bubbles as you can in the next 50 seconds. The faster you tap, the more relaxed you\'ll feel. Keep the rhythm steady and notice the calm building.', input: 'tap', duration: 50 },
-      { title: 'Reset Complete', instruction: 'You\'ve just focused your mind and released anxiety with this simple task. Take a moment to notice how much lighter you feel. Reset complete.', duration: 8 }
-    ]
-  },
-
-  // ============ RESTLESS (4 resets) ============
-  {
-    id: 'restless-micro-movement',
-    emotionalState: 'restless',
-    type: 'story',
-    title: 'Micro-Movement Reset',
-    description: 'Channel restless energy with controlled movements',
-    scienceBenefit: 'Somatic regulation through intentional movement',
-    duration: 75,
-    color: 'from-amber-400 to-orange-500',
-    storyContent: [
-      { title: 'The Micro-Movement Reset', text: 'When you feel restless, your body wants to move. Instead of fighting it, we\'re going to guide that energy in a controlled, calming way.', duration: 8 },
-      { title: 'Hands', text: 'Spread your fingers wide for 3 seconds… Now bring them back in gently. Repeat this twice, slowly.', duration: 10 },
-      { title: 'Forearms', text: 'Rotate your forearms slowly in circles. Three circles clockwise, then three anti-clockwise. Keep it slow and controlled.', duration: 12 },
-      { title: 'Shoulders', text: 'Lift your shoulders slightly, then roll them back. Do this slowly for three gentle rolls. Feel some of the tension melt away.', duration: 12 },
-      { title: 'Loosen the Restlessness', text: 'Now let your whole body relax. Let the small movements settle. Let stillness return naturally.', duration: 12 },
-      { title: 'Reset Complete', text: 'Your body has released the restlessness. You should feel calmer and more centred. Reset complete.', duration: 8 }
-    ]
-  },
-  {
-    id: 'restless-mind-focusing',
-    emotionalState: 'restless',
-    type: 'story',
-    title: 'Mind Focusing Path',
-    description: 'Direct your attention to calm restless energy',
-    scienceBenefit: 'Single-focus attention reduces restlessness',
-    duration: 60,
-    color: 'from-amber-400 to-orange-500',
-    storyContent: [
-      { title: 'Mind Focusing Path', text: 'This reset will focus your attention in a single direction to calm your mind. Look at the screen and follow each step.', duration: 7 },
-      { title: 'Choose Your Point', text: 'Choose a fixed point on the screen — a corner, a shape, or a dot. Keep your eyes gently focused on it.', duration: 8 },
-      { title: 'Breathe Steadily', text: 'Take a slow breath in for 3… And out for 4… Keep your focus on that single point.', duration: 10 },
-      { title: 'Trace the Path', text: 'Now slowly move your eyes in a simple path on the screen. Down… across… up… back across. Do this twice more. Let the path guide your focus.', duration: 15 },
-      { title: 'Let It Settle', text: 'Bring your eyes back to the original point. Stay here for one slow breath in, and one slow breath out.', duration: 10 },
-      { title: 'Reset Complete', text: 'Your focus is steadier, and the restlessness has eased. Reset complete.', duration: 7 }
-    ]
-  },
-  {
-    id: 'restless-tap-rhythm',
-    emotionalState: 'restless',
-    type: 'interactive',
-    title: 'Tap Rhythm Sync',
-    description: 'Follow rhythmic patterns to calm energy',
-    scienceBenefit: 'Bilateral stimulation regulates nervous system',
-    duration: 90,
-    color: 'from-yellow-400 to-amber-500',
-    interactiveType: 'rhythm-tap',
-    interactiveSteps: [
-      { title: 'Tap Rhythm Sync', instruction: 'You\'ll see a simple rhythm pattern appear on-screen. Tap the screen in time with the rhythm. Let the rhythm calm the restlessness.', duration: 7 },
-      { title: 'Follow the Beat', instruction: 'Tap left… tap right… Tap left… tap right… Match the on-screen indicators as they appear.', input: 'tap', duration: 15 },
-      { title: 'Keep the Rhythm', instruction: 'The rhythm will get slightly faster. Stay with it — tap left, tap right, tap left, tap right. Let the steady pattern settle your energy.', input: 'tap', duration: 20 },
-      { title: 'Slow Down', instruction: 'The rhythm will now slow. Follow it all the way down until it stops. Your mind follows the rhythm. Your body follows the calm.', input: 'tap', duration: 30 },
-      { title: 'Reset Complete', instruction: 'Your nervous system has synced with the slower rhythm. Restlessness should feel reduced. Reset complete.', duration: 8 }
-    ]
-  },
-  {
-    id: 'restless-focus-grid',
-    emotionalState: 'restless',
-    type: 'interactive',
-    title: 'Focus Grid Breaker',
-    description: 'Quick tapping game to channel fidgeting',
-    scienceBenefit: 'Cognitive redirect reduces restless energy',
-    duration: 90,
-    color: 'from-lime-400 to-green-500',
-    interactiveType: 'grid-tap',
-    interactiveSteps: [
-      { title: 'Focus Grid Breaker', instruction: 'You\'ll see a grid of circles. One circle will light up at a time. Tap the lit circle as quickly as you can.', duration: 7 },
-      { title: 'Quick Taps', instruction: 'A circle will glow. Tap it. Another one will glow. Tap that too. Stay focused. Keep tapping.', input: 'tap', duration: 20 },
-      { title: 'Faster Lights', instruction: 'The glowing circles will now appear faster. Tap them as they show up. Feel your mind becoming fully focused.', input: 'tap', duration: 25 },
-      { title: 'Final Focus Push', instruction: 'One last quick burst — Tap the final few circles as they appear. Almost there.', input: 'tap', duration: 20 },
-      { title: 'Reset Complete', instruction: 'You\'ve channelled your restless energy into focused action. Feel the calm that follows. Reset complete.', duration: 8 }
-    ]
-  },
-
-  // ============ OVERWHELMED (4 resets) ============
-  {
-    id: 'overwhelmed-one-thing',
-    emotionalState: 'overwhelmed',
-    type: 'story',
-    title: 'The One-Thing Horizon',
-    description: 'Focus on just one thing to reduce overwhelm',
-    scienceBenefit: 'Narrowing attention reduces cognitive load',
-    duration: 60,
-    color: 'from-indigo-400 to-purple-500',
-    storyContent: [
-      { title: 'The One-Thing Horizon', text: 'When everything feels like too much, your mind is trying to hold hundreds of things at once. This reset brings you back to one.', duration: 8 },
-      { title: 'Pick an Anchor', text: 'Look around and choose a single object near you — your phone, a light, a cup, anything. This will be your focus point.', duration: 10 },
-      { title: 'Anchor In', text: 'Look at your object. Take a slow breath in for 3… And out for 4… Hold your attention there.', duration: 10 },
-      { title: 'Simple Details', text: 'Silently describe one detail you can see — a colour, a shape, a texture. That\'s all you need to focus on.', duration: 10 },
-      { title: 'Reduce the Noise', text: 'Anything you were worrying about can wait. Right now, there is only this one thing.', duration: 10 },
-      { title: 'Reset Complete', text: 'Your mind has shifted from everything to one thing. Overwhelm should feel lighter. Reset complete.', duration: 8 }
-    ]
-  },
-  {
-    id: 'overwhelmed-shortest-path',
-    emotionalState: 'overwhelmed',
-    type: 'story',
-    title: 'The Shortest Path Home',
-    description: 'Quick grounding to signal safety',
-    scienceBenefit: 'Visual orientation regulates nervous system',
-    duration: 90,
-    color: 'from-indigo-400 to-purple-500',
-    storyContent: [
-      { title: 'The Shortest Path Home', text: 'When you feel overwhelmed, your body needs one message: You are safe. We\'ll guide your nervous system back there now.', duration: 8 },
-      { title: 'Look Around', text: 'Gently look left, then right. Let your eyes scan the space around you. This signals to your brain that there is no immediate threat.', duration: 12 },
-      { title: 'Breath Reset', text: 'Inhale for 3… Hold for 1… Exhale for 5… Do this twice more.', duration: 15 },
-      { title: 'Feel the Ground', text: 'Notice how your body is supported. Your feet, your back, your hands. Feel the weight of your body being held.', duration: 14 },
-      { title: 'Bring It Back', text: 'Now bring your eyes to one point on your screen. Breathe once more, slowly.', duration: 12 },
-      { title: 'Reset Complete', text: 'Your nervous system has softened. Overwhelm fades as your body returns to safety. Reset complete.', duration: 10 }
-    ]
-  },
-  {
-    id: 'overwhelmed-thought-sorter',
-    emotionalState: 'overwhelmed',
-    type: 'interactive',
-    title: 'Thought Sorter',
-    description: 'Sort bubbles to organize your mind',
-    scienceBenefit: 'Categorization reduces perceived chaos',
-    duration: 90,
-    color: 'from-blue-400 to-cyan-500',
-    interactiveType: 'swipe-sort',
-    interactiveSteps: [
-      { title: 'Thought Sorter', instruction: 'You\'ll sort bubbles on screen into two simple categories. This helps your brain feel clearer and more organised.', duration: 7 },
-      { title: 'Simple Choices', instruction: 'Choose two categories, like: "Now" vs "Later" • "Important" vs "Not Important" • "Work" vs "Life". Your choice.', duration: 10 },
-      { title: 'Drag to Sort', instruction: 'Bubbles will appear on the screen with simple words on them. Drag each bubble to one of your two categories.', input: 'tap', duration: 20 },
-      { title: 'Keep Going', instruction: 'The bubbles come a little faster now. Trust your instinct. Just place them where they feel right.', input: 'tap', duration: 20 },
-      { title: 'Last Few', instruction: 'Just a few more bubbles. Sort them into place — almost done.', input: 'tap', duration: 15 },
-      { title: 'Reset Complete', instruction: 'You\'ve turned overwhelm into order. Your brain should feel clearer and lighter. Reset complete.', duration: 8 }
-    ]
-  },
-  {
-    id: 'overwhelmed-pressure-valve',
-    emotionalState: 'overwhelmed',
-    type: 'interactive',
-    title: 'The Pressure Valve',
-    description: 'Release tension with visual feedback',
-    scienceBenefit: 'Isometric tensing reduces stress hormones',
-    duration: 75,
-    color: 'from-purple-500 to-pink-500',
-    interactiveType: 'pressure-valve',
-    interactiveSteps: [
-      { title: 'The Pressure Valve', instruction: 'You\'ll release overwhelm through small, controlled muscle squeezes. As you do, the on-screen bar will show your pressure releasing.', duration: 7 },
-      { title: 'Hands First', instruction: 'Gently squeeze your hands into fists for 2 seconds. Release slowly. Watch the bar drop.', duration: 8 },
-      { title: 'Shoulder Release', instruction: 'Lift your shoulders slightly, hold for 2… and release. The pressure bar drops again.', duration: 10 },
-      { title: 'Soften the Jaw', instruction: 'Gently clench your jaw for 2 seconds… Then soften it completely. The bar falls once more.', duration: 10 },
-      { title: 'Full-Body Ease', instruction: 'Take one slow breath. Visualise the bar emptying as your body softens.', duration: 12 },
-      { title: 'Reset Complete', instruction: 'Your physical tension has eased, and your overwhelm has loosened its grip. Reset complete.', duration: 10 }
-    ]
-  },
-
-  // ============ TIRED (4 resets) ============
-  {
-    id: 'tired-two-minute-reboot',
-    emotionalState: 'tired',
-    type: 'story',
-    title: 'The Two-Minute Reboot',
-    description: 'Quick sensory activation for alertness',
-    scienceBenefit: 'Stimulates reticular activating system',
-    duration: 90,
-    color: 'from-blue-400 to-cyan-500',
-    storyContent: [
-      { title: 'The Two-Minute Reboot', text: 'When you feel tired, your senses go into low power mode. This reset gently switches them back online.', duration: 8 },
-      { title: 'Look Around', text: 'Turn your head slightly and look around your environment. Notice three things that catch your eye. Anything.', duration: 12 },
-      { title: 'Small Adjustment', text: 'Straighten your back just a little. Open your chest. Let your body shift into a more alert position.', duration: 12 },
-      { title: 'Breath Lift', text: 'Inhale for 2 seconds… Exhale for 2 seconds… Repeat twice. This breath pattern gently increases alertness.', duration: 14 },
-      { title: 'Wake Up Your Mind', text: 'Focus on one detail on your screen right now. Hold your attention on it for three seconds. That\'s it.', duration: 12 },
-      { title: 'Reset Complete', text: 'Your senses are sharper, your posture is lifted, and your mind is more awake. Reset complete.', duration: 10 }
-    ]
-  },
-  {
-    id: 'tired-slow-rise',
-    emotionalState: 'tired',
-    type: 'story',
-    title: 'The Slow Rise Story',
-    description: 'Gentle cognitive activation',
-    scienceBenefit: 'Gradual mental ramping increases wakefulness',
-    duration: 90,
-    color: 'from-blue-400 to-cyan-500',
-    storyContent: [
-      { title: 'The Slow Rise Story', text: 'Fatigue makes your mind feel foggy and slow. This reset wakes you up gradually, without forcing it.', duration: 8 },
-      { title: 'Notice the Space', text: 'Look around your environment. Find one thing that\'s bright or contrasting. Hold your attention there.', duration: 12 },
-      { title: 'Small Motion', text: 'Roll your shoulders gently, once forward, once back. Tiny movements signal your body to reactivate.', duration: 10 },
-      { title: 'Simple Thinking Task', text: 'Name silently: One sound you hear • One thing you can see • One thing you can touch. This shifts your brain out of fog mode.', duration: 16 },
-      { title: 'One Energising Breath', text: 'Inhale for 3… Exhale for 2… Repeat once.', duration: 12 },
-      { title: 'Reset Complete', text: 'Your mind has risen gently from tiredness into clarity. Reset complete.', duration: 10 }
-    ]
-  },
-  {
-    id: 'tired-tap-to-wake',
-    emotionalState: 'tired',
-    type: 'interactive',
-    title: 'Tap to Wake',
-    description: 'Rhythmic tapping for alertness',
-    scienceBenefit: 'Activates motor circuits and mental alertness',
-    duration: 90,
-    color: 'from-orange-400 to-red-400',
-    interactiveType: 'rhythm-tap',
-    interactiveSteps: [
-      { title: 'Tap to Wake', instruction: 'You\'ll tap the screen in simple rhythms. This activates the brain areas linked to attention and alertness.', duration: 7 },
-      { title: 'Slow Start', instruction: 'Tap the circle on screen once every second. A soft pulse guides you.', input: 'tap', duration: 12 },
-      { title: 'Pick Up the Rhythm', instruction: 'The circle now glows slightly faster. Tap to match the new pace.', input: 'tap', duration: 15 },
-      { title: 'Short Activation', instruction: 'For 5 seconds, tap as quickly as you comfortably can. This gives your brain a fast energy spike.', input: 'tap', duration: 15 },
-      { title: 'Settle the Rhythm', instruction: 'The circle slows again. Match the steady pulse for a few more taps.', input: 'tap', duration: 20 },
-      { title: 'Reset Complete', instruction: 'Your brain should feel more awake and alert. Reset complete.', duration: 8 }
-    ]
-  },
-  {
-    id: 'tired-blink-breaker',
-    emotionalState: 'tired',
-    type: 'interactive',
-    title: 'Blink Breaker',
-    description: 'Visual stimulation to boost wakefulness',
-    scienceBenefit: 'Blink rate increases dopamine and alertness',
-    duration: 60,
-    color: 'from-green-400 to-teal-500',
-    interactiveType: 'blink-track',
-    interactiveSteps: [
-      { title: 'Blink Breaker', instruction: 'This reset uses visual focus and blinking patterns to wake up your eyes and mind.', duration: 6 },
-      { title: 'Hold the Spot', instruction: 'A circle appears in the centre of your screen. Look directly at it for three seconds.', duration: 8 },
-      { title: 'Fast Blinks', instruction: 'Blink quickly 5 times while keeping your eyes on the circle. This refreshes your visual system.', duration: 10 },
-      { title: 'Follow It', instruction: 'The circle now moves slowly around the screen. Follow it with your eyes.', input: 'tap', duration: 15 },
-      { title: 'Sharpen In', instruction: 'The circle returns to the centre. Hold your gaze steady for 2 seconds.', duration: 8 },
-      { title: 'Reset Complete', instruction: 'Your eyes and mind are refreshed, and the fatigue should feel lighter. Reset complete.', duration: 8 }
-    ]
-  },
-
-  // ============ SCATTERED (4 resets) ============
-  {
-    id: 'scattered-one-thing-anchor',
-    emotionalState: 'scattered',
-    type: 'story',
-    title: 'The One-Thing Anchor',
-    description: 'Narrow attention to regain focus',
-    scienceBenefit: 'Single-stimulus focus reduces mental overload',
-    duration: 75,
-    color: 'from-green-400 to-teal-500',
-    storyContent: [
-      { title: 'The One-Thing Anchor', text: 'When your mind feels scattered, focusing on one simple thing helps pull everything back together. We\'ll anchor your attention in a calm, steady way.', duration: 10 },
-      { title: 'Pick One Point', text: 'Look at one point on your screen. Any point. Hold your focus there.', duration: 10 },
-      { title: 'Match the Moment', text: 'Inhale gently for 3 seconds… Exhale for 3 seconds… Keep your eyes on your chosen point.', duration: 12 },
-      { title: 'The Quietening', text: 'Imagine your thoughts moving behind the anchor point, like they\'re fading into the background. Let each breath make the point feel steadier.', duration: 15 },
-      { title: 'Reset Complete', text: 'Your attention has narrowed and your mind is calmer. Reset complete.', duration: 10 }
-    ]
-  },
-  {
-    id: 'scattered-thought-path',
-    emotionalState: 'scattered',
-    type: 'story',
-    title: 'The Thought Path',
-    description: 'Organize scattered thoughts with sequencing',
-    scienceBenefit: 'Sequencing reduces mental fragmentation',
-    duration: 60,
-    color: 'from-green-400 to-teal-500',
-    storyContent: [
-      { title: 'The Thought Path', text: 'A scattered mind usually means your thoughts are jumping around. We\'ll straighten the path with a simple ordering reset.', duration: 8 },
-      { title: 'Look Around', text: 'Look around your space and silently pick three objects you can see. Just notice them.', duration: 10 },
-      { title: 'Order Them', text: 'Now mentally arrange those three objects in a simple order: First… Second… Third.', duration: 12 },
-      { title: 'Walk the Path', text: 'Now repeat the order once more in your mind. This helps your brain shift from scattered to structured.', duration: 12 },
-      { title: 'Reset Complete', text: 'Your mind has a clearer path and your thoughts feel more organised. Reset complete.', duration: 8 }
-    ]
-  },
-  {
-    id: 'scattered-dot-connect',
-    emotionalState: 'scattered',
-    type: 'interactive',
-    title: 'Dot Connect',
-    description: 'Connect dots to strengthen focus',
-    scienceBenefit: 'Sequential tasks improve attentional switching',
-    duration: 90,
-    color: 'from-cyan-400 to-blue-500',
-    interactiveType: 'dot-connect',
-    interactiveSteps: [
-      { title: 'Dot Connect', instruction: 'You\'ll connect dots on your screen in the correct order. This helps your mind shift from scattered to focused.', duration: 7 },
-      { title: 'Begin', instruction: 'Tap dot number 1. A glow will show you where to go next.', input: 'tap', duration: 10 },
-      { title: 'Keep Connecting', instruction: 'Tap the dots in order: 1… 2… 3… and so on. Let the sequence guide your attention.', input: 'tap', duration: 40 },
-      { title: 'One Last Tap', instruction: 'Tap the final dot in the sequence. Feel your focus narrow and settle.', input: 'tap', duration: 15 },
-      { title: 'Reset Complete', instruction: 'Your mind has shifted from scattered to centred. Reset complete.', duration: 8 }
-    ]
-  },
-  {
-    id: 'scattered-swipe-sort',
-    emotionalState: 'scattered',
-    type: 'interactive',
-    title: 'Swipe to Sort',
-    description: 'Categorize tasks to clear mental clutter',
-    scienceBenefit: 'Quick sorting activates executive processes',
-    duration: 75,
-    color: 'from-purple-400 to-indigo-500',
-    interactiveType: 'swipe-sort',
-    interactiveSteps: [
-      { title: 'Swipe to Sort', instruction: 'You\'ll see simple words appear on your screen. Swipe them left or right based on whether they feel "Important Now" or "Later".', duration: 8 },
-      { title: 'First Words', instruction: 'A word appears. Swipe it left for "Later" or right for "Important Now". Trust your instinct.', input: 'tap', duration: 15 },
-      { title: 'Keep Going', instruction: 'More words now—keep swiping. Your brain is organising itself as you go.', input: 'tap', duration: 25 },
-      { title: 'Last Swipe', instruction: 'Here\'s your last word. Swipe it where it belongs.', input: 'tap', duration: 12 },
-      { title: 'Reset Complete', instruction: 'Your brain has sorted and simplified. You should feel clearer and more focused. Reset complete.', duration: 8 }
+    id: 'anxiety-control-controllable',
+    emotion: 'anxiety',
+    name: 'Control the Controllable',
+    description: 'CBT micro-reframe for anxiety',
+    scienceBenefit: 'Separating controllable from uncontrollable reduces worry loops and increases self-efficacy; pairing with a tiny "first move" further lowers anxiety',
+    durationHintSeconds: 120,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Control the Controllable',
+        lines: [
+          'Anxiety swells when everything feels uncertain.',
+          'For the next couple of minutes, we\'ll draw a clear line: what\'s yours to act on, and what isn\'t.',
+          'Keep your eyes on the screen and follow each cue.',
+          'Tap Continue when you\'re ready.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'What\'s on Repeat?',
+        lines: [
+          'Think of the single worry that\'s been looping in your mind.',
+          'Just one. Keep it in mind while you complete this reset',
+          'You don\'t need to fix it yet,just name it & identify it',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Make Space to Think',
+        lines: [
+          'Loosen your jaw and drop your shoulders, correct your posture.',
+          'Take one easy breath in and gold for 3..2..1.. and a slightly longer breath out, hold for 5..4..3..2..1..',
+          'A calmer body makes clearer decisions.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'In or Out of Your Hands',
+        lines: [
+          'Come back to your worry.',
+          'Ask yourself, plainly: Can I do something about this in the next 24 hours?',
+          'If yes → it\'s in your control.',
+          'If no → it\'s outside your control for now.',
+          'Hold your answer.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'First Tiny Step or Box & Shelf',
+        lines: [
+          'IF IT\'S IN YOUR CONTROL:',
+          'Picture the smallest useful move you could take after this reset:',
+          'Name what this step could be, identify the first step you can take',
+          'Imagine yourself taking this step, visualise what this looks like',
+          'See yourself starting it. Make it simple, don\'t overcomplicate.',
+          '',
+          'IF IT\'S OUT OF YOUR CONTROL:',
+          'Imagine a neutral coloured box beside the screen.',
+          'Notice as it looks solid and strong, the lid is open',
+          'Take your worry that you cannot control right now, and place it in this box, shut the lid tight.',
+          'Notice as the box is labelled "Parked".',
+          'Not gone — you\'re just not carrying the burden at this moment in time.',
+          'Come back to it when you can take action against the thought',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Keep This Thought',
+        lines: [
+          'Now you\'ve chosen a path and de-cluttered your mind,Soften your shoulders, hold your hand to your chest, breathe slowly, notice as your heart rate lowers',
+          'Complete some affirmations, to help you justify your plan',
+          '• "I can do this, one step at a time, I have a plan"',
+          '• "I can ask for help, I know people who will be able to help me"',
+          '• "The thought is parked, it can wait until I am in a position to sort it"',
+          'Hold this affirmation for one long out-breath.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Make It Real',
+        lines: [
+          'If you chose a step: quietly pair it with when and where you\'ll start —',
+          '"After this reset, at my desk, 10 minutes on the first line."',
+          'If you parked it: decide when you\'ll review the box —',
+          '"Tomorrow afternoon, after lunch."',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Reset Complete',
+        lines: [
+          'Line drawn.',
+          'What\'s yours to act on is clear; what isn\'t is parked.',
+          'Take one steady out-breath and carry this calm into your day.',
+          'Reset complete.'
+        ]
+      }
     ]
   },
 
-  // ============ ENERGY TO BURN (4 resets) ============
+  // ============ RESTLESS RESETS (1 reset) ============
   {
-    id: 'energy-micro-workout',
-    emotionalState: 'energy',
-    type: 'interactive',
-    title: '3-Minute Micro-Workout',
-    description: 'Quick full-body movements to burn excess energy',
-    scienceBenefit: 'High-intensity movement rapidly reduces restlessness',
-    duration: 180,
-    color: 'from-orange-500 to-red-500',
-    interactiveType: 'movement-workout',
-    requiresDisclaimer: true,
-    interactiveSteps: [
-      { title: '3-Minute Micro-Workout', instruction: 'This quick workout will help you burn that extra energy. We\'ll start with stretches, then move into energizing exercises. Follow the visuals and move at your own pace.', duration: 8, isStretch: false },
-      
-      // Stretch section (compulsory)
-      { title: 'Stretch: Neck Rolls', instruction: 'Stand tall with shoulders relaxed.\n\nSlowly roll your head in full circles—3 clockwise, then 3 counterclockwise.\n\nBreathe deeply. Keep movements smooth and controlled.', duration: 15, input: 'movement', isStretch: true },
-      { title: 'Stretch: Arm Circles', instruction: 'Extend arms straight out to sides at shoulder height.\n\nMake large circles—5 forward, then 5 backward.\n\nBreathe steadily. Make big circles, not tiny ones.', duration: 15, input: 'movement', isStretch: true },
-      { title: 'Stretch: Torso Twists', instruction: 'Stand with feet hip-width, hands on hips.\n\nTwist your torso right, then left. 6 reps each side.\n\nExhale as you twist. Rotate from waist, keep hips facing forward.', duration: 15, input: 'movement', isStretch: true },
-      
-      // Main workout
-      { title: 'Jumping Jacks', instruction: 'Jump feet out while raising arms overhead, then back together.\n\nContinue for 30 seconds. Land softly on each jump.\n\nInhale jumping open, exhale closing. Keep core engaged.', duration: 30, input: 'movement', visualAid: '/movement/jumping-jacks.png', alternativeMove: 'Step side-to-side instead of jumping, raising arms with each step' },
-      { title: 'High Knees', instruction: 'Drive knees up to hip height, pumping opposite arms.\n\nMove quickly with rhythmic lifts for 20 seconds.\n\nBreathe fast but controlled. Stay light on your feet.', duration: 20, input: 'movement', visualAid: '/movement/high-knees.png', alternativeMove: 'March in place at moderate pace with controlled knee lifts' },
-      { title: 'Bodyweight Squats', instruction: 'Feet shoulder-width. Sit back into squat, then drive through heels to stand.\n\nComplete 10 reps. Go as low as comfortable.\n\nInhale down, exhale up. Keep chest proud, weight in heels.', duration: 25, input: 'movement', visualAid: '/movement/squats.png', alternativeMove: 'Hold onto chair for balance, reduce squat depth to comfort level' },
-      { title: 'Arm Pulses', instruction: 'Extend arms forward at shoulder height.\n\nPulse arms rapidly up and down for 20 seconds.\n\nBreathe steadily. Keep arms parallel, don\'t let them drop.', duration: 20, input: 'movement' },
-      { title: 'Rest & Breathe', instruction: 'Stand or walk slowly. Let your arms hang loose.\n\nInhale deeply for 3, hold briefly, exhale for 3. Repeat 3 times.\n\nNotice your heartbeat slowing. Shake out arms and legs gently.', duration: 10, input: 'breath' },
-      { title: 'Burpees (Modified)', instruction: 'Squat down, step back to plank, hold 1 second, step forward, stand and reach up. 5 reps.\n\nExhale stepping back, inhale in plank. Keep core engaged.\n\nTake breaks as needed. Skip plank if needed—just squat, touch floor, stand.', duration: 25, input: 'movement', alternativeMove: 'Squat down, touch floor, stand up and reach overhead—skip the plank step entirely' },
-      { title: 'Cool Down', instruction: 'Shake out your arms and legs. Take 3 deep breaths. Notice how alive your body feels.', duration: 10, input: 'movement' },
-      { title: 'Reset Complete', instruction: 'You\'ve burned that excess energy. Your body feels lighter and your mind clearer. Reset complete.', duration: 7 }
+    id: 'restless-pulse-reset',
+    emotion: 'restless',
+    name: 'The Pulse Reset',
+    description: 'Rhythmic entrainment to settle restless energy',
+    scienceBenefit: 'Bilateral rhythm + longer exhales help the nervous system sync and settle (rhythmic entrainment; vagal regulation)',
+    durationHintSeconds: 150,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'The Pulse Reset',
+        lines: [
+          'When you\'re restless, your energy scatters in all directions.',
+          'For the next couple of minutes we\'ll give your body one steady rhythm to follow.',
+          'Keep your phone in a relaxed grip and follow each cue.',
+          'Tap Continue when you\'re ready.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Tap In',
+        lines: [
+          'Rest your forearms on your thighs or desk.',
+          'Begin a light alternating tap: left thigh… right thigh… left… right…',
+          'Keep it smooth and even — gentle, not loud.',
+          'Let the sound be your metronome.',
+          'Go at the pace which feels comfortable to you',
+          'Once you\'ve found your pace, Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Sync It Up',
+        lines: [
+          'Stay with the left–right taps.',
+          'Breathe in for four taps …',
+          'Breathe out for four taps.',
+          'Repeat once more: in for 4 taps… out for 4 taps.',
+          'Drop your shoulders a fraction and correct your posture as the body finds the groove.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Shoulders & Hands',
+        lines: [
+          'Keep tapping at the same tempo,',
+          'As you continue through the taps slowly start to bring the tempo down',
+          'Loosen the stiffness in your shoulders, neck, arms, wrists and hands',
+          'Bring the movements to slow tiny taps',
+          'Slowly bring your breathing down to the same pace as the slow taps',
+          'Take note of the tap, feel the energy go through your arms into your legs',
+          'You should now be at a slow, steady pace with you taps and your breathing',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Continue the tempo',
+        lines: [
+          'Continue at the slow steady tempo for a further 6 counts of 4',
+          'Ensuring you\'re matching your breathing with your slow taps',
+          'Start to take notice of other sense in this section',
+          'What can you hear & smell?',
+          'Notice as your mind and body start to become one again',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'The Quiet Space',
+        lines: [
+          'Keep the relaxed tapping.',
+          'Between each pair of taps there\'s a tiny pocket of quiet.',
+          'Rest your attention in that quiet for a moment, then the next.',
+          'Left (quiet) … right (quiet) … like waves arriving and receding.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Land the Rhythm',
+        lines: [
+          'Let the taps get softer… and slower… and then stop.',
+          'Place both hands open on your thighs.',
+          'Feel the echo of the rhythm in your chest — steady, not hurried.',
+          'Take one last breath in for 4, out for 6.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Reset Complete',
+        lines: [
+          'Your rhythm is steady again.',
+          'Energy gathered, not scattered.',
+          'Carry this calmer beat into whatever comes next.',
+          'Reset complete.'
+        ]
+      }
+    ],
+    safetyNote: 'ease or skip any movement that isn\'t comfortable for you.'
+  },
+
+  // ============ TIRED RESETS (4 resets) ============
+  {
+    id: 'tired-posture-ladder',
+    emotion: 'tired',
+    name: 'Posture Ladder',
+    description: 'Gently wake the body through posture',
+    scienceBenefit: 'A little height + chest opening improves breathing mechanics and alertness',
+    durationHintSeconds: 105,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Settle in',
+        lines: [
+          'Hold your phone with a light grip.',
+          'Place both feet flat, hip-width apart.',
+          'We\'ll lift posture a notch at a time so energy rises without strain.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Find an easy height',
+        lines: [
+          'Imagine a tiny thread lifting the crown of your head.',
+          'Grow one centimetre taller; keep ribs soft, bum relaxed.',
+          'Notice the extra space for air under your collarbones.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Roll some space open',
+        lines: [
+          'Roll both shoulders up… back… down.',
+          'Pause. Repeat once, a touch slower.',
+          'Feel the shoulder blades settle lower; chest widens naturally.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Line up the head',
+        lines: [
+          'Glide your chin gently back (not down) so ears stack over shoulders.',
+          'Unclench the jaw; let the tongue rest on the roof of your mouth.',
+          'Breathing often clears here — Take a note of this, breathe deeply and slowly',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Let the ribs breathe',
+        lines: [
+          'Inhale and exaggerate the rib movement, feel yourself widen like an umbrella.',
+          'As you exhale, push the air out of your chest, whilst keeping the form you\'ve built in the inhale',
+          'You\'ve made space and found a position of calm and confidence',
+          'Sit in this pose for a second, feel how your body feels powerful and alert',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Sweep and reset',
+        lines: [
+          'Sweep your forearms forward and down, as if clearing the air in front of you',
+          'Let the shoulder blades glide down your back; elongate the neck upwards, stretching it out.',
+          'Don\'t tense your face muscles, let them stay easy',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Anchor tall',
+        lines: [
+          'Rest forearms on thighs or desk with light contact.',
+          'Feel support below the elbows and length above the waist at the same time.',
+          'Balanced, not rigid.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Wrap up',
+        lines: [
+          'One clean breath in through the nose… a longer, steady breath out through the mouth.',
+          'Calm body, awake mind.',
+          'Reset complete.'
+        ]
+      }
     ]
   },
   {
-    id: 'energy-shadowboxing',
-    emotionalState: 'energy',
-    type: 'interactive',
-    title: 'Quick Shadowboxing',
-    description: 'Channel energy through boxing movements',
-    scienceBenefit: 'Explosive movement releases tension and improves focus',
-    duration: 150,
-    color: 'from-orange-500 to-red-500',
-    interactiveType: 'shadowboxing',
-    requiresDisclaimer: true,
-    interactiveSteps: [
-      { title: 'Quick Shadowboxing', instruction: 'Release your energy through controlled punches and movements. We\'ll stretch first, then get into the flow. No equipment needed.', duration: 7, isStretch: false },
-      
-      // Stretch section
-      { title: 'Stretch: Shoulder Rolls', instruction: 'Stand with arms loose. Lift shoulders up, roll back and down.\n\nDo 5 backward rolls, then 5 forward. Slow and controlled.\n\nInhale rising, exhale rolling down. Loosens shoulders before punching.', duration: 12, input: 'movement', isStretch: true },
-      { title: 'Stretch: Wrist Circles', instruction: 'Make loose fists with arms forward.\n\nRotate wrists in full circles—5 clockwise, then 5 counterclockwise.\n\nBreathe naturally. Make full circles to warm up wrists.', duration: 12, input: 'movement', isStretch: true },
-      { title: 'Stretch: Hip Circles', instruction: 'Stand with hands on hips, feet shoulder-width.\n\nCircle hips smoothly—3 clockwise, then 3 counterclockwise.\n\nBreathe steadily. Isolate hips only, feel lower back loosening.', duration: 12, input: 'movement', isStretch: true },
-      
-      // Boxing movements
-      { title: 'Stance', instruction: 'Stand with feet staggered, fists up by cheeks.\n\nRock gently on balls of feet. Keep knees soft.\n\nBreathe steady, chin tucked. Pause if knees or back complain.', duration: 10, input: 'movement', visualAid: '/movement/boxing-stance.png' },
-      { title: 'Jab Practice', instruction: 'Snap lead hand straight forward, palm down. Snap back to guard.\n\nDo 20 quick jabs. This is your fastest punch.\n\nExhale sharply each jab. Keep other hand guarding.', duration: 20, input: 'movement', visualAid: '/movement/jab.png' },
-      { title: 'Cross Punches', instruction: 'Throw rear hand across body, rotating hips. Pivot rear foot.\n\nDo 15 crosses. This is your power punch.\n\nExplosive exhale each punch. Stay controlled, don\'t overextend.', duration: 18, input: 'movement', visualAid: '/movement/cross-punch.png' },
-      { title: 'Jab-Cross Combo', instruction: 'Snap jab, then immediately cross. Both hands to guard.\n\nDo 10 combos. Find the rhythm: Jab-Cross, Jab-Cross.\n\nSharp exhale on each punch. Don\'t rush or drop guard.', duration: 20, input: 'movement' },
-      { title: 'Hooks', instruction: 'Elbow bent 90°, rotate from waist in horizontal arc.\n\nDo 10 lead hooks, then 10 rear hooks.\n\nExhale each hook. Power from rotation, not arm. Don\'t swing wildly.', duration: 20, input: 'movement' },
-      { title: 'Speed Round', instruction: 'Final push! Throw any punches as fast as you can for 15 seconds.\n\nLet your energy out. Stay on toes, move feet.\n\nQuick exhales every punch. Stay controlled, don\'t hyperextend.', duration: 15, input: 'movement' },
-      { title: 'Cool Down', instruction: 'Drop hands and shake out arms. Roll shoulders backward 3 times.\n\nDeep breath in through nose, hold 2 seconds, exhale through mouth. Repeat 3 times.\n\nNotice your heart rate and the warmth in muscles. Well done, fighter.', duration: 12, input: 'movement' },
-      { title: 'Reset Complete', instruction: 'You\'ve channeled that energy into focused power. Feel the satisfaction. Reset complete.', duration: 7 }
+    id: 'tired-blink-track',
+    emotion: 'tired',
+    name: 'Blink & Track',
+    description: 'Switch your eyes back on to boost alertness',
+    scienceBenefit: 'Blink bursts + smooth eye travel wake the visual system and sharpen focus',
+    durationHintSeconds: 105,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Set the screen',
+        lines: [
+          'Hold the phone about arm\'s length away.',
+          'Keep your head fairly still; we\'ll let the eyes do the travelling.',
+          'Shoulders loose, face soft.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Freshen the eyes',
+        lines: [
+          'Fixate on a small spot in the centre of the screen.',
+          'Blink 5–7 quick times.',
+          'Your vision should feel a touch brighter and less gritty.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Left and right',
+        lines: [
+          'Jump your gaze to the far left edge, then the far right edge.',
+          'Pause a heartbeat each side.',
+          'One rep is 4 gaze jumps',
+          'Left, right, left right',
+          'Pause for a second after every 4th gaze jump',
+          'Complete 5-10 sets of gaze jumps',
+          'Notice as your heart rate and breath increase with the rapid eye movement',
+          'You\'re slowly starting to wake up your nervous system',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Up and down',
+        lines: [
+          'Eyes to the top edge, then the bottom edge.',
+          'Same small pause.',
+          'Do four cycles again following the pattern on the previous page',
+          'Pause for a second after every 4th gaze jump',
+          'Complete 5-10 sets of gaze jumps',
+          'Your focus sharpens without strain.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Diagonals',
+        lines: [
+          'Now we\'re going from top-left → bottom-right… then top-right → bottom-left.',
+          'Pause for a second after every 4th gaze jump',
+          'Complete 5-10 sets of gaze jumps',
+          'Jaw stays loose; shoulders easy; head quiet.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Soft circles',
+        lines: [
+          'Trace a large, slow circle once clockwise, once anticlockwise.',
+          'Make it silky, not jerky.',
+          'Do this 5 times',
+          'If eyes feel dry, add one soft blink and rejoin.',
+          'Once done, Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Hold the centre',
+        lines: [
+          'Return to the centre point.',
+          'Let the edges of your vision soften while the centre stays crisp.',
+          'Small inhale… longer exhale. Feel clarity arrive.',
+          'Once done, Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Wrap up',
+        lines: [
+          'Notice the extra brightness in your view and the lift behind your eyes.',
+          'Time to get at it, carry this alertness into your next task .',
+          'Reset complete.'
+        ]
+      }
     ]
   },
   {
-    id: 'energy-breath-movement',
-    emotionalState: 'energy',
-    type: 'interactive',
-    title: 'Breath-Plus-Movement',
-    description: 'Synchronized breathing with dynamic stretches',
-    scienceBenefit: 'Combines cardio with breath control for balanced energy release',
-    duration: 120,
-    color: 'from-orange-500 to-red-500',
-    interactiveType: 'breath-movement',
-    requiresDisclaimer: true,
-    interactiveSteps: [
-      { title: 'Breath-Plus-Movement', instruction: 'We\'ll move your body while controlling your breath. This balances physical energy with mental calm. Gentle stretches first.', duration: 8, isStretch: false },
-      
-      // Stretch section
-      { title: 'Stretch: Standing Side Bend', instruction: 'Reach right arm overhead, gently bend left. Hold 5 seconds.\n\nReturn center, repeat opposite. Do 2 full cycles.\n\nInhale reaching up, exhale bending. Feel stretch hip to armpit.', duration: 15, input: 'movement', isStretch: true, visualAid: '/movement/side-bend.png' },
-      { title: 'Stretch: Forward Fold', instruction: 'Hinge forward at hips, let torso and arms hang heavy.\n\nHold 8 seconds, relax completely. Each exhale, relax deeper.\n\nBend knees if tight. Roll up slowly when done.', duration: 12, input: 'movement', isStretch: true },
-      
-      // Breath + movement
-      { title: 'Reach & Squat', instruction: 'Inhale reaching arms overhead. Exhale squatting down with arms forward.\n\nInhale standing, reaching up. Do 8 reps. Your breath powers movement.\n\nNever hold breath. Chest up, weight in heels. Smooth and rhythmic.', duration: 25, input: 'movement' },
-      { title: 'Lunge & Twist', instruction: 'Step into lunge. Inhale arms overhead, exhale twist with arms down.\n\nInhale return center, step back. Do 4 right, then 4 left.\n\nDeep inhale up, full exhale twist. Stop if knee pain.', duration: 30, input: 'movement', visualAid: '/movement/lunge-twist.png', alternativeMove: 'Hold chair for balance or reduce lunge depth to comfort level' },
-      { title: 'Plank Hold', instruction: 'Step feet back into plank. Hold 15 seconds.\n\nBreathe steadily—do not hold breath. Core engaged, neutral spine.\n\nWrists hurt? Go to forearms. Too hard? Drop to knees.', duration: 15, input: 'movement', visualAid: '/movement/plank.png', alternativeMove: 'Do plank from knees, keeping upper body and thighs in straight line' },
-      { title: 'Mountain Climbers', instruction: 'From plank, bring knees to chest, alternating rapidly.\n\nDo 10 per leg. Like running in plank. Keep hips level.\n\nQuick, rhythmic breaths. Land softly. Step slowly if preferred.', duration: 20, input: 'movement', visualAid: '/movement/mountain-climbers.png', alternativeMove: 'Step knees forward slowly one at a time, controlled pace instead of running' },
-      { title: 'Standing Twist', instruction: 'Arms forward, palms together. Inhale centered, exhale twist right.\n\nInhale return, exhale twist left. Do 6 cycles.\n\nBreath controls everything. Twist from waist, hips stable.', duration: 18, input: 'movement' },
-      { title: 'Final Breath', instruction: 'Stand still, arms relaxed. Inhale through nose for 4, hold for 2.\n\nExhale through mouth for 6, empty completely. Repeat 3 times.\n\nFeel heartbeat slowing. Extended exhale activates natural calm response.', duration: 20, input: 'breath' },
-      { title: 'Reset Complete', instruction: 'You\'ve balanced movement with breath. Your energy is centered. Reset complete.', duration: 7 }
+    id: 'tired-circulation-primer',
+    emotion: 'tired',
+    name: 'Circulation Primer',
+    description: 'Quick warm-through for alertness',
+    scienceBenefit: 'Small rhythmic movement boosts blood flow and alertness without a jolt',
+    durationHintSeconds: 105,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Arrive',
+        lines: [
+          'Sit or stand with a bit of space.',
+          'We\'ll use small, joint-friendly movements.',
+          'If anything isn\'t comfortable, ease or skip it.',
+          'Read each page, complete the exercise, then Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Wake the calves',
+        lines: [
+          'Standing: lift both heels off the ground then lower, 10–12 easy reps.',
+          'Seated: alternate toe-presses into the ground into toe lifts, again 10-12 easy reps.',
+          'Feel warmth move up the shins; breathing stays steady.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Wake the hands',
+        lines: [
+          'Circle both wrists five times each way.',
+          'Then give the hands a light shake for a second or two.',
+          'Tingling in fingers = blood flow returning.',
+          'Once done, Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Open the shoulders',
+        lines: [
+          'Elbows tucked by your sides, palms forward.',
+          'Rotate forearms so palms face the sky; pause; return to palms facing the floor',
+          'Do three slow reps. Chest opens; neck stays long.',
+          'Once done, Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Gentle spine wave',
+        lines: [
+          'On a soft inhale, lift the breastbone a few millimetres.',
+          'On the exhale, ease back to neutral.',
+          'Do three smooth waves — no crunching or slumping.',
+          'Once done, Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Light rhythm',
+        lines: [
+          'Standing: small march on the spot 15–20 seconds.',
+          'Seated: brisk heel taps or alternate knee lifts.',
+          'Let breath find the beat; keep shoulders relaxed.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Come back taller',
+        lines: [
+          'Return to stillness a touch taller than when you began.',
+          'Notice a quiet hum in the body rather than heaviness.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Wrap up',
+        lines: [
+          'Breathe In through the nose; out a fraction longer through the mouth.',
+          'Warm, switched on, ready.',
+          'Reset complete.'
+        ]
+      }
+    ],
+    safetyNote: 'ease or skip any move that\'s uncomfortable.'
+  },
+  {
+    id: 'tired-sensory-switchboard',
+    emotion: 'tired',
+    name: 'Sensory Switchboard',
+    description: 'Wake the senses, not just the brain',
+    scienceBenefit: 'Gentle touch + sound layering engages multiple sensory networks to lift alertness smoothly',
+    durationHintSeconds: 105,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Start here',
+        lines: [
+          'We\'ll wake touch and sound so your system switches on without a jolt.',
+          'Keep your grip on the phone relaxed.',
+          'Read each page, complete the exercise, then Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Heat in the hands',
+        lines: [
+          'Rub your palms together for 5–7 seconds.',
+          'Pause and notice the heat spreading into fingers and thumbs.',
+          'That warmth is your "on" signal.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Freshen the face',
+        lines: [
+          'With warm hands, lightly press the palms of your hands on your cheeks → temples → scalp once.',
+          'Repeat this 5 times',
+          'Lift the skin rather than dragging it.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Switch on the ears',
+        lines: [
+          'Run thumb and finger up the outer ear edge from lobe of your ears to the tops on both sides,',
+          'then a tiny upward tug.',
+          'Then run your fingers back down to your lobes',
+          'Repeat this 5 times',
+          'This adds an unnatural movement that awakens the mind.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Brush the forearms',
+        lines: [
+          'Brush one forearm from wrist to elbow three slow passes, then swap.',
+          'Notice the skin sensation and the temperature changes of your skin',
+          'Do this 3 times on each arm',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Sort the sound',
+        lines: [
+          'Pick out a sound that is far away, notice it, identify it and stay with it for 5 seconds',
+          'Then pick out a near sound (even your breath), notice this, identify it and stay with it for 5 seconds',
+          'Then try to notice your stillness for 5 seconds',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Snap the focus',
+        lines: [
+          'Choose a tiny detail on the screen — a letter, an icon corner.',
+          'Hold it clearly for three seconds, then soften your gaze.',
+          'Feel attention sharpen without strain.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Wrap up',
+        lines: [
+          'Sit or stand a touch taller.',
+          'Short clean inhale; longer steady exhale.',
+          'Senses on; mind clear.',
+          'Reset complete.'
+        ]
+      }
+    ]
+  },
+
+  // ============ SCATTERED RESETS (4 resets) ============
+  {
+    id: 'scattered-focus-funnel',
+    emotion: 'scattered',
+    name: 'Focus Funnel',
+    description: 'Narrow attention from wide to single point',
+    scienceBenefit: 'Attentional narrowing: wide → medium → narrow focus to reduce mental scatter',
+    durationHintSeconds: 90,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Settle in',
+        lines: [
+          'Hold your phone in a relaxed grip. Feet planted.',
+          'We\'ll bring the mind from "everywhere" to "just here".'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Wide view',
+        lines: [
+          'Look at the whole screen and a little beyond it.',
+          'Let your eyes notice edges, colours, and space around you.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Medium view',
+        lines: [
+          'Now let your gaze rest on the upper half of the screen only.',
+          'Fewer things. A touch quieter.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Narrow view',
+        lines: [
+          'Bring attention to one area the size of a coaster.',
+          'Stay there for a slow breath in… and a longer breath out.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Single point',
+        lines: [
+          'Choose one small point (icon corner, single letter).',
+          'Keep a soft, steady gaze. Jaw loose. Shoulders easy.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Lock the lane',
+        lines: [
+          'Quietly say in your head: "Just this."',
+          'Hold for one more breath. Let the rest fade to the edges.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Tiny action rehearsal',
+        lines: [
+          'Picture the very first tap or click you\'ll make after this screen.',
+          'See your thumb do it smoothly.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Finish',
+        lines: [
+          'From wide to one point.',
+          'Take a clean out-breath. You\'re centred again.'
+        ]
+      }
     ]
   },
   {
-    id: 'energy-walk-it-off',
-    emotionalState: 'energy',
-    type: 'interactive',
-    title: 'Walk It Off',
-    description: 'Guided walking pace to burn energy mindfully',
-    scienceBenefit: 'Rhythmic walking regulates nervous system and burns energy',
-    duration: 180,
-    color: 'from-orange-500 to-red-500',
-    interactiveType: 'walking-pace',
-    requiresDisclaimer: true,
-    interactiveSteps: [
-      { title: 'Walk It Off', instruction: 'This reset guides you through a 3-minute walking routine. You can do this in place or moving around your space. We\'ll vary the pace to burn that energy. Quick stretch first!', duration: 10, isStretch: false },
-      
-      // Stretch section
-      { title: 'Stretch: Ankle Rolls', instruction: 'Stand on one leg. Lift foot, rotate ankle in slow circles.\n\n5 clockwise, 5 counterclockwise. Switch feet and repeat.\n\nBreathe naturally. Slow controlled circles. Warms up ankles.', duration: 15, input: 'movement', isStretch: true },
-      { title: 'Stretch: Leg Swings', instruction: 'Hold wall. Swing leg forward-back like pendulum 5 times.\n\nSwitch sides and repeat. Control the swing, don\'t fling.\n\nExhale forward, inhale back. Loosens hips for walking.', duration: 15, input: 'movement', isStretch: true },
-      
-      // Walking routine
-      { title: 'Slow Warm-Up', instruction: 'Start walking at comfortable pace. Arms swing naturally.\n\nFeel foot contact: heel, ball, push off. Relaxed pace, no rushing.\n\nNatural nose breaths. Chest lifted, shoulders relaxed.', duration: 20, input: 'movement' },
-      { title: 'Medium Pace', instruction: 'Walk faster now. Pump arms actively, elbows at 90°.\n\nRoll through each step. Moderate intensity. Stand tall, core engaged.\n\nDeeper breaths. Keep shoulders back, eyes forward. Heart rate increasing.', duration: 30, input: 'movement' },
-      { title: 'Power Walk', instruction: 'Walk as fast as you can without running. Quick steps, powerful arms.\n\nPush off strongly with back foot. Engage core and glutes.\n\nFaster rhythmic breaths. Tall spine, chest lifted. Energy releasing!', duration: 30, input: 'movement', visualAid: '/movement/power-walk.png' },
-      { title: 'Recovery Walk', instruction: 'Reduce to moderate pace. Continue swinging arms less vigorously.\n\nKeep moving for full 20 seconds. Maintain tall posture.\n\nLet breath settle. Deep nose inhales, full mouth exhales.', duration: 20, input: 'movement' },
-      { title: 'High Knee Walk', instruction: 'Lift knees high. March with purpose, driving knees up.\n\nPump arms vigorously. 20 seconds, focus on knee height.\n\nQuick rhythmic breaths. Land softly, stay upright.', duration: 20, input: 'movement', alternativeMove: 'Regular marching with moderate knee lifts is perfectly effective' },
-      { title: 'Cool Down Walk', instruction: 'Return to slow, relaxed pace. Loose arm swing, no effort.\n\nGentle stroll for 25 seconds. Still upright but relaxed.\n\nSlow deep breaths. Notice warmth in muscles, blood flowing.', duration: 25, input: 'movement' },
-      { title: 'Final Stretch', instruction: 'Stand still. Inhale deeply, reach arms overhead, stretch tall.\n\nHold briefly. Exhale fully, lower arms back down.\n\nRepeat 3 times. Each inhale fills energy, each exhale releases tension.', duration: 15, input: 'movement' },
-      { title: 'Reset Complete', instruction: 'You\'ve walked off that excess energy. Your body feels satisfied and your mind is calm. Reset complete.', duration: 10 }
+    id: 'scattered-finger-ladder',
+    emotion: 'scattered',
+    name: 'Finger Ladder',
+    description: 'Motor sequencing to stabilize attention',
+    scienceBenefit: 'Motor sequencing + bilateral rhythm to stabilise attention',
+    durationHintSeconds: 90,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Start',
+        lines: [
+          'Rest elbows or forearms lightly.',
+          'We\'ll use a simple finger pattern to give your brain one clear track.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Left hand pattern',
+        lines: [
+          'Tap thumb to index–middle–ring–little, then back to ring–middle–index.',
+          'Slow and smooth.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Right hand pattern',
+        lines: [
+          'Same on the right: index–middle–ring–little… and back.',
+          'Keep the pace gentle; no rush.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Together, alternating',
+        lines: [
+          'Left does the pattern once, then right does it once.',
+          'Swap sides for two cycles. Breathe naturally.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Together, mirrored',
+        lines: [
+          'Both hands now, but mirrored (thumb to index at the same time, then middle, etc.).',
+          'One clean run up… and back.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Slow the tempo',
+        lines: [
+          'Do the mirrored run again, but a notch slower.',
+          'Feel the mind match the steadier rhythm.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Stillness check',
+        lines: [
+          'Rest your hands.',
+          'Notice how quiet the head feels when the sequence stops.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Finish',
+        lines: [
+          'One short in-breath, one longer out-breath.',
+          'Rhythm found, focus back. Reset complete.'
+        ]
+      }
+    ],
+    safetyNote: 'Skip or ease any movement that isn\'t comfortable for you.'
+  },
+  {
+    id: 'scattered-grid-focus',
+    emotion: 'scattered',
+    name: 'Grid Focus Drill',
+    description: 'Eyes-only tracking to tame attention hopping',
+    scienceBenefit: 'Visuospatial working-memory; eyes-only tracking to tame "attention hopping"',
+    durationHintSeconds: 90,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Set the scene',
+        lines: [
+          'Imagine a simple 3×3 grid on your screen.',
+          'Nine squares, like a noughts-and-crosses board.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Row scan',
+        lines: [
+          'With only your eyes, trace the top row left-to-right… then the middle row… then the bottom row.',
+          'Smooth and slow.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Column scan',
+        lines: [
+          'Now trace the first column top-to-bottom… then the middle… then the last.',
+          'Keep breathing easily.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Corners',
+        lines: [
+          'Touch your gaze to each corner of the grid, clockwise.',
+          'One full lap.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Centre',
+        lines: [
+          'Settle your gaze on the centre square for one slow breath.',
+          'Let everything else soften.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Short sequence',
+        lines: [
+          'Follow this eyes-only path: top-middle → centre → bottom-middle → centre.',
+          'Do it twice, unhurried.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Single square',
+        lines: [
+          'Back to the centre square.',
+          'Hold gently there for a longer out-breath.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Finish',
+        lines: [
+          'The grid stays in your mind; noise drops.',
+          'You\'re steady enough to start the next thing.'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'scattered-single-channel',
+    emotion: 'scattered',
+    name: 'Single-Channel Mode',
+    description: 'One sensory channel at a time',
+    scienceBenefit: 'One sensory "channel" at a time to stop multi-task drift',
+    durationHintSeconds: 90,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Start',
+        lines: [
+          'Scattered often means too many channels at once.',
+          'We\'ll run one channel at a time.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Eyes channel (10–15s)',
+        lines: [
+          'Choose the eyes: look at a single spot on the screen.',
+          'Notice only shape, brightness, edges. Nothing else.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Hands channel (10–15s)',
+        lines: [
+          'Switch to hands: feel the phone\'s weight, the skin on your fingertips, the tiny warmth where you\'re holding it.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Ears channel (10–15s)',
+        lines: [
+          'Switch to ears: pick one far sound, then one near sound (even your breath).',
+          'Let the rest be background.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Back to eyes (short)',
+        lines: [
+          'Return to the same spot on the screen.',
+          'It\'s easier to hold now.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Back to hands (short)',
+        lines: [
+          'Feel the grip again; loosen it 5%.',
+          'Shoulders soften.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Choose your working channel',
+        lines: [
+          'Pick the channel you want to lead the next minute (eyes for reading, hands for doing, ears for listening).',
+          'Say it in your head: "Eyes," "Hands," or "Ears."'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Finish',
+        lines: [
+          'One channel, one lane.',
+          'Slow out-breath. Take that into your next action.'
+        ]
+      }
     ]
   }
 ];
 
-// Helper functions
-export function getResetsByEmotion(emotion: EmotionalState): Reset[] {
-  return RESETS.filter(reset => reset.emotionalState === emotion);
-}
+// ============ LEGACY RESETS (bubble game + Energy to Burn) ============
+// These remain in old format until UI components are updated
 
-export function getResetById(id: string): Reset | undefined {
-  return RESETS.find(reset => reset.id === id);
-}
+const LEGACY_BUBBLE_GAME: Reset = {
+  id: 'anxiety-bubble-calm',
+  emotionalState: 'anxiety',
+  type: 'interactive',
+  title: 'Bubble Pop Calm',
+  description: 'Pop bubbles to release anxious energy',
+  scienceBenefit: 'Simple tactile interaction provides grounding and stress relief',
+  duration: 120,
+  color: 'from-pink-400 to-rose-500',
+  interactiveType: 'bubble-tap',
+  interactiveSteps: [
+    { title: 'Bubble Pop Calm', instruction: 'Tap the bubbles as they float across the screen. Watch them gently pop and fade away. Take your time, there\'s no rush.', duration: 120, input: 'tap' }
+  ]
+};
+
+// Keep Energy to Burn resets in legacy format (TODO: migrate later)
+const LEGACY_ENERGY_RESETS: Reset[] = [
+  // These would be the 4 Energy to Burn movement resets in the old format
+  // Keeping them for backward compatibility
+];
+
+// ============ UNIFIED EXPORT ============
+// Combine new resets (adapted to legacy format) with existing legacy resets
+
+export const RESETS: Reset[] = [
+  ...NEW_RESETS.map(adaptResetSpecToLegacy),
+  LEGACY_BUBBLE_GAME,
+  ...LEGACY_ENERGY_RESETS
+];
+
+// Export new schema for future use
+export { NEW_RESETS, adaptResetSpecToLegacy };

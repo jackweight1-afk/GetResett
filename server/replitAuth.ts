@@ -143,7 +143,7 @@ export async function setupAuth(app: Express) {
     }
     
     passport.authenticate(strategyName, {
-      prompt: "select_account consent",
+      prompt: "consent",
       scope: ["openid", "email", "profile", "offline_access"],
     })(req, res, next);
   });
