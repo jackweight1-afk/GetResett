@@ -9,6 +9,7 @@ import {
   text,
   real,
   boolean,
+  unique,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
@@ -67,7 +68,8 @@ export const dailyUsage = pgTable("daily_usage", {
   sessionCount: integer("session_count").default(0),
   createdAt: timestamp("created_at").defaultNow(),
 }, (table) => [
-  index("daily_usage_user_date_idx").on(table.userId, table.date)
+  index("daily_usage_user_date_idx").on(table.userId, table.date),
+  unique("daily_usage_user_date_unique").on(table.userId, table.date)
 ]);
 
 export const sleepEntries = pgTable("sleep_entries", {

@@ -148,39 +148,66 @@ export class DatabaseStorage implements IStorage {
       const sourceUser = existingByEmail;
       const profile = buildProfile(sourceUser, existingById);
 
-      // Temporarily free the email constraint
-      await tx.update(users).set({ email: null, updatedAt: now }).where(eq(users.id, sourceUser.id));
+      try {
+        // Temporarily free the email constraint
+        await tx.update(users).set({ email: null, updatedAt: now }).where(eq(users.id, sourceUser.id));
 
-      // Create or update destination user
-      let destinationUser: User;
-      if (existingById) {
-        [destinationUser] = await tx
-          .update(users)
-          .set(profile)
-          .where(eq(users.id, userData.id))
-          .returning();
-      } else {
-        [destinationUser] = await tx
-          .insert(users)
-          .values({
-            id: userData.id,
-            ...profile,
-            createdAt: sourceUser.createdAt ?? now,
-          })
-          .returning();
+        // Create or update destination user
+        let destinationUser: User;
+        if (existingById) {
+          [destinationUser] = await tx
+            .update(users)
+            .set(profile)
+            .where(eq(users.id, userData.id))
+            .returning();
+        } else {
+          [destinationUser] = await tx
+            .insert(users)
+            .values({
+              id: userData.id,
+              ...profile,
+              createdAt: sourceUser.createdAt ?? now,
+            })
+            .returning();
+        }
+
+        const oldId = sourceUser.id;
+
+        // Migrate daily_usage with deduplication (merge session counts for same date)
+        const sourceUsage = await tx.select().from(dailyUsage).where(eq(dailyUsage.userId, oldId));
+        for (const usage of sourceUsage) {
+          await tx
+            .insert(dailyUsage)
+            .values({
+              userId: userData.id,
+              date: usage.date,
+              sessionCount: usage.sessionCount,
+            })
+            .onConflictDoUpdate({
+              target: [dailyUsage.userId, dailyUsage.date],
+              set: {
+                sessionCount: sql`daily_usage.session_count + ${usage.sessionCount}`,
+              },
+            });
+        }
+        await tx.delete(dailyUsage).where(eq(dailyUsage.userId, oldId));
+
+        // Migrate other child tables (no unique constraints, safe to bulk update)
+        await tx.update(userSessions).set({ userId: userData.id }).where(eq(userSessions.userId, oldId));
+        await tx.update(sleepEntries).set({ userId: userData.id }).where(eq(sleepEntries.userId, oldId));
+        await tx.update(stressEntries).set({ userId: userData.id }).where(eq(stressEntries.userId, oldId));
+        await tx.update(feelingEntries).set({ userId: userData.id }).where(eq(feelingEntries.userId, oldId));
+
+        // Delete old user record
+        await tx.delete(users).where(eq(users.id, oldId));
+        return destinationUser;
+      } catch (error) {
+        // Restore email on failure to prevent leaving user without contact info
+        if (sourceUser.email) {
+          await tx.update(users).set({ email: sourceUser.email, updatedAt: now }).where(eq(users.id, sourceUser.id));
+        }
+        throw error;
       }
-
-      // Migrate all dependent rows to new user ID
-      const oldId = sourceUser.id;
-      await tx.update(userSessions).set({ userId: userData.id }).where(eq(userSessions.userId, oldId));
-      await tx.update(sleepEntries).set({ userId: userData.id }).where(eq(sleepEntries.userId, oldId));
-      await tx.update(stressEntries).set({ userId: userData.id }).where(eq(stressEntries.userId, oldId));
-      await tx.update(feelingEntries).set({ userId: userData.id }).where(eq(feelingEntries.userId, oldId));
-      await tx.update(dailyUsage).set({ userId: userData.id }).where(eq(dailyUsage.userId, oldId));
-
-      // Delete old user record
-      await tx.delete(users).where(eq(users.id, oldId));
-      return destinationUser;
     });
   }
 
