@@ -183,8 +183,8 @@ export async function setupAuth(app: Express) {
           console.error("Session login error:", err);
           return res.redirect("/?error=auth_failed");
         }
-        console.log("User logged in successfully, redirecting to /");
-        return res.redirect("/");
+        console.log("User logged in successfully, redirecting to /resets");
+        return res.redirect("/resets");
       });
     })(req, res, next);
   });

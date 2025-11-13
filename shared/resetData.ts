@@ -1624,3 +1624,8 @@ export const RESETS: Reset[] = [
 
 // Export new schema for future use
 export { NEW_RESETS, adaptResetSpecToLegacy };
+
+// Helper function to filter resets by emotion
+export function getResetsByEmotion(emotion: EmotionalState): Reset[] {
+  return RESETS.filter(reset => reset.emotionalState === emotion);
+}

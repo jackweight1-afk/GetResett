@@ -28,6 +28,12 @@ export default function StoryResetPlayer({ reset, emotion, onComplete, onExit }:
     }
   };
 
+  const handleBack = () => {
+    if (currentStepIndex > 0) {
+      setCurrentStepIndex(prev => prev - 1);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 p-4 sm:p-6 flex items-center">
       <div className="max-w-3xl mx-auto w-full">
@@ -135,8 +141,19 @@ export default function StoryResetPlayer({ reset, emotion, onComplete, onExit }:
               </motion.div>
             </div>
 
-            {/* Continue button */}
-            <div className="flex justify-center mt-8">
+            {/* Navigation buttons */}
+            <div className="flex justify-center gap-4 mt-8">
+              {currentStepIndex > 0 && (
+                <Button
+                  onClick={handleBack}
+                  size="lg"
+                  variant="outline"
+                  className="px-8 py-6 text-lg font-semibold rounded-2xl border-2"
+                  data-testid="button-back"
+                >
+                  Back
+                </Button>
+              )}
               <Button
                 onClick={handleContinue}
                 size="lg"
