@@ -171,7 +171,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
         userId,
       });
       
-      const feeling = await storage.createFeelingEntry(feelingData);
+      // If this is a post-session feeling, create a corresponding user session
+      let sessionId: string | undefined;
+      if (feelingData.isPostSession && feelingData.feeling) {
+        // Map emotion to session type (create if doesn't exist)
+        const emotionToSessionType: Record<string, string> = {
+          'stressed': 'Stress Relief',
+          'anxiety': 'Mindful Moment',
+          'restless': 'Energy Boost',
+          'tired': 'Sleep Story',
+          'scattered': 'Focus Reset',
+          'overwhelmed': 'Mindful Moment',
+          'energy': 'Energy Boost',
+        };
+        
+        const sessionTypeName = emotionToSessionType[feelingData.feeling] || 'Mindful Moment';
+        
+        // Get all session types
+        const sessionTypes = await storage.getSessionTypes();
+        let sessionType = sessionTypes.find(st => st.name === sessionTypeName);
+        
+        // If session type doesn't exist, create it (shouldn't happen with defaults)
+        if (!sessionType) {
+          sessionType = await storage.createSessionType({
+            name: sessionTypeName,
+            description: `Reset session for ${feelingData.feeling}`,
+            icon: 'fas fa-spa',
+            color: 'purple',
+          });
+        }
+        
+        // Create user session
+        const userSession = await storage.createUserSession({
+          userId,
+          sessionTypeId: sessionType.id,
+          duration: 120, // 2 minutes default
+          rating: feelingData.moodRating || undefined,
+        });
+        
+        sessionId = userSession.id;
+        
+        // Increment daily usage
+        const today = new Date().toISOString().split('T')[0];
+        await storage.incrementDailyUsage(userId, today);
+      }
+      
+      // Create feeling entry with optional sessionId link
+      const feeling = await storage.createFeelingEntry({
+        ...feelingData,
+        sessionId,
+      });
+      
       res.json(feeling);
     } catch (error) {
       console.error("Error creating feeling entry:", error);
