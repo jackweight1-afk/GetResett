@@ -42,12 +42,34 @@ The application employs a modern full-stack architecture with a clear separation
 - **Connection Pooling**: Neon serverless connection pooling
 
 ### Key Components & Design
-- **Authentication System**: Utilizes Replit Auth with OpenID Connect, PostgreSQL-backed sessions, and secure HTTP-only cookies. Enhanced for Google 2FA and robust hostname handling.
-- **Interactive Reset System**: Features 24 unique, 2-minute reset experiences categorized by 6 emotional states (Stressed, Anxiety, Restless, Overwhelmed, Tired, Scattered). Each state has 2 story-based narratives and 2 interactive game-style exercises. Users manually progress through steps.
-  - **Stressed Resets**: Overhauled to simplified guided visualization experiences (e.g., Full-Body Tense & Release, Fact–Story Lens, Safety Scan, Mental Triage) with manual progression.
-  - **Energy to Burn Movement Resets**: Four comprehensive exercise sessions (Micro-Workout, Shadowboxing, Breath-Plus-Movement, Walk It Off) with a distinct orange/red gradient theme. Features a custom `MovementCard` component with professional UX, ultra-brief 3-line instructions, and safety features.
-- **Session Flow**: Users select an emotional state, choose a reset, complete it, rate their mood, and are offered further resets if mood is low.
-- **Tracking Systems**: Post-session mood ratings and emotional state are stored for analytics, contributing to consistency metrics and improvement trends on the dashboard.
+- **Authentication System**: 
+  - Uses Replit Auth with OpenID Connect (OIDC prompt set to "consent" only)
+  - PostgreSQL-backed sessions with secure HTTP-only cookies
+  - Transactional user upsert handles OIDC ID changes by migrating user data atomically
+  - Daily usage deduplication merges session counts when user IDs change
+  - Redirects to /resets page after successful login
+  - Test accounts (huzefausama25@gmail.com, jackweight1@gmail.com) have unlimited access
+  
+- **Interactive Reset System**: 
+  - Features 16+ unique reset experiences using ResetSpec schema
+  - Categorized by 6 emotional states: Stressed (4 resets), Anxiety (3 resets), Restless (1 reset), Tired (4 resets), Scattered (4 resets)
+  - Manual Continue/Back button navigation (no auto-advancing timers)
+  - Each reset has steps with {id, title, lines[], animationKey, helperHint}
+  - Adapter layer converts new ResetSpec schema to legacy format for backward compatibility
+  - **Stressed Resets**: Guided visualization experiences (Full-Body Tense & Release, Fact–Story Lens, Safety Scan, Mental Triage)
+  - **Energy to Burn Movement Resets**: Exercise sessions with orange/red gradient theme
+  
+- **Session Flow**: 
+  - Users select emotional state → choose reset → complete with manual navigation → rate mood (1-10)
+  - Loop-back flow: If mood rating ≤3, offer another reset; if >3, show success and return to dashboard
+  
+- **Tracking Systems**: 
+  - Automatic session creation when user completes reset and submits mood rating
+  - Emotion-to-session-type mapping (stressed → Stress Relief, scattered → Focus Reset, etc.)
+  - Emotion-specific durations (stressed=75s, anxiety=90s, restless=90s, tired=105s, scattered=90s)
+  - Daily usage tracking with unique constraint on (userId, date) for accurate counting
+  - Feeling entries linked to sessions via sessionId for comprehensive analytics
+  - Dashboard displays session history, streaks, and analytics
 - **UI/UX Design**: Modern purple/violet gradient theme with glassmorphism effects, rounded cards, and mobile-first responsiveness.
 - **Monetization**: Subscription model offers 3 free daily sessions, tracked via `localStorage`. Non-subscribers encounter a paywall on the 4th attempt. New users receive a 30-day free trial; returning users are charged immediately. Supports Apple Pay, Google Pay, and international currency conversion based on real-time exchange rates from a GBP base price.
 - **Internationalization**: Automatically detects user's country via IP geolocation and browser locale, displaying pricing in local currency with real-time exchange rates across 18+ major currencies.
