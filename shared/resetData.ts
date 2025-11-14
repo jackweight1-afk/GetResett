@@ -672,7 +672,7 @@ const NEW_RESETS: ResetSpec[] = [
     ]
   },
 
-  // ============ RESTLESS RESETS (1 reset) ============
+  // ============ RESTLESS RESETS (4 resets) ============
   {
     id: 'restless-pulse-reset',
     emotion: 'restless',
@@ -750,6 +750,270 @@ const NEW_RESETS: ResetSpec[] = [
         lines: [
           'Your rhythm is steady again. Energy gathered, not scattered.',
           'Carry this calmer beat into whatever comes next. Reset complete.'
+        ]
+      }
+    ],
+    safetyNote: 'ease or skip any movement that isn\'t comfortable for you.'
+  },
+  {
+    id: 'restless-focus-path',
+    emotion: 'restless',
+    name: 'The Focus Path',
+    description: 'Oculomotor calming for restless mind',
+    scienceBenefit: 'Smooth-pursuit and gentle saccades help the nervous system settle and pull attention into one clear track',
+    durationHintSeconds: 135,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'The Focus Path',
+        lines: [
+          'Restless mind, busy eyes—let\'s give them one steady route.',
+          'Hold your phone comfortably, shoulders easy. Eyes will follow a moving point.',
+          'Head stays still. When ready, tap Continue.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Find Your Start',
+        lines: [
+          'Sit tall or stand with feet planted. Soften jaw, drop shoulders.',
+          'Keep head quiet—only eyes will travel.',
+          'Small inhale... longer exhale. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Side to Side',
+        lines: [
+          'Imagine a soft light at the left edge of your screen.',
+          'Let eyes follow it slowly to the right—smooth, no rush.',
+          'Breathe naturally as it moves. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Return Pass',
+        lines: [
+          'The light drifts back to the left. Keep gaze fluid—no jumps.',
+          'Notice your out-breath lengthen as it comes home.',
+          'Repeat one more gentle pass. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Smooth Turns',
+        lines: [
+          'The light draws a wide, slow circle.',
+          'Follow it all the way around... and again. Eyes move like water.',
+          'Neck easy, shoulders soft. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Rise & Settle',
+        lines: [
+          'Watch the light rise to the top... then fall back down.',
+          'As it falls, let your body sink heavier into chair or feet.',
+          'Two vertical sweeps at an easy pace. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Easy Diagonals',
+        lines: [
+          'Light moves top-left → bottom-right, then top-right → bottom-left.',
+          'One calm pass each way. Smooth movement.',
+          'Breathe out softly on downward legs. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Still Focus',
+        lines: [
+          'Light settles in the centre and becomes a steady glow.',
+          'Rest gaze there. Let edges of vision soften.',
+          'Small inhale... longer exhale. Notice how quiet your head feels. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-9',
+        title: 'Reset Complete',
+        lines: [
+          'Eyes steady, mind gathered, body calmer.',
+          'Keep this clear line of focus as you move to the next thing. Reset complete.'
+        ]
+      }
+    ],
+    safetyNote: 'if any movement feels uncomfortable, slow down or blink, then rejoin.'
+  },
+  {
+    id: 'restless-tension-outflow',
+    emotion: 'restless',
+    name: 'Tension Outflow',
+    description: 'Somatic release for trapped restlessness',
+    scienceBenefit: 'Short squeezes followed by clear releases help finish the fight–flight response and settle the body',
+    durationHintSeconds: 120,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'Tension Outflow',
+        lines: [
+          'Restlessness usually means tension has nowhere to go.',
+          'We\'ll help it move out, bit by bit, without overdoing it.',
+          'Hold phone comfortably. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Grip & Let Go',
+        lines: [
+          'Make soft fists with both hands—about 40% effort. Hold for 3... 2... 1...',
+          'Open hands slowly. Shake them out once or twice.',
+          'Repeat once more: hold 3... 2... 1... open and shake. Notice warmth in fingers. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Roll the Weight Off',
+        lines: [
+          'Lift both shoulders up a little, then drop them.',
+          'Roll them back in two slow circles. Neck easy, jaw unclenched.',
+          'Repeat two more times. Feel more space across your chest. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Open, Then Ease',
+        lines: [
+          'Small breath in—let chest open a touch.',
+          'Out-breath—let upper back soften towards neutral.',
+          'Repeat once: gentle open... gentle ease. Smooth and tidy. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Centre Release',
+        lines: [
+          'Tighten stomach lightly for 3 seconds—just enough to notice.',
+          'Release and let breath drop lower.',
+          'One more light tighten... and release. Feel slack return to the middle. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Ground and Relax',
+        lines: [
+          'Press both feet into the floor for 2 seconds. Let knees soften, weight settle.',
+          'Seated: notice chair doing the holding. Standing: feel floor take the load.',
+          'Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Clear What\'s Left',
+        lines: [
+          'Give hands a loose shake. Roll neck left and right (small range).',
+          'Loosen jaw and face. Bounce knees a centimetre if it helps.',
+          'Let last bits of tension drop away. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Reset Complete',
+        lines: [
+          'Pause a moment. Notice: shoulders lower, hands warmer, body quieter.',
+          'Easy breath in... longer breath out. Energy\'s flowing again. Reset complete.'
+        ]
+      }
+    ],
+    safetyNote: 'ease or skip any movement that isn\'t comfortable for you.'
+  },
+  {
+    id: 'restless-stillness-curve',
+    emotion: 'restless',
+    name: 'The Stillness Curve',
+    description: 'Vestibular calming through gentle movement',
+    scienceBenefit: 'Small, controlled movements that gradually fade help your balance system settle and reduce restlessness',
+    durationHintSeconds: 135,
+    steps: [
+      {
+        id: 'step-1',
+        title: 'The Stillness Curve',
+        lines: [
+          'We\'ll use tiny, easy movements and slow them down to calm your system.',
+          'Stand or sit where you feel steady. Hold phone comfortably.',
+          'When ready, tap Continue.'
+        ]
+      },
+      {
+        id: 'step-2',
+        title: 'Left to Right',
+        lines: [
+          'Start a slow sway from left to right—only a few centimetres.',
+          'Feel weight move across feet (or hips if seated).',
+          'Shoulders soft, face loose. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-3',
+        title: 'Forward and Return',
+        lines: [
+          'Lean a touch forward... then come back to centre.',
+          'Small, smooth range—controlled, not wobbly.',
+          'Do gently 8-10 times. Breathe naturally. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-4',
+        title: 'Easy Loops',
+        lines: [
+          'Let upper body draw a slow circle—once clockwise, once anticlockwise.',
+          'Keep it tidy and relaxed. Head stays easy on top.',
+          'Seated: movement from ribs and hips. Do 8-10 times. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-5',
+        title: 'Taper the Movement',
+        lines: [
+          'Make each circle smaller... smaller...',
+          'Sway becomes a tiny shift... then smaller again.',
+          'Guiding the dial down, not slamming brakes. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-6',
+        title: 'Neutral Balance',
+        lines: [
+          'Find the point where you\'re barely moving—balanced but not stiff.',
+          'Let breath flow slowly on its own. Notice your heartbeat.',
+          'On next out-breath, relax grip on phone by 5%. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-7',
+        title: 'Notice the Quiet',
+        lines: [
+          'Scan from head to toes: forehead, jaw, shoulders, chest, stomach, hips, legs, feet.',
+          'Where feels quieter than before? Rest your mind there.',
+          'One longer, easy out-breath. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-8',
+        title: 'Settle & Hold',
+        lines: [
+          'Stay in that comfortable stillness for a few seconds.',
+          'Sink softly into stable position. Feet (or seat) holding you firm.',
+          'If a small wobble appears, let it pass—you\'re steady. Tap Continue.'
+        ]
+      },
+      {
+        id: 'step-9',
+        title: 'Reset Complete',
+        lines: [
+          'Movement has eased into calm.',
+          'Notice: posture taller, breathing smoother, mind quieter. Reset complete.'
         ]
       }
     ],

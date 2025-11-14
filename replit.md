@@ -57,7 +57,7 @@ The application employs a modern full-stack architecture with a clear separation
   
 - **Interactive Reset System**: 
   - Features 16+ unique reset experiences using ResetSpec schema
-  - Categorized by 6 emotional states: Stressed (4 resets), Anxiety (3 resets), Restless (1 reset), Tired (4 resets), Scattered (4 resets)
+  - Categorized by 5 emotional states: Stressed (4 resets), Anxiety (3 resets), Restless (4 resets), Tired (4 resets), Scattered (4 resets)
   - Manual Continue/Back button navigation (no auto-advancing timers)
   - Each reset has steps with {id, title, lines[], animationKey, helperHint}
   - Adapter layer converts new ResetSpec schema to legacy format for backward compatibility

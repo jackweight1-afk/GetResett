@@ -1,0 +1,343 @@
+🔶 RESET — The Pulse Reset (Rhythmic Entrainment)
+Science: Bilateral rhythm + longer exhales help the nervous system sync and settle (rhythmic entrainment; vagal regulation).
+Duration: ~2–3 minutes
+
+STEP 1 — Introduction
+Title: The Pulse Reset
+Text:
+When you’re restless, your energy scatters in all directions.
+For the next couple of minutes we’ll give your body one steady rhythm to follow.
+Keep your phone in a relaxed grip and follow each cue.
+Tap Continue when you’re ready.
+
+STEP 2 — Set up the rhythm
+Title: Tap In
+Text:
+Rest your forearms on your thighs or desk.
+Begin a light alternating tap: left thigh… right thigh… left… right…
+Keep it smooth and even — gentle, not loud.
+Let the sound be your metronome.
+Go at the pace which feels comfortable to you
+Once you’ve found your pace, Tap Continue.
+
+STEP 3 — Add the breath (4 + 4)
+Title: Sync It Up
+Text:
+Stay with the left–right taps.
+Breathe in for four taps …
+Breathe out for four taps.
+Repeat once more: in for 4 taps… out for 4 taps.
+Drop your shoulders a fraction and correct your posture as the body finds the groove.
+Tap Continue.
+
+STEP 4 — Bring the upper body along
+Title: Shoulders & Hands
+Text:
+Keep tapping at the same tempo,
+As you continue through the taps slowly start to bring the tempo down
+Loosen the stiffness in your shoulders, neck, arms, wrists and hands 
+Bring the movements to slow tiny taps
+Slowly bring your breathing down to the same pace as the slow taps 
+Take note of the tap, feel the energy go through your arms into your legs
+You should now be at a slow, steady pace with you taps and your breathing 
+Tap Continue.
+
+STEP 5 — Gentle slow-down (4 + 6)
+Title: Continue the tempo 
+Text:
+Continue at the slow steady tempo for a further 6 counts of 4 
+Ensuring you’re matching your breathing with your slow taps
+Start to take notice of other sense in this section
+What can you hear & smell? 
+Notice as your mind and body start to become one again
+Tap Continue.
+
+STEP 6 — Feel the gap between beats
+Title: The Quiet Space
+Text:
+Keep the relaxed tapping.
+Between each pair of taps there’s a tiny pocket of quiet.
+Rest your attention in that quiet for a moment, then the next.
+Left (quiet) … right (quiet) … like waves arriving and receding.
+Tap Continue.
+
+STEP 7 — Fade to stillness
+Title: Land the Rhythm
+Text:
+Let the taps get softer… and slower… and then stop.
+Place both hands open on your thighs.
+Feel the echo of the rhythm in your chest — steady, not hurried.
+Take one last breath in for 4, out for 6.
+Tap Continue.
+
+STEP 8 — Completion
+Title: Reset Complete
+Text:
+Your rhythm is steady again.
+Energy gathered, not scattered.
+Carry this calmer beat into whatever comes next.
+Reset complete.
+Small safety note (footer): ease or skip any movement that isn’t comfortable for you.
+
+
+🔶 RESET 2 — The Focus Path (oculomotor calming)
+Science: Smooth-pursuit and gentle saccades help the nervous system settle and pull attention into one clear track.
+
+STEP 1 — Introduction
+Title: The Focus Path
+Text:
+Restless mind, busy eyes — let’s give them one steady route.
+Hold your phone comfortably. Your shoulders should rest easy.
+You’ll follow a moving point with just your eyes while your head stays still.
+When you’re ready, tap Continue.
+
+STEP 2 — Settle in
+Title: Find Your Start
+Text:
+Sit tall or stand with your feet planted.
+Soften your jaw and drop the shoulders to a comfortable position.
+Keep your head quiet; only the eyes will travel.
+Take one small inhale… a longer, easy exhale.
+Tap Continue.
+
+STEP 3 — Horizontal glide (L → R)
+Title: Side to Side
+Text:
+Imagine a soft light appears at the left edge of your screen.
+Let your eyes follow it slowly to the right.
+Smooth, no rush — like tracing a horizon.
+Breathe naturally as it moves.
+Tap Continue.
+
+STEP 4 — Back across (R → L)
+Title: Return Pass
+Text:
+The light drifts back to the left.
+Keep your gaze fluid — no jumps if you can help it.
+Notice your out-breath lengthen as it comes home.
+Repeat one more gentle pass if it helps.
+Tap Continue.
+
+STEP 5 — Gentle circles
+Title: Smooth Turns
+Text:
+Now the light draws a wide, slow circle.
+Follow it all the way around your screen… and again.
+Let the eyes move like water round a bowl.
+Neck stays easy; shoulders stay soft.
+Tap Continue.
+
+STEP 6 — Vertical sweep (Up ↕ Down)
+Title: Rise & Settle
+Text:
+Watch the light rise to the top of the screen…
+then fall back down.
+As it falls, let your body sink a fraction heavier into the chair or feet.
+Two or three vertical sweeps at an easy pace.
+Tap Continue.
+
+STEP 7 — Diagonal drift (optional)
+Title: Easy Diagonals
+Text:
+The light now moves top-left → bottom-right, then top-right → bottom-left.
+One calm pass each way.
+Keep the movement smooth; breathe out softly on the downward legs.
+Tap Continue.
+
+STEP 8 — Hold centre
+Title: Still Focus
+Text:
+The light settles in the centre and becomes a steady glow.
+Rest your gaze there. Let the edges of your vision soften.
+Small inhale… longer exhale. Notice how quiet your head feels.
+Tap Continue.
+
+STEP 9 — Completion
+Title: Reset Complete
+Text:
+Eyes steady, mind gathered, body calmer.
+Keep this clear line of focus as you move to the next thing.
+Reset complete.
+Quiet safety note: if any movement feels uncomfortable, slow down or blink, then rejoin.
+
+🧠 Developer notes
+Animation: single “focus dot” that moves: left→right (Step 3), right→left (Step 4), two slow circles (Step 5), vertical sweeps (Step 6), optional diagonals (Step 7), then centre hold (Step 8).
+Tempo: start ~3–4 sec per sweep; slow by ~15% across the reset.
+UI cues: subtle arrows for direction; centre dot softly pulses on Step 8.
+Breath helper: small “●●●● | ●●●●●●” hints on Steps 6 & 8 if you want in 4 / out 6.
+Controls: tap-to-continue, 12–20 s per tile; Restless orange gradient header; gentle haptic tick on step change.
+
+
+🔶 RESET 3 — Tension Outflow (somatic release)
+Why it works: A few short squeezes followed by clear releases help your body finish the “fight–flight” response and settle.
+
+STEP 1 — Introduction
+Title: Tension Outflow
+Text:
+Restlessness usually means tension has nowhere to go.
+We’ll help it move out, bit by bit, without overdoing it.
+Hold your phone comfortably and follow the cues.
+Tap Continue.
+
+STEP 2 — Hands
+Title: Grip & Let Go
+Text:
+Make soft fists with both hands. Not maximum effort — about 40%.
+Hold for 3… 2… 1…
+Open the hands slowly. Shake them out once or twice.
+Now repeat one more time 
+Hold for 3… 2… 1…
+Open the hands slowly. Shake them out once or twice and rest 
+Notice the warmth in your fingers.
+Tap Continue.
+
+STEP 3 — Arms & Shoulders
+Title: Roll the Weight Off
+Text:
+Lift both shoulders up a little, then drop them.
+Now roll them back in two slow circles.
+Keep the neck easy; jaw unclenched.
+Now repeat this two more times
+Lift both shoulders up a little, then drop them.
+Now roll them back in two slow circles.
+Keep the neck easy; jaw unclenched.
+Feel a bit more space across your chest.
+Tap Continue.
+
+STEP 4 — Chest & Back
+Title: Open, Then Ease
+Text:
+Take a small breath in and let your chest open a touch.
+On the out-breath, let your upper back soften towards neutral.
+Repeat once more: gentle open… gentle ease.
+No forcing — smooth and tidy.
+Tap Continue.
+
+STEP 5 — Core
+Title: Centre Release
+Text:
+Tighten your stomach lightly for 3 seconds — just enough to notice.
+Release and let the breath drop lower.
+Do one more light tighten… and release.
+Feel that bit of slack return to the middle.
+Tap Continue.
+
+STEP 6 — Legs & Feet
+Title: Ground and Relax
+Text:
+Press both feet into the floor for 2 seconds.
+Let the knees soften and the weight settle.
+If seated, notice the chair doing the holding.
+If standing, feel the floor take the load.
+Tap Continue.
+
+STEP 7 — Shake Out
+Title: Clear What’s Left
+Text:
+Give the hands a loose shake.
+Roll the neck left and right (small, comfortable range).
+Loosen the jaw and face.
+If it helps, bounce the knees a centimetre or two.
+Let the last bits of tension drop away.
+Tap Continue.
+
+STEP 8 — Completion
+Title: Reset Complete
+Text:
+Pause a moment.
+Notice: shoulders lower, hands warmer, body quieter.
+Take one easy breath in… and a longer breath out.
+Energy’s flowing again, not bottled up.
+Reset complete.
+Small safety note: ease or skip any movement that isn’t comfortable for you.
+
+🧠 Developer notes (optional)
+Use a simple press-and-hold meter on Steps 2, 5, and 6; gentle haptic/sound on release.
+Warm orange pulse accent per section; steady “tap to continue”; 12–20 s per tile.
+Keep copy strictly eyes-open; British English spelling throughout.
+
+
+🔶 RESET 4 — The Stillness Curve (vestibular calming)
+Why it helps: Small, controlled movements that gradually fade help your balance system settle and take the edge off restlessness.
+
+STEP 1 — Introduction
+Title: The Stillness Curve
+Text:
+We’ll use tiny, easy movements and then slow them down to calm your system.
+Stand or sit where you feel steady. Hold your phone comfortably.
+When you’re ready, tap Continue.
+
+STEP 2 — Side sway
+Title: Left to Right
+Text:
+Start a slow sway from left to right.
+Only a few centimetres — nothing big.
+Feel the weight move across your feet (or hips if seated).
+Keep shoulders soft; face loose.
+Tap Continue.
+
+STEP 3 — Front & back
+Title: Forward and Return
+Text:
+Lean a touch forward… then come back to centre.
+Small, smooth range — controlled, not wobbly.
+Breathe naturally as you move.
+Do this gently 8-10 times.
+Tap Continue.
+
+STEP 4 — Soft circles
+Title: Easy Loops
+Text:
+Let your upper body draw a slow circle — once clockwise, once anticlockwise.
+Keep it tidy and relaxed; head stays easy on top.
+If seated, let the movement come from ribs and hips.
+Do this 8-10 times
+Tap Continue.
+
+STEP 5 — Shrink the circle
+Title: Taper the Movement
+Text:
+Make each circle smaller… smaller…
+Sway becomes a tiny shift… then smaller again.
+You’re guiding the dial down rather than slamming on the brakes.
+Tap Continue.
+
+STEP 6 — Almost still
+Title: Neutral Balance
+Text:
+Find the point where you’re barely moving — balanced but not stiff.
+Let your breath flow slowly on its own.
+Notice your heart beating 
+On the next out-breath, relax your grip on the phone by 5%.
+Tap Continue.
+
+STEP 7 — Quick body check
+Title: Notice the Quiet
+Text:
+Mentally scan from the top of your head to the tip of your toes: forehead, jaw, shoulders, chest, stomach, hips, legs, feet.
+Where in your body feels quieter than before? Direct your focus there, keep that ease; let the mind rest there.
+Take one longer, easy out-breath.
+Tap Continue.
+
+STEP 8 — Land it
+Title: Settle & Hold
+Text:
+Stay in that comfortable stillness for a few seconds.
+Sinking softly into your stable position, Feet (or seat) holding you firm. 
+If a small wobble appears, let it pass — you’re already steady.
+Tap Continue.
+
+STEP 9 — Completion
+Title: Reset Complete
+Text:
+Movement has eased into calm.
+Notice: posture taller, breathing smoother, mind quieter.
+Carry this steadier feeling into your next task.
+Reset complete.
+Small safety note: ease or skip any movement that isn’t comfortable for you.
+
+🧠 Developer notes (optional)
+Animation: gentle oscillating line that narrows step-by-step to a small steady dot by Steps 6–8.
+Audio (optional): low “tide” hush at -20 dB; fade slightly as movement reduces.
+Tempo: ~15–20 s per tile; allow tap to continue.
+UI: Restless orange gradient header; soft haptic tick on step change; no auto-scroll or busy effects.
