@@ -605,100 +605,100 @@ enum EmotionalState: String, Codable, CaseIterable {
 
 ### SCATTERED RESETS (4 total)
 
-#### 1. Focus Funnel
-**ID**: `scattered-focus-funnel`  
-**Science**: Attentional narrowing: wide → medium → narrow focus to reduce mental scatter  
+#### 1. Bring It Back In
+**ID**: `scattered-bring-it-back-in`  
+**Science**: Attentional narrowing helps the brain settle and focus  
 **Duration**: ~90 seconds
 
 **Steps**:
-1. **Settle in**: "Hold your phone in a relaxed grip. Feet planted. | We'll bring the mind from 'everywhere' to 'just here'."
+1. **Settle In**: "Hold your phone comfortably. Rest your shoulders. | We're going to bring your attention from 'everywhere' back to one place. | Tap Continue."
 
-2. **Wide view**: "Look at the whole screen and a little beyond it. | Let your eyes notice edges, colours, and space around you."
+2. **Take In the Whole Screen**: "Look at the entire screen at once. | Notice the colours, the edges, the light around it. Let your breathing stay natural. | Tap Continue."
 
-3. **Medium view**: "Now let your gaze rest on the upper half of the screen only. | Fewer things. A touch quieter."
+3. **Half the Screen**: "Now look only at the top half of your screen. | Fewer things to take in. A touch quieter already. | Tap Continue."
 
-4. **Narrow view**: "Bring attention to one area the size of a coaster. | Stay there for a slow breath in… and a longer breath out."
+4. **A Smaller Area**: "Choose a space about the size of a coaster on the screen. | Let your eyes rest there for one slow breath in… and a longer one out. | Let everything else soften in the background. Tap Continue."
 
-5. **Single point**: "Choose one small point (icon corner, single letter). | Keep a soft, steady gaze. Jaw loose. Shoulders easy."
+5. **One Small Point**: "Pick a tiny detail — a letter, a corner, an icon. | Keep a soft, steady gaze on it. Jaw loose. Shoulders easy. | Tap Continue."
 
-6. **Lock the lane**: "Quietly say in your head: 'Just this.' | Hold for one more breath. Let the rest fade to the edges."
+6. **Hold This Spot**: "Say quietly in your head: 'Just here.' | Breathe once more. Let the rest of the world fall to the edges. | Tap Continue."
 
-7. **Tiny action rehearsal**: "Picture the very first tap or click you'll make after this screen. | See your thumb do it smoothly."
+7. **See Your Next Move**: "Picture the first small action you'll take after this. | Maybe a tap, a message, or opening a tab. See yourself doing it smoothly. | Tap Continue."
 
-8. **Finish**: "From wide to one point. | Take a clean out-breath. You're centred again."
+8. **Finish**: "You've brought your attention back in. | One steady point, one clear mind. Reset complete."
 
 ---
 
-#### 2. Finger Ladder
-**ID**: `scattered-finger-ladder`  
-**Science**: Motor sequencing + bilateral rhythm to stabilise attention  
+#### 2. Steady Hands, Steady Mind
+**ID**: `scattered-steady-hands`  
+**Science**: Hand pattern brings the brain back into steady rhythm and reduces scattered energy  
 **Duration**: ~90 seconds  
-**Safety Note**: "Skip or ease any movement that isn't comfortable for you."
+**Safety Note**: "Ease or skip any movement that isn't comfortable for you."
 
 **Steps**:
-1. **Start**: "Rest elbows or forearms lightly. | We'll use a simple finger pattern to give your brain one clear track."
+1. **Start**: "Rest your elbows or forearms lightly on your thighs or desk. | We'll use a simple hand pattern to steady your attention. | Tap Continue."
 
-2. **Left hand pattern**: "Tap thumb to index–middle–ring–little, then back to ring–middle–index. | Slow and smooth."
+2. **Left Hand Only**: "Tap your thumb to each finger on your left hand: | Index → middle → ring → little… then back again, little → ring → middle → index. | Slow and smooth. Tap Continue."
 
-3. **Right hand pattern**: "Same on the right: index–middle–ring–little… and back. | Keep the pace gentle; no rush."
+3. **Right Hand Only**: "Same pattern with your right hand. | Keep it gentle. No rush. Let your breath stay easy. | Tap Continue."
 
-4. **Together, alternating**: "Left does the pattern once, then right does it once. | Swap sides for two cycles. Breathe naturally."
+4. **One Side Then the Other**: "Left hand does one full run. Then the right hand does one full run. | Repeat this swap twice. Shoulders relaxed. | Tap Continue."
 
-5. **Together, mirrored**: "Both hands now, but mirrored (thumb to index at the same time, then middle, etc.). | One clean run up… and back."
+5. **Both Hands Together**: "Now do the pattern with both hands at the same time. | Thumb to index… middle… ring… little… and back. Move slowly and evenly. | Tap Continue."
 
-6. **Slow the tempo**: "Do the mirrored run again, but a notch slower. | Feel the mind match the steadier rhythm."
+6. **Slow the Pace**: "Repeat the pattern once more, just a little slower. | Feel the mind follow the steadier rhythm. | Tap Continue."
 
-7. **Stillness check**: "Rest your hands. | Notice how quiet the head feels when the sequence stops."
+7. **Hands Rest**: "Place your hands down. | Notice the quiet feeling in your head now the movement has stopped. | Hold one long out-breath. Tap Continue."
 
-8. **Finish**: "One short in-breath, one longer out-breath. | Rhythm found, focus back. Reset complete."
+8. **Finish**: "Rhythm restored. Mind calmer and more settled. | Reset complete."
 
 ---
 
-#### 3. Grid Focus Drill
-**ID**: `scattered-grid-focus`  
-**Science**: Visuospatial working-memory; eyes-only tracking to tame "attention hopping"  
+#### 3. Follow the Grid
+**ID**: `scattered-follow-the-grid`  
+**Science**: Simple eyes-only drill steadies attention and reduces the jumpy, scattered feeling  
 **Duration**: ~90 seconds
 
 **Steps**:
-1. **Set the scene**: "Imagine a simple 3×3 grid on your screen. | Nine squares, like a noughts-and-crosses board."
+1. **Picture the Grid**: "Imagine a 3×3 grid on your screen — like a noughts-and-crosses board. | Keep your head still and move only your eyes. | Tap Continue."
 
-2. **Row scan**: "With only your eyes, trace the top row left-to-right… then the middle row… then the bottom row. | Smooth and slow."
+2. **Across the Rows**: "With your eyes, trace the top row from left to right. | Then the middle row. Then the bottom row. Smooth and steady. | Tap Continue."
 
-3. **Column scan**: "Now trace the first column top-to-bottom… then the middle… then the last. | Keep breathing easily."
+3. **Down the Columns**: "Trace the first column from top to bottom. | Then the middle column. Then the last one. Keep your breathing soft. | Tap Continue."
 
-4. **Corners**: "Touch your gaze to each corner of the grid, clockwise. | One full lap."
+4. **Corners**: "Touch your gaze to each corner of the grid in a clockwise loop: | Top-left → top-right → bottom-right → bottom-left. | Tap Continue."
 
-5. **Centre**: "Settle your gaze on the centre square for one slow breath. | Let everything else soften."
+5. **Centre Point**: "Rest your gaze on the centre square. | Hold it there for one slow breath. Let the rest soften. | Tap Continue."
 
-6. **Short sequence**: "Follow this eyes-only path: top-middle → centre → bottom-middle → centre. | Do it twice, unhurried."
+6. **Short Pattern**: "Follow this quick sequence with your eyes: | Top-middle → centre → bottom-middle → centre. | Do this twice without rushing. Tap Continue."
 
-7. **Single square**: "Back to the centre square. | Hold gently there for a longer out-breath."
+7. **Return to Centre**: "Bring your gaze back to the centre square. | Hold there through a longer out-breath. Notice the focus settling. | Tap Continue."
 
-8. **Finish**: "The grid stays in your mind; noise drops. | You're steady enough to start the next thing."
+8. **Finish**: "Your attention is steadier. The noise has dropped. | Reset complete."
 
 ---
 
-#### 4. Single-Channel Mode
-**ID**: `scattered-single-channel`  
-**Science**: One sensory "channel" at a time to stop multi-task drift  
+#### 4. One Thing at a Time
+**ID**: `scattered-one-thing-at-a-time`  
+**Science**: Grounding reset cuts through clutter by guiding attention through senses one by one  
 **Duration**: ~90 seconds
 
 **Steps**:
-1. **Start**: "Scattered often means too many channels at once. | We'll run one channel at a time."
+1. **Start**: "When the mind feels scattered, it's often because too much is happening at once. | We'll slow it down by focusing on one sense at a time. | Tap Continue."
 
-2. **Eyes channel (10–15s)**: "Choose the eyes: look at a single spot on the screen. | Notice only shape, brightness, edges. Nothing else."
+2. **Look**: "Choose one small spot on the screen. | Notice its shape, brightness and edges. Stay here for a moment. | Tap Continue."
 
-3. **Hands channel (10–15s)**: "Switch to hands: feel the phone's weight, the skin on your fingertips, the tiny warmth where you're holding it."
+3. **Feel**: "Shift your attention to your hands. | Feel the phone's weight and the warmth where you're holding it. Soften your grip slightly. | Tap Continue."
 
-4. **Ears channel (10–15s)**: "Switch to ears: pick one far sound, then one near sound (even your breath). | Let the rest be background."
+4. **Listen**: "Now pay attention to sound. | Pick one far sound, then one closer sound (even your breath). | Let anything else fade into the background. Tap Continue."
 
-5. **Back to eyes (short)**: "Return to the same spot on the screen. | It's easier to hold now."
+5. **Look Again**: "Return to the same spot on the screen. | It should feel easier to hold now. Take one calm breath. | Tap Continue."
 
-6. **Back to hands (short)**: "Feel the grip again; loosen it 5%. | Shoulders soften."
+6. **Feel Again**: "Notice the contact in your hands again. | Shoulders soft. Breathing steady. | Tap Continue."
 
-7. **Choose your working channel**: "Pick the channel you want to lead the next minute (eyes for reading, hands for doing, ears for listening). | Say it in your head: 'Eyes,' 'Hands,' or 'Ears.'"
+7. **Choose Your Next Sense**: "Choose the sense you want to lead your next minute: | Looking, feeling, or listening. Say it quietly in your head. | Tap Continue."
 
-8. **Finish**: "One channel, one lane. | Slow out-breath. Take that into your next action."
+8. **Finish**: "You've moved from many things to just one. | Carry this steady focus into whatever you do next. Reset complete."
 
 ---
 

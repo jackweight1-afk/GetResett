@@ -1326,297 +1326,326 @@ const NEW_RESETS: ResetSpec[] = [
 
   // ============ SCATTERED RESETS (4 resets) ============
   {
-    id: 'scattered-focus-funnel',
+    id: 'scattered-bring-it-back-in',
     emotion: 'scattered',
-    name: 'Focus Funnel',
-    description: 'Narrow attention from wide to single point',
-    scienceBenefit: 'Attentional narrowing: wide → medium → narrow focus to reduce mental scatter',
+    name: 'Bring It Back In',
+    description: 'Narrow attention from whole room to one steady point',
+    scienceBenefit: 'Attentional narrowing helps the brain settle and focus',
     durationHintSeconds: 90,
     steps: [
       {
         id: 'step-1',
-        title: 'Settle in',
+        title: 'Settle In',
         lines: [
-          'Hold your phone in a relaxed grip. Feet planted.',
-          'We\'ll bring the mind from "everywhere" to "just here".'
+          'Hold your phone comfortably. Rest your shoulders.',
+          'We\'re going to bring your attention from "everywhere" back to one place.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-2',
-        title: 'Wide view',
+        title: 'Take In the Whole Screen',
         lines: [
-          'Look at the whole screen and a little beyond it.',
-          'Let your eyes notice edges, colours, and space around you.'
+          'Look at the entire screen at once.',
+          'Notice the colours, the edges, the light around it. Let your breathing stay natural.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-3',
-        title: 'Medium view',
+        title: 'Half the Screen',
         lines: [
-          'Now let your gaze rest on the upper half of the screen only.',
-          'Fewer things. A touch quieter.'
+          'Now look only at the top half of your screen.',
+          'Fewer things to take in. A touch quieter already.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-4',
-        title: 'Narrow view',
+        title: 'A Smaller Area',
         lines: [
-          'Bring attention to one area the size of a coaster.',
-          'Stay there for a slow breath in… and a longer breath out.'
+          'Choose a space about the size of a coaster on the screen.',
+          'Let your eyes rest there for one slow breath in… and a longer one out.',
+          'Let everything else soften in the background. Tap Continue.'
         ]
       },
       {
         id: 'step-5',
-        title: 'Single point',
+        title: 'One Small Point',
         lines: [
-          'Choose one small point (icon corner, single letter).',
-          'Keep a soft, steady gaze. Jaw loose. Shoulders easy.'
+          'Pick a tiny detail — a letter, a corner, an icon.',
+          'Keep a soft, steady gaze on it. Jaw loose. Shoulders easy.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-6',
-        title: 'Lock the lane',
+        title: 'Hold This Spot',
         lines: [
-          'Quietly say in your head: "Just this."',
-          'Hold for one more breath. Let the rest fade to the edges.'
+          'Say quietly in your head: "Just here."',
+          'Breathe once more. Let the rest of the world fall to the edges.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-7',
-        title: 'Tiny action rehearsal',
+        title: 'See Your Next Move',
         lines: [
-          'Picture the very first tap or click you\'ll make after this screen.',
-          'See your thumb do it smoothly.'
+          'Picture the first small action you\'ll take after this.',
+          'Maybe a tap, a message, or opening a tab. See yourself doing it smoothly.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-8',
         title: 'Finish',
         lines: [
-          'From wide to one point.',
-          'Take a clean out-breath. You\'re centred again.'
+          'You\'ve brought your attention back in.',
+          'One steady point, one clear mind. Reset complete.'
         ]
       }
     ]
   },
   {
-    id: 'scattered-finger-ladder',
+    id: 'scattered-steady-hands',
     emotion: 'scattered',
-    name: 'Finger Ladder',
-    description: 'Motor sequencing to stabilize attention',
-    scienceBenefit: 'Motor sequencing + bilateral rhythm to stabilise attention',
+    name: 'Steady Hands, Steady Mind',
+    description: 'Calming hand-sequence for steady rhythm',
+    scienceBenefit: 'Hand pattern brings the brain back into steady rhythm and reduces scattered energy',
     durationHintSeconds: 90,
     steps: [
       {
         id: 'step-1',
         title: 'Start',
         lines: [
-          'Rest elbows or forearms lightly.',
-          'We\'ll use a simple finger pattern to give your brain one clear track.'
+          'Rest your elbows or forearms lightly on your thighs or desk.',
+          'We\'ll use a simple hand pattern to steady your attention.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-2',
-        title: 'Left hand pattern',
+        title: 'Left Hand Only',
         lines: [
-          'Tap thumb to index–middle–ring–little, then back to ring–middle–index.',
-          'Slow and smooth.'
+          'Tap your thumb to each finger on your left hand:',
+          'Index → middle → ring → little… then back again, little → ring → middle → index.',
+          'Slow and smooth. Tap Continue.'
         ]
       },
       {
         id: 'step-3',
-        title: 'Right hand pattern',
+        title: 'Right Hand Only',
         lines: [
-          'Same on the right: index–middle–ring–little… and back.',
-          'Keep the pace gentle; no rush.'
+          'Same pattern with your right hand.',
+          'Keep it gentle. No rush. Let your breath stay easy.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-4',
-        title: 'Together, alternating',
+        title: 'One Side Then the Other',
         lines: [
-          'Left does the pattern once, then right does it once.',
-          'Swap sides for two cycles. Breathe naturally.'
+          'Left hand does one full run. Then the right hand does one full run.',
+          'Repeat this swap twice. Shoulders relaxed.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-5',
-        title: 'Together, mirrored',
+        title: 'Both Hands Together',
         lines: [
-          'Both hands now, but mirrored (thumb to index at the same time, then middle, etc.).',
-          'One clean run up… and back.'
+          'Now do the pattern with both hands at the same time.',
+          'Thumb to index… middle… ring… little… and back. Move slowly and evenly.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-6',
-        title: 'Slow the tempo',
+        title: 'Slow the Pace',
         lines: [
-          'Do the mirrored run again, but a notch slower.',
-          'Feel the mind match the steadier rhythm.'
+          'Repeat the pattern once more, just a little slower.',
+          'Feel the mind follow the steadier rhythm.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-7',
-        title: 'Stillness check',
+        title: 'Hands Rest',
         lines: [
-          'Rest your hands.',
-          'Notice how quiet the head feels when the sequence stops.'
+          'Place your hands down.',
+          'Notice the quiet feeling in your head now the movement has stopped.',
+          'Hold one long out-breath. Tap Continue.'
         ]
       },
       {
         id: 'step-8',
         title: 'Finish',
         lines: [
-          'One short in-breath, one longer out-breath.',
-          'Rhythm found, focus back. Reset complete.'
+          'Rhythm restored. Mind calmer and more settled.',
+          'Reset complete.'
         ]
       }
     ],
-    safetyNote: 'Skip or ease any movement that isn\'t comfortable for you.'
+    safetyNote: 'Ease or skip any movement that isn\'t comfortable for you.'
   },
   {
-    id: 'scattered-grid-focus',
+    id: 'scattered-follow-the-grid',
     emotion: 'scattered',
-    name: 'Grid Focus Drill',
-    description: 'Eyes-only tracking to tame attention hopping',
-    scienceBenefit: 'Visuospatial working-memory; eyes-only tracking to tame "attention hopping"',
+    name: 'Follow the Grid',
+    description: 'Eyes-only drill to steady attention',
+    scienceBenefit: 'Simple eyes-only drill steadies attention and reduces the jumpy, scattered feeling',
     durationHintSeconds: 90,
     steps: [
       {
         id: 'step-1',
-        title: 'Set the scene',
+        title: 'Picture the Grid',
         lines: [
-          'Imagine a simple 3×3 grid on your screen.',
-          'Nine squares, like a noughts-and-crosses board.'
+          'Imagine a 3×3 grid on your screen — like a noughts-and-crosses board.',
+          'Keep your head still and move only your eyes.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-2',
-        title: 'Row scan',
+        title: 'Across the Rows',
         lines: [
-          'With only your eyes, trace the top row left-to-right… then the middle row… then the bottom row.',
-          'Smooth and slow.'
+          'With your eyes, trace the top row from left to right.',
+          'Then the middle row. Then the bottom row. Smooth and steady.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-3',
-        title: 'Column scan',
+        title: 'Down the Columns',
         lines: [
-          'Now trace the first column top-to-bottom… then the middle… then the last.',
-          'Keep breathing easily.'
+          'Trace the first column from top to bottom.',
+          'Then the middle column. Then the last one. Keep your breathing soft.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-4',
         title: 'Corners',
         lines: [
-          'Touch your gaze to each corner of the grid, clockwise.',
-          'One full lap.'
+          'Touch your gaze to each corner of the grid in a clockwise loop:',
+          'Top-left → top-right → bottom-right → bottom-left.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-5',
-        title: 'Centre',
+        title: 'Centre Point',
         lines: [
-          'Settle your gaze on the centre square for one slow breath.',
-          'Let everything else soften.'
+          'Rest your gaze on the centre square.',
+          'Hold it there for one slow breath. Let the rest soften.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-6',
-        title: 'Short sequence',
+        title: 'Short Pattern',
         lines: [
-          'Follow this eyes-only path: top-middle → centre → bottom-middle → centre.',
-          'Do it twice, unhurried.'
+          'Follow this quick sequence with your eyes:',
+          'Top-middle → centre → bottom-middle → centre.',
+          'Do this twice without rushing. Tap Continue.'
         ]
       },
       {
         id: 'step-7',
-        title: 'Single square',
+        title: 'Return to Centre',
         lines: [
-          'Back to the centre square.',
-          'Hold gently there for a longer out-breath.'
+          'Bring your gaze back to the centre square.',
+          'Hold there through a longer out-breath. Notice the focus settling.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-8',
         title: 'Finish',
         lines: [
-          'The grid stays in your mind; noise drops.',
-          'You\'re steady enough to start the next thing.'
+          'Your attention is steadier. The noise has dropped.',
+          'Reset complete.'
         ]
       }
     ]
   },
   {
-    id: 'scattered-single-channel',
+    id: 'scattered-one-thing-at-a-time',
     emotion: 'scattered',
-    name: 'Single-Channel Mode',
-    description: 'One sensory channel at a time',
-    scienceBenefit: 'One sensory "channel" at a time to stop multi-task drift',
+    name: 'One Thing at a Time',
+    description: 'Cut through mental clutter with sensory focus',
+    scienceBenefit: 'Grounding reset cuts through clutter by guiding attention through senses one by one',
     durationHintSeconds: 90,
     steps: [
       {
         id: 'step-1',
         title: 'Start',
         lines: [
-          'Scattered often means too many channels at once.',
-          'We\'ll run one channel at a time.'
+          'When the mind feels scattered, it\'s often because too much is happening at once.',
+          'We\'ll slow it down by focusing on one sense at a time.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-2',
-        title: 'Eyes channel (10–15s)',
+        title: 'Look',
         lines: [
-          'Choose the eyes: look at a single spot on the screen.',
-          'Notice only shape, brightness, edges. Nothing else.'
+          'Choose one small spot on the screen.',
+          'Notice its shape, brightness and edges. Stay here for a moment.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-3',
-        title: 'Hands channel (10–15s)',
+        title: 'Feel',
         lines: [
-          'Switch to hands: feel the phone\'s weight, the skin on your fingertips, the tiny warmth where you\'re holding it.'
+          'Shift your attention to your hands.',
+          'Feel the phone\'s weight and the warmth where you\'re holding it. Soften your grip slightly.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-4',
-        title: 'Ears channel (10–15s)',
+        title: 'Listen',
         lines: [
-          'Switch to ears: pick one far sound, then one near sound (even your breath).',
-          'Let the rest be background.'
+          'Now pay attention to sound.',
+          'Pick one far sound, then one closer sound (even your breath).',
+          'Let anything else fade into the background. Tap Continue.'
         ]
       },
       {
         id: 'step-5',
-        title: 'Back to eyes (short)',
+        title: 'Look Again',
         lines: [
           'Return to the same spot on the screen.',
-          'It\'s easier to hold now.'
+          'It should feel easier to hold now. Take one calm breath.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-6',
-        title: 'Back to hands (short)',
+        title: 'Feel Again',
         lines: [
-          'Feel the grip again; loosen it 5%.',
-          'Shoulders soften.'
+          'Notice the contact in your hands again.',
+          'Shoulders soft. Breathing steady.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-7',
-        title: 'Choose your working channel',
+        title: 'Choose Your Next Sense',
         lines: [
-          'Pick the channel you want to lead the next minute (eyes for reading, hands for doing, ears for listening).',
-          'Say it in your head: "Eyes," "Hands," or "Ears."'
+          'Choose the sense you want to lead your next minute:',
+          'Looking, feeling, or listening. Say it quietly in your head.',
+          'Tap Continue.'
         ]
       },
       {
         id: 'step-8',
         title: 'Finish',
         lines: [
-          'One channel, one lane.',
-          'Slow out-breath. Take that into your next action.'
+          'You\'ve moved from many things to just one.',
+          'Carry this steady focus into whatever you do next. Reset complete.'
         ]
       }
     ]
