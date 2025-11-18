@@ -11,7 +11,7 @@ export default function Landing() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-pink-50 to-teal-50">
       {/* Header */}
       <header className="px-4 sm:px-6 py-6">
         <div className="max-w-6xl mx-auto flex items-center space-x-3">
@@ -34,7 +34,7 @@ export default function Landing() {
           </h1>
 
           <p className="text-lg sm:text-xl text-gray-700 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Science-backed guided wellbeing resets that help busy professionals reset their mood, 
+            Science-backed guided wellbeing resets that help busy people reset their mood, 
             reduce stress, and find focus—right when they need it most.
           </p>
 
