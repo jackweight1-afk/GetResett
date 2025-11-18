@@ -225,13 +225,12 @@ export default function Signup() {
           {/* Login Link */}
           <div className="text-center text-xs sm:text-sm text-gray-600 mt-6 pt-6 border-t border-gray-200">
             Already have an account?{" "}
-            <Link href="/login">
-              <a 
-                data-testid="link-login"
-                className="text-purple-600 hover:text-purple-700 font-semibold"
-              >
-                Log in
-              </a>
+            <Link 
+              href="/login"
+              data-testid="link-login"
+              className="text-purple-600 hover:text-purple-700 font-semibold"
+            >
+              Log in
             </Link>
           </div>
         </div>

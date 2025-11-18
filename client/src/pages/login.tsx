@@ -151,13 +151,12 @@ export default function Login() {
             </Button>
 
             <div className="text-center">
-              <Link href="/forgot-password">
-                <a 
-                  data-testid="link-forgot-password"
-                  className="text-xs sm:text-sm text-purple-600 hover:text-purple-700 font-medium"
-                >
-                  Forgot password?
-                </a>
+              <Link 
+                href="/forgot-password"
+                data-testid="link-forgot-password"
+                className="text-xs sm:text-sm text-purple-600 hover:text-purple-700 font-medium"
+              >
+                Forgot password?
               </Link>
             </div>
           </form>
@@ -165,13 +164,12 @@ export default function Login() {
           {/* Signup Link */}
           <div className="text-center text-xs sm:text-sm text-gray-600 mt-6 pt-6 border-t border-gray-200">
             Don't have an account?{" "}
-            <Link href="/signup">
-              <a 
-                data-testid="link-signup"
-                className="text-purple-600 hover:text-purple-700 font-semibold"
-              >
-                Sign up
-              </a>
+            <Link 
+              href="/signup"
+              data-testid="link-signup"
+              className="text-purple-600 hover:text-purple-700 font-semibold"
+            >
+              Sign up
             </Link>
           </div>
         </div>

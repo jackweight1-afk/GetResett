@@ -136,13 +136,12 @@ export default function ForgotPassword() {
                   {resetUrl && (
                     <div className="space-y-2 pt-2 border-t border-green-200">
                       <p className="text-xs font-semibold">Development Mode:</p>
-                      <Link href={resetUrl}>
-                        <a 
-                          data-testid="link-reset-password"
-                          className="text-xs text-purple-600 hover:text-purple-700 underline break-all"
-                        >
-                          Click here to reset your password
-                        </a>
+                      <Link 
+                        href={resetUrl}
+                        data-testid="link-reset-password"
+                        className="text-xs text-purple-600 hover:text-purple-700 underline break-all"
+                      >
+                        Click here to reset your password
                       </Link>
                     </div>
                   )}
@@ -154,13 +153,12 @@ export default function ForgotPassword() {
           {/* Back to Login */}
           <div className="text-center text-xs sm:text-sm text-gray-600 mt-6 pt-6 border-t border-gray-200">
             Remember your password?{" "}
-            <Link href="/login">
-              <a 
-                data-testid="link-login"
-                className="text-purple-600 hover:text-purple-700 font-semibold"
-              >
-                Log in
-              </a>
+            <Link 
+              href="/login"
+              data-testid="link-login"
+              className="text-purple-600 hover:text-purple-700 font-semibold"
+            >
+              Log in
             </Link>
           </div>
         </div>

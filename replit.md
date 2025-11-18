@@ -1,14 +1,17 @@
-# Replit.md - GetResett Wellness App
+# Replit.md - GetReset Wellness App
 
 ## Overview
-GetResett is a corporate wellness application designed to provide science-backed, 60-second reset sessions for mental and physical well-being. It offers guided sessions for meditation, sleep tracking, stress relief, mindful stretches, and energy boosts. The app aims to help users track progress, gain insights, and maintain wellness habits, particularly targeting busy professionals who require quick, accessible, and effective mental and physical resets. It allows users to chain multiple sessions based on their emotional state for a continuous guided experience.
+GetReset is a corporate wellness application designed to provide science-backed, 60-second reset sessions for mental and physical well-being. It offers guided sessions for meditation, sleep tracking, stress relief, mindful stretches, and energy boosts. The app aims to help users track progress, gain insights, and maintain wellness habits, particularly targeting busy professionals who require quick, accessible, and effective mental and physical resets. It allows users to chain multiple sessions based on their emotional state for a continuous guided experience.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
 ### UI/UX Preferences
 - Modern mobile-first design is essential - all text must stay within containers, no overflow issues
-- Logo text must be solid black for maximum visibility on all devices (no gradient text that becomes unreadable)
+- **Premium Reset-Card Aesthetic**: All auth/onboarding pages use white/80 backdrop-blur cards with rounded-3xl corners, shadow-lg, and subtle purple borders (border-purple-100/50)
+- **Solid Text for Readability**: Landing page and all page titles use solid black text (text-gray-900) instead of gradients for maximum legibility
+- **Concise Typography**: Headings use text-2xl sm:text-3xl, descriptions use text-sm sm:text-base to prevent overflow and maintain professional appearance
+- **Consistent Background**: Auth/onboarding pages share bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50
 - CTAs should encourage trying the app free first rather than pushing subscription immediately
 - Purple/teal gradient theme throughout the app for consistency
 - Landing page uses yellow → pink/purple → teal gradient matching logo aesthetic
@@ -16,6 +19,7 @@ Preferred communication style: Simple, everyday language.
 - Touch-friendly button sizes and spacing optimized for mobile devices
 - Excellent contrast ratios required for all text elements
 - Responsive typography that scales appropriately across screen sizes
+- Balanced mobile/desktop experience with proper responsive sizing (p-6 sm:p-8)
 
 ## System Architecture
 The application employs a modern full-stack architecture with a clear separation between client and server.
@@ -87,7 +91,11 @@ The application employs a modern full-stack architecture with a clear separation
   - Daily usage tracking with unique constraint on (userId, date) for accurate counting
   - Feeling entries linked to sessions via sessionId for comprehensive analytics
   - Dashboard displays session history, streaks, and analytics
-- **UI/UX Design**: Modern purple/violet gradient theme with glassmorphism effects, rounded cards, and mobile-first responsiveness.
+- **UI/UX Design**: 
+  - **Premium Styling**: All auth/onboarding pages feature white/80 backdrop-blur cards with rounded-3xl, shadow-lg, and border-purple-100/50
+  - **Typography**: Solid text-gray-900 headings (text-2xl sm:text-3xl), concise descriptions (text-sm sm:text-base)
+  - **Consistent Background**: from-purple-50 via-violet-50 to-blue-50 gradient across all auth pages
+  - Modern purple/violet gradient theme with glassmorphism effects, rounded cards, and mobile-first responsiveness
 - **Monetization**: Subscription model offers 3 free daily sessions, tracked via `localStorage`. Non-subscribers encounter a paywall on the 4th attempt. New users receive a 30-day free trial; returning users are charged immediately. Supports Apple Pay, Google Pay, and international currency conversion based on real-time exchange rates from a GBP base price.
 - **Internationalization**: Automatically detects user's country via IP geolocation and browser locale, displaying pricing in local currency with real-time exchange rates across 18+ major currencies.
 - **Performance Optimization**: Includes instant fallback data for currency, extended caching, GPU-accelerated animations, lazy loading, virtual scrolling, DNS prefetching, debouncing/throttling, and optimized font loading.
