@@ -95,7 +95,7 @@ export default function AdminDashboard() {
 
   const createUserMutation = useMutation({
     mutationFn: async (userData: typeof newUser) => {
-      const response = await apiRequest('POST', '/admin/users', userData);
+      const response = await apiRequest('POST', '/api/admin/users', userData);
       return response.json();
     },
     onSuccess: () => {
@@ -117,7 +117,7 @@ export default function AdminDashboard() {
 
   const updateUserStatusMutation = useMutation({
     mutationFn: async ({ userId, isActive }: { userId: string; isActive: boolean }) => {
-      const response = await apiRequest('PATCH', `/admin/users/${userId}`, { isActive });
+      const response = await apiRequest('PATCH', `/api/admin/users/${userId}`, { isActive });
       return response.json();
     },
     onSuccess: () => {

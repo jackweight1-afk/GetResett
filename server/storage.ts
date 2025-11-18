@@ -154,6 +154,7 @@ export class DatabaseStorage implements IStorage {
         apply("stripeCustomerId");
         apply("stripeSubscriptionId");
         apply("subscriptionStatus");
+        apply("isActive");
         return profile;
       };
 

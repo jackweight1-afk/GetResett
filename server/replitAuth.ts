@@ -64,6 +64,7 @@ async function upsertUser(
     firstName: claims["first_name"],
     lastName: claims["last_name"],
     profileImageUrl: claims["profile_image_url"],
+    isActive: true, // OIDC users are active by default (authenticated via trusted provider)
   });
 }
 
