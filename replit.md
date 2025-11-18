@@ -43,17 +43,25 @@ The application employs a modern full-stack architecture with a clear separation
 
 ### Key Components & Design
 - **Authentication System**: 
-  - Uses Replit Auth with OpenID Connect
-  - PostgreSQL-backed sessions with secure HTTP-only cookies
-  - Transactional user upsert handles OIDC ID changes by migrating user data atomically:
-    - Temporarily clears source user's email to free unique constraint
-    - Creates/updates destination user with freed email
-    - Migrates all child table data (sessions, feelings, daily_usage with deduplication)
-    - Deletes source user record
-    - Guarded rollback prevents duplicate key errors by only restoring email if new user wasn't created
-  - Daily usage deduplication merges session counts when user IDs change
-  - Redirects to /resets page after successful login
-  - Test accounts (huzefausama25@gmail.com, jackweight1@gmail.com) have unlimited access
+  - **Dual Authentication**: Supports both Replit Auth (OIDC) and email/password authentication
+  - **Email/Password Auth**: New users can register with name/email/password using bcryptjs hashing
+  - **Unified Middleware**: `isAuthenticatedUnified` handles both auth methods seamlessly
+  - **Session Management**: Express sessions with PostgreSQL storage, secure HTTP-only cookies
+  - **User ID Resolution**: `getUserId()` helper checks both session.userId (email auth) and user.claims.sub (Replit Auth)
+  - **Null Safety**: All protected routes validate userId and return 401 if null, preventing crashes
+  - **Complete Onboarding Flow**:
+    - New users go through: Welcome → Sign Up/Login → Optional Corporate Code → First Reset Walkthrough
+    - `hasCompletedOnboarding` flag tracks onboarding completion
+    - Redirects based on auth state and onboarding status
+    - First-time users experience a guided reset before accessing full app
+  - **Corporate Access System**:
+    - Organizations table with unique `corporateCode` field
+    - Users can enter corporate codes to link to organization
+    - Corporate users (`organisationId` set) get unlimited resets
+    - Account page allows corporate code entry and removal
+    - Paywall includes "Enter corporate code" option with SPA navigation
+  - **Transactional User Upsert**: Handles OIDC ID changes by migrating user data atomically with deduplication
+  - **Test Accounts**: huzefausama25@gmail.com, jackweight1@gmail.com have unlimited access
   
 - **Interactive Reset System**: 
   - Features 16+ unique reset experiences using ResetSpec schema
