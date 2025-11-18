@@ -1,5 +1,6 @@
 import {
   users,
+  organisations,
   sessionTypes,
   userSessions,
   sleepEntries,
@@ -8,6 +9,7 @@ import {
   dailyUsage,
   type User,
   type UpsertUser,
+  type Organisation,
   type SessionType,
   type UserSession,
   type SleepEntry,
@@ -29,7 +31,9 @@ export interface IStorage {
   // User operations
   // (IMPORTANT) these user operations are mandatory for Replit Auth.
   getUser(id: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
+  updateUser(id: string, updates: Partial<User>): Promise<User | undefined>;
   deleteUser(id: string): Promise<void>;
   
   // Session type operations
@@ -79,6 +83,10 @@ export interface IStorage {
       timeOfDay: string;
     };
   }>;
+  
+  // Corporate access
+  getOrganisationByCode(corporateCode: string): Promise<any | undefined>;
+  validateCorporateCode(corporateCode: string): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -225,6 +233,30 @@ export class DatabaseStorage implements IStorage {
     await db.delete(stressEntries).where(eq(stressEntries.userId, id));
     await db.delete(userSessions).where(eq(userSessions.userId, id));
     await db.delete(users).where(eq(users.id, id));
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user;
+  }
+
+  async updateUser(id: string, updates: Partial<User>): Promise<User | undefined> {
+    const [updated] = await db
+      .update(users)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
+    return updated;
+  }
+
+  async getOrganisationByCode(corporateCode: string): Promise<Organisation | undefined> {
+    const [org] = await db.select().from(organisations).where(eq(organisations.corporateCode, corporateCode));
+    return org;
+  }
+
+  async validateCorporateCode(corporateCode: string): Promise<boolean> {
+    const org = await this.getOrganisationByCode(corporateCode);
+    return org !== undefined;
   }
 
   async getSessionTypes(): Promise<SessionType[]> {

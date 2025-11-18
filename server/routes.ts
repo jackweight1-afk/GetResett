@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import Stripe from "stripe";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
+import { setupEmailAuth, requireAuth, getUserId } from "./emailAuth";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
@@ -22,8 +23,11 @@ import {
 } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Auth middleware
+  // Auth middleware (Replit Auth)
   await setupAuth(app);
+  
+  // Email/password auth
+  await setupEmailAuth(app);
 
   // Initialize session types on startup
   await initializeSessionTypes();
