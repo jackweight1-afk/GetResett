@@ -63,103 +63,106 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
-      <div className="w-full max-w-md space-y-8">
-        {/* Logo */}
-        <div className="flex justify-center">
-          <img 
-            src={logoPath} 
-            alt="GetResett Logo" 
-            className="h-16 w-16 rounded-xl shadow-md"
-          />
-        </div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 px-4 py-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-lg border border-purple-100/50">
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <img 
+              src={logoPath} 
+              alt="GetReset Logo" 
+              className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl shadow-md"
+            />
+          </div>
 
-        {/* Title */}
-        <div className="text-center space-y-2">
-          <h1 
-            data-testid="title-forgot-password"
-            className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-teal-600 bg-clip-text text-transparent"
-          >
-            Forgot Password
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Enter your email to reset your password
-          </p>
-        </div>
-
-        {!resetSent ? (
-          /* Reset Form */
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        data-testid="input-email"
-                        type="email"
-                        placeholder="you@example.com"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Button
-                data-testid="button-reset"
-                type="submit"
-                size="lg"
-                disabled={isLoading}
-                className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-semibold"
-              >
-                {isLoading ? "Sending..." : "Send Reset Link"}
-              </Button>
-            </form>
-          </Form>
-        ) : (
-          /* Success Message */
-          <Alert className="border-green-200 bg-green-50/80 backdrop-blur-sm text-green-800">
-            <CheckCircle className="h-4 w-4" />
-            <AlertDescription>
-              <div className="space-y-3">
-                <p className="font-semibold">Reset link generated!</p>
-                <p className="text-sm">
-                  If an account exists with that email, you can reset your password.
-                </p>
-                {resetUrl && (
-                  <div className="space-y-2 pt-2 border-t border-green-200">
-                    <p className="text-xs font-semibold">Development Mode:</p>
-                    <Link href={resetUrl}>
-                      <a 
-                        data-testid="link-reset-password"
-                        className="text-xs text-purple-600 hover:text-purple-700 underline break-all"
-                      >
-                        Click here to reset your password
-                      </a>
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </AlertDescription>
-          </Alert>
-        )}
-
-        {/* Back to Login */}
-        <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-          Remember your password?{" "}
-          <Link href="/login">
-            <a 
-              data-testid="link-login"
-              className="text-purple-600 hover:text-purple-700 font-semibold underline"
+          {/* Title */}
+          <div className="text-center mb-6">
+            <h1 
+              data-testid="title-forgot-password"
+              className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2"
             >
-              Log in
-            </a>
-          </Link>
+              Forgot Password
+            </h1>
+            <p className="text-sm sm:text-base text-gray-600">
+              Enter your email to reset your password
+            </p>
+          </div>
+
+          {!resetSent ? (
+            /* Reset Form */
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-700">Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          data-testid="input-email"
+                          type="email"
+                          placeholder="you@example.com"
+                          {...field}
+                          className="text-sm sm:text-base"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button
+                  data-testid="button-send-reset"
+                  type="submit"
+                  size="lg"
+                  disabled={isLoading}
+                  className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-medium text-sm sm:text-base"
+                >
+                  {isLoading ? "Sending..." : "Send Reset Link"}
+                </Button>
+              </form>
+            </Form>
+          ) : (
+            /* Success Message */
+            <Alert className="border-green-200 bg-green-50/80 backdrop-blur-sm text-green-800">
+              <CheckCircle className="h-4 w-4" />
+              <AlertDescription>
+                <div className="space-y-3">
+                  <p className="font-semibold text-sm sm:text-base">Reset link generated!</p>
+                  <p className="text-xs sm:text-sm">
+                    If an account exists with that email, you can reset your password.
+                  </p>
+                  {resetUrl && (
+                    <div className="space-y-2 pt-2 border-t border-green-200">
+                      <p className="text-xs font-semibold">Development Mode:</p>
+                      <Link href={resetUrl}>
+                        <a 
+                          data-testid="link-reset-password"
+                          className="text-xs text-purple-600 hover:text-purple-700 underline break-all"
+                        >
+                          Click here to reset your password
+                        </a>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {/* Back to Login */}
+          <div className="text-center text-xs sm:text-sm text-gray-600 mt-6 pt-6 border-t border-gray-200">
+            Remember your password?{" "}
+            <Link href="/login">
+              <a 
+                data-testid="link-login"
+                className="text-purple-600 hover:text-purple-700 font-semibold"
+              >
+                Log in
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

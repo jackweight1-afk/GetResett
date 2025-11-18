@@ -83,96 +83,100 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
-      <div className="w-full max-w-md space-y-8">
-        {/* Logo */}
-        <div className="flex justify-center">
-          <img 
-            src={logoPath} 
-            alt="GetResett Logo" 
-            className="h-16 w-16 rounded-xl shadow-md"
-          />
-        </div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 px-4 py-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-lg border border-purple-100/50">
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <img 
+              src={logoPath} 
+              alt="GetReset Logo" 
+              className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl shadow-md"
+            />
+          </div>
 
-        {/* Title */}
-        <div className="text-center space-y-2">
-          <h1 
-            data-testid="title-reset-password"
-            className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-teal-600 bg-clip-text text-transparent"
-          >
-            Reset Password
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Enter your new password below
-          </p>
-        </div>
-
-        {/* Reset Form */}
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>New Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        data-testid="input-password"
-                        type="password"
-                        placeholder="At least 6 characters"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm New Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        data-testid="input-confirm-password"
-                        type="password"
-                        placeholder="Re-enter your password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <Button
-              data-testid="button-reset-password"
-              type="submit"
-              size="lg"
-              disabled={isLoading || !token}
-              className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-semibold"
+          {/* Title */}
+          <div className="text-center mb-6">
+            <h1 
+              data-testid="title-reset-password"
+              className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2"
             >
-              {isLoading ? "Resetting..." : "Reset Password"}
-            </Button>
-          </form>
-        </Form>
+              Reset Password
+            </h1>
+            <p className="text-sm sm:text-base text-gray-600">
+              Enter your new password below
+            </p>
+          </div>
 
-        {/* Back to Login */}
-        <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-          Remember your password?{" "}
-          <Link href="/login">
-            <a 
-              data-testid="link-login"
-              className="text-purple-600 hover:text-purple-700 font-semibold underline"
-            >
-              Log in
-            </a>
-          </Link>
+          {/* Reset Form */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-700">New Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          data-testid="input-password"
+                          type="password"
+                          placeholder="At least 6 characters"
+                          {...field}
+                          className="text-sm sm:text-base"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-700">Confirm New Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          data-testid="input-confirm-password"
+                          type="password"
+                          placeholder="Re-enter your password"
+                          {...field}
+                          className="text-sm sm:text-base"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <Button
+                data-testid="button-reset-password"
+                type="submit"
+                size="lg"
+                disabled={isLoading || !token}
+                className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-medium text-sm sm:text-base"
+              >
+                {isLoading ? "Resetting..." : "Reset Password"}
+              </Button>
+            </form>
+          </Form>
+
+          {/* Back to Login */}
+          <div className="text-center text-xs sm:text-sm text-gray-600 mt-6 pt-6 border-t border-gray-200">
+            Remember your password?{" "}
+            <Link href="/login">
+              <a 
+                data-testid="link-login"
+                className="text-purple-600 hover:text-purple-700 font-semibold"
+              >
+                Log in
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
