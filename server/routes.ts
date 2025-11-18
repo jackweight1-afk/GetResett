@@ -848,6 +848,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin: Update organization
+  app.patch('/api/admin/organizations/:id', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
+    try {
+      const updateOrgSchema = z.object({
+        name: z.string().optional(),
+        tier: z.enum(['core', 'growth', 'culture_partner']).optional(),
+        employeeCount: z.number().int().min(0).optional(),
+        billingStatus: z.enum(['active', 'inactive', 'suspended']).optional(),
+      });
+
+      const { id } = req.params;
+      const updates = updateOrgSchema.parse(req.body);
+
+      const organization = await storage.updateOrganization(id, updates);
+      res.json(organization);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors[0].message });
+      }
+      console.error("Error updating organization:", error);
+      res.status(500).json({ error: "Failed to update organization" });
+    }
+  });
+
+  // Admin: Delete organization
+  app.delete('/api/admin/organizations/:id', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deleteOrganization(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting organization:", error);
+      res.status(500).json({ error: "Failed to delete organization" });
+    }
+  });
+
   // Admin: Get all leads
   app.get('/api/admin/leads', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
     try {

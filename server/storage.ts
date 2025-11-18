@@ -113,6 +113,8 @@ export interface IStorage {
   }>;
   getAllOrganizations(): Promise<Organisation[]>;
   createOrganization(org: InsertOrganisation): Promise<Organisation>;
+  updateOrganization(id: string, updates: Partial<Organisation>): Promise<Organisation>;
+  deleteOrganization(id: string): Promise<void>;
   getOrganizationAnalytics(orgId: string): Promise<{
     totalResets: number;
     activeEmployees: number;
@@ -817,6 +819,31 @@ export class DatabaseStorage implements IStorage {
       .values(org)
       .returning();
     return created;
+  }
+
+  async updateOrganization(id: string, updates: Partial<Organisation>): Promise<Organisation> {
+    const [updated] = await db
+      .update(organisations)
+      .set(updates)
+      .where(eq(organisations.id, id))
+      .returning();
+    if (!updated) {
+      throw new Error('Organization not found');
+    }
+    return updated;
+  }
+
+  async deleteOrganization(id: string): Promise<void> {
+    // First, unlink all users from this organization
+    await db
+      .update(users)
+      .set({ organisationId: null })
+      .where(eq(users.organisationId, id));
+    
+    // Then delete the organization
+    await db
+      .delete(organisations)
+      .where(eq(organisations.id, id));
   }
 
   async getOrganizationAnalytics(orgId: string): Promise<{

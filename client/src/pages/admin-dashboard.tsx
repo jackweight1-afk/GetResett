@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Building2, Users, Activity, TrendingUp, DollarSign, Calendar, Mail, Phone, ArrowLeft, RefreshCw, Shield, UserPlus, CheckCircle, XCircle } from "lucide-react";
+import { Building2, Users, Activity, TrendingUp, DollarSign, Calendar, Mail, Phone, ArrowLeft, RefreshCw, Shield, UserPlus, CheckCircle, XCircle, Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import logoUrl from "@assets/getreset_logo.jpg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,6 +10,24 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface GlobalAnalytics {
   totalResets: number;
@@ -56,6 +74,8 @@ interface User {
 
 export default function AdminDashboard() {
   const [selectedOrg, setSelectedOrg] = useState<string | null>(null);
+  const [editingOrg, setEditingOrg] = useState<Organization | null>(null);
+  const [deletingOrg, setDeletingOrg] = useState<Organization | null>(null);
   const [newUser, setNewUser] = useState({
     email: '',
     password: '',
@@ -70,6 +90,11 @@ export default function AdminDashboard() {
     adminFirstName: '',
     adminLastName: '',
     adminPassword: '',
+  });
+  const [editOrgForm, setEditOrgForm] = useState({
+    name: '',
+    tier: '',
+    employeeCount: 0,
   });
   const { toast } = useToast();
 
@@ -148,6 +173,52 @@ export default function AdminDashboard() {
     },
   });
 
+  const updateOrgMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<Organization> }) => {
+      const response = await apiRequest('PATCH', `/api/admin/organizations/${id}`, updates);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Organization Updated",
+        description: "Organization details have been updated successfully",
+      });
+      setEditingOrg(null);
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/organizations'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/analytics'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update organization",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const deleteOrgMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const response = await apiRequest('DELETE', `/api/admin/organizations/${id}`);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Organization Deleted",
+        description: "Organization has been deleted successfully",
+      });
+      setDeletingOrg(null);
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/organizations'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/analytics'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete organization",
+        variant: "destructive",
+      });
+    },
+  });
+
   const updateUserStatusMutation = useMutation({
     mutationFn: async ({ userId, isActive }: { userId: string; isActive: boolean }) => {
       const response = await apiRequest('PATCH', `/api/admin/users/${userId}`, { isActive });
@@ -204,6 +275,29 @@ export default function AdminDashboard() {
 
   const handleUpdateUserStatus = (userId: string, isActive: boolean) => {
     updateUserStatusMutation.mutate({ userId, isActive });
+  };
+
+  const handleEditOrg = (org: Organization) => {
+    setEditingOrg(org);
+    setEditOrgForm({
+      name: org.name,
+      tier: org.tier,
+      employeeCount: org.employeeCount,
+    });
+  };
+
+  const handleUpdateOrg = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingOrg) return;
+    updateOrgMutation.mutate({
+      id: editingOrg.id,
+      updates: editOrgForm,
+    });
+  };
+
+  const handleDeleteOrg = () => {
+    if (!deletingOrg) return;
+    deleteOrgMutation.mutate(deletingOrg.id);
   };
 
   // Redirect if not super admin
@@ -552,6 +646,26 @@ export default function AdminDashboard() {
                         >
                           View Analytics
                         </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleEditOrg(org)}
+                          className="text-xs"
+                          data-testid={`button-edit-org-${org.id}`}
+                        >
+                          <Edit className="w-3 h-3 mr-1" />
+                          Edit
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setDeletingOrg(org)}
+                          className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+                          data-testid={`button-delete-org-${org.id}`}
+                        >
+                          <Trash2 className="w-3 h-3 mr-1" />
+                          Delete
+                        </Button>
                       </div>
                     </div>
                   ))}
@@ -817,6 +931,104 @@ export default function AdminDashboard() {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Edit Organization Dialog */}
+      <Dialog open={!!editingOrg} onOpenChange={(open) => !open && setEditingOrg(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit Organization</DialogTitle>
+            <DialogDescription>
+              Update organization details and employee count
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleUpdateOrg} className="space-y-4">
+            <div>
+              <Label htmlFor="edit-org-name" className="text-xs">Organization Name</Label>
+              <Input
+                id="edit-org-name"
+                type="text"
+                value={editOrgForm.name}
+                onChange={(e) => setEditOrgForm({ ...editOrgForm, name: e.target.value })}
+                placeholder="Organization name"
+                className="text-sm h-10"
+                data-testid="input-edit-org-name"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="edit-org-tier" className="text-xs">Tier</Label>
+              <Select
+                value={editOrgForm.tier}
+                onValueChange={(value) => setEditOrgForm({ ...editOrgForm, tier: value })}
+              >
+                <SelectTrigger className="text-sm h-10" data-testid="select-edit-org-tier">
+                  <SelectValue placeholder="Select tier" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="core">Core Access</SelectItem>
+                  <SelectItem value="growth">Growth Support</SelectItem>
+                  <SelectItem value="culture_partner">Culture Partner</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="edit-org-employees" className="text-xs">Employee Count</Label>
+              <Input
+                id="edit-org-employees"
+                type="number"
+                value={editOrgForm.employeeCount}
+                onChange={(e) => setEditOrgForm({ ...editOrgForm, employeeCount: parseInt(e.target.value) || 0 })}
+                placeholder="Employee count"
+                className="text-sm h-10"
+                data-testid="input-edit-org-employees"
+                min="0"
+                required
+              />
+            </div>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setEditingOrg(null)}
+                data-testid="button-cancel-edit"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={updateOrgMutation.isPending}
+                className="bg-gradient-to-r from-purple-600 to-teal-600 text-white"
+                data-testid="button-save-org"
+              >
+                {updateOrgMutation.isPending ? 'Saving...' : 'Save Changes'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Organization Confirmation */}
+      <AlertDialog open={!!deletingOrg} onOpenChange={(open) => !open && setDeletingOrg(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Organization</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete <strong>{deletingOrg?.name}</strong>? This will unlink all employees from this organization. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel data-testid="button-cancel-delete">Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteOrg}
+              disabled={deleteOrgMutation.isPending}
+              className="bg-red-600 hover:bg-red-700"
+              data-testid="button-confirm-delete"
+            >
+              {deleteOrgMutation.isPending ? 'Deleting...' : 'Delete Organization'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
