@@ -66,8 +66,10 @@ export default function AdminDashboard() {
     name: '',
     tier: 'core',
     employeeCount: 0,
-    contactEmail: '',
-    contactName: '',
+    adminEmail: '',
+    adminFirstName: '',
+    adminLastName: '',
+    adminPassword: '',
   });
   const { toast } = useToast();
 
@@ -131,9 +133,9 @@ export default function AdminDashboard() {
     onSuccess: () => {
       toast({
         title: "Organization Created",
-        description: "New organization has been created successfully",
+        description: "Organization and admin user created successfully",
       });
-      setNewOrg({ name: '', tier: 'core', employeeCount: 0, contactEmail: '', contactName: '' });
+      setNewOrg({ name: '', tier: 'core', employeeCount: 0, adminEmail: '', adminFirstName: '', adminLastName: '', adminPassword: '' });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/organizations'] });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/analytics'] });
     },
@@ -189,10 +191,10 @@ export default function AdminDashboard() {
 
   const handleCreateOrg = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newOrg.name) {
+    if (!newOrg.name || !newOrg.adminEmail || !newOrg.adminPassword) {
       toast({
         title: "Validation Error",
-        description: "Organization name is required",
+        description: "Organization name, admin email, and password are required",
         variant: "destructive",
       });
       return;
@@ -437,27 +439,53 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="org-contact-name" className="text-xs">Contact Name</Label>
+                      <Label htmlFor="admin-first-name" className="text-xs">Admin First Name</Label>
                       <Input
-                        id="org-contact-name"
+                        id="admin-first-name"
                         type="text"
-                        value={newOrg.contactName}
-                        onChange={(e) => setNewOrg({ ...newOrg, contactName: e.target.value })}
-                        placeholder="Jane Smith"
+                        value={newOrg.adminFirstName}
+                        onChange={(e) => setNewOrg({ ...newOrg, adminFirstName: e.target.value })}
+                        placeholder="Jane"
                         className="text-sm h-10"
-                        data-testid="input-org-contact-name"
+                        data-testid="input-admin-firstname"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="org-contact-email" className="text-xs">Contact Email</Label>
+                      <Label htmlFor="admin-last-name" className="text-xs">Admin Last Name</Label>
                       <Input
-                        id="org-contact-email"
+                        id="admin-last-name"
+                        type="text"
+                        value={newOrg.adminLastName}
+                        onChange={(e) => setNewOrg({ ...newOrg, adminLastName: e.target.value })}
+                        placeholder="Smith"
+                        className="text-sm h-10"
+                        data-testid="input-admin-lastname"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="admin-email" className="text-xs">Admin Email *</Label>
+                      <Input
+                        id="admin-email"
                         type="email"
-                        value={newOrg.contactEmail}
-                        onChange={(e) => setNewOrg({ ...newOrg, contactEmail: e.target.value })}
+                        value={newOrg.adminEmail}
+                        onChange={(e) => setNewOrg({ ...newOrg, adminEmail: e.target.value })}
                         placeholder="jane@company.com"
                         className="text-sm h-10"
-                        data-testid="input-org-contact-email"
+                        data-testid="input-admin-email"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="admin-password" className="text-xs">Admin Password *</Label>
+                      <Input
+                        id="admin-password"
+                        type="password"
+                        value={newOrg.adminPassword}
+                        onChange={(e) => setNewOrg({ ...newOrg, adminPassword: e.target.value })}
+                        placeholder="••••••••"
+                        className="text-sm h-10"
+                        data-testid="input-admin-password"
+                        required
                       />
                     </div>
                   </div>

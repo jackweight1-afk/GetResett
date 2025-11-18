@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import Stripe from "stripe";
 import { z } from "zod";
+import bcrypt from "bcryptjs";
 import { storage } from "./storage";
 import { setupAuth } from "./replitAuth";
 import { setupEmailAuth, requireAuth, getUserId, isAuthenticatedUnified } from "./emailAuth";
@@ -803,18 +804,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Admin: Create organization
+  // Admin: Create organization with admin user
   app.post('/api/admin/organizations', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
     try {
-      const { name, tier, employeeCount, contactEmail, contactName } = req.body;
+      const { name, tier, employeeCount, adminEmail, adminFirstName, adminLastName, adminPassword } = req.body;
       
-      if (!name) {
-        return res.status(400).json({ error: "Organization name required" });
+      if (!name || !adminEmail || !adminPassword) {
+        return res.status(400).json({ error: "Organization name, admin email, and password are required" });
       }
 
       // Generate unique corporate code
       const corporateCode = `GR-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
+      // Create organization
       const organization = await storage.createOrganization({
         name,
         corporateCode,
@@ -822,8 +824,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         employeeCount: employeeCount || 0,
         pricePerSeat: 5.99,
         billingStatus: 'active',
-        contactEmail,
-        contactName
+        contactEmail: adminEmail,
+        contactName: adminFirstName && adminLastName ? `${adminFirstName} ${adminLastName}` : null
+      });
+
+      // Create admin user for the organization
+      const hashedPassword = await bcrypt.hash(adminPassword, 10);
+      await storage.createUser({
+        email: adminEmail,
+        passwordHash: hashedPassword,
+        firstName: adminFirstName || null,
+        lastName: adminLastName || null,
+        isActive: true, // Admin-created users are active by default
+        hasCompletedOnboarding: false,
+        organisationId: organization.id
       });
 
       res.json(organization);
