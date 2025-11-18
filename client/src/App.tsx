@@ -90,10 +90,15 @@ function Router() {
       <Route path="/first-reset" component={FirstReset} />
       
       {isLoading ? (
-        <Route component={NotFound} />
+        <Route>
+          <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+          </div>
+        </Route>
       ) : !isAuthenticated ? (
         <>
           <Route path="/resets" component={Resets} />
+          <Route component={NotFound} />
         </>
       ) : (
         <>
@@ -104,9 +109,9 @@ function Router() {
           <Route path="/account/*" component={Account} />
           <Route path="/admin" component={AdminDashboard} />
           <Route path="/company" component={CompanyDashboard} />
+          <Route component={NotFound} />
         </>
       )}
-      <Route component={NotFound} />
     </Switch>
   );
 }
