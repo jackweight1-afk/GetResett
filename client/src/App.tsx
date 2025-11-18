@@ -7,6 +7,9 @@ import React from "react";
 import { useAuth } from "@/hooks/useAuth";
 import NotFound from "@/pages/not-found";
 import Landing from "@/pages/landing";
+import Download from "@/pages/download";
+import Business from "@/pages/business";
+import BusinessContact from "@/pages/business-contact";
 import Welcome from "@/pages/welcome";
 import Signup from "@/pages/signup";
 import Login from "@/pages/login";
@@ -62,6 +65,12 @@ function Router() {
 
   return (
     <Switch>
+      {/* B2B Marketing Routes - Always public */}
+      <Route path="/" component={Landing} />
+      <Route path="/download" component={Download} />
+      <Route path="/business" component={Business} />
+      <Route path="/business/contact" component={BusinessContact} />
+      
       {/* Public routes - available to everyone */}
       <Route path="/subscribe" component={Subscribe} />
       <Route path="/payment" component={Payment} />
@@ -77,15 +86,13 @@ function Router() {
       <Route path="/first-reset" component={FirstReset} />
       
       {isLoading ? (
-        <Route path="/" component={Landing} />
+        <Route component={NotFound} />
       ) : !isAuthenticated ? (
         <>
-          <Route path="/" component={Welcome} />
           <Route path="/resets" component={Resets} />
         </>
       ) : (
         <>
-          <Route path="/" component={Resets} />
           <Route path="/resets" component={Resets} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/insights" component={Insights} />
