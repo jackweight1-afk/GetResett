@@ -27,6 +27,15 @@ export const sessions = pgTable(
   (table) => [index("IDX_session_expire").on(table.expire)],
 );
 
+// Organisations table for corporate access
+export const organisations = pgTable("organisations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  corporateCode: varchar("corporate_code").notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // User storage table.
 // (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
 export const users = pgTable("users", {
@@ -35,6 +44,9 @@ export const users = pgTable("users", {
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
+  passwordHash: varchar("password_hash"), // For email/password auth (nullable for Replit Auth users)
+  organisationId: varchar("organisation_id").references(() => organisations.id),
+  hasCompletedOnboarding: boolean("has_completed_onboarding").default(false),
   stripeCustomerId: varchar("stripe_customer_id"),
   stripeSubscriptionId: varchar("stripe_subscription_id"),
   subscriptionStatus: varchar("subscription_status"), // active, canceled, past_due, etc.
@@ -173,9 +185,18 @@ export const insertFeelingEntrySchema = createInsertSchema(feelingEntries).omit(
   createdAt: true,
 });
 
+// Insert schemas
+export const insertOrganisationSchema = createInsertSchema(organisations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
+export type Organisation = typeof organisations.$inferSelect;
+export type InsertOrganisation = z.infer<typeof insertOrganisationSchema>;
 export type DailyUsage = typeof dailyUsage.$inferSelect;
 export type InsertDailyUsage = typeof dailyUsage.$inferInsert;
 export type FeelingEntry = typeof feelingEntries.$inferSelect;

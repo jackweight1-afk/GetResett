@@ -1,0 +1,215 @@
+🧩 GETRESET WEB APP – FULL BUILD / REFACTOR BRIEF
+🚀 Project Goal
+
+Transform the GetReset web app into a frictionless onboarding and usage experience that mirrors the iOS app, while supporting corporate access codes and maintaining the 3 free resets per day model.
+
+The dashboard, reset experience, and all existing core features should remain unchanged, except where needed to support access logic.
+
+1️⃣ Onboarding Flow (new, replaces existing flow)
+Step 1 — Welcome Screen
+
+Title: Welcome to GetReset
+Subtitle: Short, guided wellbeing resets for a calmer, more focused mind – in under 2 minutes.
+
+Buttons:
+
+Primary: Get started
+
+Secondary link: Already have an account? Log in
+
+Logic:
+
+If user is already authenticated and hasCompletedOnboarding === true, redirect immediately to /dashboard instead of showing this screen.
+
+Step 2 — Create Account (Sign Up)
+
+Route suggestion: /signup
+
+Fields required:
+
+Name (or First Name)
+
+Email
+
+Password
+
+Checkbox: “I’ve read & agree to the Terms & Privacy Policy.” (links if available)
+
+After successful signup:
+
+Create user in database:
+
+id
+
+name
+
+email
+
+passwordHash (never plain text)
+
+organisationId (nullable)
+
+hasCompletedOnboarding: false
+
+Auto-authenticate user
+
+Redirect to Corporate Code screen
+
+Step 3 — Corporate Code (optional)
+
+Route suggestion: /corporate-code
+
+UI copy:
+
+Title: Do you have a company access code?
+Text: If your organisation is partnering with GetReset, you can enter your code to unlock GetReset+ at no cost.
+
+Input: Corporate code
+Buttons:
+
+Primary: Confirm & continue
+
+Secondary: Skip for now
+
+Logic:
+
+Validate code on backend.
+
+If valid:
+
+Attach organisationId to user
+
+Proceed to First Reset walkthrough
+
+If invalid:
+
+Show friendly validation error
+
+Allow retry or skipping
+
+Step 4 — First Reset Walkthrough (How to Use GetReset)
+
+Route suggestion: /first-reset or /onboarding/intro
+
+Purpose: Teach the user how resets work before showing dashboard.
+
+Flow example:
+
+Intro message:
+Resets help you regulate your mind and body in 1–2 minutes. Let's try your first one now.
+
+Guide user through a simple breathing reset or similar
+
+Completion message:
+Great job. You can use resets anytime to feel calmer and more focused.
+
+Button: Go to my dashboard
+
+Logic:
+
+At completion, set hasCompletedOnboarding = true
+
+Redirect to /dashboard
+
+2️⃣ Returning User Behaviour
+Log In Flow
+
+Route: /login
+
+After successful login:
+
+If hasCompletedOnboarding === true → go straight to /dashboard
+
+If onboarding incomplete → resume onboarding at the correct step
+
+Stay Logged In / Remember User
+
+Use cookie-based or token-based auth so users can return without re-auth unless session expired.
+
+Log Out
+
+Clear session/token, then redirect to /welcome or /login.
+
+3️⃣ Corporate Code Management in Account Page
+
+Route suggestion: /account or /settings
+
+Users must be able to:
+
+View name and email
+
+Add/update corporate code
+
+Save changes
+
+Log out
+
+Corporate code validation same as onboarding logic.
+
+4️⃣ GetReset+ Access Logic Requirements (CRITICAL)
+
+These rules must remain exactly as written:
+
+IMPORTANT FEATURE RULES (DO NOT CHANGE):
+
+1. Users without corporate access may use 3 free resets per day.
+2. After 3 resets, show the GetReset+ upgrade/paywall screen.
+3. If a user enters a valid corporate code, they instantly unlock GetReset+ at no cost.
+4. Users with corporate access have unlimited resets.
+5. If a corporate code is removed/invalidated, revert user back to free tier limits.
+6. All dashboard + reset UI must remain unchanged except for access logic.
+7. Returning users with completed onboarding skip onboarding entirely.
+
+5️⃣ Upgrade Prompt Requirements
+
+If user reaches reset limit and does not have GetReset+:
+
+Display:
+
+Message that GetReset+ unlocks unlimited wellbeing resets
+
+Button: Upgrade to GetReset+
+
+Link: Enter corporate code
+text: Does your company already use GetReset? Enter your access code
+
+No feature restrictions for corporate users.
+
+6️⃣ Backend Requirements
+
+User Model:
+
+id
+name
+email
+passwordHash
+organisationId (nullable)
+hasCompletedOnboarding (boolean)
+
+
+Organisation Model:
+
+id
+name
+corporateCode (unique)
+
+
+Required API endpoints (names can vary):
+
+POST /auth/register
+POST /auth/login
+POST /auth/logout
+GET  /auth/me
+POST /user/corporate-code  (attach/validate code)
+
+7️⃣ Definition of Done
+
+Implementation is complete when:
+
+✔ New user can complete full onboarding and land on dashboard
+✔ Returning user logs in and skips onboarding
+✔ Daily reset limit AND GetReset+ paywall works correctly
+✔ Valid corporate code unlocks unlimited resets
+✔ Corporate code can be added later via account settings
+✔ User can log out and back in without repeated onboarding
+✔ Existing dashboard and reset functionality remain intact
