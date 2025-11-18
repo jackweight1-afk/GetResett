@@ -91,19 +91,32 @@ The application employs a modern full-stack architecture with a clear separation
   - **Test Accounts**: huzefausama25@gmail.com, jackweight1@gmail.com have unlimited access
 
 - **B2B Platform Features**:
-  - **Public Marketing Site**: Landing page with dual CTAs for iOS download and business inquiries
-  - **Business Marketing Page**: Three-tier pricing display (Core/Growth/Culture Partner at £5.99/employee/month)
+  - **Public Marketing Site**: Landing page ("Quick resets for busy minds") with dual CTAs for iOS download and business inquiries
+  - **Business Marketing Page**: Three-tier pricing display (Core/Growth/Culture Partner at £5.99/employee/month) with "Sign In" button
   - **Lead Generation**: Contact form for business inquiries, stored in business_leads table with status tracking
   - **iOS Download Page**: Holding page with email notification signup for app launch
-  - **Super Admin Dashboard**: 
+  - **Super Admin Dashboard** (/admin): 
     - Protected route with backend authorization (requireSuperAdmin middleware)
     - Global analytics: total resets, organizations, employees, monthly revenue
     - Organization management: view all orgs, create new orgs, view per-org analytics
     - Lead pipeline: view and update business inquiry status (new/contacted/qualified/converted/lost)
     - Popular resets tracking across platform
+  - **Company Admin Dashboard** (/company):
+    - Shows organization details (name, tier, billing status, employee count)
+    - Displays corporate code with copy button
+    - Generates shareable invite links: `signup?code=GR-ABC123`
+    - Shows analytics: total resets, active employees, engagement rate
+    - Lists most popular resets used by employees
+    - Provides instructions for inviting employees
+  - **Invite Link Flow**:
+    - Admins copy invite link from company dashboard
+    - Employees click link → signup page with code pre-filled in URL
+    - After signup → corporate-code page auto-fills code
+    - Employee confirms → gets unlimited access
   - **Security**: All /api/admin/* routes protected with isAuthenticatedUnified + requireSuperAdmin middleware
   - **Super Admin Access**: Verified against super_admins table, emails: jackweight1@gmail.com, huzefausama25@gmail.com
   - **Database Tables**: business_leads, super_admins, organizations (with tier, billing status, employee count)
+  - **API Endpoints**: GET /api/user/organization returns organization details and analytics for authenticated company admins
   
 - **Interactive Reset System**: 
   - Features 16+ unique reset experiences using ResetSpec schema
