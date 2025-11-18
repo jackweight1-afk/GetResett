@@ -30,12 +30,12 @@ export default function Landing() {
       <section className={`px-4 sm:px-6 py-12 sm:py-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Reset your day in under 2 minutes
+            Quick resets for busy minds
           </h1>
 
           <p className="text-lg sm:text-xl text-gray-700 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Science-backed guided wellbeing resets that help busy people reset their mood, 
-            reduce stress, and find focus—right when they need it most.
+            Science-backed 90-second wellbeing sessions that help you reset your mood, 
+            reduce stress, and find focus—right when you need it most.
           </p>
 
           {/* Dual CTAs */}
