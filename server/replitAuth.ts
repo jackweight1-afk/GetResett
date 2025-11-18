@@ -120,7 +120,7 @@ export async function setupAuth(app: Express) {
 
   app.get("/api/callback", (req, res, next) => {
     ensureStrategy(req.hostname);
-    passport.authenticate(`replitauth:${req.hostname}`, (err: any, user: any, info: any) => {
+    passport.authenticate(`replitauth:${req.hostname}`, async (err: any, user: any, info: any) => {
       if (err) {
         console.error("Authentication error:", err);
         return res.redirect("/api/login");
@@ -131,12 +131,26 @@ export async function setupAuth(app: Express) {
         return res.redirect("/api/login");
       }
       
-      req.logIn(user, (loginErr) => {
+      req.logIn(user, async (loginErr) => {
         if (loginErr) {
           console.error("Session login error:", loginErr);
           return res.redirect("/api/login");
         }
         console.log("User logged in successfully!");
+        
+        // Check if user is linked to an organization
+        try {
+          const userId = user.claims?.sub;
+          if (userId) {
+            const dbUser = await storage.getUser(userId);
+            if (dbUser?.organisationId) {
+              return res.redirect("/company");
+            }
+          }
+        } catch (error) {
+          console.error("Error checking user organization:", error);
+        }
+        
         return res.redirect("/resets");
       });
     })(req, res, next);

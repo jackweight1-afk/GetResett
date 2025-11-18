@@ -30,7 +30,7 @@ import {
   type InsertOrganisation,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, count, avg, and, gte, like, or, sql } from "drizzle-orm";
+import { eq, desc, count, avg, and, gte, like, or, sql, inArray } from "drizzle-orm";
 
 // Interface for storage operations
 export interface IStorage {
@@ -785,10 +785,12 @@ export class DatabaseStorage implements IStorage {
 
     // Get session type names
     const sessionTypeIds = popularResetsData.map(r => r.sessionTypeId);
-    const sessionTypesData = await db
-      .select()
-      .from(sessionTypes)
-      .where(sql`${sessionTypes.id} IN ${sessionTypeIds}`);
+    const sessionTypesData = sessionTypeIds.length > 0
+      ? await db
+          .select()
+          .from(sessionTypes)
+          .where(inArray(sessionTypes.id, sessionTypeIds))
+      : [];
 
     const sessionTypeMap = new Map(sessionTypesData.map(st => [st.id, st.name]));
 
@@ -874,13 +876,13 @@ export class DatabaseStorage implements IStorage {
     const [{ count: totalResets }] = await db
       .select({ count: count() })
       .from(userSessions)
-      .where(sql`${userSessions.userId} IN ${employeeIds}`);
+      .where(inArray(userSessions.userId, employeeIds));
 
     // Active employees (completed at least one session)
     const activeEmployeesData = await db
       .select({ userId: userSessions.userId })
       .from(userSessions)
-      .where(sql`${userSessions.userId} IN ${employeeIds}`)
+      .where(inArray(userSessions.userId, employeeIds))
       .groupBy(userSessions.userId);
 
     const activeEmployees = activeEmployeesData.length;
@@ -892,17 +894,19 @@ export class DatabaseStorage implements IStorage {
         count: count(),
       })
       .from(userSessions)
-      .where(sql`${userSessions.userId} IN ${employeeIds}`)
+      .where(inArray(userSessions.userId, employeeIds))
       .groupBy(userSessions.sessionTypeId)
       .orderBy(desc(count()))
       .limit(5);
 
     // Get session type names
     const sessionTypeIds = popularResetsData.map(r => r.sessionTypeId);
-    const sessionTypesData = await db
-      .select()
-      .from(sessionTypes)
-      .where(sql`${sessionTypes.id} IN ${sessionTypeIds}`);
+    const sessionTypesData = sessionTypeIds.length > 0
+      ? await db
+          .select()
+          .from(sessionTypes)
+          .where(inArray(sessionTypes.id, sessionTypeIds))
+      : [];
 
     const sessionTypeMap = new Map(sessionTypesData.map(st => [st.id, st.name]));
 

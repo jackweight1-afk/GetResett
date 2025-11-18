@@ -36,9 +36,14 @@ export default function Login() {
         description: "Successfully logged in",
       });
 
-      // Redirect based on onboarding status
+      // Redirect based on onboarding status and organization role
       if (user.hasCompletedOnboarding) {
-        setLocation("/resets");
+        // If user is linked to an organization, send to company dashboard
+        if (user.organisationId) {
+          setLocation("/company");
+        } else {
+          setLocation("/resets");
+        }
       } else {
         setLocation("/corporate-code");
       }

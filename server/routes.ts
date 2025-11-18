@@ -837,7 +837,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         firstName: adminFirstName || null,
         lastName: adminLastName || null,
         isActive: true, // Admin-created users are active by default
-        hasCompletedOnboarding: false,
+        hasCompletedOnboarding: true, // Skip onboarding for admin users
         organisationId: organization.id
       });
 
