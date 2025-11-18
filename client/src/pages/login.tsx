@@ -43,6 +43,16 @@ export default function Login() {
         setLocation("/corporate-code");
       }
     } catch (error: any) {
+      // Check if account is inactive
+      if (error.code === 'ACCOUNT_INACTIVE') {
+        toast({
+          title: "Account Pending Approval",
+          description: "Your account is waiting for admin approval",
+        });
+        setLocation("/pending-approval");
+        return;
+      }
+
       toast({
         title: "Login Failed",
         description: error.message || "Please check your credentials",

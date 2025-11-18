@@ -42,6 +42,9 @@ export interface IStorage {
   upsertUser(user: UpsertUser): Promise<User>;
   updateUser(id: string, updates: Partial<User>): Promise<User | undefined>;
   deleteUser(id: string): Promise<void>;
+  getAllUsers(): Promise<User[]>;
+  createUser(userData: Partial<User>): Promise<User>;
+  updateUserStatus(id: string, isActive: boolean): Promise<User>;
   
   // Session type operations
   getSessionTypes(): Promise<SessionType[]>;
@@ -281,6 +284,27 @@ export class DatabaseStorage implements IStorage {
     const [updated] = await db
       .update(users)
       .set({ ...updates, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
+    return updated;
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return await db.select().from(users).orderBy(desc(users.createdAt));
+  }
+
+  async createUser(userData: Partial<User>): Promise<User> {
+    const [created] = await db
+      .insert(users)
+      .values(userData as any)
+      .returning();
+    return created;
+  }
+
+  async updateUserStatus(id: string, isActive: boolean): Promise<User> {
+    const [updated] = await db
+      .update(users)
+      .set({ isActive, updatedAt: new Date() })
       .where(eq(users.id, id))
       .returning();
     return updated;

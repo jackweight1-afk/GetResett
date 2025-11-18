@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import Stripe from "stripe";
+import { z } from "zod";
 import { storage } from "./storage";
 import { setupAuth } from "./replitAuth";
 import { setupEmailAuth, requireAuth, getUserId, isAuthenticatedUnified } from "./emailAuth";
@@ -866,6 +867,91 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching org analytics:", error);
       res.status(500).json({ error: "Failed to fetch organization analytics" });
+    }
+  });
+
+  // Admin: Get all users
+  app.get('/api/admin/users', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      
+      // Remove sensitive fields from all users
+      const safeUsers = users.map(user => {
+        const { passwordHash, resetToken, resetTokenExpiry, ...safeUser } = user;
+        return safeUser;
+      });
+      
+      res.json(safeUsers);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  // Admin: Create user
+  app.post('/api/admin/users', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
+    try {
+      const createUserSchema = z.object({
+        email: z.string().email("Invalid email address"),
+        password: z.string().min(6, "Password must be at least 6 characters"),
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+      });
+
+      const { email, password, firstName, lastName } = createUserSchema.parse(req.body);
+
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ error: "User with this email already exists" });
+      }
+
+      // Import bcrypt for password hashing
+      const bcrypt = await import('bcryptjs');
+      const passwordHash = await bcrypt.hash(password, 10);
+
+      const user = await storage.createUser({
+        email,
+        passwordHash,
+        firstName: firstName || null,
+        lastName: lastName || null,
+        isActive: true, // Admin-created users are active by default
+        hasCompletedOnboarding: false,
+      });
+
+      // Remove sensitive fields from response
+      const { passwordHash: _, resetToken: __, resetTokenExpiry: ___, ...safeUser } = user;
+      res.json(safeUser);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors[0].message });
+      }
+      console.error("Error creating user:", error);
+      res.status(500).json({ error: "Failed to create user" });
+    }
+  });
+
+  // Admin: Update user status
+  app.patch('/api/admin/users/:id', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
+    try {
+      const updateUserSchema = z.object({
+        isActive: z.boolean(),
+      });
+
+      const { id } = req.params;
+      const { isActive } = updateUserSchema.parse(req.body);
+
+      const user = await storage.updateUserStatus(id, isActive);
+      
+      // Remove sensitive fields from response
+      const { passwordHash: _, resetToken: __, resetTokenExpiry: ___, ...safeUser } = user;
+      res.json(safeUser);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors[0].message });
+      }
+      console.error("Error updating user status:", error);
+      res.status(500).json({ error: "Failed to update user status" });
     }
   });
 

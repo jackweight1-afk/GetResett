@@ -18,6 +18,7 @@ import Login from "@/pages/login";
 import ForgotPassword from "@/pages/forgot-password";
 import ResetPassword from "@/pages/reset-password";
 import CorporateCode from "@/pages/corporate-code";
+import PendingApproval from "@/pages/pending-approval";
 import FirstReset from "@/pages/first-reset";
 import Dashboard from "@/pages/dashboard";
 import Resets from "@/pages/resets";
@@ -84,6 +85,7 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/reset-password" component={ResetPassword} />
+      <Route path="/pending-approval" component={PendingApproval} />
       <Route path="/corporate-code" component={CorporateCode} />
       <Route path="/first-reset" component={FirstReset} />
       

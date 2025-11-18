@@ -35,18 +35,43 @@ const resetPasswordSchema = z.object({
 
 // Middleware to check if user is authenticated (supports both Replit Auth and email/password)
 // This is used for routes that require authentication
-export function requireAuth(req: Request, res: Response, next: NextFunction) {
-  // Check for traditional session auth
-  if ((req.session as any)?.userId) {
+export async function requireAuth(req: Request, res: Response, next: NextFunction) {
+  try {
+    // Get userId from either auth method
+    let userId: string | null = null;
+    
+    // Check for traditional session auth
+    if ((req.session as any)?.userId) {
+      userId = (req.session as any).userId;
+    }
+    
+    // Check for Replit Auth
+    if (!userId && (req as any).user?.claims?.sub) {
+      userId = (req as any).user.claims.sub;
+    }
+    
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    // Check if user is active
+    const user = await storage.getUser(userId);
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    if (user.isActive === false) {
+      return res.status(403).json({ 
+        message: "Account pending approval", 
+        code: "ACCOUNT_INACTIVE" 
+      });
+    }
+
     return next();
+  } catch (error) {
+    console.error("Auth middleware error:", error);
+    return res.status(500).json({ message: "Authentication check failed" });
   }
-  
-  // Check for Replit Auth
-  if ((req as any).user?.claims?.sub) {
-    return next();
-  }
-  
-  return res.status(401).json({ message: "Unauthorized" });
 }
 
 // Alias for backward compatibility with existing routes
@@ -82,7 +107,7 @@ export async function setupEmailAuth(app: Express) {
       // Hash password
       const passwordHash = await bcrypt.hash(password, 10);
 
-      // Create user
+      // Create user (inactive by default, requires admin approval)
       const userId = nanoid();
       const user = await storage.upsertUser({
         id: userId,
@@ -90,6 +115,7 @@ export async function setupEmailAuth(app: Express) {
         firstName: name,
         passwordHash,
         hasCompletedOnboarding: false,
+        isActive: false, // Requires admin approval
       });
 
       // Set session and save it
@@ -133,6 +159,14 @@ export async function setupEmailAuth(app: Express) {
       const isValid = await bcrypt.compare(password, user.passwordHash);
       if (!isValid) {
         return res.status(401).json({ message: "Invalid email or password" });
+      }
+
+      // Check if user is active
+      if (user.isActive === false) {
+        return res.status(403).json({ 
+          message: "Account pending approval", 
+          code: "ACCOUNT_INACTIVE" 
+        });
       }
 
       // Set session and save it

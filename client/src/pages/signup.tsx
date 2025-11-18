@@ -63,15 +63,11 @@ export default function Signup() {
       
       toast({
         title: "Account Created",
-        description: "Welcome to GetReset!",
+        description: "Your account is pending approval. You'll be notified when activated.",
       });
 
-      // Redirect to corporate code page, preserving the invite code if present
-      if (inviteCode) {
-        setLocation(`/corporate-code?code=${inviteCode}`);
-      } else {
-        setLocation("/corporate-code");
-      }
+      // Redirect to pending approval page
+      setLocation("/pending-approval");
     } catch (error: any) {
       toast({
         title: "Registration Failed",
