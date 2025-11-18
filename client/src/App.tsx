@@ -10,6 +10,7 @@ import Landing from "@/pages/landing";
 import Download from "@/pages/download";
 import Business from "@/pages/business";
 import BusinessContact from "@/pages/business-contact";
+import AdminDashboard from "@/pages/admin-dashboard";
 import Welcome from "@/pages/welcome";
 import Signup from "@/pages/signup";
 import Login from "@/pages/login";
@@ -98,6 +99,7 @@ function Router() {
           <Route path="/insights" component={Insights} />
           <Route path="/account" component={Account} />
           <Route path="/account/*" component={Account} />
+          <Route path="/admin" component={AdminDashboard} />
         </>
       )}
       <Route component={NotFound} />

@@ -869,6 +869,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Check if current user is super admin
+  app.get('/api/user/is-super-admin', isAuthenticatedUnified, async (req, res) => {
+    try {
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.json({ isSuperAdmin: false });
+      }
+
+      const user = await storage.getUser(userId);
+      if (!user?.email) {
+        return res.json({ isSuperAdmin: false });
+      }
+
+      const isSuperAdmin = await storage.isSuperAdmin(user.email);
+      res.json({ isSuperAdmin });
+    } catch (error) {
+      console.error("Error checking super admin status:", error);
+      res.json({ isSuperAdmin: false });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

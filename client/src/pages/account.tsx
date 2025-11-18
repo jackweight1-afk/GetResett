@@ -34,6 +34,11 @@ export default function Account() {
     enabled: !!user,
   });
 
+  const { data: adminStatus } = useQuery<{ isSuperAdmin: boolean }>({
+    queryKey: ['/api/user/is-super-admin'],
+    enabled: !!user,
+  });
+
   const handleAddCorporateCode = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -145,6 +150,16 @@ export default function Account() {
         </div>
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold text-gray-900">Account Settings</h1>
+          {adminStatus?.isSuperAdmin && (
+            <Button
+              onClick={() => setLocation('/admin')}
+              className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white"
+              data-testid="button-admin-dashboard"
+            >
+              <Shield className="w-4 h-4 mr-2" />
+              Admin Dashboard
+            </Button>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
