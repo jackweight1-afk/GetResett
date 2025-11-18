@@ -829,7 +829,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       // Create admin user for the organization
-      const hashedPassword = await bcrypt.hash(adminPassword, 10);
+      const bcryptModule = await import('bcryptjs');
+      const hashedPassword = await bcryptModule.default.hash(adminPassword, 10);
       await storage.createUser({
         email: adminEmail,
         passwordHash: hashedPassword,
