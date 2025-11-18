@@ -67,8 +67,8 @@ export default function Landing() {
               alt="GetResett Logo" 
               className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-lg object-cover"
             />
-            <span className="text-2xl sm:text-3xl font-bold" style={{ color: '#000' }}>
-              GetResett
+            <span className="text-2xl sm:text-3xl font-bold text-gray-900">
+              GetReset
             </span>
           </div>
           <Button 
@@ -107,11 +107,7 @@ export default function Landing() {
           
           <div className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
-              Science-backed resets for your
-              <br />
-              <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                busy mind
-              </span>
+              Science-backed resets for your busy mind
             </h1>
 
             <p className="text-lg sm:text-xl text-gray-600 mb-8 sm:mb-10 max-w-2xl mx-auto">
@@ -203,7 +199,7 @@ export default function Landing() {
               alt="GetResett Logo" 
               className="w-10 h-10 rounded-2xl shadow-lg object-cover"
             />
-            <span className="text-xl font-bold text-gray-900">GetResett</span>
+            <span className="text-xl font-bold text-gray-900">GetReset</span>
           </div>
           <p className="text-gray-600 text-sm mb-4">
             Transform your wellness, one reset at a time
