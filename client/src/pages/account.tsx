@@ -1,22 +1,28 @@
+import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
-import { User, Mail, Calendar, Trash2, LogOut, Shield, ArrowLeft } from "lucide-react";
+import { User, Mail, Calendar, Trash2, LogOut, Shield, ArrowLeft, Building2, Check } from "lucide-react";
 import BottomNavigation from "@/components/bottom-navigation";
 import { UsageStatus } from "@/components/usage-status";
 import { SubscriptionManagement } from "@/components/subscription-management";
 import { useSessionLimits } from "@/hooks/useSessionLimits";
 import { useLocation } from "wouter";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 
 export default function Account() {
   const { user, isLoading } = useAuth();
   const { toast } = useToast();
   const sessionLimits = useSessionLimits();
   const [, setLocation] = useLocation();
+  const [corporateCode, setCorporateCode] = useState("");
+  const [isSubmittingCode, setIsSubmittingCode] = useState(false);
 
   const { data: stats, isLoading: statsLoading } = useQuery<{
     totalSessions: number;
@@ -27,6 +33,46 @@ export default function Account() {
     queryKey: ['/api/user/stats'],
     enabled: !!user,
   });
+
+  const handleAddCorporateCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!corporateCode.trim()) {
+      toast({
+        title: "Code Required",
+        description: "Please enter a corporate code",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmittingCode(true);
+    try {
+      const response = await apiRequest("POST", "/user/corporate-code", {
+        code: corporateCode.trim(),
+      });
+
+      const result = await response.json();
+      
+      // Invalidate auth queries to refetch user data
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      
+      toast({
+        title: "Corporate Access Unlocked!",
+        description: `Welcome to ${result.organisation.name}. You now have unlimited access to all resets.`,
+      });
+
+      setCorporateCode("");
+    } catch (error: any) {
+      toast({
+        title: "Invalid Code",
+        description: error.message || "Please check your code and try again",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmittingCode(false);
+    }
+  };
 
   const handleLogout = () => {
     window.location.href = '/api/logout';
@@ -187,6 +233,53 @@ export default function Account() {
 
         {/* Subscription Management */}
         <SubscriptionManagement />
+
+        {/* Corporate Code Management */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Building2 className="w-5 h-5 text-purple-600" />
+              <span>Corporate Access</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {user?.organisationId ? (
+              <div className="flex items-center space-x-3 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <Check className="w-5 h-5 text-green-600" />
+                <div className="flex-1">
+                  <p className="font-semibold text-green-900">Corporate Access Active</p>
+                  <p className="text-sm text-green-700">You have unlimited access to all resets</p>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleAddCorporateCode} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="corporate-code">Company Access Code</Label>
+                  <p className="text-sm text-gray-500">
+                    If your organisation partners with GetResett, enter your code to unlock unlimited access at no cost.
+                  </p>
+                  <Input
+                    data-testid="input-corporate-code-account"
+                    id="corporate-code"
+                    type="text"
+                    placeholder="Enter your code"
+                    value={corporateCode}
+                    onChange={(e) => setCorporateCode(e.target.value)}
+                    className="text-center text-lg tracking-wider uppercase"
+                  />
+                </div>
+                <Button
+                  data-testid="button-add-corporate-code"
+                  type="submit"
+                  disabled={isSubmittingCode || !corporateCode.trim()}
+                  className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-semibold"
+                >
+                  {isSubmittingCode ? "Validating..." : "Add Corporate Code"}
+                </Button>
+              </form>
+            )}
+          </CardContent>
+        </Card>
 
         {/* Account Actions */}
         <Card>
