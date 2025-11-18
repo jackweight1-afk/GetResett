@@ -10,7 +10,16 @@ Preferred communication style: Simple, everyday language.
 - Modern mobile-first design is essential - all text must stay within containers, no overflow issues
 - **Premium Reset-Card Aesthetic**: All auth/onboarding pages use white/80 backdrop-blur cards with rounded-3xl corners, shadow-lg, and subtle purple borders (border-purple-100/50)
 - **Solid Text for Readability**: Landing page and all page titles use solid black text (text-gray-900) instead of gradients for maximum legibility
-- **Concise Typography**: Headings use text-2xl sm:text-3xl, descriptions use text-sm sm:text-base to prevent overflow and maintain professional appearance
+- **Mobile-First Typography Standards**: 
+  - Headings: text-xl sm:text-2xl (compact for mobile, clean readability)
+  - Body text: text-xs sm:text-sm (prevents overflow, professional appearance)
+  - Labels: text-xs (minimal space usage)
+  - Helper text: text-[11px] sm:text-xs (very compact)
+- **Compact Spacing Standards**:
+  - Card padding: p-5 sm:p-7 (optimized for mobile viewports)
+  - Vertical spacing: space-y-3 to space-y-3.5 (tight, clean layouts)
+  - Button heights: h-10 (consistent, thumb-friendly)
+  - Icon sizes: h-12 w-12 sm:h-14 sm:w-14 or h-14 w-14 sm:h-16 sm:w-16
 - **Consistent Background**: Auth/onboarding pages share bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50
 - CTAs should encourage trying the app free first rather than pushing subscription immediately
 - Purple/teal gradient theme throughout the app for consistency
@@ -18,8 +27,7 @@ Preferred communication style: Simple, everyday language.
 - Modern glassmorphism effects, smooth animations, and shadow designs
 - Touch-friendly button sizes and spacing optimized for mobile devices
 - Excellent contrast ratios required for all text elements
-- Responsive typography that scales appropriately across screen sizes
-- Balanced mobile/desktop experience with proper responsive sizing (p-6 sm:p-8)
+- All text content shortened to 1-2 concise lines per point to prevent mobile clutter
 
 ## System Architecture
 The application employs a modern full-stack architecture with a clear separation between client and server.
@@ -93,8 +101,10 @@ The application employs a modern full-stack architecture with a clear separation
   - Dashboard displays session history, streaks, and analytics
 - **UI/UX Design**: 
   - **Premium Styling**: All auth/onboarding pages feature white/80 backdrop-blur cards with rounded-3xl, shadow-lg, and border-purple-100/50
-  - **Typography**: Solid text-gray-900 headings (text-2xl sm:text-3xl), concise descriptions (text-sm sm:text-base)
+  - **Mobile-First Typography**: Solid text-gray-900 headings (text-xl sm:text-2xl), concise body text (text-xs sm:text-sm), compact labels (text-xs)
+  - **Compact Spacing**: Card padding p-5 sm:p-7, vertical spacing space-y-3 to space-y-3.5, button heights h-10
   - **Consistent Background**: from-purple-50 via-violet-50 to-blue-50 gradient across all auth pages
+  - **Shortened Content**: First-reset walkthrough and all onboarding text condensed to 1-2 lines per point for clean mobile appearance
   - Modern purple/violet gradient theme with glassmorphism effects, rounded cards, and mobile-first responsiveness
 - **Monetization**: Subscription model offers 3 free daily sessions, tracked via `localStorage`. Non-subscribers encounter a paywall on the 4th attempt. New users receive a 30-day free trial; returning users are charged immediately. Supports Apple Pay, Google Pay, and international currency conversion based on real-time exchange rates from a GBP base price.
 - **Internationalization**: Automatically detects user's country via IP geolocation and browser locale, displaying pricing in local currency with real-time exchange rates across 18+ major currencies.
