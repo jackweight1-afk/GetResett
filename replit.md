@@ -98,7 +98,7 @@ The application employs a modern full-stack architecture with a clear separation
   - **Test Accounts**: huzefausama25@gmail.com, jackweight1@gmail.com have unlimited access
 
 - **B2B Platform Features**:
-  - **Public Marketing Site**: Landing page ("Quick resets for busy minds") with dual CTAs for iOS download and business inquiries
+  - **Public Marketing Site**: Landing page ("Sometimes, You Just Need. A Minute") with dual CTAs for iOS download and business inquiries
   - **Business Marketing Page**: Three-tier pricing display (Core/Growth/Culture Partner at £5.99/employee/month) with "Sign In" button
   - **Lead Generation**: Contact form for business inquiries, stored in business_leads table with status tracking
   - **iOS Download Page**: Holding page with email notification signup for app launch
