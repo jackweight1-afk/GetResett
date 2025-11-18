@@ -16,6 +16,7 @@ export default function Signup() {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
     agreeToTerms: false,
   });
 
@@ -26,6 +27,15 @@ export default function Signup() {
       toast({
         title: "Terms Required",
         description: "Please agree to the Terms & Privacy Policy",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      toast({
+        title: "Passwords Don't Match",
+        description: "Please make sure both passwords are the same",
         variant: "destructive",
       });
       return;
@@ -124,6 +134,21 @@ export default function Signup() {
                 placeholder="At least 6 characters"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                required
+                minLength={6}
+                className="mt-1"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                data-testid="input-confirm-password"
+                id="confirmPassword"
+                type="password"
+                placeholder="Re-enter your password"
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                 required
                 minLength={6}
                 className="mt-1"
