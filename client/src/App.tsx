@@ -10,6 +10,8 @@ import Landing from "@/pages/landing";
 import Welcome from "@/pages/welcome";
 import Signup from "@/pages/signup";
 import Login from "@/pages/login";
+import ForgotPassword from "@/pages/forgot-password";
+import ResetPassword from "@/pages/reset-password";
 import CorporateCode from "@/pages/corporate-code";
 import FirstReset from "@/pages/first-reset";
 import Dashboard from "@/pages/dashboard";
@@ -69,6 +71,8 @@ function Router() {
       <Route path="/welcome" component={Welcome} />
       <Route path="/signup" component={Signup} />
       <Route path="/login" component={Login} />
+      <Route path="/forgot-password" component={ForgotPassword} />
+      <Route path="/reset-password" component={ResetPassword} />
       <Route path="/corporate-code" component={CorporateCode} />
       <Route path="/first-reset" component={FirstReset} />
       

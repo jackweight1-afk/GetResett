@@ -22,6 +22,17 @@ const corporateCodeSchema = z.object({
   code: z.string().min(1, "Corporate code is required"),
 });
 
+// Forgot password schema
+const forgotPasswordSchema = z.object({
+  email: z.string().email("Invalid email address"),
+});
+
+// Reset password schema
+const resetPasswordSchema = z.object({
+  token: z.string().min(1, "Reset token is required"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
 // Middleware to check if user is authenticated (supports both Replit Auth and email/password)
 // This is used for routes that require authentication
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
@@ -254,6 +265,91 @@ export async function setupEmailAuth(app: Express) {
     } catch (error) {
       console.error("Error completing onboarding:", error);
       res.status(500).json({ message: "Failed to complete onboarding" });
+    }
+  });
+
+  // Forgot password endpoint - generates reset token
+  app.post('/auth/forgot-password', async (req: Request, res: Response) => {
+    try {
+      const { email } = forgotPasswordSchema.parse(req.body);
+
+      // Find user by email
+      const user = await storage.getUserByEmail(email);
+      
+      // Always return success to prevent email enumeration
+      if (!user || !user.passwordHash) {
+        return res.json({ 
+          message: "If an account exists with that email, a password reset link has been generated.",
+          success: true 
+        });
+      }
+
+      // Generate reset token (valid for 1 hour)
+      const resetToken = nanoid(32);
+      const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
+
+      // Update user with reset token
+      await storage.updateUser(user.id, {
+        resetToken,
+        resetTokenExpiry,
+      });
+
+      // In a real app, you'd send an email here
+      // For now, we'll return the token in the response for testing
+      console.log(`Password reset token for ${email}: ${resetToken}`);
+      
+      res.json({ 
+        message: "If an account exists with that email, a password reset link has been generated.",
+        success: true,
+        // Only include token in development
+        ...(process.env.NODE_ENV === 'development' && { resetToken, resetUrl: `/reset-password?token=${resetToken}` })
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: error.errors[0].message });
+      }
+      console.error("Forgot password error:", error);
+      res.status(500).json({ message: "Failed to process request" });
+    }
+  });
+
+  // Reset password endpoint - uses token to set new password
+  app.post('/auth/reset-password', async (req: Request, res: Response) => {
+    try {
+      const { token, password } = resetPasswordSchema.parse(req.body);
+
+      // Find user by reset token
+      const user = await storage.getUserByResetToken(token);
+      
+      if (!user || !user.resetToken || !user.resetTokenExpiry) {
+        return res.status(400).json({ message: "Invalid or expired reset token" });
+      }
+
+      // Check if token is expired
+      if (new Date() > user.resetTokenExpiry) {
+        return res.status(400).json({ message: "Reset token has expired" });
+      }
+
+      // Hash new password
+      const passwordHash = await bcrypt.hash(password, 10);
+
+      // Update user password and clear reset token
+      await storage.updateUser(user.id, {
+        passwordHash,
+        resetToken: null,
+        resetTokenExpiry: null,
+      });
+
+      res.json({ 
+        message: "Password reset successfully. You can now log in with your new password.",
+        success: true 
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: error.errors[0].message });
+      }
+      console.error("Reset password error:", error);
+      res.status(500).json({ message: "Failed to reset password" });
     }
   });
 }

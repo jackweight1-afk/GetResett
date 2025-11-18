@@ -45,6 +45,8 @@ export const users = pgTable("users", {
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
   passwordHash: varchar("password_hash"), // For email/password auth (nullable for Replit Auth users)
+  resetToken: varchar("reset_token"), // For password reset
+  resetTokenExpiry: timestamp("reset_token_expiry"), // Token expiration timestamp
   organisationId: varchar("organisation_id").references(() => organisations.id),
   hasCompletedOnboarding: boolean("has_completed_onboarding").default(false),
   stripeCustomerId: varchar("stripe_customer_id"),
