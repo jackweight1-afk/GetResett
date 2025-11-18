@@ -55,6 +55,7 @@ export const users = pgTable("users", {
   resetTokenExpiry: timestamp("reset_token_expiry"), // Token expiration timestamp
   organisationId: varchar("organisation_id").references(() => organisations.id),
   hasCompletedOnboarding: boolean("has_completed_onboarding").default(false),
+  isActive: boolean("is_active").default(false), // Admin approval required
   stripeCustomerId: varchar("stripe_customer_id"),
   stripeSubscriptionId: varchar("stripe_subscription_id"),
   subscriptionStatus: varchar("subscription_status"), // active, canceled, past_due, etc.
