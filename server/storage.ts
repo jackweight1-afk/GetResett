@@ -116,6 +116,9 @@ export class DatabaseStorage implements IStorage {
         apply("firstName");
         apply("lastName");
         apply("profileImageUrl");
+        apply("passwordHash");
+        apply("organisationId");
+        apply("hasCompletedOnboarding");
         apply("stripeCustomerId");
         apply("stripeSubscriptionId");
         apply("subscriptionStatus");

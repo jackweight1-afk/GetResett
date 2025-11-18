@@ -2,8 +2,8 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import Stripe from "stripe";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
-import { setupEmailAuth, requireAuth, getUserId } from "./emailAuth";
+import { setupAuth } from "./replitAuth";
+import { setupEmailAuth, requireAuth, getUserId, isAuthenticatedUnified } from "./emailAuth";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
@@ -40,7 +40,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Fallback to Replit Auth
       if (!userId && req.user?.claims?.sub) {
-        userId = req.user.claims.sub;
+        userId = getUserId(req);
       }
       
       if (!userId) {
@@ -63,7 +63,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Session types
-  app.get('/api/session-types', isAuthenticated, async (req, res) => {
+  app.get('/api/session-types', isAuthenticatedUnified, async (req, res) => {
     try {
       const sessionTypes = await storage.getSessionTypes();
       res.json(sessionTypes);
@@ -74,9 +74,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // User sessions
-  app.get('/api/sessions', isAuthenticated, async (req: any, res) => {
+  app.get('/api/sessions', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const sessions = await storage.getUserSessions(userId, 20);
       res.json(sessions);
     } catch (error) {
@@ -85,9 +88,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/sessions', isAuthenticated, async (req: any, res) => {
+  app.post('/api/sessions', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const sessionData = insertUserSessionSchema.parse({
         ...req.body,
         userId,
@@ -102,9 +108,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // User stats
-  app.get('/api/stats', isAuthenticated, async (req: any, res) => {
+  app.get('/api/stats', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const stats = await storage.getUserSessionStats(userId);
       res.json(stats);
     } catch (error) {
@@ -114,9 +123,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Sleep entries
-  app.get('/api/sleep', isAuthenticated, async (req: any, res) => {
+  app.get('/api/sleep', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const entries = await storage.getUserSleepEntries(userId);
       res.json(entries);
     } catch (error) {
@@ -125,9 +137,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/sleep', isAuthenticated, async (req: any, res) => {
+  app.post('/api/sleep', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const entryData = insertSleepEntrySchema.parse({
         ...req.body,
         userId,
@@ -142,9 +157,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Stress entries
-  app.post('/api/stress', isAuthenticated, async (req: any, res) => {
+  app.post('/api/stress', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const entryData = insertStressEntrySchema.parse({
         ...req.body,
         userId,
@@ -159,9 +177,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Insights
-  app.get('/api/insights', isAuthenticated, async (req: any, res) => {
+  app.get('/api/insights', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const insights = await storage.getUserInsights(userId);
       res.json(insights);
     } catch (error) {
@@ -171,9 +192,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // User stats route (for account page)
-  app.get('/api/user/stats', isAuthenticated, async (req: any, res) => {
+  app.get('/api/user/stats', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const stats = await storage.getUserSessionStats(userId);
       res.json(stats);
     } catch (error) {
@@ -183,9 +207,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Feeling entries
-  app.post('/api/feelings', isAuthenticated, async (req: any, res) => {
+  app.post('/api/feelings', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const feelingData = insertFeelingEntrySchema.parse({
         ...req.body,
         userId,
@@ -250,9 +277,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/feelings', isAuthenticated, async (req: any, res) => {
+  app.get('/api/feelings', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const feelings = await storage.getUserFeelingEntries(userId, 20);
       res.json(feelings);
     } catch (error) {
@@ -262,9 +292,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Account deletion route
-  app.delete('/api/user/delete', isAuthenticated, async (req: any, res) => {
+  app.delete('/api/user/delete', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       await storage.deleteUser(userId);
       res.json({ message: "Account deleted successfully" });
     } catch (error) {
@@ -274,9 +307,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Subscription and usage routes
-  app.get('/api/usage/check', isAuthenticated, async (req: any, res) => {
+  app.get('/api/usage/check', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
       
       // Check if user has active subscription
@@ -298,9 +334,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/usage/increment', isAuthenticated, async (req: any, res) => {
+  app.post('/api/usage/increment', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
       
       const usage = await storage.incrementDailyUsage(userId, today);
@@ -312,9 +351,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Stripe subscription routes
-  app.post('/api/create-subscription', isAuthenticated, async (req: any, res) => {
+  app.post('/api/create-subscription', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const user = await storage.getUser(userId);
       
       if (!user?.email) {
@@ -536,9 +578,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Cancel subscription route
-  app.post('/api/cancel-subscription', isAuthenticated, async (req: any, res) => {
+  app.post('/api/cancel-subscription', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const user = await storage.getUser(userId);
       
       if (!user?.stripeSubscriptionId) {
@@ -569,9 +614,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Clear test subscription route (for development)
-  app.post('/api/clear-subscription', isAuthenticated, async (req: any, res) => {
+  app.post('/api/clear-subscription', isAuthenticatedUnified, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const user = await storage.getUser(userId);
       
       if (user?.stripeSubscriptionId) {

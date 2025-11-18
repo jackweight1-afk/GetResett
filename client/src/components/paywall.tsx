@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Sparkles, Clock, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useCurrency } from "@/hooks/useCurrency";
+import { useLocation } from "wouter";
 
 interface PaywallProps {
   onSubscriptionComplete: () => void;
@@ -14,12 +15,13 @@ interface PaywallProps {
 export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: PaywallProps) {
   const { localizedPrice, isLoading: priceLoading } = useCurrency();
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const remainingSessions = Math.max(0, 3 - dailyCount);
 
   const handleStartTrial = () => {
     // Direct checkout - authentication is handled in the checkout page
-    window.location.href = '/checkout';
+    setLocation('/checkout');
   };
 
   return (
@@ -93,9 +95,10 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
                 </div>
 
                 <Button 
-                  onClick={() => window.location.href = '/checkout'}
+                  onClick={() => setLocation('/checkout')}
                   disabled={isLoading}
                   className="w-full bg-purple-600 hover:bg-purple-700 text-white text-lg py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                  data-testid="button-start-free-trial"
                 >
                   Start Free Trial
                 </Button>
@@ -105,6 +108,32 @@ export function Paywall({ onSubscriptionComplete, onClose, dailyCount }: Paywall
         </CardContent>
 
         <CardFooter className="flex-col space-y-3">
+          {remainingSessions === 0 && (
+            <div className="w-full space-y-3">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-white px-2 text-gray-500">or</span>
+                </div>
+              </div>
+              
+              <Button 
+                data-testid="button-enter-corporate-code"
+                variant="outline"
+                onClick={() => setLocation('/account')}
+                className="w-full border-purple-600 text-purple-600 hover:bg-purple-50"
+              >
+                Enter corporate code
+              </Button>
+              
+              <p className="text-xs text-center text-gray-500">
+                Does your company already use GetResett? Enter your access code in Account Settings.
+              </p>
+            </div>
+          )}
+          
           {onClose && remainingSessions === 0 && (
             <Button 
               variant="outline"
