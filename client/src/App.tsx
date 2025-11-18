@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Redirect } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -7,6 +7,11 @@ import React from "react";
 import { useAuth } from "@/hooks/useAuth";
 import NotFound from "@/pages/not-found";
 import Landing from "@/pages/landing";
+import Welcome from "@/pages/welcome";
+import Signup from "@/pages/signup";
+import Login from "@/pages/login";
+import CorporateCode from "@/pages/corporate-code";
+import FirstReset from "@/pages/first-reset";
 import Dashboard from "@/pages/dashboard";
 import Resets from "@/pages/resets";
 import Insights from "@/pages/insights";
@@ -16,20 +21,42 @@ import Payment from "@/pages/payment";
 import Checkout from "@/pages/checkout";
 import InstallPrompt from "@/components/install-prompt";
 import ErrorBoundary from "@/components/error-boundary";
+import { useLocation } from "wouter";
 
 function Router() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const [location] = useLocation();
 
-  // Check if user should be redirected back to checkout after login
+  // Redirect logic based on auth state and onboarding completion
   React.useEffect(() => {
+    if (isLoading) return;
+
+    // Handle checkout redirect
     if (isAuthenticated && sessionStorage.getItem('return-to-checkout')) {
       sessionStorage.removeItem('return-to-checkout');
-      // Use a more gentle redirect that doesn't cause runtime errors
       setTimeout(() => {
         window.location.href = '/checkout';
       }, 100);
+      return;
     }
-  }, [isAuthenticated]);
+
+    // If authenticated but onboarding not complete, redirect to appropriate step
+    if (isAuthenticated && user && !user.hasCompletedOnboarding) {
+      const onboardingPaths = ['/corporate-code', '/first-reset', '/welcome', '/signup', '/login'];
+      if (!onboardingPaths.includes(location) && location !== '/') {
+        // User is trying to access protected pages without completing onboarding
+        window.location.href = '/corporate-code';
+      }
+    }
+
+    // If authenticated and onboarding complete, redirect away from onboarding pages
+    if (isAuthenticated && user?.hasCompletedOnboarding) {
+      const onboardingPaths = ['/welcome', '/signup', '/login', '/corporate-code', '/first-reset'];
+      if (onboardingPaths.includes(location)) {
+        window.location.href = '/resets';
+      }
+    }
+  }, [isAuthenticated, isLoading, user, location]);
 
   return (
     <Switch>
@@ -37,13 +64,25 @@ function Router() {
       <Route path="/subscribe" component={Subscribe} />
       <Route path="/payment" component={Payment} />
       <Route path="/checkout" component={Checkout} />
-      <Route path="/resets" component={Resets} />
       
-      {isLoading || !isAuthenticated ? (
+      {/* Onboarding routes - only for non-authenticated or incomplete onboarding */}
+      <Route path="/welcome" component={Welcome} />
+      <Route path="/signup" component={Signup} />
+      <Route path="/login" component={Login} />
+      <Route path="/corporate-code" component={CorporateCode} />
+      <Route path="/first-reset" component={FirstReset} />
+      
+      {isLoading ? (
         <Route path="/" component={Landing} />
+      ) : !isAuthenticated ? (
+        <>
+          <Route path="/" component={Welcome} />
+          <Route path="/resets" component={Resets} />
+        </>
       ) : (
         <>
           <Route path="/" component={Resets} />
+          <Route path="/resets" component={Resets} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/insights" component={Insights} />
           <Route path="/account" component={Account} />

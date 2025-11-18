@@ -32,13 +32,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize session types on startup
   await initializeSessionTypes();
 
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+  // Auth routes - supports both Replit Auth and email/password auth
+  app.get('/api/auth/user', async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      // Try to get userId from either auth method
+      let userId = getUserId(req);
+      
+      // Fallback to Replit Auth
+      if (!userId && req.user?.claims?.sub) {
+        userId = req.user.claims.sub;
+      }
+      
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
       console.log("[/api/auth/user] Fetching user with ID:", userId);
       const user = await storage.getUser(userId);
       console.log("[/api/auth/user] User from database:", user ? { id: user.id, email: user.email } : 'NOT FOUND');
+      
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
       res.json(user);
     } catch (error) {
       console.error("[/api/auth/user] Error fetching user:", error);
