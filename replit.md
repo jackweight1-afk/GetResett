@@ -1,7 +1,18 @@
-# Replit.md - GetReset Wellness App
+# Replit.md - GetReset Wellness Platform
 
 ## Overview
-GetReset is a corporate wellness application designed to provide science-backed, 60-second reset sessions for mental and physical well-being. It offers guided sessions for meditation, sleep tracking, stress relief, mindful stretches, and energy boosts. The app aims to help users track progress, gain insights, and maintain wellness habits, particularly targeting busy professionals who require quick, accessible, and effective mental and physical resets. It allows users to chain multiple sessions based on their emotional state for a continuous guided experience.
+GetReset is a B2B corporate wellness platform that provides science-backed, 60-90 second reset sessions for workplace mental and physical wellbeing. The platform consists of:
+
+1. **Public Marketing Website**: Directs traffic to iOS app download and corporate partnerships
+2. **iOS App** (Coming Soon): Consumer-facing mobile application for individual users
+3. **GetReset for Business**: Three-tier corporate wellness solution (Core Access, Growth Support, Culture Partner)
+   - Flat pricing: £5.99/employee/month across all tiers
+   - Value-based differentiation: Wellbeing Reset Days, enhanced reporting, custom content
+   - Corporate access via unique company codes
+   - Employees get unlimited resets with no paywall
+4. **Super Admin Dashboard**: Platform management for analytics, lead pipeline, and organization oversight
+
+The web platform features guided reset sessions for stress, anxiety, restlessness, tiredness, and scattered feelings, with manual navigation and mood tracking. Corporate employees access unlimited sessions while organizations are invoiced monthly based on employee count.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
@@ -78,6 +89,21 @@ The application employs a modern full-stack architecture with a clear separation
     - Paywall includes "Enter corporate code" option with SPA navigation
   - **Transactional User Upsert**: Handles OIDC ID changes by migrating user data atomically with deduplication
   - **Test Accounts**: huzefausama25@gmail.com, jackweight1@gmail.com have unlimited access
+
+- **B2B Platform Features**:
+  - **Public Marketing Site**: Landing page with dual CTAs for iOS download and business inquiries
+  - **Business Marketing Page**: Three-tier pricing display (Core/Growth/Culture Partner at £5.99/employee/month)
+  - **Lead Generation**: Contact form for business inquiries, stored in business_leads table with status tracking
+  - **iOS Download Page**: Holding page with email notification signup for app launch
+  - **Super Admin Dashboard**: 
+    - Protected route with backend authorization (requireSuperAdmin middleware)
+    - Global analytics: total resets, organizations, employees, monthly revenue
+    - Organization management: view all orgs, create new orgs, view per-org analytics
+    - Lead pipeline: view and update business inquiry status (new/contacted/qualified/converted/lost)
+    - Popular resets tracking across platform
+  - **Security**: All /api/admin/* routes protected with isAuthenticatedUnified + requireSuperAdmin middleware
+  - **Super Admin Access**: Verified against super_admins table, emails: jackweight1@gmail.com, huzefausama25@gmail.com
+  - **Database Tables**: business_leads, super_admins, organizations (with tier, billing status, employee count)
   
 - **Interactive Reset System**: 
   - Features 16+ unique reset experiences using ResetSpec schema
