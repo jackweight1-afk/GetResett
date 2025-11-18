@@ -105,7 +105,12 @@ The application employs a modern full-stack architecture with a clear separation
   - **Super Admin Dashboard** (/admin): 
     - Protected route with backend authorization (requireSuperAdmin middleware)
     - Global analytics: total resets, organizations, employees, monthly revenue
-    - Organization management: view all orgs, create new orgs, view per-org analytics
+    - **Organization management**: 
+      - View all organizations with details (name, tier, employee count, corporate code, MRR, billing status)
+      - Create new organizations with admin user in single transaction (generates unique GR-XXXXXX corporate code)
+      - Edit organizations: update name, tier (core/growth/culture_partner), and employee count
+      - Delete organizations: safely removes organization and unlinks all employees (sets organisationId to null)
+      - View per-organization analytics (total resets, active employees, engagement rate, popular resets)
     - Lead pipeline: view and update business inquiry status (new/contacted/qualified/converted/lost)
     - User management: create users, view all users, activate/deactivate user accounts
     - Popular resets tracking across platform
