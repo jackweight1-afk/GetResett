@@ -83,48 +83,48 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 px-4 py-8">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 px-4 py-6">
       <div className="w-full max-w-md">
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-lg border border-purple-100/50">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-5 sm:p-7 shadow-lg border border-purple-100/50">
           {/* Logo */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-4">
             <img 
               src={logoPath} 
               alt="GetReset Logo" 
-              className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl shadow-md"
+              className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl shadow-md"
             />
           </div>
 
           {/* Title */}
-          <div className="text-center mb-6">
+          <div className="text-center mb-5">
             <h1 
               data-testid="title-reset-password"
-              className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2"
+              className="text-xl sm:text-2xl font-bold text-gray-900 mb-1.5"
             >
               Reset Password
             </h1>
-            <p className="text-sm sm:text-base text-gray-600">
-              Enter your new password below
+            <p className="text-xs sm:text-sm text-gray-600">
+              Enter your new password
             </p>
           </div>
 
           {/* Reset Form */}
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
-              <div className="space-y-4">
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3.5">
+              <div className="space-y-3">
                 <FormField
                   control={form.control}
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">New Password</FormLabel>
+                      <FormLabel className="text-xs font-medium text-gray-700">New Password</FormLabel>
                       <FormControl>
                         <Input
                           data-testid="input-password"
                           type="password"
                           placeholder="At least 6 characters"
                           {...field}
-                          className="text-sm sm:text-base"
+                          className="text-sm h-10"
                         />
                       </FormControl>
                       <FormMessage />
@@ -137,14 +137,14 @@ export default function ResetPassword() {
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">Confirm New Password</FormLabel>
+                      <FormLabel className="text-xs font-medium text-gray-700">Confirm Password</FormLabel>
                       <FormControl>
                         <Input
                           data-testid="input-confirm-password"
                           type="password"
-                          placeholder="Re-enter your password"
+                          placeholder="Re-enter password"
                           {...field}
-                          className="text-sm sm:text-base"
+                          className="text-sm h-10"
                         />
                       </FormControl>
                       <FormMessage />
@@ -156,9 +156,9 @@ export default function ResetPassword() {
               <Button
                 data-testid="button-reset-password"
                 type="submit"
-                size="lg"
+                size="default"
                 disabled={isLoading || !token}
-                className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-medium text-sm sm:text-base"
+                className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-medium text-xs sm:text-sm h-10"
               >
                 {isLoading ? "Resetting..." : "Reset Password"}
               </Button>
@@ -166,7 +166,7 @@ export default function ResetPassword() {
           </Form>
 
           {/* Back to Login */}
-          <div className="text-center text-xs sm:text-sm text-gray-600 mt-6 pt-6 border-t border-gray-200">
+          <div className="text-center text-[11px] sm:text-xs text-gray-600 mt-4 pt-4 border-t border-gray-200">
             Remember your password?{" "}
             <Link 
               href="/login"

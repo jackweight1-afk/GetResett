@@ -63,48 +63,48 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 px-4 py-8">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 px-4 py-6">
       <div className="w-full max-w-md">
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-lg border border-purple-100/50">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-5 sm:p-7 shadow-lg border border-purple-100/50">
           {/* Logo */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-4">
             <img 
               src={logoPath} 
               alt="GetReset Logo" 
-              className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl shadow-md"
+              className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl shadow-md"
             />
           </div>
 
           {/* Title */}
-          <div className="text-center mb-6">
+          <div className="text-center mb-5">
             <h1 
               data-testid="title-forgot-password"
-              className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2"
+              className="text-xl sm:text-2xl font-bold text-gray-900 mb-1.5"
             >
               Forgot Password
             </h1>
-            <p className="text-sm sm:text-base text-gray-600">
-              Enter your email to reset your password
+            <p className="text-xs sm:text-sm text-gray-600">
+              Enter your email
             </p>
           </div>
 
           {!resetSent ? (
             /* Reset Form */
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
+              <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3.5">
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">Email</FormLabel>
+                      <FormLabel className="text-xs font-medium text-gray-700">Email</FormLabel>
                       <FormControl>
                         <Input
                           data-testid="input-email"
                           type="email"
                           placeholder="you@example.com"
                           {...field}
-                          className="text-sm sm:text-base"
+                          className="text-sm h-10"
                         />
                       </FormControl>
                       <FormMessage />
@@ -115,9 +115,9 @@ export default function ForgotPassword() {
                 <Button
                   data-testid="button-send-reset"
                   type="submit"
-                  size="lg"
+                  size="default"
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-medium text-sm sm:text-base"
+                  className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-medium text-xs sm:text-sm h-10"
                 >
                   {isLoading ? "Sending..." : "Send Reset Link"}
                 </Button>
@@ -128,20 +128,20 @@ export default function ForgotPassword() {
             <Alert className="border-green-200 bg-green-50/80 backdrop-blur-sm text-green-800">
               <CheckCircle className="h-4 w-4" />
               <AlertDescription>
-                <div className="space-y-3">
-                  <p className="font-semibold text-sm sm:text-base">Reset link generated!</p>
-                  <p className="text-xs sm:text-sm">
-                    If an account exists with that email, you can reset your password.
+                <div className="space-y-2">
+                  <p className="font-semibold text-xs sm:text-sm">Reset link generated!</p>
+                  <p className="text-[11px] sm:text-xs">
+                    If an account exists with that email, you can reset it.
                   </p>
                   {resetUrl && (
-                    <div className="space-y-2 pt-2 border-t border-green-200">
-                      <p className="text-xs font-semibold">Development Mode:</p>
+                    <div className="space-y-1.5 pt-2 border-t border-green-200">
+                      <p className="text-[11px] font-semibold">Dev Mode:</p>
                       <Link 
                         href={resetUrl}
                         data-testid="link-reset-password"
-                        className="text-xs text-purple-600 hover:text-purple-700 underline break-all"
+                        className="text-[11px] text-purple-600 hover:text-purple-700 underline break-all"
                       >
-                        Click here to reset your password
+                        Reset password now
                       </Link>
                     </div>
                   )}
@@ -151,7 +151,7 @@ export default function ForgotPassword() {
           )}
 
           {/* Back to Login */}
-          <div className="text-center text-xs sm:text-sm text-gray-600 mt-6 pt-6 border-t border-gray-200">
+          <div className="text-center text-[11px] sm:text-xs text-gray-600 mt-4 pt-4 border-t border-gray-200">
             Remember your password?{" "}
             <Link 
               href="/login"

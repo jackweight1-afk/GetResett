@@ -54,28 +54,28 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 px-4 py-8">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 px-4 py-6">
       <div className="w-full max-w-md">
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-lg border border-purple-100/50">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-5 sm:p-7 shadow-lg border border-purple-100/50">
           {/* Logo */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-4">
             <img 
               src={logoPath} 
               alt="GetReset Logo" 
-              className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl shadow-md"
+              className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl shadow-md"
             />
           </div>
 
           {/* Title */}
-          <div className="text-center mb-6">
+          <div className="text-center mb-5">
             <h1 
               data-testid="title-login"
-              className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2"
+              className="text-xl sm:text-2xl font-bold text-gray-900 mb-1.5"
             >
               Welcome Back
             </h1>
-            <p className="text-sm sm:text-base text-gray-600">
-              Log in to continue your wellness journey
+            <p className="text-xs sm:text-sm text-gray-600">
+              Log in to continue
             </p>
           </div>
 
@@ -83,12 +83,12 @@ export default function Login() {
           <Button
             data-testid="button-google-login"
             type="button"
-            size="lg"
+            size="default"
             variant="outline"
             onClick={() => window.location.href = '/api/login'}
-            className="w-full border-2 hover:bg-gray-50 font-medium text-sm sm:text-base"
+            className="w-full border-2 hover:bg-gray-50 font-medium text-xs sm:text-sm h-10"
           >
-            <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 mr-1.5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -97,22 +97,22 @@ export default function Login() {
             Continue with Google
           </Button>
 
-          <div className="relative my-6">
+          <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-gray-200" />
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white/80 px-3 text-gray-500 font-medium">
-                Or continue with email
+            <div className="relative flex justify-center text-[10px] uppercase">
+              <span className="bg-white/80 px-2 text-gray-500 font-medium">
+                Or with email
               </span>
             </div>
           </div>
 
           {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3.5">
+            <div className="space-y-3">
               <div>
-                <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email</Label>
+                <Label htmlFor="email" className="text-xs font-medium text-gray-700">Email</Label>
                 <Input
                   data-testid="input-email"
                   id="email"
@@ -121,12 +121,12 @@ export default function Login() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
-                  className="mt-1.5 text-sm sm:text-base"
+                  className="mt-1 text-sm h-10"
                 />
               </div>
 
               <div>
-                <Label htmlFor="password" className="text-sm font-medium text-gray-700">Password</Label>
+                <Label htmlFor="password" className="text-xs font-medium text-gray-700">Password</Label>
                 <Input
                   data-testid="input-password"
                   id="password"
@@ -135,7 +135,7 @@ export default function Login() {
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   required
-                  className="mt-1.5 text-sm sm:text-base"
+                  className="mt-1 text-sm h-10"
                 />
               </div>
             </div>
@@ -143,18 +143,18 @@ export default function Login() {
             <Button
               data-testid="button-login"
               type="submit"
-              size="lg"
+              size="default"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-medium text-sm sm:text-base"
+              className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-medium text-xs sm:text-sm h-10"
             >
               {isLoading ? "Logging in..." : "Log in"}
             </Button>
 
-            <div className="text-center">
+            <div className="text-center pt-1">
               <Link 
                 href="/forgot-password"
                 data-testid="link-forgot-password"
-                className="text-xs sm:text-sm text-purple-600 hover:text-purple-700 font-medium"
+                className="text-[11px] sm:text-xs text-purple-600 hover:text-purple-700 font-medium"
               >
                 Forgot password?
               </Link>
@@ -162,7 +162,7 @@ export default function Login() {
           </form>
 
           {/* Signup Link */}
-          <div className="text-center text-xs sm:text-sm text-gray-600 mt-6 pt-6 border-t border-gray-200">
+          <div className="text-center text-[11px] sm:text-xs text-gray-600 mt-4 pt-4 border-t border-gray-200">
             Don't have an account?{" "}
             <Link 
               href="/signup"

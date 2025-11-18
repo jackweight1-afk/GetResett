@@ -47,51 +47,51 @@ export default function CorporateCode() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 px-4 py-8">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 px-4 py-6">
       <div className="w-full max-w-md">
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-lg border border-purple-100/50">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-5 sm:p-7 shadow-lg border border-purple-100/50">
           {/* Icon */}
-          <div className="flex justify-center mb-6">
-            <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-gradient-to-br from-purple-600 to-teal-600 flex items-center justify-center shadow-lg">
-              <Building2 className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
+          <div className="flex justify-center mb-4">
+            <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-gradient-to-br from-purple-600 to-teal-600 flex items-center justify-center shadow-lg">
+              <Building2 className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
             </div>
           </div>
 
           {/* Title */}
-          <div className="text-center mb-6">
+          <div className="text-center mb-5">
             <h1 
               data-testid="title-corporate-code"
-              className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2"
+              className="text-xl sm:text-2xl font-bold text-gray-900 mb-2"
             >
-              Do you have a company access code?
+              Company access code?
             </h1>
-            <p className="text-sm sm:text-base text-gray-600">
-              If your organisation is partnering with GetReset, you can enter your code to unlock unlimited access.
+            <p className="text-xs sm:text-sm text-gray-600 max-w-xs mx-auto leading-snug">
+              Enter your code to unlock unlimited access
             </p>
           </div>
 
           {/* Corporate Code Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-3.5">
             <div>
-              <Label htmlFor="code" className="text-sm font-medium text-gray-700">Corporate code</Label>
+              <Label htmlFor="code" className="text-xs font-medium text-gray-700">Corporate code</Label>
               <Input
                 data-testid="input-corporate-code"
                 id="code"
                 type="text"
-                placeholder="Enter your code"
+                placeholder="Enter code"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                className="mt-1.5 text-center text-sm sm:text-base tracking-wider uppercase"
+                className="mt-1 text-center text-sm tracking-wider uppercase h-10"
               />
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               <Button
                 data-testid="button-confirm"
                 type="submit"
-                size="lg"
+                size="default"
                 disabled={isLoading || !code.trim()}
-                className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-medium text-sm sm:text-base"
+                className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-medium text-xs sm:text-sm h-10"
               >
                 {isLoading ? "Validating..." : "Confirm & continue"}
               </Button>
@@ -99,10 +99,10 @@ export default function CorporateCode() {
               <Button
                 data-testid="button-skip"
                 type="button"
-                size="lg"
+                size="default"
                 variant="outline"
                 onClick={handleSkip}
-                className="w-full text-sm sm:text-base"
+                className="w-full text-xs sm:text-sm h-10"
               >
                 Skip for now
               </Button>
@@ -110,8 +110,8 @@ export default function CorporateCode() {
           </form>
 
           {/* Helper Text */}
-          <div className="text-center text-xs sm:text-sm text-gray-500 mt-6 pt-6 border-t border-gray-200">
-            You can add a corporate code later in your account settings
+          <div className="text-center text-[11px] sm:text-xs text-gray-500 mt-4 pt-4 border-t border-gray-200">
+            Add code later in account settings
           </div>
         </div>
       </div>
