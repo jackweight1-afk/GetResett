@@ -11,6 +11,7 @@ Preferred communication style: Simple, everyday language.
 - Logo text must be solid black for maximum visibility on all devices (no gradient text that becomes unreadable)
 - CTAs should encourage trying the app free first rather than pushing subscription immediately
 - Purple/teal gradient theme throughout the app for consistency
+- Landing page uses yellow → pink/purple → teal gradient matching logo aesthetic
 - Modern glassmorphism effects, smooth animations, and shadow designs
 - Touch-friendly button sizes and spacing optimized for mobile devices
 - Excellent contrast ratios required for all text elements
@@ -44,11 +45,14 @@ The application employs a modern full-stack architecture with a clear separation
 ### Key Components & Design
 - **Authentication System**: 
   - **Dual Authentication**: Supports both Replit Auth (OIDC) and email/password authentication
-  - **Email/Password Auth**: New users can register with name/email/password using bcryptjs hashing
+  - **Email/Password Auth**: New users can register with name/email/password (with confirmation field) using bcryptjs hashing
+  - **Google Login**: "Continue with Google" buttons on login/signup pages using Replit Auth's Google OAuth integration
+  - **Password Reset Flow**: Complete forgot password and reset password pages with email-based token system (1-hour expiry)
   - **Unified Middleware**: `isAuthenticatedUnified` handles both auth methods seamlessly
   - **Session Management**: Express sessions with PostgreSQL storage, secure HTTP-only cookies
   - **User ID Resolution**: `getUserId()` helper checks both session.userId (email auth) and user.claims.sub (Replit Auth)
   - **Null Safety**: All protected routes validate userId and return 401 if null, preventing crashes
+  - **Security Features**: Email enumeration prevention, password confirmation validation, token expiry
   - **Complete Onboarding Flow**:
     - New users go through: Welcome → Sign Up/Login → Optional Corporate Code → First Reset Walkthrough
     - `hasCompletedOnboarding` flag tracks onboarding completion
