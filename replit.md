@@ -71,11 +71,18 @@ The application employs a modern full-stack architecture with a clear separation
   - **Email/Password Auth**: New users can register with name/email/password (with confirmation field) using bcryptjs hashing
   - **Google Login**: "Continue with Google" buttons on login/signup pages using Replit Auth's Google OAuth integration
   - **Password Reset Flow**: Complete forgot password and reset password pages with email-based token system (1-hour expiry)
-  - **Unified Middleware**: `isAuthenticatedUnified` handles both auth methods seamlessly
+  - **Admin User Approval System**:
+    - `isActive` field controls user access (default: false for self-signups)
+    - OIDC users (Google login) created with `isActive: true` (trusted provider authentication)
+    - Email/password self-signups created with `isActive: false` (require admin approval)
+    - Admin-created users have `isActive: true` (immediate access)
+    - Inactive users redirected to `/pending-approval` page with clear messaging
+    - Super admins can create, activate, and deactivate users from dashboard
+  - **Unified Middleware**: `isAuthenticatedUnified` handles both auth methods and checks `isActive` status
   - **Session Management**: Express sessions with PostgreSQL storage, secure HTTP-only cookies
   - **User ID Resolution**: `getUserId()` helper checks both session.userId (email auth) and user.claims.sub (Replit Auth)
-  - **Null Safety**: All protected routes validate userId and return 401 if null, preventing crashes
-  - **Security Features**: Email enumeration prevention, password confirmation validation, token expiry
+  - **Null Safety**: All protected routes validate userId and isActive, return 401/403 if null or inactive
+  - **Security Features**: Email enumeration prevention, password confirmation validation, token expiry, password hash sanitization
   - **Complete Onboarding Flow**:
     - New users go through: Welcome → Sign Up/Login → Optional Corporate Code → First Reset Walkthrough
     - `hasCompletedOnboarding` flag tracks onboarding completion
@@ -100,6 +107,7 @@ The application employs a modern full-stack architecture with a clear separation
     - Global analytics: total resets, organizations, employees, monthly revenue
     - Organization management: view all orgs, create new orgs, view per-org analytics
     - Lead pipeline: view and update business inquiry status (new/contacted/qualified/converted/lost)
+    - User management: create users, view all users, activate/deactivate user accounts
     - Popular resets tracking across platform
   - **Company Admin Dashboard** (/company):
     - Shows organization details (name, tier, billing status, employee count)
