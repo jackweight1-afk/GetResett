@@ -4,7 +4,7 @@
 
 ## PROJECT OVERVIEW
 
-You are building **GetResett**, a wellness iOS app that delivers science-backed, 60-second reset sessions for mental and physical well-being. This document contains ALL the information needed to replicate the web app functionality in Swift/SwiftUI.
+You are building **GetResett**, a corporate wellness iOS app that delivers science-backed, 60-second reset sessions for mental and physical well-being designed for busy professionals. This document contains ALL the information needed to replicate the web app functionality in Swift/SwiftUI.
 
 ### Core Features to Implement:
 - **5 Emotional States**: Stressed, Anxious, Restless, Tired, Scattered

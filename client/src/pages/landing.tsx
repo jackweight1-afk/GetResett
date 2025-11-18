@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Heart, Zap, Moon, Brain, Star, ArrowRight, Play, Users, Award, Shield, Sparkles, Timer, Clock, Target, TrendingUp, CheckCircle, Leaf, AlertTriangle, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import logoUrl from "@assets/getreset_logo.jpg";
 
 export default function Landing() {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,16 +32,16 @@ export default function Landing() {
 
   const testimonials = [
     { name: "Sarah M.", role: "Marketing Manager", text: "60 seconds completely changed my workday stress levels. I'm actually productive again!", rating: 5 },
-    { name: "David L.", role: "Software Engineer", text: "Perfect for my ADHD brain. Quick resets that actually work between meetings.", rating: 5 },
+    { name: "David L.", role: "Software Engineer", text: "Quick resets that actually work between meetings. Game-changer for focus.", rating: 5 },
     { name: "Emma K.", role: "Teacher", text: "My students love doing the breathing exercises with me. We're all calmer now.", rating: 5 }
   ];
 
   const features = [
-    { icon: Timer, title: "Just 60 Seconds", desc: "Perfect for ADHD minds and busy lives. Reset between meetings, during breaks, or whenever you need focus.", color: "from-purple-500 to-indigo-600" },
+    { icon: Timer, title: "Just 60 Seconds", desc: "Fits seamlessly into busy schedules. Reset between meetings, during breaks, or whenever you need to refocus.", color: "from-purple-500 to-indigo-600" },
     { icon: Brain, title: "Science-Backed", desc: "Evidence-based techniques from mindfulness research, designed for maximum impact in minimal time.", color: "from-blue-500 to-cyan-600" },
     { icon: Target, title: "Instant Results", desc: "Feel the difference immediately. Track your mood before and after each session.", color: "from-indigo-500 to-purple-600" },
-    { icon: Sparkles, title: "Never Boring", desc: "3 variations of each session type ensure you stay engaged and motivated daily.", color: "from-pink-500 to-rose-600" },
-    { icon: TrendingUp, title: "Track Progress", desc: "Build wellness streaks and see your consistency improve over time with detailed insights.", color: "from-green-500 to-teal-600" },
+    { icon: Sparkles, title: "Multiple Options", desc: "Multiple variations of each reset type ensure you stay engaged and find what works best for you.", color: "from-pink-500 to-rose-600" },
+    { icon: TrendingUp, title: "Track Progress", desc: "Build wellness habits and see your consistency improve over time with detailed insights.", color: "from-green-500 to-teal-600" },
     { icon: Shield, title: "Always Available", desc: "No internet needed once loaded. Your wellness toolkit works anywhere, anytime.", color: "from-amber-500 to-orange-600" }
   ];
 
@@ -61,9 +62,11 @@ export default function Landing() {
       <header className="relative px-4 sm:px-6 py-6 sm:py-8 mb-8">
         <div className="max-w-4xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center shadow-lg">
-              <Sparkles className="w-6 h-6 text-white" />
-            </div>
+            <img 
+              src={logoUrl} 
+              alt="GetResett Logo" 
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-lg object-cover"
+            />
             <span className="text-2xl sm:text-3xl font-bold" style={{ color: '#000' }}>
               GetResett
             </span>
@@ -112,7 +115,7 @@ export default function Landing() {
             </h1>
 
             <p className="text-lg sm:text-xl text-gray-600 mb-8 sm:mb-10 max-w-2xl mx-auto">
-              Quick, effective wellness sessions designed for ADHD and hectic schedules.
+              Quick, effective wellness sessions designed for hectic schedules and busy professionals.
               <br />
               Feel better in under 2 minutes.
             </p>
@@ -195,16 +198,18 @@ export default function Landing() {
       <footer className="px-4 sm:px-6 py-8 sm:py-12 mt-12">
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center shadow-lg">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
+            <img 
+              src={logoUrl} 
+              alt="GetResett Logo" 
+              className="w-10 h-10 rounded-2xl shadow-lg object-cover"
+            />
             <span className="text-xl font-bold text-gray-900">GetResett</span>
           </div>
           <p className="text-gray-600 text-sm mb-4">
             Transform your wellness, one reset at a time
           </p>
           <div className="text-gray-500 text-xs">
-            © 2024 GetResett. Built for busy minds.
+            © 2024 GetResett. Built for busy professionals.
           </div>
         </div>
       </footer>

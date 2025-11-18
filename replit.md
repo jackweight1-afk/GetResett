@@ -1,7 +1,7 @@
 # Replit.md - GetResett Wellness App
 
 ## Overview
-GetResett is a wellness application designed to provide science-backed, 60-second reset sessions for mental and physical well-being. It offers guided sessions for meditation, sleep tracking, stress relief, mindful stretches, and energy boosts. The app aims to help users track progress, gain insights, and maintain wellness streaks, particularly targeting individuals with ADHD or hectic schedules who require quick, accessible, and effective mental and physical resets. It allows users to chain multiple sessions based on their emotional state for a continuous guided experience.
+GetResett is a corporate wellness application designed to provide science-backed, 60-second reset sessions for mental and physical well-being. It offers guided sessions for meditation, sleep tracking, stress relief, mindful stretches, and energy boosts. The app aims to help users track progress, gain insights, and maintain wellness habits, particularly targeting busy professionals who require quick, accessible, and effective mental and physical resets. It allows users to chain multiple sessions based on their emotional state for a continuous guided experience.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
