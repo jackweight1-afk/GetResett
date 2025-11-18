@@ -69,15 +69,25 @@ export default function Business() {
               GetReset
             </span>
           </div>
-          <Button
-            variant="ghost"
-            onClick={() => window.location.href = '/'}
-            className="text-gray-700 hover:text-gray-900"
-            data-testid="button-back"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              onClick={() => window.location.href = '/login'}
+              className="border-purple-600 text-purple-700 hover:bg-purple-50"
+              data-testid="button-login"
+            >
+              Sign In
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => window.location.href = '/'}
+              className="text-gray-700 hover:text-gray-900"
+              data-testid="button-back"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+          </div>
         </div>
       </header>
 
