@@ -66,15 +66,20 @@ export function useSessionLimits() {
   const isSubscribed = subscriptionData?.isSubscribed || false;
   const testAccounts = ['huzefausama25@gmail.com', 'jackweight1@gmail.com'];
   const userEmail = user?.email?.toLowerCase() || '';
-  const hasUnlimitedAccess = testAccounts.includes(userEmail);
+  const hasTestAccount = testAccounts.includes(userEmail);
+  const hasCorporateAccess = !!user?.organisationId; // Users with corporate code get unlimited access
+  const hasUnlimitedAccess = hasTestAccount || hasCorporateAccess;
   const dailyLimit = 3;
   const canAccess = isSubscribed || hasUnlimitedAccess || localCount < dailyLimit;
   const remainingSessions = hasUnlimitedAccess ? 999 : Math.max(0, dailyLimit - localCount);
   
-  // Debug logging for test account bypass
-  if (userEmail && testAccounts.some(email => userEmail === email)) {
-    console.log('[SessionLimits] Test account detected:', {
+  // Debug logging for unlimited access
+  if (hasUnlimitedAccess) {
+    console.log('[SessionLimits] Unlimited access:', {
       userEmail,
+      hasTestAccount,
+      hasCorporateAccess,
+      organisationId: user?.organisationId,
       hasUnlimitedAccess,
       canAccess,
       localCount,
