@@ -7,6 +7,8 @@ import {
   stressEntries,
   feelingEntries,
   dailyUsage,
+  businessLeads,
+  superAdmins,
   type User,
   type UpsertUser,
   type Organisation,
@@ -16,12 +18,16 @@ import {
   type StressEntry,
   type FeelingEntry,
   type DailyUsage,
+  type BusinessLead,
+  type SuperAdmin,
   type InsertUserSession,
   type InsertSleepEntry,
   type InsertStressEntry,
   type InsertSessionType,
   type InsertFeelingEntry,
   type InsertDailyUsage,
+  type InsertBusinessLead,
+  type InsertOrganisation,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, count, avg, and, gte, like, or, sql } from "drizzle-orm";
@@ -88,6 +94,27 @@ export interface IStorage {
   // Corporate access
   getOrganisationByCode(corporateCode: string): Promise<any | undefined>;
   validateCorporateCode(corporateCode: string): Promise<boolean>;
+  
+  // B2B Platform
+  createBusinessLead(lead: InsertBusinessLead): Promise<BusinessLead>;
+  getAllBusinessLeads(): Promise<BusinessLead[]>;
+  updateBusinessLead(id: string, updates: Partial<BusinessLead>): Promise<BusinessLead>;
+  isSuperAdmin(email: string): Promise<boolean>;
+  getGlobalAnalytics(): Promise<{
+    totalResets: number;
+    totalOrganizations: number;
+    totalEmployees: number;
+    monthlyRevenue: number;
+    popularResets: Array<{ name: string; count: number }>;
+  }>;
+  getAllOrganizations(): Promise<Organisation[]>;
+  createOrganization(org: InsertOrganisation): Promise<Organisation>;
+  getOrganizationAnalytics(orgId: string): Promise<{
+    totalResets: number;
+    activeEmployees: number;
+    popularResets: Array<{ name: string; count: number }>;
+    employeeEngagement: number;
+  }>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -641,6 +668,202 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, userId));
     
     return user?.subscriptionStatus === 'active' || user?.subscriptionStatus === 'trialing';
+  }
+
+  // B2B Platform methods
+  async createBusinessLead(lead: InsertBusinessLead): Promise<BusinessLead> {
+    const [created] = await db
+      .insert(businessLeads)
+      .values(lead)
+      .returning();
+    return created;
+  }
+
+  async getAllBusinessLeads(): Promise<BusinessLead[]> {
+    return db
+      .select()
+      .from(businessLeads)
+      .orderBy(desc(businessLeads.createdAt));
+  }
+
+  async updateBusinessLead(id: string, updates: Partial<BusinessLead>): Promise<BusinessLead> {
+    const [updated] = await db
+      .update(businessLeads)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(businessLeads.id, id))
+      .returning();
+    return updated;
+  }
+
+  async isSuperAdmin(email: string): Promise<boolean> {
+    const [admin] = await db
+      .select()
+      .from(superAdmins)
+      .where(eq(superAdmins.email, email));
+    return !!admin;
+  }
+
+  async getGlobalAnalytics(): Promise<{
+    totalResets: number;
+    totalOrganizations: number;
+    totalEmployees: number;
+    monthlyRevenue: number;
+    popularResets: Array<{ name: string; count: number }>;
+  }> {
+    // Total resets across all users
+    const [{ count: totalResets }] = await db
+      .select({ count: count() })
+      .from(userSessions);
+
+    // Total organizations
+    const [{ count: totalOrganizations }] = await db
+      .select({ count: count() })
+      .from(organisations);
+
+    // Total employees (users with organizationId)
+    const [{ count: totalEmployees }] = await db
+      .select({ count: count() })
+      .from(users)
+      .where(sql`${users.organisationId} IS NOT NULL`);
+
+    // Monthly revenue calculation
+    const orgs = await db
+      .select({
+        employeeCount: organisations.employeeCount,
+        pricePerSeat: organisations.pricePerSeat,
+      })
+      .from(organisations)
+      .where(eq(organisations.billingStatus, 'active'));
+
+    const monthlyRevenue = orgs.reduce((sum, org) => {
+      return sum + (org.employeeCount || 0) * (org.pricePerSeat || 5.99);
+    }, 0);
+
+    // Popular resets
+    const popularResetsData = await db
+      .select({
+        sessionTypeId: userSessions.sessionTypeId,
+        count: count(),
+      })
+      .from(userSessions)
+      .groupBy(userSessions.sessionTypeId)
+      .orderBy(desc(count()))
+      .limit(5);
+
+    // Get session type names
+    const sessionTypeIds = popularResetsData.map(r => r.sessionTypeId);
+    const sessionTypesData = await db
+      .select()
+      .from(sessionTypes)
+      .where(sql`${sessionTypes.id} IN ${sessionTypeIds}`);
+
+    const sessionTypeMap = new Map(sessionTypesData.map(st => [st.id, st.name]));
+
+    const popularResets = popularResetsData.map(r => ({
+      name: sessionTypeMap.get(r.sessionTypeId) || 'Unknown',
+      count: r.count,
+    }));
+
+    return {
+      totalResets,
+      totalOrganizations,
+      totalEmployees,
+      monthlyRevenue: Math.round(monthlyRevenue * 100) / 100,
+      popularResets,
+    };
+  }
+
+  async getAllOrganizations(): Promise<Organisation[]> {
+    return db
+      .select()
+      .from(organisations)
+      .orderBy(desc(organisations.createdAt));
+  }
+
+  async createOrganization(org: InsertOrganisation): Promise<Organisation> {
+    const [created] = await db
+      .insert(organisations)
+      .values(org)
+      .returning();
+    return created;
+  }
+
+  async getOrganizationAnalytics(orgId: string): Promise<{
+    totalResets: number;
+    activeEmployees: number;
+    popularResets: Array<{ name: string; count: number }>;
+    employeeEngagement: number;
+  }> {
+    // Get organization employees
+    const employees = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.organisationId, orgId));
+
+    const employeeIds = employees.map(e => e.id);
+    const totalEmployees = employees.length;
+
+    if (employeeIds.length === 0) {
+      return {
+        totalResets: 0,
+        activeEmployees: 0,
+        popularResets: [],
+        employeeEngagement: 0,
+      };
+    }
+
+    // Total resets by organization employees
+    const [{ count: totalResets }] = await db
+      .select({ count: count() })
+      .from(userSessions)
+      .where(sql`${userSessions.userId} IN ${employeeIds}`);
+
+    // Active employees (completed at least one session)
+    const activeEmployeesData = await db
+      .select({ userId: userSessions.userId })
+      .from(userSessions)
+      .where(sql`${userSessions.userId} IN ${employeeIds}`)
+      .groupBy(userSessions.userId);
+
+    const activeEmployees = activeEmployeesData.length;
+
+    // Popular resets for this organization
+    const popularResetsData = await db
+      .select({
+        sessionTypeId: userSessions.sessionTypeId,
+        count: count(),
+      })
+      .from(userSessions)
+      .where(sql`${userSessions.userId} IN ${employeeIds}`)
+      .groupBy(userSessions.sessionTypeId)
+      .orderBy(desc(count()))
+      .limit(5);
+
+    // Get session type names
+    const sessionTypeIds = popularResetsData.map(r => r.sessionTypeId);
+    const sessionTypesData = await db
+      .select()
+      .from(sessionTypes)
+      .where(sql`${sessionTypes.id} IN ${sessionTypeIds}`);
+
+    const sessionTypeMap = new Map(sessionTypesData.map(st => [st.id, st.name]));
+
+    const popularResets = popularResetsData.map(r => ({
+      name: sessionTypeMap.get(r.sessionTypeId) || 'Unknown',
+      count: r.count,
+    }));
+
+    // Employee engagement percentage
+    const employeeEngagement = totalEmployees > 0
+      ? Math.round((activeEmployees / totalEmployees) * 100)
+      : 0;
+
+    return {
+      totalResets,
+      activeEmployees,
+      popularResets,
+      employeeEngagement,
+    };
   }
 }
 

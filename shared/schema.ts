@@ -32,6 +32,12 @@ export const organisations = pgTable("organisations", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   name: varchar("name").notNull(),
   corporateCode: varchar("corporate_code").notNull().unique(),
+  tier: varchar("tier"), // core, growth, culture_partner
+  employeeCount: integer("employee_count"),
+  pricePerSeat: real("price_per_seat").default(5.99),
+  billingStatus: varchar("billing_status"), // active, pending, suspended
+  contactEmail: varchar("contact_email"),
+  contactName: varchar("contact_name"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -187,6 +193,29 @@ export const insertFeelingEntrySchema = createInsertSchema(feelingEntries).omit(
   createdAt: true,
 });
 
+// Business leads table for lead generation
+export const businessLeads = pgTable("business_leads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  companyName: varchar("company_name").notNull(),
+  contactName: varchar("contact_name").notNull(),
+  contactEmail: varchar("contact_email").notNull(),
+  contactPhone: varchar("contact_phone"),
+  employeeSize: varchar("employee_size").notNull(), // 1-50, 51-250, 251+
+  interestedTier: varchar("interested_tier"), // core, growth, culture_partner
+  message: text("message"),
+  status: varchar("status").default("new"), // new, contacted, converted, lost
+  notes: text("notes"), // Admin notes
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Super admins table
+export const superAdmins = pgTable("super_admins", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: varchar("email").notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Insert schemas
 export const insertOrganisationSchema = createInsertSchema(organisations).omit({
   id: true,
@@ -194,11 +223,26 @@ export const insertOrganisationSchema = createInsertSchema(organisations).omit({
   updatedAt: true,
 });
 
+export const insertBusinessLeadSchema = createInsertSchema(businessLeads).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertSuperAdminSchema = createInsertSchema(superAdmins).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
 export type Organisation = typeof organisations.$inferSelect;
 export type InsertOrganisation = z.infer<typeof insertOrganisationSchema>;
+export type BusinessLead = typeof businessLeads.$inferSelect;
+export type InsertBusinessLead = z.infer<typeof insertBusinessLeadSchema>;
+export type SuperAdmin = typeof superAdmins.$inferSelect;
+export type InsertSuperAdmin = z.infer<typeof insertSuperAdminSchema>;
 export type DailyUsage = typeof dailyUsage.$inferSelect;
 export type InsertDailyUsage = typeof dailyUsage.$inferInsert;
 export type FeelingEntry = typeof feelingEntries.$inferSelect;

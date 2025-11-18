@@ -726,6 +726,149 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ===== B2B PLATFORM ROUTES =====
+  
+  // Lead generation - Public route
+  app.post('/api/leads', async (req, res) => {
+    try {
+      const { companyName, contactName, contactEmail, contactPhone, employeeSize, interestedTier, message } = req.body;
+      
+      if (!companyName || !contactName || !contactEmail || !employeeSize) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      const lead = await storage.createBusinessLead({
+        companyName,
+        contactName,
+        contactEmail,
+        contactPhone,
+        employeeSize,
+        interestedTier,
+        message,
+        status: "new"
+      });
+
+      res.json({ success: true, leadId: lead.id });
+    } catch (error) {
+      console.error("Error creating lead:", error);
+      res.status(500).json({ error: "Failed to submit inquiry" });
+    }
+  });
+
+  // Super admin middleware
+  const requireSuperAdmin = async (req: any, res: any, next: any) => {
+    try {
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const user = await storage.getUser(userId);
+      if (!user?.email) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const isSuperAdmin = await storage.isSuperAdmin(user.email);
+      if (!isSuperAdmin) {
+        return res.status(403).json({ error: "Forbidden - Admin access required" });
+      }
+
+      next();
+    } catch (error) {
+      console.error("Error checking admin status:", error);
+      res.status(500).json({ error: "Authorization check failed" });
+    }
+  };
+
+  // Admin: Get global analytics
+  app.get('/api/admin/analytics', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
+    try {
+      const analytics = await storage.getGlobalAnalytics();
+      res.json(analytics);
+    } catch (error) {
+      console.error("Error fetching admin analytics:", error);
+      res.status(500).json({ error: "Failed to fetch analytics" });
+    }
+  });
+
+  // Admin: Get all organizations
+  app.get('/api/admin/organizations', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
+    try {
+      const organizations = await storage.getAllOrganizations();
+      res.json(organizations);
+    } catch (error) {
+      console.error("Error fetching organizations:", error);
+      res.status(500).json({ error: "Failed to fetch organizations" });
+    }
+  });
+
+  // Admin: Create organization
+  app.post('/api/admin/organizations', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
+    try {
+      const { name, tier, employeeCount, contactEmail, contactName } = req.body;
+      
+      if (!name) {
+        return res.status(400).json({ error: "Organization name required" });
+      }
+
+      // Generate unique corporate code
+      const corporateCode = `GR-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+
+      const organization = await storage.createOrganization({
+        name,
+        corporateCode,
+        tier: tier || 'core',
+        employeeCount: employeeCount || 0,
+        pricePerSeat: 5.99,
+        billingStatus: 'active',
+        contactEmail,
+        contactName
+      });
+
+      res.json(organization);
+    } catch (error) {
+      console.error("Error creating organization:", error);
+      res.status(500).json({ error: "Failed to create organization" });
+    }
+  });
+
+  // Admin: Get all leads
+  app.get('/api/admin/leads', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
+    try {
+      const leads = await storage.getAllBusinessLeads();
+      res.json(leads);
+    } catch (error) {
+      console.error("Error fetching leads:", error);
+      res.status(500).json({ error: "Failed to fetch leads" });
+    }
+  });
+
+  // Admin: Update lead status
+  app.patch('/api/admin/leads/:id', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status, notes } = req.body;
+
+      const lead = await storage.updateBusinessLead(id, { status, notes });
+      res.json(lead);
+    } catch (error) {
+      console.error("Error updating lead:", error);
+      res.status(500).json({ error: "Failed to update lead" });
+    }
+  });
+
+  // Admin: Get organization analytics
+  app.get('/api/admin/organizations/:id/analytics', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const analytics = await storage.getOrganizationAnalytics(id);
+      res.json(analytics);
+    } catch (error) {
+      console.error("Error fetching org analytics:", error);
+      res.status(500).json({ error: "Failed to fetch organization analytics" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
