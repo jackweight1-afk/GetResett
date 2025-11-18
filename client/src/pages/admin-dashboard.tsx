@@ -7,6 +7,7 @@ import logoUrl from "@assets/getreset_logo.jpg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 
@@ -60,6 +61,13 @@ export default function AdminDashboard() {
     password: '',
     firstName: '',
     lastName: '',
+  });
+  const [newOrg, setNewOrg] = useState({
+    name: '',
+    tier: 'core',
+    employeeCount: 0,
+    contactEmail: '',
+    contactName: '',
   });
   const { toast } = useToast();
 
@@ -115,6 +123,29 @@ export default function AdminDashboard() {
     },
   });
 
+  const createOrgMutation = useMutation({
+    mutationFn: async (orgData: typeof newOrg) => {
+      const response = await apiRequest('POST', '/api/admin/organizations', orgData);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Organization Created",
+        description: "New organization has been created successfully",
+      });
+      setNewOrg({ name: '', tier: 'core', employeeCount: 0, contactEmail: '', contactName: '' });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/organizations'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/analytics'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create organization",
+        variant: "destructive",
+      });
+    },
+  });
+
   const updateUserStatusMutation = useMutation({
     mutationFn: async ({ userId, isActive }: { userId: string; isActive: boolean }) => {
       const response = await apiRequest('PATCH', `/api/admin/users/${userId}`, { isActive });
@@ -154,6 +185,23 @@ export default function AdminDashboard() {
       return;
     }
     createUserMutation.mutate(newUser);
+  };
+
+  const handleCreateOrg = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newOrg.name) {
+      toast({
+        title: "Validation Error",
+        description: "Organization name is required",
+        variant: "destructive",
+      });
+      return;
+    }
+    createOrgMutation.mutate(newOrg);
+  };
+
+  const handleUpdateUserStatus = (userId: string, isActive: boolean) => {
+    updateUserStatusMutation.mutate({ userId, isActive });
   };
 
   // Redirect if not super admin
@@ -336,6 +384,96 @@ export default function AdminDashboard() {
 
           {/* Organizations Tab */}
           <TabsContent value="organizations" className="space-y-4">
+            {/* Create Organization Form */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Building2 className="w-5 h-5" />
+                  Create New Organization
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleCreateOrg} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="org-name" className="text-xs">Organization Name *</Label>
+                      <Input
+                        id="org-name"
+                        type="text"
+                        value={newOrg.name}
+                        onChange={(e) => setNewOrg({ ...newOrg, name: e.target.value })}
+                        placeholder="Acme Corporation"
+                        className="text-sm h-10"
+                        data-testid="input-org-name"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="org-tier" className="text-xs">Tier</Label>
+                      <Select
+                        value={newOrg.tier}
+                        onValueChange={(value) => setNewOrg({ ...newOrg, tier: value })}
+                      >
+                        <SelectTrigger className="text-sm h-10" data-testid="select-org-tier">
+                          <SelectValue placeholder="Select tier" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="core">Core Access</SelectItem>
+                          <SelectItem value="growth">Growth Support</SelectItem>
+                          <SelectItem value="culture_partner">Culture Partner</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="org-employees" className="text-xs">Employee Count</Label>
+                      <Input
+                        id="org-employees"
+                        type="number"
+                        value={newOrg.employeeCount}
+                        onChange={(e) => setNewOrg({ ...newOrg, employeeCount: parseInt(e.target.value) || 0 })}
+                        placeholder="50"
+                        className="text-sm h-10"
+                        data-testid="input-org-employees"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="org-contact-name" className="text-xs">Contact Name</Label>
+                      <Input
+                        id="org-contact-name"
+                        type="text"
+                        value={newOrg.contactName}
+                        onChange={(e) => setNewOrg({ ...newOrg, contactName: e.target.value })}
+                        placeholder="Jane Smith"
+                        className="text-sm h-10"
+                        data-testid="input-org-contact-name"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="org-contact-email" className="text-xs">Contact Email</Label>
+                      <Input
+                        id="org-contact-email"
+                        type="email"
+                        value={newOrg.contactEmail}
+                        onChange={(e) => setNewOrg({ ...newOrg, contactEmail: e.target.value })}
+                        placeholder="jane@company.com"
+                        className="text-sm h-10"
+                        data-testid="input-org-contact-email"
+                      />
+                    </div>
+                  </div>
+                  <Button
+                    type="submit"
+                    disabled={createOrgMutation.isPending}
+                    className="bg-gradient-to-r from-purple-600 to-teal-600 text-white"
+                    data-testid="button-create-org"
+                  >
+                    {createOrgMutation.isPending ? 'Creating...' : 'Create Organization'}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+
+            {/* All Organizations List */}
             <Card>
               <CardHeader>
                 <CardTitle>All Organizations</CardTitle>
