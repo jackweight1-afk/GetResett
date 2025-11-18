@@ -890,6 +890,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get current user's organization details (for company admins)
+  app.get('/api/user/organization', isAuthenticatedUnified, async (req, res) => {
+    try {
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      if (!user.organisationId) {
+        return res.json({ organization: null });
+      }
+
+      const organization = await storage.getOrganisationById(user.organisationId);
+      if (!organization) {
+        return res.json({ organization: null });
+      }
+
+      // Get organization analytics
+      const analytics = await storage.getOrganizationAnalytics(organization.id);
+
+      res.json({
+        organization,
+        analytics
+      });
+    } catch (error) {
+      console.error("Error fetching user organization:", error);
+      res.status(500).json({ error: "Failed to fetch organization" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,6 +12,15 @@ export default function CorporateCode() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [code, setCode] = useState("");
+
+  // Check for code in URL parameters (from invite link)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlCode = urlParams.get('code');
+    if (urlCode) {
+      setCode(urlCode.toUpperCase());
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

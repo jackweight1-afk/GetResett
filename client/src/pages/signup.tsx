@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,6 +12,7 @@ export default function Signup() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [inviteCode, setInviteCode] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,6 +20,15 @@ export default function Signup() {
     confirmPassword: "",
     agreeToTerms: false,
   });
+
+  // Check for code in URL parameters (from invite link)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlCode = urlParams.get('code');
+    if (urlCode) {
+      setInviteCode(urlCode);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,11 +63,15 @@ export default function Signup() {
       
       toast({
         title: "Account Created",
-        description: "Welcome to GetResett!",
+        description: "Welcome to GetReset!",
       });
 
-      // Redirect to corporate code page
-      setLocation("/corporate-code");
+      // Redirect to corporate code page, preserving the invite code if present
+      if (inviteCode) {
+        setLocation(`/corporate-code?code=${inviteCode}`);
+      } else {
+        setLocation("/corporate-code");
+      }
     } catch (error: any) {
       toast({
         title: "Registration Failed",

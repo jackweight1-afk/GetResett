@@ -93,6 +93,7 @@ export interface IStorage {
   
   // Corporate access
   getOrganisationByCode(corporateCode: string): Promise<any | undefined>;
+  getOrganisationById(id: string): Promise<Organisation | undefined>;
   validateCorporateCode(corporateCode: string): Promise<boolean>;
   
   // B2B Platform
@@ -287,6 +288,11 @@ export class DatabaseStorage implements IStorage {
 
   async getOrganisationByCode(corporateCode: string): Promise<Organisation | undefined> {
     const [org] = await db.select().from(organisations).where(eq(organisations.corporateCode, corporateCode));
+    return org;
+  }
+
+  async getOrganisationById(id: string): Promise<Organisation | undefined> {
+    const [org] = await db.select().from(organisations).where(eq(organisations.id, id));
     return org;
   }
 
