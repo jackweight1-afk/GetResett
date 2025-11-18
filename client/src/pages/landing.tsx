@@ -14,15 +14,21 @@ export default function Landing() {
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-pink-50 to-teal-50">
       {/* Header */}
       <header className="px-4 sm:px-6 py-6">
-        <div className="max-w-6xl mx-auto flex items-center space-x-3">
-          <img 
-            src={logoUrl} 
-            alt="GetReset Logo" 
-            className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-lg object-cover"
-          />
-          <span className="text-2xl sm:text-3xl font-bold text-gray-900">
-            GetReset
-          </span>
+        <div className="max-w-6xl mx-auto">
+          <button 
+            onClick={() => window.location.href = '/'}
+            className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity"
+            data-testid="button-home"
+          >
+            <img 
+              src={logoUrl} 
+              alt="GetReset Logo" 
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-lg object-cover"
+            />
+            <span className="text-2xl sm:text-3xl font-bold text-gray-900">
+              GetReset
+            </span>
+          </button>
         </div>
       </header>
 
@@ -36,7 +42,7 @@ export default function Landing() {
           </h1>
 
           <p className="text-lg sm:text-xl text-gray-700 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Science-backed guided micro wellbeing resets designed to help you find calm in a busy schedule
+            Science-backed micro wellbeing resets to help you find calm in a busy day
           </p>
 
           {/* Dual CTAs */}
