@@ -53,7 +53,7 @@ export default function Landing() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 overflow-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-pink-50 to-teal-100 overflow-hidden relative">
 
 
 
