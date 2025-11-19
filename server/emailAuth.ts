@@ -9,6 +9,7 @@ const registerSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
+  corporateCode: z.string().optional(), // Optional corporate code for instant activation
 });
 
 // Login schema
@@ -96,7 +97,7 @@ export async function setupEmailAuth(app: Express) {
   // Register endpoint
   app.post('/auth/register', async (req: Request, res: Response) => {
     try {
-      const { name, email, password } = registerSchema.parse(req.body);
+      const { name, email, password, corporateCode } = registerSchema.parse(req.body);
 
       // Check if user already exists
       const existingUser = await storage.getUserByEmail(email);
@@ -104,10 +105,25 @@ export async function setupEmailAuth(app: Express) {
         return res.status(400).json({ message: "Email already registered" });
       }
 
+      // Validate corporate code if provided
+      let organisation = null;
+      let isActive = false; // Default: requires admin approval
+      let organisationId = null;
+
+      if (corporateCode) {
+        organisation = await storage.getOrganisationByCode(corporateCode.trim().toUpperCase());
+        if (organisation) {
+          // Valid corporate code: auto-activate and link to organization
+          isActive = true;
+          organisationId = organisation.id;
+        }
+        // Note: If code is invalid, we still create the account but don't activate it
+      }
+
       // Hash password
       const passwordHash = await bcrypt.hash(password, 10);
 
-      // Create user (inactive by default, requires admin approval)
+      // Create user
       const userId = nanoid();
       const user = await storage.upsertUser({
         id: userId,
@@ -115,8 +131,14 @@ export async function setupEmailAuth(app: Express) {
         firstName: name,
         passwordHash,
         hasCompletedOnboarding: false,
-        isActive: false, // Requires admin approval
+        isActive, // Auto-activate if valid corporate code provided
+        organisationId, // Link to organization if code valid
       });
+
+      // Mark employee invite as activated if they signed up with a corporate code
+      if (organisationId && isActive) {
+        await storage.updateInviteStatus(email, organisationId, 'activated');
+      }
 
       // Set session and save it
       (req.session as any).userId = user.id;
@@ -133,6 +155,8 @@ export async function setupEmailAuth(app: Express) {
           firstName: user.firstName,
           hasCompletedOnboarding: user.hasCompletedOnboarding,
           organisationId: user.organisationId,
+          isActive: user.isActive,
+          organisation: organisation ? { name: organisation.name, tier: organisation.tier } : null,
         });
       });
     } catch (error) {

@@ -57,17 +57,28 @@ export default function Signup() {
         name: formData.name,
         email: formData.email,
         password: formData.password,
+        corporateCode: inviteCode || undefined, // Pass corporate code if present
       });
 
       const user = await response.json();
       
-      toast({
-        title: "Account Created",
-        description: "Your account is pending approval. You'll be notified when activated.",
-      });
-
-      // Redirect to pending approval page
-      setLocation("/pending-approval");
+      // Check if user was auto-activated with corporate code
+      if (user.isActive && user.organisationId) {
+        // User joined with valid corporate code - instant access!
+        toast({
+          title: "Welcome!",
+          description: `You've joined ${user.organisation?.name || 'your company'}. Let's get started!`,
+        });
+        // Redirect to first reset walkthrough
+        setLocation("/first-reset");
+      } else {
+        // No code or invalid code - pending approval
+        toast({
+          title: "Account Created",
+          description: "Your account is pending approval. You'll be notified when activated.",
+        });
+        setLocation("/pending-approval");
+      }
     } catch (error: any) {
       toast({
         title: "Registration Failed",
@@ -100,9 +111,15 @@ export default function Signup() {
             >
               Create Account
             </h1>
-            <p className="text-xs sm:text-sm text-gray-600">
-              Join thousands finding calm
-            </p>
+            {inviteCode ? (
+              <p className="text-xs sm:text-sm text-purple-600 font-medium">
+                🎉 Joining your company with unlimited access
+              </p>
+            ) : (
+              <p className="text-xs sm:text-sm text-gray-600">
+                Join thousands finding calm
+              </p>
+            )}
           </div>
 
           {/* Google Signup */}

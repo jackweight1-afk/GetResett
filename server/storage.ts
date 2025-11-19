@@ -9,6 +9,7 @@ import {
   dailyUsage,
   businessLeads,
   superAdmins,
+  employeeInvites,
   type User,
   type UpsertUser,
   type Organisation,
@@ -20,6 +21,7 @@ import {
   type DailyUsage,
   type BusinessLead,
   type SuperAdmin,
+  type EmployeeInvite,
   type InsertUserSession,
   type InsertSleepEntry,
   type InsertStressEntry,
@@ -28,6 +30,7 @@ import {
   type InsertDailyUsage,
   type InsertBusinessLead,
   type InsertOrganisation,
+  type InsertEmployeeInvite,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, count, avg, and, gte, like, or, sql, inArray } from "drizzle-orm";
@@ -121,6 +124,11 @@ export interface IStorage {
     popularResets: Array<{ name: string; count: number }>;
     employeeEngagement: number;
   }>;
+  
+  // Employee invite operations
+  createEmployeeInvites(invites: InsertEmployeeInvite[]): Promise<EmployeeInvite[]>;
+  getOrganizationInvites(orgId: string): Promise<EmployeeInvite[]>;
+  updateInviteStatus(email: string, orgId: string, status: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -926,6 +934,35 @@ export class DatabaseStorage implements IStorage {
       popularResets,
       employeeEngagement,
     };
+  }
+
+  // Employee invite operations
+  async createEmployeeInvites(invites: InsertEmployeeInvite[]): Promise<EmployeeInvite[]> {
+    const results = await db.insert(employeeInvites).values(invites).returning();
+    return results;
+  }
+
+  async getOrganizationInvites(orgId: string): Promise<EmployeeInvite[]> {
+    return db
+      .select()
+      .from(employeeInvites)
+      .where(eq(employeeInvites.organisationId, orgId))
+      .orderBy(desc(employeeInvites.invitedAt));
+  }
+
+  async updateInviteStatus(email: string, orgId: string, status: string): Promise<void> {
+    await db
+      .update(employeeInvites)
+      .set({ 
+        status,
+        activatedAt: status === 'activated' ? new Date() : undefined
+      })
+      .where(
+        and(
+          eq(employeeInvites.email, email),
+          eq(employeeInvites.organisationId, orgId)
+        )
+      );
   }
 }
 
