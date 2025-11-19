@@ -286,10 +286,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
         
         sessionId = userSession.id;
-        
-        // Only increment daily usage after successfully creating session
-        const today = new Date().toISOString().split('T')[0];
-        await storage.incrementDailyUsage(userId, today);
       }
       
       // Create feeling entry with optional sessionId link
@@ -331,50 +327,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting user:", error);
       res.status(500).json({ message: "Failed to delete account" });
-    }
-  });
-
-  // Subscription and usage routes
-  app.get('/api/usage/check', isAuthenticatedUnified, async (req: any, res) => {
-    try {
-      const userId = getUserId(req);
-      if (!userId) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-      
-      // Check if user has active subscription
-      const hasSubscription = await storage.hasActiveSubscription(userId);
-      
-      if (hasSubscription) {
-        return res.json({ canAccess: true, isSubscribed: true, dailyCount: 0 });
-      }
-      
-      // Check daily usage for free users
-      const usage = await storage.getDailyUsage(userId, today);
-      const dailyCount = usage?.sessionCount || 0;
-      const canAccess = dailyCount < 3; // Free limit is 3 sessions per day
-      
-      res.json({ canAccess, isSubscribed: false, dailyCount });
-    } catch (error) {
-      console.error("Error checking usage:", error);
-      res.status(500).json({ message: "Failed to check usage" });
-    }
-  });
-
-  app.post('/api/usage/increment', isAuthenticatedUnified, async (req: any, res) => {
-    try {
-      const userId = getUserId(req);
-      if (!userId) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-      
-      const usage = await storage.incrementDailyUsage(userId, today);
-      res.json(usage);
-    } catch (error) {
-      console.error("Error incrementing usage:", error);
-      res.status(500).json({ message: "Failed to increment usage" });
     }
   });
 
