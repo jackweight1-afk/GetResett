@@ -1,18 +1,7 @@
 # Replit.md - GetReset Wellness Platform
 
 ## Overview
-GetReset is a B2B corporate wellness platform that provides science-backed, 60-90 second reset sessions for workplace mental and physical wellbeing. The platform consists of:
-
-1. **Public Marketing Website**: Directs traffic to iOS app download and corporate partnerships
-2. **iOS App** (Coming Soon): Consumer-facing mobile application for individual users
-3. **GetReset for Business**: Three-tier corporate wellness solution (Core Access, Growth Support, Culture Partner)
-   - Flat pricing: £5.99/employee/month across all tiers
-   - Value-based differentiation: Wellbeing Reset Days, enhanced reporting, custom content
-   - Corporate access via unique company codes
-   - Employees get unlimited resets with no paywall
-4. **Super Admin Dashboard**: Platform management for analytics, lead pipeline, and organization oversight
-
-The web platform features guided reset sessions for stress, anxiety, restlessness, tiredness, and scattered feelings, with manual navigation and mood tracking. Corporate employees access unlimited sessions while organizations are invoiced monthly based on employee count.
+GetReset is a B2B corporate wellness platform providing science-backed, 60-90 second reset sessions for workplace mental and physical wellbeing. The platform includes a public marketing website, an upcoming iOS app, a three-tiered corporate wellness solution ("GetReset for Business"), and a Super Admin Dashboard for platform management. The core offering involves guided reset sessions for various emotional states, with corporate employees receiving unlimited access based on monthly invoicing per employee. The business vision is to provide accessible, impactful wellness tools to corporate environments, enhancing employee wellbeing and productivity.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
@@ -41,132 +30,45 @@ Preferred communication style: Simple, everyday language.
 - All text content shortened to 1-2 concise lines per point to prevent mobile clutter
 
 ## System Architecture
-The application employs a modern full-stack architecture with a clear separation between client and server.
+The application uses a modern full-stack architecture with a clear client-server separation.
 
 ### Frontend Architecture
 - **Framework**: React 18 with TypeScript
 - **Build Tool**: Vite
 - **Routing**: Wouter
-- **UI Framework**: shadcn/ui components built on Radix UI primitives
-- **Styling**: Tailwind CSS with a custom wellness-themed color palette
-- **State Management**: TanStack Query (React Query) for server state
-- **Form Handling**: React Hook Form with Zod validation
+- **UI Framework**: shadcn/ui (Radix UI primitives)
+- **Styling**: Tailwind CSS (custom wellness palette)
+- **State Management**: TanStack Query
+- **Form Handling**: React Hook Form with Zod
 
 ### Backend Architecture
 - **Runtime**: Node.js with Express.js
-- **Language**: TypeScript with ES modules
-- **Authentication**: Replit Auth with OpenID Connect
-- **Session Management**: Express sessions with PostgreSQL storage
+- **Language**: TypeScript (ES modules)
+- **Authentication**: Replit Auth (OpenID Connect) & Email/Password
+- **Session Management**: Express sessions (PostgreSQL storage)
 - **API Design**: RESTful endpoints
 
 ### Database Architecture
 - **Database**: PostgreSQL with Neon serverless driver
-- **ORM**: Drizzle ORM for type-safe operations
-- **Schema Management**: Drizzle Kit for migrations
-- **Connection Pooling**: Neon serverless connection pooling
+- **ORM**: Drizzle ORM
+- **Schema Management**: Drizzle Kit
+- **Connection Pooling**: Neon serverless
 
 ### Key Components & Design
-- **Authentication System**: 
-  - **Dual Authentication**: Supports both Replit Auth (OIDC) and email/password authentication
-  - **Email/Password Auth**: New users can register with name/email/password (with confirmation field) using bcryptjs hashing
-  - **Google Login**: "Continue with Google" buttons on login/signup pages using Replit Auth's Google OAuth integration
-  - **Password Reset Flow**: Complete forgot password and reset password pages with email-based token system (1-hour expiry)
-  - **Admin User Approval System**:
-    - `isActive` field controls user access (default: false for self-signups)
-    - OIDC users (Google login) created with `isActive: true` (trusted provider authentication)
-    - Email/password self-signups created with `isActive: false` (require admin approval)
-    - Admin-created users have `isActive: true` (immediate access)
-    - Inactive users redirected to `/pending-approval` page with clear messaging
-    - Super admins can create, activate, and deactivate users from dashboard
-  - **Unified Middleware**: `isAuthenticatedUnified` handles both auth methods and checks `isActive` status
-  - **Session Management**: Express sessions with PostgreSQL storage, secure HTTP-only cookies
-  - **User ID Resolution**: `getUserId()` helper checks both session.userId (email auth) and user.claims.sub (Replit Auth)
-  - **Null Safety**: All protected routes validate userId and isActive, return 401/403 if null or inactive
-  - **Security Features**: Email enumeration prevention, password confirmation validation, token expiry, password hash sanitization
-  - **Complete Onboarding Flow**:
-    - New users go through: Welcome → Sign Up/Login → Optional Corporate Code → First Reset Walkthrough
-    - `hasCompletedOnboarding` flag tracks onboarding completion
-    - Redirects based on auth state and onboarding status
-    - First-time users experience a guided reset before accessing full app
-  - **Corporate Access System**:
-    - Organizations table with unique `corporateCode` field
-    - **Instant Employee Activation**: Employees signing up with valid corporate codes (via invite link) are auto-activated and get unlimited access immediately
-    - **Organization Admin Flag**: `isOrganisationAdmin` boolean field distinguishes company admins from regular employees
-    - Corporate users (`organisationId` set) get unlimited resets (bypass 3-session paywall entirely)
-    - Account page allows corporate code entry and removal
-    - Paywall includes "Enter corporate code" option with SPA navigation
-    - **React Query Cache Invalidation**: Signup and login now invalidate auth cache to ensure fresh user data with organisationId
-  - **Transactional User Upsert**: Handles OIDC ID changes by migrating user data atomically with deduplication
-  - **Test Accounts**: huzefausama25@gmail.com, jackweight1@gmail.com have unlimited access
-
+- **Authentication System**: Supports Replit Auth (Google OAuth) and email/password. Features a unified middleware, password reset flow, and an admin user approval system where self-registered users require activation. Corporate users are auto-activated via corporate codes.
+- **Onboarding Flow**: Guided walkthrough for new users, ensuring a smooth first experience. Business users have a dedicated signup path with corporate code validation.
+- **Corporate Access System**: `organizations` table manages unique `corporateCode`s. `business-signup` page validates codes, instantly activating employees with unlimited access. `isOrganisationAdmin` flag differentiates company admins.
 - **B2B Platform Features**:
-  - **Public Marketing Site**: Landing page ("Because Sometimes, You Just Need A Minute") with dual CTAs for iOS download and business inquiries
-  - **Business Marketing Page**: Three-tier pricing display (Core/Growth/Culture Partner at £5.99/employee/month) with "Sign In" button
-  - **Lead Generation**: Contact form for business inquiries, stored in business_leads table with status tracking
-  - **iOS Download Page**: Holding page with email notification signup for app launch
-  - **Super Admin Dashboard** (/admin): 
-    - Protected route with backend authorization (requireSuperAdmin middleware)
-    - Global analytics: total resets, organizations, employees, monthly revenue
-    - **Organization management**: 
-      - View all organizations with details (name, tier, employee count, corporate code, MRR, billing status)
-      - Create new organizations with admin user in single transaction (generates unique GR-XXXXXX corporate code)
-      - Edit organizations: update name, tier (core/growth/culture_partner), and employee count
-      - Delete organizations: safely removes organization and unlinks all employees (sets organisationId to null)
-      - View per-organization analytics (total resets, active employees, engagement rate, popular resets)
-    - Lead pipeline: view and update business inquiry status (new/contacted/qualified/converted/lost)
-    - User management: create users, view all users, activate/deactivate user accounts
-    - Popular resets tracking across platform
-  - **Company Admin Dashboard** (/company):
-    - Shows organization details (name, tier, billing status, employee count)
-    - Displays corporate code with copy button
-    - Generates shareable invite links: `signup?code=GR-ABC123`
-    - Shows analytics: total resets, active employees, engagement rate
-    - Lists most popular resets used by employees
-    - Provides instructions for inviting employees
-  - **Frictionless Invite Link Flow**:
-    - Company admins copy invite link from company dashboard (`/signup?code=GR-XXXXXX`)
-    - Employees click link → signup page with code pre-filled in URL
-    - After signup → **auto-activated with unlimited access** (skips /pending-approval)
-    - Redirects to /first-reset walkthrough → /resets
-    - No manual corporate code entry needed - instant access from invite link
-    - Employee invite tracking via `employee_invites` table (pending/activated/expired status)
-  - **Security**: All /api/admin/* routes protected with isAuthenticatedUnified + requireSuperAdmin middleware
-  - **Super Admin Access**: Verified against super_admins table, emails: jackweight1@gmail.com, huzefausama25@gmail.com
-  - **Database Tables**: business_leads, super_admins, organizations (with tier, billing status, employee count)
-  - **API Endpoints**: 
-    - GET /api/user/organization: Returns organization details, analytics, and employee invites (requires `isOrganisationAdmin: true`)
-    - POST /api/company/invite-employees: Creates bulk employee invite records and generates invite links (admin only)
-  
-- **Interactive Reset System**: 
-  - Features 16+ unique reset experiences using ResetSpec schema
-  - Categorized by 5 emotional states: Stressed (4 resets), Anxiety (3 resets), Restless (4 resets), Tired (4 resets), Scattered (4 resets)
-  - Manual Continue/Back button navigation (no auto-advancing timers)
-  - Each reset has steps with {id, title, lines[], animationKey, helperHint}
-  - Adapter layer converts new ResetSpec schema to legacy format for backward compatibility
-  - **Stressed Resets**: Guided visualization experiences (Full-Body Tense & Release, Fact–Story Lens, Safety Scan, Mental Triage)
-  - **Energy to Burn Movement Resets**: Exercise sessions with orange/red gradient theme
-  
-- **Session Flow**: 
-  - Users select emotional state → choose reset → complete with manual navigation → rate mood (1-10)
-  - Loop-back flow: If mood rating ≤3, offer another reset; if >3, show success and return to dashboard
-  
-- **Tracking Systems**: 
-  - Automatic session creation when user completes reset and submits mood rating
-  - Emotion-to-session-type mapping (stressed → Stress Relief, scattered → Focus Reset, etc.)
-  - Emotion-specific durations (stressed=75s, anxiety=90s, restless=90s, tired=105s, scattered=90s)
-  - Daily usage tracking with unique constraint on (userId, date) for accurate counting
-  - Feeling entries linked to sessions via sessionId for comprehensive analytics
-  - Dashboard displays session history, streaks, and analytics
-- **UI/UX Design**: 
-  - **Premium Styling**: All auth/onboarding pages feature white/80 backdrop-blur cards with rounded-3xl, shadow-lg, and border-purple-100/50
-  - **Mobile-First Typography**: Solid text-gray-900 headings (text-xl sm:text-2xl), concise body text (text-xs sm:text-sm), compact labels (text-xs)
-  - **Compact Spacing**: Card padding p-5 sm:p-7, vertical spacing space-y-3 to space-y-3.5, button heights h-10
-  - **Consistent Background**: from-purple-50 via-violet-50 to-blue-50 gradient across all auth pages
-  - **Shortened Content**: First-reset walkthrough and all onboarding text condensed to 1-2 lines per point for clean mobile appearance
-  - Modern purple/violet gradient theme with glassmorphism effects, rounded cards, and mobile-first responsiveness
-- **Monetization**: Subscription model offers 3 free daily sessions, tracked via `localStorage`. Non-subscribers encounter a paywall on the 4th attempt. New users receive a 30-day free trial; returning users are charged immediately. Supports Apple Pay, Google Pay, and international currency conversion based on real-time exchange rates from a GBP base price.
-- **Internationalization**: Automatically detects user's country via IP geolocation and browser locale, displaying pricing in local currency with real-time exchange rates across 18+ major currencies.
-- **Performance Optimization**: Includes instant fallback data for currency, extended caching, GPU-accelerated animations, lazy loading, virtual scrolling, DNS prefetching, debouncing/throttling, and optimized font loading.
+    - **Public Marketing Site**: Landing page with CTAs for app download and business inquiries.
+    - **Business Marketing Page**: Displays three-tier pricing model (£5.99/employee/month).
+    - **Lead Generation**: Contact form for business inquiries, stored and tracked.
+    - **Super Admin Dashboard**: Protected `/admin` route for global analytics, organization management (create, edit, delete, view analytics), lead pipeline management, and user activation/deactivation.
+    - **Company Admin Dashboard**: Protected `/company` route for organization-specific analytics, corporate code management, and employee invitation guidance.
+- **Interactive Reset System**: Comprises 16+ unique reset experiences categorized by emotional states (Stressed, Anxiety, Restless, Tired, Scattered). Each reset has manual navigation steps with content and animations.
+- **Session & Tracking**: Automatic session creation upon reset completion and mood rating. Tracks daily usage, emotional states, and links feeling entries to sessions for comprehensive analytics.
+- **Monetization**: Subscription model with 3 free daily sessions, paywall on the 4th, and a 30-day free trial for new users.
+- **Internationalization**: Auto-detects user country, displaying pricing in local currency with real-time exchange rates (GBP base price).
+- **Performance Optimization**: Includes instant fallback data, extended caching, GPU-accelerated animations, lazy loading, virtual scrolling, DNS prefetching, debouncing/throttling, and optimized font loading.
 
 ## External Dependencies
 - **React Ecosystem**: React, React DOM, React Hook Form
