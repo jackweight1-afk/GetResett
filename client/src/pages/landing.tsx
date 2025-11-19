@@ -2,6 +2,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Heart, Brain, Zap, Shield, Users, Building2, Timer } from "lucide-react";
 import { useState, useEffect } from "react";
 import logoUrl from "@assets/getreset_logo.jpg";
+import moodSelectionImg from '@assets/screenshots/mood-selection-real.png';
+import resetPlayerImg from '@assets/screenshots/reset-player-real.png';
+import moodRatingImg from '@assets/screenshots/mood-rating-real.png';
 
 export default function Landing() {
   const [isVisible, setIsVisible] = useState(false);
@@ -124,29 +127,82 @@ export default function Landing() {
 
       {/* How It Works */}
       <section className="px-4 sm:px-6 py-12 sm:py-16">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
               Reset in 3 simple steps
             </h2>
           </div>
 
-          <div className="space-y-6">
-            {[
-              { step: "1", title: "Pick your mood", desc: "Stressed? Tired? Scattered? Choose how you're feeling right now" },
-              { step: "2", title: "Follow the guided reset", desc: "Simple breathing, visualization, or movement exercises—all under 2 minutes" },
-              { step: "3", title: "Feel the difference", desc: "Rate your mood after and track your progress over time" }
-            ].map((item, i) => (
-              <div key={i} className="flex items-start gap-4 bg-white rounded-3xl p-6 shadow-md">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-teal-600 flex items-center justify-center">
-                  <span className="text-white text-xl font-bold">{item.step}</span>
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">{item.title}</h3>
-                  <p className="text-gray-600">{item.desc}</p>
+          <div className="space-y-12">
+            {/* Step 1 - Pick your mood */}
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
+              <div className="w-full md:w-1/2 order-2 md:order-1">
+                <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-lg">
+                  <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center">
+                      <span className="text-white text-lg sm:text-xl font-bold">1</span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Pick your mood</h3>
+                  </div>
+                  <p className="text-gray-600 text-base sm:text-lg">Stressed? Tired? Scattered? Choose how you're feeling right now and we'll guide you to the perfect reset.</p>
                 </div>
               </div>
-            ))}
+              <div className="w-full md:w-1/2 order-1 md:order-2">
+                <img 
+                  src={moodSelectionImg} 
+                  alt="Mood selection interface" 
+                  className="w-full max-w-[280px] sm:max-w-xs mx-auto rounded-2xl sm:rounded-3xl shadow-2xl"
+                  data-testid="img-step-1"
+                />
+              </div>
+            </div>
+
+            {/* Step 2 - Follow the guided reset */}
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
+              <div className="w-full md:w-1/2 order-1">
+                <img 
+                  src={resetPlayerImg} 
+                  alt="Guided reset session in progress" 
+                  className="w-full max-w-[280px] sm:max-w-xs mx-auto rounded-2xl sm:rounded-3xl shadow-2xl"
+                  data-testid="img-step-2"
+                />
+              </div>
+              <div className="w-full md:w-1/2 order-2">
+                <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-lg">
+                  <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center">
+                      <span className="text-white text-lg sm:text-xl font-bold">2</span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Follow the guided reset</h3>
+                  </div>
+                  <p className="text-gray-600 text-base sm:text-lg">Simple breathing, visualization, or movement exercises—all under 2 minutes. Just follow along at your own pace.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 3 - Feel the difference */}
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
+              <div className="w-full md:w-1/2 order-2 md:order-1">
+                <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-lg">
+                  <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center">
+                      <span className="text-white text-lg sm:text-xl font-bold">3</span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Feel the difference</h3>
+                  </div>
+                  <p className="text-gray-600 text-base sm:text-lg">Rate your mood after each reset and track your progress over time. Notice the shift from stressed to centered.</p>
+                </div>
+              </div>
+              <div className="w-full md:w-1/2 order-1 md:order-2">
+                <img 
+                  src={moodRatingImg} 
+                  alt="Reset completion and mood rating" 
+                  className="w-full max-w-[280px] sm:max-w-xs mx-auto rounded-2xl sm:rounded-3xl shadow-2xl"
+                  data-testid="img-step-3"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
