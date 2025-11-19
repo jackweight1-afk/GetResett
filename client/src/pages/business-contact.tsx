@@ -23,7 +23,7 @@ export default function BusinessContact() {
     setIsSubmitting(true);
 
     try {
-      await apiRequest("POST", "/api/leads", formData);
+      await apiRequest("POST", "/api/business-leads", formData);
       
       toast({
         title: "Thank you for your interest!",
