@@ -164,11 +164,11 @@ export default function Landing() {
           <Button 
             size="lg"
             onClick={() => window.location.href = '/business'}
-            className="bg-white text-teal-700 hover:bg-gray-50 text-base sm:text-lg px-10 py-6 shadow-xl hover:shadow-2xl transition-all duration-300 font-semibold rounded-full"
+            className="bg-white !text-teal-700 hover:bg-gray-50 hover:!text-teal-800 text-base sm:text-lg px-10 py-6 shadow-xl hover:shadow-2xl transition-all duration-300 font-semibold rounded-full"
             data-testid="button-business-cta"
           >
-            Explore GetReset for Business
-            <ArrowRight className="w-5 h-5 ml-2" />
+            <span className="text-teal-700">Explore GetReset for Business</span>
+            <ArrowRight className="w-5 h-5 ml-2 text-teal-700" />
           </Button>
         </div>
       </section>
