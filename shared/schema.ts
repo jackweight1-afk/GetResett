@@ -53,13 +53,14 @@ export const users = pgTable("users", {
   passwordHash: varchar("password_hash"), // For email/password auth (nullable for Replit Auth users)
   resetToken: varchar("reset_token"), // For password reset
   resetTokenExpiry: timestamp("reset_token_expiry"), // Token expiration timestamp
-  organisationId: varchar("organisation_id").references(() => organisations.id),
+  organisationId: varchar("organisation_id").references(() => organisations.id), // Corporate-only access model
   isOrganisationAdmin: boolean("is_organisation_admin").default(false), // Can access company dashboard
   hasCompletedOnboarding: boolean("has_completed_onboarding").default(false),
-  isActive: boolean("is_active").default(false), // Admin approval required
-  stripeCustomerId: varchar("stripe_customer_id"),
-  stripeSubscriptionId: varchar("stripe_subscription_id"),
-  subscriptionStatus: varchar("subscription_status"), // active, canceled, past_due, etc.
+  isActive: boolean("is_active").default(false), // Admin approval required (auto-true for corporate users)
+  // LEGACY FIELDS (Unused in B2B corporate model - kept for backward compatibility)
+  stripeCustomerId: varchar("stripe_customer_id"), // [UNUSED] Removed Stripe integration
+  stripeSubscriptionId: varchar("stripe_subscription_id"), // [UNUSED] No subscriptions in B2B model
+  subscriptionStatus: varchar("subscription_status"), // [UNUSED] All corporate users have unlimited access
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -83,6 +84,8 @@ export const userSessions = pgTable("user_sessions", {
   notes: text("notes"),
 });
 
+// LEGACY TABLE: No longer used in B2B corporate model (unlimited access, no session limits)
+// Kept for backward compatibility - can be safely ignored
 export const dailyUsage = pgTable("daily_usage", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").notNull().references(() => users.id),
