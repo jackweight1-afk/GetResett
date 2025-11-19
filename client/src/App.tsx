@@ -22,7 +22,6 @@ import Dashboard from "@/pages/dashboard";
 import Resets from "@/pages/resets";
 import Insights from "@/pages/insights";
 import Account from "@/pages/account";
-import InstallPrompt from "@/components/install-prompt";
 import ErrorBoundary from "@/components/error-boundary";
 import { useLocation } from "wouter";
 
@@ -101,7 +100,6 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />
-          <InstallPrompt />
           <Router />
         </TooltipProvider>
       </QueryClientProvider>
