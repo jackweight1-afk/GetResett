@@ -99,6 +99,13 @@ The application uses a simplified architecture focused on marketing and demos on
 - ✅ Removed all Stripe integration and subscription logic
 - ✅ Updated resets page to work without authentication
 
+**Design & UX Updates:**
+- ✅ Updated entire color scheme from harsh purple/violet to soft yellow → pink → teal gradient (matching logo)
+- ✅ Fixed button text visibility on landing page bottom CTA
+- ✅ Added real screenshots from working app to "Reset in 3 simple steps" section
+- ✅ Mobile-optimized layout with responsive padding, typography, and image sizing (280px max on mobile)
+- ✅ Replaced AI-generated mockups with actual UI captures from demo flow
+
 **Architecture Pivot:**
 - Web app is now purely for marketing and demos
 - iOS app will handle corporate employee access with codes
