@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Link, useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import logoPath from "@assets/getreset_logo.jpg";
 
 export default function Signup() {
@@ -61,6 +61,9 @@ export default function Signup() {
       });
 
       const user = await response.json();
+      
+      // Invalidate auth query to refresh user data
+      await queryClient.invalidateQueries({ queryKey: ['/api/auth/user'] });
       
       // Check if user was auto-activated with corporate code
       if (user.isActive && user.organisationId) {

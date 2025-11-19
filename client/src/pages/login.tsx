@@ -29,7 +29,7 @@ export default function Login() {
       const user = await response.json();
       
       // Invalidate auth queries to refetch user data
-      queryClient.invalidateQueries({ queryKey: ["/auth/me"] });
+      await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       
       toast({
         title: "Welcome back!",
@@ -38,8 +38,8 @@ export default function Login() {
 
       // Redirect based on onboarding status and organization role
       if (user.hasCompletedOnboarding) {
-        // If user is linked to an organization, send to company dashboard
-        if (user.organisationId) {
+        // If user is an organization admin, send to company dashboard
+        if (user.isOrganisationAdmin) {
           setLocation("/company");
         } else {
           setLocation("/resets");
