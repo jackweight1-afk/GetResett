@@ -813,6 +813,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Organization name, admin email, and password are required" });
       }
 
+      // Check if user with this email already exists
+      const existingUser = await storage.getUserByEmail(adminEmail);
+      if (existingUser) {
+        return res.status(400).json({ error: `A user with email ${adminEmail} already exists. Please use a different email address.` });
+      }
+
       // Generate unique corporate code
       const corporateCode = `GR-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
