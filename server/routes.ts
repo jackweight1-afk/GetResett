@@ -250,13 +250,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let sessionId: string | undefined;
       if (feelingData.isPostSession && feelingData.feeling && feelingData.feeling !== 'feel_better') {
         // Map emotion to session type and duration (matches seeded session types in initializeSessionTypes)
+        // Supports BOTH old emotion IDs (from /resets page) and new IDs (from /guided-flow page)
         const emotionConfig: Record<string, { sessionType: string; duration: number }> = {
+          // New emotion IDs (from guided-flow/FeelingCheck)
           'stressed': { sessionType: 'Stress Relief', duration: 75 },
           'anxious': { sessionType: 'Mindful Moment', duration: 90 },
           'cant_sleep': { sessionType: 'Sleep Story', duration: 105 },
           'achy_muscles': { sessionType: 'Upper Body Stretch', duration: 90 },
           'cant_focus': { sessionType: 'Focus Reset', duration: 90 },
           'need_confidence': { sessionType: 'Confidence Boost', duration: 75 },
+          // Old emotion IDs (from /resets page/EmotionSelector)
+          'anxiety': { sessionType: 'Mindful Moment', duration: 90 },
+          'restless': { sessionType: 'Energy Boost', duration: 90 },
+          'tired': { sessionType: 'Sleep Story', duration: 105 },
+          'scattered': { sessionType: 'Focus Reset', duration: 90 },
         };
         
         const config = emotionConfig[feelingData.feeling];
