@@ -59,11 +59,14 @@ The application uses a modern full-stack architecture with a clear client-server
 - **Onboarding Flow**: Guided walkthrough for new users, ensuring a smooth first experience. Business users have a dedicated signup path with corporate code validation.
 - **Corporate Access System**: `organizations` table manages unique `corporateCode`s. `business-signup` page validates codes, instantly activating employees with unlimited access. `isOrganisationAdmin` flag differentiates company admins.
 - **B2B Platform Features**:
-    - **Public Marketing Site**: Landing page with CTAs for app download and business inquiries.
-    - **Business Marketing Page**: Displays three-tier pricing model (£5.99/employee/month).
-    - **Lead Generation**: Contact form for business inquiries, stored and tracked.
+    - **Marketing Funnel Flow**: Landing page → "GetReset for Business" CTA → `/business` marketing page → Dual paths:
+        - **"Enquire Now"** button → `/business/contact` (lead generation form for new business inquiries)
+        - **"Employee Access"** button → `/business-signup` (corporate code-gated employee signup)
+    - **Business Marketing Page** (`/business`): Displays three-tier pricing model (£5.99/employee/month), benefits section, and dual CTAs for inquiries vs. employee access.
+    - **Employee Signup Flow** (`/business-signup`): Code-first validation → validates corporate code → creates account with `organisationId` + `isActive:true` → instant unlimited access.
+    - **Lead Generation**: Contact form for business inquiries, stored and tracked in `business_leads` table.
     - **Super Admin Dashboard**: Protected `/admin` route for global analytics, organization management (create, edit, delete, view analytics), lead pipeline management, and user activation/deactivation.
-    - **Company Admin Dashboard**: Protected `/company` route for organization-specific analytics, corporate code management, and employee invitation guidance.
+    - **Company Admin Dashboard**: Protected `/company` route for organization-specific analytics, corporate code display with copy button, and employee invitation guidance.
 - **Interactive Reset System**: Comprises 16+ unique reset experiences categorized by emotional states (Stressed, Anxiety, Restless, Tired, Scattered). Each reset has manual navigation steps with content and animations.
 - **Session & Tracking**: Automatic session creation upon reset completion and mood rating. Tracks daily usage, emotional states, and links feeling entries to sessions for comprehensive analytics.
 - **Monetization**: Subscription model with 3 free daily sessions, paywall on the 4th, and a 30-day free trial for new users.
