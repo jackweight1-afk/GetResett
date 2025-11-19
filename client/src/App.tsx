@@ -12,7 +12,6 @@ import Business from "@/pages/business";
 import BusinessContact from "@/pages/business-contact";
 import AdminDashboard from "@/pages/admin-dashboard";
 import Welcome from "@/pages/welcome";
-import Signup from "@/pages/signup";
 import BusinessSignup from "@/pages/business-signup";
 import Login from "@/pages/login";
 import ForgotPassword from "@/pages/forgot-password";
@@ -49,7 +48,7 @@ function Router() {
 
     // If authenticated but onboarding not complete, redirect to appropriate step
     if (isAuthenticated && user && !user.hasCompletedOnboarding) {
-      const onboardingPaths = ['/first-reset', '/welcome', '/signup', '/login'];
+      const onboardingPaths = ['/first-reset', '/welcome', '/login'];
       if (!onboardingPaths.includes(location) && location !== '/') {
         // User is trying to access protected pages without completing onboarding
         window.location.href = '/first-reset';
@@ -58,7 +57,7 @@ function Router() {
 
     // If authenticated and onboarding complete, redirect away from onboarding pages
     if (isAuthenticated && user?.hasCompletedOnboarding) {
-      const onboardingPaths = ['/welcome', '/signup', '/login', '/first-reset'];
+      const onboardingPaths = ['/welcome', '/login', '/first-reset'];
       if (onboardingPaths.includes(location)) {
         window.location.href = '/resets';
       }
@@ -80,7 +79,6 @@ function Router() {
       
       {/* Onboarding routes - only for non-authenticated or incomplete onboarding */}
       <Route path="/welcome" component={Welcome} />
-      <Route path="/signup" component={Signup} />
       <Route path="/business-signup" component={BusinessSignup} />
       <Route path="/login" component={Login} />
       <Route path="/forgot-password" component={ForgotPassword} />
