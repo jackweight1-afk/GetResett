@@ -102,11 +102,24 @@ export default function BusinessSignup() {
       
       setLocation("/first-reset");
     } catch (error: any) {
-      toast({
-        title: "Registration Failed",
-        description: error.message || "Please try again",
-        variant: "destructive",
-      });
+      if (error.message && error.message.includes("Email already registered")) {
+        toast({
+          title: "Account Already Exists",
+          description: "An account with this email already exists. Please log in instead.",
+          variant: "destructive",
+          action: (
+            <Link href="/login" className="text-white underline font-medium">
+              Log In
+            </Link>
+          ),
+        });
+      } else {
+        toast({
+          title: "Registration Failed",
+          description: error.message || "Please try again",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -175,9 +188,9 @@ export default function BusinessSignup() {
 
               <div className="text-center pt-2">
                 <p className="text-xs text-gray-600">
-                  Looking for personal account?{" "}
-                  <Link href="/signup" className="text-purple-600 hover:text-purple-700 font-medium">
-                    Sign up here
+                  Already have an account?{" "}
+                  <Link href="/login" className="text-purple-600 hover:text-purple-700 font-medium" data-testid="link-login">
+                    Log in
                   </Link>
                 </p>
               </div>
