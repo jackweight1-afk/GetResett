@@ -69,6 +69,7 @@ export const users = pgTable("users", {
   resetToken: varchar("reset_token"), // For password reset
   resetTokenExpiry: timestamp("reset_token_expiry"), // Token expiration timestamp
   organisationId: varchar("organisation_id").references(() => organisations.id),
+  isOrganisationAdmin: boolean("is_organisation_admin").default(false), // Can access company dashboard
   hasCompletedOnboarding: boolean("has_completed_onboarding").default(false),
   isActive: boolean("is_active").default(false), // Admin approval required
   stripeCustomerId: varchar("stripe_customer_id"),
