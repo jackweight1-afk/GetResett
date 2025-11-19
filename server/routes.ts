@@ -757,7 +757,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Super admin middleware
+  // Super admin middleware - hardcoded to only allow getresett@gmail.com
   const requireSuperAdmin = async (req: any, res: any, next: any) => {
     try {
       const userId = getUserId(req);
@@ -770,8 +770,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ error: "Unauthorized" });
       }
 
-      const isSuperAdmin = await storage.isSuperAdmin(user.email);
-      if (!isSuperAdmin) {
+      // Only allow getresett@gmail.com as super admin
+      if (user.email !== 'getresett@gmail.com') {
         return res.status(403).json({ error: "Forbidden - Admin access required" });
       }
 
