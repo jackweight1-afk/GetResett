@@ -58,13 +58,17 @@ function updateUserSession(
 async function upsertUser(
   claims: any,
 ) {
+  const existingUser = await storage.getUser(claims["sub"]);
+  
   await storage.upsertUser({
     id: claims["sub"],
     email: claims["email"],
     firstName: claims["first_name"],
     lastName: claims["last_name"],
     profileImageUrl: claims["profile_image_url"],
-    isActive: true, // OIDC users are active by default (authenticated via trusted provider)
+    // Preserve existing isActive status - never auto-reactivate deactivated users
+    // New users without organisationId default to false (pending approval)
+    isActive: existingUser?.isActive ?? false,
   });
 }
 
@@ -137,20 +141,27 @@ export async function setupAuth(app: Express) {
         }
         console.log("User logged in successfully!");
         
-        // Check if user is linked to an organization
+        // Check corporate access and redirect accordingly
         try {
           const userId = user.claims?.sub;
           if (userId) {
             const dbUser = await storage.getUser(userId);
-            if (dbUser?.organisationId) {
-              return res.redirect("/company");
+            
+            // User must have organisationId and be active to access resets
+            if (!dbUser?.organisationId || !dbUser?.isActive) {
+              // Inactive or non-corporate user - redirect to pending approval page
+              return res.redirect("/pending-approval");
             }
+            
+            // Active corporate user - redirect to resets
+            return res.redirect("/resets");
           }
         } catch (error) {
           console.error("Error checking user organization:", error);
         }
         
-        return res.redirect("/resets");
+        // Fallback: redirect to pending approval if something went wrong
+        return res.redirect("/pending-approval");
       });
     })(req, res, next);
   });

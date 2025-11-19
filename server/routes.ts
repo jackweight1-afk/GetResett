@@ -22,6 +22,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize session types on startup
   await initializeSessionTypes();
 
+  // Corporate access middleware - validates user has active account with organization
+  const requireCorporateAccess = async (req: any, res: any, next: any) => {
+    try {
+      const userId = getUserId(req);
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(401).json({ message: "User not found" });
+      }
+
+      if (!user.isActive) {
+        return res.status(403).json({ 
+          message: "Account not activated. Please contact your organization administrator.",
+          code: "ACCOUNT_INACTIVE"
+        });
+      }
+
+      if (!user.organisationId) {
+        return res.status(403).json({ 
+          message: "Corporate access required. Please sign up with a valid corporate code.",
+          code: "NO_CORPORATE_ACCESS"
+        });
+      }
+
+      next();
+    } catch (error) {
+      console.error("Error checking corporate access:", error);
+      res.status(500).json({ error: "Access check failed" });
+    }
+  };
+
   // Auth routes - supports both Replit Auth and email/password auth
   app.get('/api/auth/user', async (req: any, res) => {
     try {
@@ -53,7 +87,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Session types
-  app.get('/api/session-types', isAuthenticatedUnified, async (req, res) => {
+  app.get('/api/session-types', isAuthenticatedUnified, requireCorporateAccess, async (req, res) => {
     try {
       const sessionTypes = await storage.getSessionTypes();
       res.json(sessionTypes);
@@ -64,7 +98,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // User sessions
-  app.get('/api/sessions', isAuthenticatedUnified, async (req: any, res) => {
+  app.get('/api/sessions', isAuthenticatedUnified, requireCorporateAccess, async (req: any, res) => {
     try {
       const userId = getUserId(req);
       if (!userId) {
@@ -78,29 +112,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/sessions', isAuthenticatedUnified, async (req: any, res) => {
+  app.post('/api/sessions', isAuthenticatedUnified, requireCorporateAccess, async (req: any, res) => {
     try {
       const userId = getUserId(req);
       if (!userId) {
         return res.status(401).json({ message: "Unauthorized" });
-      }
-
-      // Corporate-only access: Check user is active and has organization
-      const user = await storage.getUser(userId);
-      if (!user) {
-        return res.status(401).json({ message: "User not found" });
-      }
-      if (!user.isActive) {
-        return res.status(403).json({ 
-          message: "Account not activated. Please contact your organization administrator.",
-          code: "ACCOUNT_INACTIVE"
-        });
-      }
-      if (!user.organisationId) {
-        return res.status(403).json({ 
-          message: "Corporate access required. Please sign up with a valid corporate code.",
-          code: "NO_CORPORATE_ACCESS"
-        });
       }
 
       const sessionData = insertUserSessionSchema.parse({
@@ -117,7 +133,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // User stats
-  app.get('/api/stats', isAuthenticatedUnified, async (req: any, res) => {
+  app.get('/api/stats', isAuthenticatedUnified, requireCorporateAccess, async (req: any, res) => {
     try {
       const userId = getUserId(req);
       if (!userId) {
@@ -132,7 +148,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Sleep entries
-  app.get('/api/sleep', isAuthenticatedUnified, async (req: any, res) => {
+  app.get('/api/sleep', isAuthenticatedUnified, requireCorporateAccess, async (req: any, res) => {
     try {
       const userId = getUserId(req);
       if (!userId) {
@@ -146,7 +162,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/sleep', isAuthenticatedUnified, async (req: any, res) => {
+  app.post('/api/sleep', isAuthenticatedUnified, requireCorporateAccess, async (req: any, res) => {
     try {
       const userId = getUserId(req);
       if (!userId) {
@@ -166,7 +182,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Stress entries
-  app.post('/api/stress', isAuthenticatedUnified, async (req: any, res) => {
+  app.post('/api/stress', isAuthenticatedUnified, requireCorporateAccess, async (req: any, res) => {
     try {
       const userId = getUserId(req);
       if (!userId) {
@@ -186,7 +202,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Insights
-  app.get('/api/insights', isAuthenticatedUnified, async (req: any, res) => {
+  app.get('/api/insights', isAuthenticatedUnified, requireCorporateAccess, async (req: any, res) => {
     try {
       const userId = getUserId(req);
       if (!userId) {
@@ -201,7 +217,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // User stats route (for account page)
-  app.get('/api/user/stats', isAuthenticatedUnified, async (req: any, res) => {
+  app.get('/api/user/stats', isAuthenticatedUnified, requireCorporateAccess, async (req: any, res) => {
     try {
       const userId = getUserId(req);
       if (!userId) {
@@ -216,7 +232,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Feeling entries
-  app.post('/api/feelings', isAuthenticatedUnified, async (req: any, res) => {
+  app.post('/api/feelings', isAuthenticatedUnified, requireCorporateAccess, async (req: any, res) => {
     try {
       const userId = getUserId(req);
       if (!userId) {
@@ -310,7 +326,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/feelings', isAuthenticatedUnified, async (req: any, res) => {
+  app.get('/api/feelings', isAuthenticatedUnified, requireCorporateAccess, async (req: any, res) => {
     try {
       const userId = getUserId(req);
       if (!userId) {

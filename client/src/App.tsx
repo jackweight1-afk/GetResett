@@ -26,19 +26,30 @@ import { useLocation } from "wouter";
 
 function Router() {
   const { user, isAuthenticated, isLoading } = useAuth();
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
 
-  // Redirect logic - redirect away from login/welcome if already authenticated
+  // Redirect logic
   React.useEffect(() => {
     if (isLoading) return;
 
-    if (isAuthenticated) {
+    // Redirect authenticated users with corporate access away from login/welcome pages
+    if (isAuthenticated && user) {
       const authPaths = ['/welcome', '/login'];
-      if (authPaths.includes(location)) {
+      const hasCorporateAccess = user.isActive && user.organisationId;
+      
+      if (authPaths.includes(location) && hasCorporateAccess) {
         window.location.href = '/resets';
       }
     }
-  }, [isAuthenticated, isLoading, location]);
+    
+    // Redirect unauthenticated users trying to access protected routes to /login
+    if (!isAuthenticated) {
+      const protectedPaths = ['/resets', '/dashboard', '/insights', '/account', '/admin'];
+      if (protectedPaths.some(path => location.startsWith(path))) {
+        setLocation('/login');
+      }
+    }
+  }, [isAuthenticated, isLoading, location, setLocation, user]);
 
   return (
     <Switch>
@@ -64,7 +75,6 @@ function Router() {
         </Route>
       ) : !isAuthenticated ? (
         <>
-          <Route path="/resets" component={Resets} />
           <Route component={NotFound} />
         </>
       ) : (

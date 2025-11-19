@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { type EmotionalState, type Reset } from '@shared/resetData';
 import EmotionSelector from '@/components/emotion-selector';
 import ResetSelector from '@/components/reset-selector';
@@ -12,8 +13,9 @@ import { useToast } from '@/hooks/use-toast';
 type FlowStep = 'emotion' | 'reset-select' | 'reset-play' | 'mood-rating' | 'complete';
 
 export default function Resets() {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
   
   const [step, setStep] = useState<FlowStep>('emotion');
   const [selectedEmotion, setSelectedEmotion] = useState<EmotionalState | null>(null);
@@ -83,6 +85,25 @@ export default function Resets() {
     setSelectedReset(null);
     setSessionId(null);
   };
+
+  // Block access for inactive or non-corporate users
+  useEffect(() => {
+    if (!isLoading && user) {
+      if (!user.isActive || !user.organisationId) {
+        setLocation('/pending-approval');
+      }
+    }
+  }, [user, isLoading, setLocation]);
+  
+  // Show loading state while checking user status
+  if (isLoading) {
+    return null;
+  }
+  
+  // Don't render if user doesn't have corporate access
+  if (user && (!user.isActive || !user.organisationId)) {
+    return null;
+  }
 
   // Render current step
   if (step === 'emotion') {
