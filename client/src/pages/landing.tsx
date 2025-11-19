@@ -152,7 +152,7 @@ export default function Landing() {
       </section>
 
       {/* Business CTA Section */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16 bg-gradient-to-br from-purple-600 to-teal-600">
+      <section className="px-4 sm:px-6 py-12 sm:py-16 bg-gradient-to-br from-pink-500 via-purple-500 to-teal-500">
         <div className="max-w-4xl mx-auto text-center text-white">
           <Users className="w-16 h-16 mx-auto mb-6 opacity-90" />
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -163,8 +163,8 @@ export default function Landing() {
           </p>
           <Button 
             size="lg"
-            onClick={() => window.location.href = '/business-signup'}
-            className="bg-white text-purple-700 hover:bg-gray-100 text-base sm:text-lg px-10 py-6 shadow-xl hover:shadow-2xl transition-all duration-300 font-semibold rounded-full"
+            onClick={() => window.location.href = '/business'}
+            className="bg-white text-teal-700 hover:bg-gray-50 text-base sm:text-lg px-10 py-6 shadow-xl hover:shadow-2xl transition-all duration-300 font-semibold rounded-full"
             data-testid="button-business-cta"
           >
             Explore GetReset for Business
