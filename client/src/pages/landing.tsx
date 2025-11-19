@@ -153,12 +153,12 @@ export default function Landing() {
 
       {/* Business CTA Section */}
       <section className="px-4 sm:px-6 py-12 sm:py-16 bg-gradient-to-br from-pink-500 via-purple-500 to-teal-500">
-        <div className="max-w-4xl mx-auto text-center text-white">
-          <Users className="w-16 h-16 mx-auto mb-6 opacity-90" />
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <Users className="w-16 h-16 mx-auto mb-6 opacity-90 text-white" />
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white">
             Bring GetReset to your workplace
           </h2>
-          <p className="text-lg sm:text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl mb-8 opacity-90 max-w-2xl mx-auto text-white">
             Support your team's wellbeing with unlimited resets, usage analytics, and quarterly wellbeing training sessions.
           </p>
           <button
