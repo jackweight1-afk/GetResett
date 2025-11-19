@@ -45,7 +45,7 @@ export default function Login() {
           setLocation("/resets");
         }
       } else {
-        setLocation("/corporate-code");
+        setLocation("/first-reset");
       }
     } catch (error: any) {
       // Check if account is inactive

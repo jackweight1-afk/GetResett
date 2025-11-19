@@ -18,7 +18,6 @@ import BusinessSignup from "@/pages/business-signup";
 import Login from "@/pages/login";
 import ForgotPassword from "@/pages/forgot-password";
 import ResetPassword from "@/pages/reset-password";
-import CorporateCode from "@/pages/corporate-code";
 import PendingApproval from "@/pages/pending-approval";
 import FirstReset from "@/pages/first-reset";
 import Dashboard from "@/pages/dashboard";
@@ -51,16 +50,16 @@ function Router() {
 
     // If authenticated but onboarding not complete, redirect to appropriate step
     if (isAuthenticated && user && !user.hasCompletedOnboarding) {
-      const onboardingPaths = ['/corporate-code', '/first-reset', '/welcome', '/signup', '/login'];
+      const onboardingPaths = ['/first-reset', '/welcome', '/signup', '/login'];
       if (!onboardingPaths.includes(location) && location !== '/') {
         // User is trying to access protected pages without completing onboarding
-        window.location.href = '/corporate-code';
+        window.location.href = '/first-reset';
       }
     }
 
     // If authenticated and onboarding complete, redirect away from onboarding pages
     if (isAuthenticated && user?.hasCompletedOnboarding) {
-      const onboardingPaths = ['/welcome', '/signup', '/login', '/corporate-code', '/first-reset'];
+      const onboardingPaths = ['/welcome', '/signup', '/login', '/first-reset'];
       if (onboardingPaths.includes(location)) {
         window.location.href = '/resets';
       }
@@ -88,7 +87,6 @@ function Router() {
       <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/reset-password" component={ResetPassword} />
       <Route path="/pending-approval" component={PendingApproval} />
-      <Route path="/corporate-code" component={CorporateCode} />
       <Route path="/first-reset" component={FirstReset} />
       
       {isLoading ? (
