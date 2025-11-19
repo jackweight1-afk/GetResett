@@ -90,10 +90,12 @@ The application employs a modern full-stack architecture with a clear separation
     - First-time users experience a guided reset before accessing full app
   - **Corporate Access System**:
     - Organizations table with unique `corporateCode` field
-    - Users can enter corporate codes to link to organization
-    - Corporate users (`organisationId` set) get unlimited resets
+    - **Instant Employee Activation**: Employees signing up with valid corporate codes (via invite link) are auto-activated and get unlimited access immediately
+    - **Organization Admin Flag**: `isOrganisationAdmin` boolean field distinguishes company admins from regular employees
+    - Corporate users (`organisationId` set) get unlimited resets (bypass 3-session paywall entirely)
     - Account page allows corporate code entry and removal
     - Paywall includes "Enter corporate code" option with SPA navigation
+    - **React Query Cache Invalidation**: Signup and login now invalidate auth cache to ensure fresh user data with organisationId
   - **Transactional User Upsert**: Handles OIDC ID changes by migrating user data atomically with deduplication
   - **Test Accounts**: huzefausama25@gmail.com, jackweight1@gmail.com have unlimited access
 
@@ -121,15 +123,19 @@ The application employs a modern full-stack architecture with a clear separation
     - Shows analytics: total resets, active employees, engagement rate
     - Lists most popular resets used by employees
     - Provides instructions for inviting employees
-  - **Invite Link Flow**:
-    - Admins copy invite link from company dashboard
+  - **Frictionless Invite Link Flow**:
+    - Company admins copy invite link from company dashboard (`/signup?code=GR-XXXXXX`)
     - Employees click link → signup page with code pre-filled in URL
-    - After signup → corporate-code page auto-fills code
-    - Employee confirms → gets unlimited access
+    - After signup → **auto-activated with unlimited access** (skips /pending-approval)
+    - Redirects to /first-reset walkthrough → /resets
+    - No manual corporate code entry needed - instant access from invite link
+    - Employee invite tracking via `employee_invites` table (pending/activated/expired status)
   - **Security**: All /api/admin/* routes protected with isAuthenticatedUnified + requireSuperAdmin middleware
   - **Super Admin Access**: Verified against super_admins table, emails: jackweight1@gmail.com, huzefausama25@gmail.com
   - **Database Tables**: business_leads, super_admins, organizations (with tier, billing status, employee count)
-  - **API Endpoints**: GET /api/user/organization returns organization details and analytics for authenticated company admins
+  - **API Endpoints**: 
+    - GET /api/user/organization: Returns organization details, analytics, and employee invites (requires `isOrganisationAdmin: true`)
+    - POST /api/company/invite-employees: Creates bulk employee invite records and generates invite links (admin only)
   
 - **Interactive Reset System**: 
   - Features 16+ unique reset experiences using ResetSpec schema
