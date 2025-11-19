@@ -161,11 +161,6 @@ export async function setupEmailAuth(app: Express) {
         organisationId, // Link to organization if code valid
       });
 
-      // Mark employee invite as activated if they signed up with a corporate code
-      if (organisationId && isActive) {
-        await storage.updateInviteStatus(email, organisationId, 'activated');
-      }
-
       // Set session and save it
       (req.session as any).userId = user.id;
       

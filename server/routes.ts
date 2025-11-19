@@ -1065,72 +1065,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get organization analytics
       const analytics = await storage.getOrganizationAnalytics(organization.id);
 
-      // Get employee invites
-      const invites = await storage.getOrganizationInvites(organization.id);
-
       res.json({
         organization,
-        analytics,
-        invites
+        analytics
       });
     } catch (error) {
       console.error("Error fetching user organization:", error);
       res.status(500).json({ error: "Failed to fetch organization" });
-    }
-  });
-
-  // Company Admin: Create employee invites (bulk CSV upload)
-  app.post('/api/company/invite-employees', isAuthenticatedUnified, async (req, res) => {
-    try {
-      const userId = getUserId(req);
-      if (!userId) {
-        return res.status(401).json({ error: "Unauthorized" });
-      }
-
-      const user = await storage.getUser(userId);
-      if (!user || !user.isOrganisationAdmin || !user.organisationId) {
-        return res.status(403).json({ error: "Not authorized. Must be organization admin." });
-      }
-
-      const organization = await storage.getOrganisationById(user.organisationId);
-      if (!organization) {
-        return res.status(404).json({ error: "Organization not found" });
-      }
-
-      // Parse employee list from request body
-      const { employees } = req.body; // Array of { email, firstName?, lastName? }
-      if (!Array.isArray(employees) || employees.length === 0) {
-        return res.status(400).json({ error: "Employees array is required" });
-      }
-
-      // Create invite records
-      const inviteRecords = employees.map(emp => ({
-        email: emp.email,
-        organisationId: user.organisationId!,
-        firstName: emp.firstName || null,
-        lastName: emp.lastName || null,
-        status: 'pending'
-      }));
-
-      await storage.createEmployeeInvites(inviteRecords);
-
-      // Generate invite links
-      const baseUrl = `${req.protocol}://${req.get('host')}`;
-      const inviteLinks = employees.map(emp => ({
-        email: emp.email,
-        firstName: emp.firstName,
-        lastName: emp.lastName,
-        inviteLink: `${baseUrl}/signup?code=${organization.corporateCode}`
-      }));
-
-      res.json({ 
-        success: true,
-        inviteLinks,
-        message: `Created ${inviteLinks.length} invite links`
-      });
-    } catch (error) {
-      console.error("Error creating employee invites:", error);
-      res.status(500).json({ error: "Failed to create invites" });
     }
   });
 

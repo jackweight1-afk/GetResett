@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { Building2, Users, Activity, Copy, Check, ArrowLeft, Mail, ExternalLink } from "lucide-react";
+import { Building2, Users, Activity, Copy, Check, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import logoUrl from "@assets/getreset_logo.jpg";
 import { useToast } from "@/hooks/use-toast";
@@ -27,7 +27,6 @@ interface Analytics {
 
 export default function CompanyDashboard() {
   const [copiedCode, setCopiedCode] = useState(false);
-  const [copiedLink, setCopiedLink] = useState(false);
   const { toast } = useToast();
 
   const { data, isLoading } = useQuery<{ organization: Organization | null; analytics: Analytics }>({
@@ -66,7 +65,6 @@ export default function CompanyDashboard() {
   }
 
   const { organization, analytics } = data;
-  const inviteLink = `${window.location.origin}/signup?code=${organization.corporateCode}`;
 
   const handleCopyCode = async () => {
     await navigator.clipboard.writeText(organization.corporateCode);
@@ -76,16 +74,6 @@ export default function CompanyDashboard() {
       description: "Corporate code copied to clipboard",
     });
     setTimeout(() => setCopiedCode(false), 2000);
-  };
-
-  const handleCopyLink = async () => {
-    await navigator.clipboard.writeText(inviteLink);
-    setCopiedLink(true);
-    toast({
-      title: "Copied!",
-      description: "Invite link copied to clipboard",
-    });
-    setTimeout(() => setCopiedLink(false), 2000);
   };
 
   const getTierName = (tier: string) => {
@@ -221,18 +209,18 @@ export default function CompanyDashboard() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Mail className="w-5 h-5 text-purple-600" />
-              Invite Employees
+              <Users className="w-5 h-5 text-purple-600" />
+              Corporate Access Code
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-gray-600">
-              Share your corporate code or invite link with employees so they can access unlimited GetReset sessions.
+              Share this code with employees to give them unlimited access to GetReset.
             </p>
 
             {/* Corporate Code */}
             <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
-              <p className="text-sm font-medium text-gray-700 mb-2">Corporate Code</p>
+              <p className="text-sm font-medium text-gray-700 mb-2">Your Company Code</p>
               <div className="flex items-center gap-3">
                 <code className="flex-1 bg-white px-4 py-3 rounded-lg font-mono text-lg font-bold text-purple-700 border border-purple-200">
                   {organization.corporateCode}
@@ -249,36 +237,14 @@ export default function CompanyDashboard() {
               </div>
             </div>
 
-            {/* Invite Link */}
-            <div className="bg-teal-50 border border-teal-200 rounded-xl p-4">
-              <p className="text-sm font-medium text-gray-700 mb-2">Direct Invite Link</p>
-              <div className="flex items-center gap-3">
-                <div className="flex-1 bg-white px-4 py-3 rounded-lg border border-teal-200 overflow-hidden">
-                  <p className="text-sm text-gray-700 truncate font-mono">{inviteLink}</p>
-                </div>
-                <Button
-                  onClick={handleCopyLink}
-                  variant="outline"
-                  size="sm"
-                  className="border-teal-600 text-teal-700 hover:bg-teal-50"
-                  data-testid="button-copy-link"
-                >
-                  {copiedLink ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                </Button>
-              </div>
-              <p className="text-xs text-gray-600 mt-2">
-                This link will automatically apply the corporate code when employees sign up.
-              </p>
-            </div>
-
-            {/* Instructions */}
+            {/* Simplified Instructions */}
             <div className="bg-gray-50 rounded-xl p-4 space-y-2">
-              <p className="text-sm font-semibold text-gray-900">How to invite employees:</p>
+              <p className="text-sm font-semibold text-gray-900">How it works:</p>
               <ol className="text-sm text-gray-700 space-y-1 ml-4 list-decimal">
-                <li>Share the corporate code or invite link via email, Slack, or Teams</li>
-                <li>Employees create an account at getreset.com/signup</li>
-                <li>They enter the code or use the link to unlock unlimited access</li>
-                <li>Track their usage here in your Company Admin dashboard</li>
+                <li>Share this code with your team via email, Slack, or Teams</li>
+                <li>Employees visit getreset.com and click "GetReset for Business"</li>
+                <li>They enter this code and create their account</li>
+                <li>Instant unlimited access - track usage here in your dashboard</li>
               </ol>
             </div>
           </CardContent>

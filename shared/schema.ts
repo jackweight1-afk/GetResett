@@ -42,21 +42,6 @@ export const organisations = pgTable("organisations", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-// Employee invites table for tracking bulk invitations
-export const employeeInvites = pgTable("employee_invites", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  email: varchar("email").notNull(),
-  organisationId: varchar("organisation_id").notNull().references(() => organisations.id),
-  firstName: varchar("first_name"),
-  lastName: varchar("last_name"),
-  invitedAt: timestamp("invited_at").defaultNow(),
-  activatedAt: timestamp("activated_at"),
-  status: varchar("status").notNull().default('pending'), // pending, activated, expired
-}, (table) => [
-  index("employee_invites_org_idx").on(table.organisationId),
-  index("employee_invites_email_idx").on(table.email),
-]);
-
 // User storage table.
 // (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
 export const users = pgTable("users", {
@@ -251,12 +236,6 @@ export const insertSuperAdminSchema = createInsertSchema(superAdmins).omit({
   createdAt: true,
 });
 
-export const insertEmployeeInviteSchema = createInsertSchema(employeeInvites).omit({
-  id: true,
-  invitedAt: true,
-  activatedAt: true,
-});
-
 // Types
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
@@ -278,5 +257,3 @@ export type InsertSleepEntry = z.infer<typeof insertSleepEntrySchema>;
 export type InsertStressEntry = z.infer<typeof insertStressEntrySchema>;
 export type InsertSessionType = z.infer<typeof insertSessionTypeSchema>;
 export type InsertFeelingEntry = z.infer<typeof insertFeelingEntrySchema>;
-export type EmployeeInvite = typeof employeeInvites.$inferSelect;
-export type InsertEmployeeInvite = z.infer<typeof insertEmployeeInviteSchema>;
