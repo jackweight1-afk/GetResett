@@ -60,7 +60,7 @@ export default function Landing() {
             <Button 
               size="lg"
               variant="outline"
-              onClick={() => window.location.href = '/business'}
+              onClick={() => window.location.href = '/business-signup'}
               className="w-full sm:w-auto border-2 border-purple-600 text-purple-700 hover:bg-purple-50 text-base sm:text-lg px-10 py-6 shadow-md hover:shadow-lg transition-all duration-300 font-semibold rounded-full"
               data-testid="button-business"
             >
@@ -163,7 +163,7 @@ export default function Landing() {
           </p>
           <Button 
             size="lg"
-            onClick={() => window.location.href = '/business'}
+            onClick={() => window.location.href = '/business-signup'}
             className="bg-white text-purple-700 hover:bg-gray-100 text-base sm:text-lg px-10 py-6 shadow-xl hover:shadow-2xl transition-all duration-300 font-semibold rounded-full"
             data-testid="button-business-cta"
           >

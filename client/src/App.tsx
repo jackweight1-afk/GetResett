@@ -14,6 +14,7 @@ import AdminDashboard from "@/pages/admin-dashboard";
 import CompanyDashboard from "@/pages/company-dashboard";
 import Welcome from "@/pages/welcome";
 import Signup from "@/pages/signup";
+import BusinessSignup from "@/pages/business-signup";
 import Login from "@/pages/login";
 import ForgotPassword from "@/pages/forgot-password";
 import ResetPassword from "@/pages/reset-password";
@@ -82,6 +83,7 @@ function Router() {
       {/* Onboarding routes - only for non-authenticated or incomplete onboarding */}
       <Route path="/welcome" component={Welcome} />
       <Route path="/signup" component={Signup} />
+      <Route path="/business-signup" component={BusinessSignup} />
       <Route path="/login" component={Login} />
       <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/reset-password" component={ResetPassword} />

@@ -94,6 +94,32 @@ export function getUserId(req: Request): string | null {
 }
 
 export async function setupEmailAuth(app: Express) {
+  // Verify corporate code endpoint (for business signup)
+  app.post('/auth/verify-corporate-code', async (req: Request, res: Response) => {
+    try {
+      const { corporateCode } = z.object({
+        corporateCode: z.string().min(1, "Corporate code is required"),
+      }).parse(req.body);
+
+      const organisation = await storage.getOrganisationByCode(corporateCode.trim().toUpperCase());
+      
+      if (!organisation) {
+        return res.status(404).json({ message: "Invalid corporate code" });
+      }
+
+      res.json({
+        organizationName: organisation.name,
+        organizationId: organisation.id,
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: error.errors[0].message });
+      }
+      console.error("Code verification error:", error);
+      res.status(500).json({ message: "Failed to verify code" });
+    }
+  });
+
   // Register endpoint
   app.post('/auth/register', async (req: Request, res: Response) => {
     try {
