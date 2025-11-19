@@ -100,7 +100,7 @@ export default function BusinessSignup() {
         description: `You now have unlimited access to all resets`,
       });
       
-      setLocation("/first-reset");
+      setLocation("/resets");
     } catch (error: any) {
       if (error.message && error.message.includes("Email already registered")) {
         toast({

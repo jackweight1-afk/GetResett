@@ -17,7 +17,6 @@ import Login from "@/pages/login";
 import ForgotPassword from "@/pages/forgot-password";
 import ResetPassword from "@/pages/reset-password";
 import PendingApproval from "@/pages/pending-approval";
-import FirstReset from "@/pages/first-reset";
 import Dashboard from "@/pages/dashboard";
 import Resets from "@/pages/resets";
 import Insights from "@/pages/insights";
@@ -29,27 +28,17 @@ function Router() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const [location] = useLocation();
 
-  // Redirect logic based on auth state and onboarding completion
+  // Redirect logic - redirect away from login/welcome if already authenticated
   React.useEffect(() => {
     if (isLoading) return;
 
-    // If authenticated but onboarding not complete, redirect to appropriate step
-    if (isAuthenticated && user && !user.hasCompletedOnboarding) {
-      const onboardingPaths = ['/first-reset', '/welcome', '/login'];
-      if (!onboardingPaths.includes(location) && location !== '/') {
-        // User is trying to access protected pages without completing onboarding
-        window.location.href = '/first-reset';
-      }
-    }
-
-    // If authenticated and onboarding complete, redirect away from onboarding pages
-    if (isAuthenticated && user?.hasCompletedOnboarding) {
-      const onboardingPaths = ['/welcome', '/login', '/first-reset'];
-      if (onboardingPaths.includes(location)) {
+    if (isAuthenticated) {
+      const authPaths = ['/welcome', '/login'];
+      if (authPaths.includes(location)) {
         window.location.href = '/resets';
       }
     }
-  }, [isAuthenticated, isLoading, user, location]);
+  }, [isAuthenticated, isLoading, location]);
 
   return (
     <Switch>
@@ -66,7 +55,6 @@ function Router() {
       <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/reset-password" component={ResetPassword} />
       <Route path="/pending-approval" component={PendingApproval} />
-      <Route path="/first-reset" component={FirstReset} />
       
       {isLoading ? (
         <Route>

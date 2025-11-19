@@ -36,12 +36,8 @@ export default function Login() {
         description: "Successfully logged in",
       });
 
-      // Redirect based on onboarding status
-      if (user.hasCompletedOnboarding) {
-        setLocation("/resets");
-      } else {
-        setLocation("/first-reset");
-      }
+      // Redirect to resets page
+      setLocation("/resets");
     } catch (error: any) {
       // Check if account is inactive
       if (error.code === 'ACCOUNT_INACTIVE') {
