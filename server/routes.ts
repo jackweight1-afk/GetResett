@@ -804,25 +804,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Admin: Create organization with admin user
+  // Admin: Create organization (no admin user creation)
   app.post('/api/admin/organizations', isAuthenticatedUnified, requireSuperAdmin, async (req, res) => {
     try {
-      const { name, tier, employeeCount, adminEmail, adminFirstName, adminLastName, adminPassword } = req.body;
+      const { name, tier, employeeCount } = req.body;
       
-      if (!name || !adminEmail || !adminPassword) {
-        return res.status(400).json({ error: "Organization name, admin email, and password are required" });
-      }
-
-      // Check if user with this email already exists
-      const existingUser = await storage.getUserByEmail(adminEmail);
-      if (existingUser) {
-        return res.status(400).json({ error: `A user with email ${adminEmail} already exists. Please use a different email address.` });
+      if (!name) {
+        return res.status(400).json({ error: "Organization name is required" });
       }
 
       // Generate unique corporate code
       const corporateCode = `GR-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
-      // Create organization
+      // Create organization only - no admin user needed
       const organization = await storage.createOrganization({
         name,
         corporateCode,
@@ -830,22 +824,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         employeeCount: employeeCount || 0,
         pricePerSeat: 5.99,
         billingStatus: 'active',
-        contactEmail: adminEmail,
-        contactName: adminFirstName && adminLastName ? `${adminFirstName} ${adminLastName}` : null
-      });
-
-      // Create admin user for the organization
-      const bcryptModule = await import('bcryptjs');
-      const hashedPassword = await bcryptModule.default.hash(adminPassword, 10);
-      await storage.createUser({
-        email: adminEmail,
-        passwordHash: hashedPassword,
-        firstName: adminFirstName || null,
-        lastName: adminLastName || null,
-        isActive: true, // Admin-created users are active by default
-        hasCompletedOnboarding: true, // Skip onboarding for admin users
-        organisationId: organization.id,
-        isOrganisationAdmin: true, // Company admin can access /company dashboard
+        contactEmail: null,
+        contactName: null
       });
 
       res.json(organization);
