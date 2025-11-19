@@ -50,7 +50,7 @@ export default function Landing() {
             <Button 
               size="lg"
               onClick={() => window.location.href = '/download'}
-              className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white text-base sm:text-lg px-10 py-6 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold rounded-full"
+              className="w-full sm:w-auto bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500 hover:from-pink-600 hover:via-purple-600 hover:to-teal-600 text-white text-base sm:text-lg px-10 py-6 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold rounded-full"
               data-testid="button-download"
             >
               Download GetReset
@@ -61,7 +61,7 @@ export default function Landing() {
               size="lg"
               variant="outline"
               onClick={() => window.location.href = '/business'}
-              className="w-full sm:w-auto border-2 border-purple-600 text-purple-700 hover:bg-purple-50 text-base sm:text-lg px-10 py-6 shadow-md hover:shadow-lg transition-all duration-300 font-semibold rounded-full"
+              className="w-full sm:w-auto border-2 border-teal-500 text-teal-700 hover:bg-teal-50 text-base sm:text-lg px-10 py-6 shadow-md hover:shadow-lg transition-all duration-300 font-semibold rounded-full"
               data-testid="button-business-cta"
             >
               <Building2 className="w-5 h-5 mr-2" />

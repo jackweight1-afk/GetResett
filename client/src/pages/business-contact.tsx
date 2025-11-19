@@ -66,7 +66,7 @@ export default function BusinessContact() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-pink-50 to-teal-50">
       {/* Header */}
       <header className="px-4 sm:px-6 py-6">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
@@ -97,7 +97,7 @@ export default function BusinessContact() {
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 mb-4 shadow-sm">
-              <Building2 className="w-4 h-4 text-purple-600" />
+              <Building2 className="w-4 h-4 text-teal-600" />
               <span className="text-sm font-semibold text-gray-700">GetReset for Business</span>
             </div>
             
@@ -109,7 +109,7 @@ export default function BusinessContact() {
             </p>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 sm:p-8 border border-purple-100/50">
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 sm:p-8 border border-teal-100/50">
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Company Name */}
               <div>
@@ -125,7 +125,7 @@ export default function BusinessContact() {
                     value={formData.companyName}
                     onChange={handleChange}
                     required
-                    className="w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-300 focus:border-purple-600 focus:ring-2 focus:ring-purple-200 outline-none transition-all"
+                    className="w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 outline-none transition-all"
                     placeholder="Your Organization"
                     data-testid="input-company-name"
                   />
@@ -144,7 +144,7 @@ export default function BusinessContact() {
                   value={formData.contactName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-2xl border border-gray-300 focus:border-purple-600 focus:ring-2 focus:ring-purple-200 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-2xl border border-gray-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 outline-none transition-all"
                   placeholder="John Smith"
                   data-testid="input-contact-name"
                 />
@@ -164,7 +164,7 @@ export default function BusinessContact() {
                     value={formData.contactEmail}
                     onChange={handleChange}
                     required
-                    className="w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-300 focus:border-purple-600 focus:ring-2 focus:ring-purple-200 outline-none transition-all"
+                    className="w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 outline-none transition-all"
                     placeholder="john@company.com"
                     data-testid="input-contact-email"
                   />
@@ -184,7 +184,7 @@ export default function BusinessContact() {
                     name="contactPhone"
                     value={formData.contactPhone}
                     onChange={handleChange}
-                    className="w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-300 focus:border-purple-600 focus:ring-2 focus:ring-purple-200 outline-none transition-all"
+                    className="w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 outline-none transition-all"
                     placeholder="+44 20 1234 5678"
                     data-testid="input-contact-phone"
                   />
@@ -204,7 +204,7 @@ export default function BusinessContact() {
                     value={formData.employeeSize}
                     onChange={handleChange}
                     required
-                    className="w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-300 focus:border-purple-600 focus:ring-2 focus:ring-purple-200 outline-none transition-all appearance-none bg-white"
+                    className="w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 outline-none transition-all appearance-none bg-white"
                     data-testid="select-employee-size"
                   >
                     <option value="">Select size</option>
@@ -225,7 +225,7 @@ export default function BusinessContact() {
                   name="interestedTier"
                   value={formData.interestedTier}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-2xl border border-gray-300 focus:border-purple-600 focus:ring-2 focus:ring-purple-200 outline-none transition-all appearance-none bg-white"
+                  className="w-full px-4 py-3 rounded-2xl border border-gray-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 outline-none transition-all appearance-none bg-white"
                   data-testid="select-tier"
                 >
                   <option value="">Not sure yet</option>
@@ -246,7 +246,7 @@ export default function BusinessContact() {
                   value={formData.message}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-3 rounded-2xl border border-gray-300 focus:border-purple-600 focus:ring-2 focus:ring-purple-200 outline-none transition-all resize-none"
+                  className="w-full px-4 py-3 rounded-2xl border border-gray-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 outline-none transition-all resize-none"
                   placeholder="Tell us about your team's wellbeing needs..."
                   data-testid="textarea-message"
                 />
@@ -256,7 +256,7 @@ export default function BusinessContact() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white py-4 rounded-2xl font-semibold shadow-md hover:shadow-lg transition-all text-base"
+                className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500 hover:from-pink-600 hover:via-purple-600 hover:to-teal-600 text-white py-4 rounded-2xl font-semibold shadow-md hover:shadow-lg transition-all text-base"
                 data-testid="button-submit"
               >
                 {isSubmitting ? (

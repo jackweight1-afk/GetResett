@@ -42,12 +42,12 @@ export default function Demo() {
 
   // Show password screen
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 px-4 py-6">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-yellow-50 via-pink-50 to-teal-50 px-4 py-6">
       <div className="w-full max-w-md">
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-5 sm:p-7 shadow-lg border border-purple-100/50">
           {/* Icon */}
           <div className="flex justify-center mb-4">
-            <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shadow-lg">
+            <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center shadow-lg">
               <Lock className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
             </div>
           </div>
@@ -87,7 +87,7 @@ export default function Demo() {
             <Button
               type="submit"
               data-testid="button-demo-submit"
-              className="w-full text-xs sm:text-sm h-10 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+              className="w-full text-xs sm:text-sm h-10 bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500 hover:from-pink-600 hover:via-purple-600 hover:to-teal-600"
             >
               Access Demo
             </Button>

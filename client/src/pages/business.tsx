@@ -55,7 +55,7 @@ export default function Business() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-pink-50 to-teal-50">
       {/* Header */}
       <header className="px-4 sm:px-6 py-6">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -87,7 +87,7 @@ export default function Business() {
       <section className="px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 mb-6 shadow-sm">
-            <Building2 className="w-4 h-4 text-purple-600" />
+            <Building2 className="w-4 h-4 text-teal-600" />
             <span className="text-sm font-semibold text-gray-700">GetReset for Business</span>
           </div>
           
@@ -104,7 +104,7 @@ export default function Business() {
             <Button 
               size="lg"
               onClick={() => window.location.href = '/business/contact'}
-              className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white text-base sm:text-lg px-10 py-6 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold rounded-full"
+              className="w-full sm:w-auto bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500 hover:from-pink-600 hover:via-purple-600 hover:to-teal-600 text-white text-base sm:text-lg px-10 py-6 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold rounded-full"
               data-testid="button-enquire"
             >
               Enquire Now
@@ -115,7 +115,7 @@ export default function Business() {
               size="lg"
               variant="outline"
               onClick={() => window.location.href = '/demo'}
-              className="w-full sm:w-auto border-2 border-purple-600 text-purple-700 hover:bg-purple-50 text-base sm:text-lg px-10 py-6 shadow-md hover:shadow-lg transition-all duration-300 font-semibold rounded-full"
+              className="w-full sm:w-auto border-2 border-teal-500 text-teal-700 hover:bg-teal-50 text-base sm:text-lg px-10 py-6 shadow-md hover:shadow-lg transition-all duration-300 font-semibold rounded-full"
               data-testid="button-view-demo"
             >
               View Demo
@@ -140,7 +140,7 @@ export default function Business() {
               { icon: Shield, title: "Evidence-Based", desc: "Science-backed techniques proven to reduce stress, improve focus, and support mental wellbeing" }
             ].map((benefit, i) => (
               <div key={i} className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-600 to-teal-600 flex items-center justify-center mb-4">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center mb-4">
                   <benefit.icon className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{benefit.title}</h3>
@@ -167,16 +167,16 @@ export default function Business() {
             {tiers.map((tier, i) => (
               <div 
                 key={i} 
-                className={`bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all ${tier.highlight ? 'ring-2 ring-purple-600 transform scale-105' : ''}`}
+                className={`bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all ${tier.highlight ? 'ring-2 ring-teal-500 transform scale-105' : ''}`}
               >
                 {tier.highlight && (
-                  <div className="inline-block bg-gradient-to-r from-purple-600 to-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-4">
+                  <div className="inline-block bg-gradient-to-r from-pink-500 to-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-4">
                     Most Popular
                   </div>
                 )}
                 
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-teal-600 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center">
                     <tier.icon className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900">{tier.name}</h3>
@@ -188,7 +188,7 @@ export default function Business() {
                     <span className="text-base font-normal text-gray-600"> / employee / month</span>
                   </div>
                   <p className="text-sm text-gray-600 mb-2">{tier.recommended}</p>
-                  <p className="text-xs font-semibold text-purple-600">{tier.employeeSize}</p>
+                  <p className="text-xs font-semibold text-teal-600">{tier.employeeSize}</p>
                 </div>
 
                 <ul className="space-y-3 mb-6">
@@ -204,7 +204,7 @@ export default function Business() {
                   onClick={() => window.location.href = '/business/contact'}
                   className={`w-full py-3 rounded-full font-semibold transition-all ${
                     tier.highlight 
-                      ? 'bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white shadow-md hover:shadow-lg' 
+                      ? 'bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500 hover:from-pink-600 hover:via-purple-600 hover:to-teal-600 text-white shadow-md hover:shadow-lg' 
                       : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
                   }`}
                   data-testid={`button-tier-${i}`}
@@ -222,7 +222,7 @@ export default function Business() {
       </section>
 
       {/* CTA Section */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16 bg-gradient-to-br from-purple-600 to-teal-600">
+      <section className="px-4 sm:px-6 py-12 sm:py-16 bg-gradient-to-br from-pink-500 via-purple-500 to-teal-500">
         <div className="max-w-4xl mx-auto text-center text-white">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             Ready to support your team's wellbeing?
@@ -233,7 +233,7 @@ export default function Business() {
           <Button 
             size="lg"
             onClick={() => window.location.href = '/business/contact'}
-            className="bg-white text-purple-700 hover:bg-gray-100 text-base sm:text-lg px-10 py-6 shadow-xl hover:shadow-2xl transition-all duration-300 font-semibold rounded-full"
+            className="bg-white text-teal-700 hover:bg-gray-100 text-base sm:text-lg px-10 py-6 shadow-xl hover:shadow-2xl transition-all duration-300 font-semibold rounded-full"
             data-testid="button-contact-cta"
           >
             Contact Us
