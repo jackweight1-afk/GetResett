@@ -36,14 +36,9 @@ export default function Login() {
         description: "Successfully logged in",
       });
 
-      // Redirect based on onboarding status and organization role
+      // Redirect based on onboarding status
       if (user.hasCompletedOnboarding) {
-        // If user is an organization admin, send to company dashboard
-        if (user.isOrganisationAdmin) {
-          setLocation("/company");
-        } else {
-          setLocation("/resets");
-        }
+        setLocation("/resets");
       } else {
         setLocation("/first-reset");
       }

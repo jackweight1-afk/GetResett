@@ -86,10 +86,6 @@ export default function AdminDashboard() {
     name: '',
     tier: 'core',
     employeeCount: 0,
-    adminEmail: '',
-    adminFirstName: '',
-    adminLastName: '',
-    adminPassword: '',
   });
   const [editOrgForm, setEditOrgForm] = useState({
     name: '',
@@ -158,9 +154,9 @@ export default function AdminDashboard() {
     onSuccess: () => {
       toast({
         title: "Organization Created",
-        description: "Organization and admin user created successfully",
+        description: "Organization created successfully with corporate code",
       });
-      setNewOrg({ name: '', tier: 'core', employeeCount: 0, adminEmail: '', adminFirstName: '', adminLastName: '', adminPassword: '' });
+      setNewOrg({ name: '', tier: 'core', employeeCount: 0 });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/organizations'] });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/analytics'] });
     },
@@ -262,10 +258,10 @@ export default function AdminDashboard() {
 
   const handleCreateOrg = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newOrg.name || !newOrg.adminEmail || !newOrg.adminPassword) {
+    if (!newOrg.name) {
       toast({
         title: "Validation Error",
-        description: "Organization name, admin email, and password are required",
+        description: "Organization name is required",
         variant: "destructive",
       });
       return;
@@ -532,56 +528,9 @@ export default function AdminDashboard() {
                         data-testid="input-org-employees"
                       />
                     </div>
-                    <div>
-                      <Label htmlFor="admin-first-name" className="text-xs">Admin First Name</Label>
-                      <Input
-                        id="admin-first-name"
-                        type="text"
-                        value={newOrg.adminFirstName}
-                        onChange={(e) => setNewOrg({ ...newOrg, adminFirstName: e.target.value })}
-                        placeholder="Jane"
-                        className="text-sm h-10"
-                        data-testid="input-admin-firstname"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="admin-last-name" className="text-xs">Admin Last Name</Label>
-                      <Input
-                        id="admin-last-name"
-                        type="text"
-                        value={newOrg.adminLastName}
-                        onChange={(e) => setNewOrg({ ...newOrg, adminLastName: e.target.value })}
-                        placeholder="Smith"
-                        className="text-sm h-10"
-                        data-testid="input-admin-lastname"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="admin-email" className="text-xs">Admin Email *</Label>
-                      <Input
-                        id="admin-email"
-                        type="email"
-                        value={newOrg.adminEmail}
-                        onChange={(e) => setNewOrg({ ...newOrg, adminEmail: e.target.value })}
-                        placeholder="jane@company.com"
-                        className="text-sm h-10"
-                        data-testid="input-admin-email"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="admin-password" className="text-xs">Admin Password *</Label>
-                      <Input
-                        id="admin-password"
-                        type="password"
-                        value={newOrg.adminPassword}
-                        onChange={(e) => setNewOrg({ ...newOrg, adminPassword: e.target.value })}
-                        placeholder="••••••••"
-                        className="text-sm h-10"
-                        data-testid="input-admin-password"
-                        required
-                      />
-                    </div>
+                    <p className="text-xs text-gray-600">
+                      A corporate code will be automatically generated. Share this code with employees to give them instant access.
+                    </p>
                   </div>
                   <Button
                     type="submit"
