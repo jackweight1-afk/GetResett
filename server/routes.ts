@@ -96,6 +96,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!userId) {
         return res.status(401).json({ message: "Unauthorized" });
       }
+
+      // Corporate-only access: Check user is active and has organization
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(401).json({ message: "User not found" });
+      }
+      if (!user.isActive) {
+        return res.status(403).json({ 
+          message: "Account not activated. Please contact your organization administrator.",
+          code: "ACCOUNT_INACTIVE"
+        });
+      }
+      if (!user.organisationId) {
+        return res.status(403).json({ 
+          message: "Corporate access required. Please sign up with a valid corporate code.",
+          code: "NO_CORPORATE_ACCESS"
+        });
+      }
+
       const sessionData = insertUserSessionSchema.parse({
         ...req.body,
         userId,
@@ -215,6 +234,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!userId) {
         return res.status(401).json({ message: "Unauthorized" });
       }
+
+      // Corporate-only access: Check user is active and has organization
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(401).json({ message: "User not found" });
+      }
+      if (!user.isActive) {
+        return res.status(403).json({ 
+          message: "Account not activated. Please contact your organization administrator.",
+          code: "ACCOUNT_INACTIVE"
+        });
+      }
+      if (!user.organisationId) {
+        return res.status(403).json({ 
+          message: "Corporate access required. Please sign up with a valid corporate code.",
+          code: "NO_CORPORATE_ACCESS"
+        });
+      }
+
       const feelingData = insertFeelingEntrySchema.parse({
         ...req.body,
         userId,
