@@ -248,44 +248,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // If this is a post-session feeling, create a corresponding user session
       let sessionId: string | undefined;
-      if (feelingData.isPostSession && feelingData.feeling) {
-        // Map emotion to session type and duration
+      if (feelingData.isPostSession && feelingData.feeling && feelingData.feeling !== 'feel_better') {
+        // Map emotion to session type and duration (matches seeded session types in initializeSessionTypes)
         const emotionConfig: Record<string, { sessionType: string; duration: number }> = {
           'stressed': { sessionType: 'Stress Relief', duration: 75 },
-          'anxiety': { sessionType: 'Mindful Moment', duration: 90 },
-          'restless': { sessionType: 'Energy Boost', duration: 90 },
-          'tired': { sessionType: 'Sleep Story', duration: 105 },
-          'scattered': { sessionType: 'Focus Reset', duration: 90 },
+          'anxious': { sessionType: 'Mindful Moment', duration: 90 },
+          'cant_sleep': { sessionType: 'Sleep Story', duration: 105 },
+          'achy_muscles': { sessionType: 'Upper Body Stretch', duration: 90 },
+          'cant_focus': { sessionType: 'Focus Reset', duration: 90 },
+          'need_confidence': { sessionType: 'Confidence Boost', duration: 75 },
         };
         
         const config = emotionConfig[feelingData.feeling];
         if (!config) {
-          throw new Error(`Unknown emotion: ${feelingData.feeling}`);
-        }
-        
-        // Get all session types
-        const sessionTypes = await storage.getSessionTypes();
-        let sessionType = sessionTypes.find(st => st.name === config.sessionType);
-        
-        // If session type doesn't exist, create it (shouldn't happen with defaults)
-        if (!sessionType) {
-          sessionType = await storage.createSessionType({
-            name: config.sessionType,
-            description: `Reset session for ${feelingData.feeling}`,
-            icon: 'fas fa-spa',
-            color: 'purple',
+          // Skip session creation for unknown emotions (like "feel_better")
+          console.log(`Skipping session creation for feeling: ${feelingData.feeling}`);
+        } else {
+          // Get all session types
+          const sessionTypes = await storage.getSessionTypes();
+          let sessionType = sessionTypes.find(st => st.name === config.sessionType);
+          
+          // If session type doesn't exist, create it (shouldn't happen with defaults)
+          if (!sessionType) {
+            sessionType = await storage.createSessionType({
+              name: config.sessionType,
+              description: `Reset session for ${feelingData.feeling}`,
+              icon: 'fas fa-spa',
+              color: 'purple',
+            });
+          }
+          
+          // Create user session with emotion-specific duration
+          const userSession = await storage.createUserSession({
+            userId,
+            sessionTypeId: sessionType.id,
+            duration: config.duration,
+            rating: feelingData.moodRating || undefined,
           });
+          
+          sessionId = userSession.id;
         }
-        
-        // Create user session with emotion-specific duration
-        const userSession = await storage.createUserSession({
-          userId,
-          sessionTypeId: sessionType.id,
-          duration: config.duration,
-          rating: feelingData.moodRating || undefined,
-        });
-        
-        sessionId = userSession.id;
       }
       
       // Create feeling entry with optional sessionId link

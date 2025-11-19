@@ -31,7 +31,7 @@ const walkthrough = [
     content: [
       "Use resets anytime for calm & focus",
       "19 resets across 5 emotional states",
-      "3 free daily, unlimited with GetReset+"
+      "Unlimited access with your corporate plan"
     ],
   },
 ];

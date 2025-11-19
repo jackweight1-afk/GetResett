@@ -14,6 +14,7 @@ export default function GuidedFlow() {
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState<FlowStep>("initial-feeling");
   const [selectedSessionType, setSelectedSessionType] = useState<SessionType | null>(null);
+  const [selectedFeeling, setSelectedFeeling] = useState<string | null>(null);
   const [sessionCount, setSessionCount] = useState(0);
 
   const { data: sessionTypes } = useQuery<SessionType[]>({
@@ -39,6 +40,7 @@ export default function GuidedFlow() {
   const handleInitialFeelingSelected = (feeling: string, sessionTypeId: string) => {
     const sessionType = sessionTypes?.find(st => st.id === sessionTypeId);
     if (sessionType) {
+      setSelectedFeeling(feeling); // Track the initial feeling
       setSelectedSessionType(sessionType);
       setCurrentStep("session");
     }
@@ -62,6 +64,7 @@ export default function GuidedFlow() {
   const handlePostFeelingSelected = (feeling: string, sessionTypeId: string) => {
     const sessionType = sessionTypes?.find(st => st.id === sessionTypeId);
     if (sessionType) {
+      setSelectedFeeling(feeling); // Track the new feeling for subsequent resets
       setSelectedSessionType(sessionType);
       setCurrentStep("session");
     }
@@ -132,6 +135,7 @@ export default function GuidedFlow() {
           onFeelingSelected={handlePostFeelingSelected}
           onFeelBetter={handleFeelBetter}
           isPostSession={true}
+          initialFeeling={selectedFeeling} // Pass the tracked feeling
         />
       )}
 

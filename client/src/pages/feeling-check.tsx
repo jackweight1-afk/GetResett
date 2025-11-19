@@ -23,6 +23,7 @@ interface FeelingCheckProps {
   onFeelingSelected: (feeling: string, sessionTypeId: string) => void;
   onFeelBetter: () => void;
   isPostSession?: boolean;
+  initialFeeling?: string | null; // The feeling selected before the session
 }
 
 const feelingOptions = [
@@ -40,7 +41,7 @@ const feelingOptions = [
     description: "Worried thoughts and restlessness",
     icon: Waves,
     color: "bg-teal/20 text-teal",
-    sessionType: "Anxiety Relief"
+    sessionType: "Mindful Moment"
   },
   {
     id: "cant_sleep",
@@ -56,7 +57,7 @@ const feelingOptions = [
     description: "Body feels tight or sore",
     icon: Zap,
     color: "bg-sage/20 text-sage",
-    sessionType: "Quick Stretch"
+    sessionType: "Upper Body Stretch"
   },
   {
     id: "cant_focus",
@@ -76,7 +77,7 @@ const feelingOptions = [
   }
 ];
 
-export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSession = false }: FeelingCheckProps) {
+export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSession = false, initialFeeling = null }: FeelingCheckProps) {
   const [selectedFeeling, setSelectedFeeling] = useState<string | null>(null);
   const { user, isAuthenticated } = useAuth();
   const { toast } = useToast();
@@ -119,9 +120,12 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
   const handleFeelBetter = async () => {
     setSelectedFeeling("better");
     
-    // Log that they feel better
+    // Log that they feel better - use the original feeling for session tracking
+    // If we have the initial feeling, use it; otherwise fall back to "feel_better"
+    const feelingToLog = initialFeeling || "feel_better";
+    
     await createFeelingEntryMutation.mutateAsync({
-      feeling: "feel_better",
+      feeling: feelingToLog,
       isPostSession: true
     });
 
