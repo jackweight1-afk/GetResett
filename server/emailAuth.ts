@@ -4,6 +4,32 @@ import { storage } from "./storage";
 import { z } from "zod";
 import { nanoid } from "nanoid";
 
+// Rate limiter for corporate code verification (5 attempts per hour per IP)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(ip: string, maxAttempts: number = 5, windowMs: number = 3600000): boolean {
+  const now = Date.now();
+  const record = rateLimitStore.get(ip);
+  
+  // Clean up expired records
+  if (record && now > record.resetTime) {
+    rateLimitStore.delete(ip);
+  }
+  
+  if (!rateLimitStore.has(ip)) {
+    rateLimitStore.set(ip, { count: 1, resetTime: now + windowMs });
+    return true;
+  }
+  
+  const current = rateLimitStore.get(ip)!;
+  if (current.count >= maxAttempts) {
+    return false;
+  }
+  
+  current.count++;
+  return true;
+}
+
 // Registration schema
 const registerSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -97,6 +123,14 @@ export async function setupEmailAuth(app: Express) {
   // Verify corporate code endpoint (for business signup)
   app.post('/auth/verify-corporate-code', async (req: Request, res: Response) => {
     try {
+      // Rate limiting: 5 attempts per hour per IP
+      const clientIp = req.ip || req.socket.remoteAddress || 'unknown';
+      if (!checkRateLimit(clientIp, 5, 3600000)) {
+        return res.status(429).json({ 
+          message: "Too many verification attempts. Please try again later." 
+        });
+      }
+
       const { corporateCode } = z.object({
         corporateCode: z.string().min(1, "Corporate code is required"),
       }).parse(req.body);
