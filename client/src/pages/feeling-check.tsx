@@ -3,11 +3,9 @@ import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
-import { useSessionLimits } from "@/hooks/useSessionLimits";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { SessionFlow } from "@/components/session-flow";
-import { Paywall } from "@/components/paywall";
 import BottomNavigation from "@/components/bottom-navigation";
 import { 
   Brain, 
@@ -80,14 +78,9 @@ const feelingOptions = [
 
 export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSession = false }: FeelingCheckProps) {
   const [selectedFeeling, setSelectedFeeling] = useState<string | null>(null);
-  const [showPaywall, setShowPaywall] = useState(false);
-  const [pendingFeeling, setPendingFeeling] = useState<any>(null);
   const { user, isAuthenticated } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
-  // Use browser-based session limits
-  const sessionLimits = useSessionLimits();
 
   const createFeelingEntryMutation = useMutation({
     mutationFn: async (data: { feeling: string, isPostSession: boolean }) => {
@@ -108,21 +101,6 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
   const handleFeelingSelect = async (feeling: any) => {
     setSelectedFeeling(feeling.id);
     
-    // For pre-session flow, check if user can start a new session
-    if (!isPostSession) {
-      // Check limits before incrementing
-      if (!sessionLimits.isSubscribed && sessionLimits.dailyCount >= 3) {
-        setPendingFeeling(feeling);
-        setShowPaywall(true);
-        return;
-      }
-      
-      // Increment session count for non-subscribers
-      if (!sessionLimits.isSubscribed) {
-        sessionLimits.incrementCount();
-      }
-    }
-    
     // Log the feeling selection
     await createFeelingEntryMutation.mutateAsync({
       feeling: feeling.id,
@@ -135,26 +113,6 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
     
     if (matchingSessionType) {
       onFeelingSelected(feeling.id, matchingSessionType.id);
-    }
-  };
-
-  const handleSubscriptionComplete = async () => {
-    setShowPaywall(false);
-    
-    // Invalidate queries to refresh subscription status
-    await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-    
-    toast({
-      title: "Welcome to GetResett+!",
-      description: "You now have unlimited access to all sessions.",
-    });
-    
-    if (pendingFeeling) {
-      // Process the pending feeling selection after a short delay to ensure queries have updated
-      setTimeout(() => {
-        handleFeelingSelect(pendingFeeling);
-        setPendingFeeling(null);
-      }, 1000);
     }
   };
 
@@ -245,26 +203,6 @@ export default function FeelingCheck({ onFeelingSelected, onFeelBetter, isPostSe
 
       {/* Bottom Navigation */}
       <BottomNavigation />
-
-      {/* Paywall Modal */}
-      {showPaywall && (
-        <Paywall 
-          onSubscriptionComplete={handleSubscriptionComplete}
-          onClose={() => setShowPaywall(false)}
-          dailyCount={sessionLimits.dailyCount}
-        />
-      )}
-      
-      {/* Debug info for testing - only show in development */}
-      {import.meta.env.DEV && (
-        <div className="fixed bottom-20 left-4 bg-yellow-100 border border-yellow-300 rounded p-2 text-xs text-yellow-800 z-50">
-          <div>Sessions: {sessionLimits.dailyCount}/3</div>
-          <div>Can Access: {sessionLimits.canAccess ? 'Yes' : 'No'}</div>
-          <div>Subscribed: {sessionLimits.isSubscribed ? 'Yes' : 'No'}</div>
-          <div>Paywall Check: {!sessionLimits.isSubscribed && sessionLimits.dailyCount >= 3 ? 'SHOW' : 'HIDE'}</div>
-          <div>Reset Time: {sessionLimits.resetTime}</div>
-        </div>
-      )}
     </div>
     </>
   );

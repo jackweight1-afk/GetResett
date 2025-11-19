@@ -3,8 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
-import { useSessionLimits } from "@/hooks/useSessionLimits";
-import { Paywall } from "./paywall";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogOverlay } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -62,12 +60,10 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
   const [step, setStep] = useState<'session' | 'feedback'>('session');
   const [notes, setNotes] = useState<string>('');
   const [sessionRating, setSessionRating] = useState<number[]>([5]);
-  const [showPaywall, setShowPaywall] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { canAccess, dailyCount, incrementCount, isSubscribed } = useSessionLimits();
 
   const IconComponent = iconMap[sessionType.icon as keyof typeof iconMap] || Zap;
   const colorClass = colorMap[sessionType.color as keyof typeof colorMap] || "bg-gray-100 text-gray-600";
@@ -113,15 +109,6 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
 
   const handleSessionComplete = async () => {
     try {
-      // Check session limits before allowing session completion
-      if (!canAccess && !isSubscribed) {
-        setShowPaywall(true);
-        return;
-      }
-      
-      // Increment session count
-      incrementCount();
-      
       // Move to feedback step immediately - don't save session data yet
       setStep('feedback');
       
@@ -229,24 +216,6 @@ export default function SessionModal({ sessionType, onClose, onComplete, onTryAn
       </div>
     );
   };
-
-  // Show paywall if needed
-  if (showPaywall) {
-    return (
-      <Paywall
-        dailyCount={dailyCount}
-        onSubscriptionComplete={() => {
-          setShowPaywall(false);
-          // Continue with session
-          handleSessionComplete();
-        }}
-        onClose={() => {
-          setShowPaywall(false);
-          onClose();
-        }}
-      />
-    );
-  }
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
