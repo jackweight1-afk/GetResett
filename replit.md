@@ -1,7 +1,7 @@
 # Replit.md - GetReset Wellness Platform
 
 ## Overview
-GetReset is a B2B corporate wellness platform providing science-backed, 60-90 second reset sessions for workplace mental and physical wellbeing. The platform includes a public marketing website, an upcoming iOS app, a three-tiered corporate wellness solution ("GetReset for Business"), and a Super Admin Dashboard for platform management. The core offering involves guided reset sessions for various emotional states, with corporate employees receiving unlimited access based on monthly invoicing per employee. The business vision is to provide accessible, impactful wellness tools to corporate environments, enhancing employee wellbeing and productivity.
+GetReset is a **pure B2B corporate wellness platform** providing science-backed, 60-90 second reset sessions for workplace mental and physical wellbeing. Access is 100% corporate code-based - no individual signups, trials, or subscriptions. The platform includes a public marketing website (consumer-friendly for traffic generation), an upcoming iOS app, and a Super Admin Dashboard for platform management. The business model: Super admin creates organizations and generates unique corporate codes for £5.99/employee/month (monthly invoicing). Companies distribute codes to employees who get instant unlimited access. The business vision is to provide accessible, impactful wellness tools to corporate environments, enhancing employee wellbeing and productivity.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
@@ -21,7 +21,7 @@ Preferred communication style: Simple, everyday language.
   - Button heights: h-10 (consistent, thumb-friendly)
   - Icon sizes: h-12 w-12 sm:h-14 sm:w-14 or h-14 w-14 sm:h-16 sm:w-16
 - **Consistent Background**: Auth/onboarding pages share bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50
-- CTAs should encourage trying the app free first rather than pushing subscription immediately
+- Landing page CTAs drive traffic to /business page for B2B lead generation and employee access
 - Purple/teal gradient theme throughout the app for consistency
 - Landing page uses yellow → pink/purple → teal gradient matching logo aesthetic
 - Modern glassmorphism effects, smooth animations, and shadow designs
@@ -55,9 +55,9 @@ The application uses a modern full-stack architecture with a clear client-server
 - **Connection Pooling**: Neon serverless
 
 ### Key Components & Design
-- **Authentication System**: Supports Replit Auth (Google OAuth) and email/password. Features a unified middleware, password reset flow, and an admin user approval system where self-registered users require activation. Corporate users are auto-activated via corporate codes.
-- **Onboarding Flow**: Guided walkthrough for new users, ensuring a smooth first experience. Business users have a dedicated signup path with corporate code validation.
-- **Corporate Access System**: `organizations` table manages unique `corporateCode`s. `business-signup` page validates codes, instantly activating employees with unlimited access. `isOrganisationAdmin` flag differentiates company admins.
+- **Authentication System**: Supports Replit Auth (Google OAuth) and email/password. Super admin login (getresett@gmail.com) OR corporate employee signup with valid corporate code only. NO individual signups or account approvals - corporate codes provide instant activation with unlimited access.
+- **Onboarding Flow**: Guided walkthrough for new users, ensuring a smooth first experience. Only accessible via corporate code-validated signup.
+- **Corporate Access System**: `organizations` table manages unique `corporateCode`s (e.g., "12345" for GetReset Internal demos). `/business-signup` page validates codes server-side (rate-limited to 5 attempts/hour per IP), creates account with `organisationId` + `isActive:true`, granting instant unlimited access. `isOrganisationAdmin` flag differentiates company admins who can access company dashboards.
 - **B2B Platform Features**:
     - **Marketing Funnel Flow**: Landing page → "GetReset for Business" CTA → `/business` marketing page → Dual paths:
         - **"Enquire Now"** button → `/business/contact` (lead generation form for new business inquiries)
@@ -68,10 +68,21 @@ The application uses a modern full-stack architecture with a clear client-server
     - **Super Admin Dashboard**: Protected `/admin` route for global analytics, organization management (create, edit, delete, view analytics), lead pipeline management, and user activation/deactivation.
     - **Company Admin Dashboard**: Protected `/company` route for organization-specific analytics, corporate code display with copy button, and employee invitation guidance.
 - **Interactive Reset System**: Comprises 16+ unique reset experiences categorized by emotional states (Stressed, Anxiety, Restless, Tired, Scattered). Each reset has manual navigation steps with content and animations.
-- **Session & Tracking**: Automatic session creation upon reset completion and mood rating. Tracks daily usage, emotional states, and links feeling entries to sessions for comprehensive analytics.
-- **Monetization**: Subscription model with 3 free daily sessions, paywall on the 4th, and a 30-day free trial for new users.
-- **Internationalization**: Auto-detects user country, displaying pricing in local currency with real-time exchange rates (GBP base price).
+- **Session & Tracking**: Automatic session creation upon reset completion and mood rating. All corporate users have unlimited access with no session limits. Tracks emotional states and links feeling entries to sessions for comprehensive analytics.
+- **Access Model**: Pure B2B corporate access - NO individual signups, trials, subscriptions, or payment processing. All authenticated corporate users have unlimited reset access. Access validated server-side: requires `isActive=true` AND `organisationId` (corporate affiliation).
+- **Internationalization**: Auto-detects user country, displaying pricing in local currency with real-time exchange rates (£5.99/employee/month GBP base price).
 - **Performance Optimization**: Includes instant fallback data, extended caching, GPU-accelerated animations, lazy loading, virtual scrolling, DNS prefetching, debouncing/throttling, and optimized font loading.
+
+## Recent Changes (November 19, 2025)
+**Pivoted to Pure B2B Corporate Model:**
+- ✅ Removed all Stripe integration (subscriptions, payments, webhooks - 200+ lines)
+- ✅ Removed session limits and usage tracking (no more 3 free daily sessions or paywalls)
+- ✅ Removed trial logic and individual signup flows
+- ✅ Deleted useSessionLimits hook and paywall components
+- ✅ Added server-side corporate access validation (blocks inactive users, requires organisationId)
+- ✅ Added rate limiting to corporate code verification (5 attempts/hour per IP)
+- ✅ Created demo organization "GetReset Internal" with code "12345" for testing
+- ✅ Marked legacy database fields (stripeCustomerId, subscriptionStatus, dailyUsage table) as unused
 
 ## External Dependencies
 - **React Ecosystem**: React, React DOM, React Hook Form
@@ -87,5 +98,4 @@ The application uses a modern full-stack architecture with a clear client-server
 - **OpenID Client**: For Replit Auth integration
 - **Passport**: Authentication middleware
 - **Connect PG Simple**: PostgreSQL session store
-- **Stripe**: For subscription and payment processing
-- **Exchange Rate API**: For international currency conversion
+- **Exchange Rate API**: For international currency conversion (B2B pricing display)
