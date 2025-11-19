@@ -108,15 +108,31 @@ export default function Business() {
             Quick resets that reduce stress, improve focus, and boost morale—all in under 2 minutes.
           </p>
 
-          <Button 
-            size="lg"
-            onClick={() => window.location.href = '/business/contact'}
-            className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white text-base sm:text-lg px-10 py-6 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold rounded-full"
-            data-testid="button-contact"
-          >
-            Get Started
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4">
+            <Button 
+              size="lg"
+              onClick={() => window.location.href = '/business/contact'}
+              className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white text-base sm:text-lg px-10 py-6 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold rounded-full"
+              data-testid="button-enquire"
+            >
+              Enquire Now
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+            
+            <Button 
+              size="lg"
+              variant="outline"
+              onClick={() => window.location.href = '/business-signup'}
+              className="w-full sm:w-auto border-2 border-purple-600 text-purple-700 hover:bg-purple-50 text-base sm:text-lg px-10 py-6 shadow-md hover:shadow-lg transition-all duration-300 font-semibold rounded-full"
+              data-testid="button-employee-access"
+            >
+              Employee Access
+            </Button>
+          </div>
+          
+          <p className="text-sm text-gray-600">
+            Already have a corporate code? Click "Employee Access" to sign up
+          </p>
         </div>
       </section>
 
