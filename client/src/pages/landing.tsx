@@ -36,15 +36,15 @@ export default function Landing() {
       </header>
 
       {/* Hero Section */}
-      <section className={`px-4 sm:px-6 py-12 sm:py-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+      <section className={`px-4 sm:px-6 py-10 sm:py-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
             Because Sometimes,
             <br />
             <span className="block">You Just Need A Minute</span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-gray-700 mb-10 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed">
             Short guided wellbeing resets built to help you build mental fitness and find calm in a hectic day
           </p>
 
@@ -75,18 +75,18 @@ export default function Landing() {
       </section>
 
       {/* Core Values Section */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16 bg-white/50 backdrop-blur-sm">
+      <section className="px-4 sm:px-6 py-10 sm:py-16 bg-white/50 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
               Built for the pace of modern life
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
               We understand busy schedules. That's why every reset is designed to deliver maximum impact in minimal time.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {[
               { 
                 icon: Timer, 
@@ -113,12 +113,12 @@ export default function Landing() {
                 color: "from-pink-600 to-rose-600"
               }
             ].map((feature, i) => (
-              <div key={i} className="bg-white rounded-3xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4`}>
+              <div key={i} className="bg-white rounded-3xl p-5 sm:p-6 shadow-lg hover:shadow-xl transition-shadow">
+                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-3`}>
                   <feature.icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600 text-sm">{feature.desc}</p>
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
+                <p className="text-gray-600 text-xs sm:text-sm">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -126,79 +126,79 @@ export default function Landing() {
       </section>
 
       {/* How It Works */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16 bg-white/30 backdrop-blur-sm">
+      <section className="px-4 sm:px-6 py-10 sm:py-16 bg-white/30 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Reset in 3 simple steps
             </h2>
           </div>
 
-          <div className="space-y-10 sm:space-y-12">
+          <div className="space-y-8 sm:space-y-10">
             {/* Step 1 - Pick your mood */}
-            <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-xl">
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-3 mb-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center">
-                    <span className="text-white text-xl font-bold">1</span>
+            <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-xl">
+              <div className="text-center mb-6 sm:mb-8">
+                <div className="inline-flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-3 mb-3">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center">
+                    <span className="text-white text-lg font-bold">1</span>
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-gray-900">Pick your mood</h3>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">Pick your mood</h3>
                 </div>
-                <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                  Stressed? Tired? Scattered? Choose how you're feeling right now and we'll guide you to the perfect reset.
+                <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
+                  Stressed? Tired? Scattered? Choose how you're feeling and we'll guide you to the perfect reset.
                 </p>
               </div>
               <div className="flex justify-center">
                 <img 
                   src={moodSelectionImg} 
                   alt="Mood selection interface" 
-                  className="w-full max-w-[320px] sm:max-w-md rounded-2xl shadow-2xl"
+                  className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-md rounded-2xl shadow-2xl"
                   data-testid="img-step-1"
                 />
               </div>
             </div>
 
             {/* Step 2 - Follow the guided reset */}
-            <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-xl">
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-3 mb-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center">
-                    <span className="text-white text-xl font-bold">2</span>
+            <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-xl">
+              <div className="text-center mb-6 sm:mb-8">
+                <div className="inline-flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-3 mb-3">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center">
+                    <span className="text-white text-lg font-bold">2</span>
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-gray-900">Follow the guided reset</h3>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">Follow the guided reset</h3>
                 </div>
-                <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                  Simple breathing, visualization, or movement exercises—all under 2 minutes. Just follow along at your own pace.
+                <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
+                  Simple breathing, visualization, or movement—all under 2 minutes. Just follow along.
                 </p>
               </div>
               <div className="flex justify-center">
                 <img 
                   src={resetPlayerImg} 
                   alt="Guided reset session in progress" 
-                  className="w-full max-w-[320px] sm:max-w-md rounded-2xl shadow-2xl"
+                  className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-md rounded-2xl shadow-2xl"
                   data-testid="img-step-2"
                 />
               </div>
             </div>
 
             {/* Step 3 - Feel the difference */}
-            <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-xl">
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-3 mb-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center">
-                    <span className="text-white text-xl font-bold">3</span>
+            <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-xl">
+              <div className="text-center mb-6 sm:mb-8">
+                <div className="inline-flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-3 mb-3">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center">
+                    <span className="text-white text-lg font-bold">3</span>
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-gray-900">Feel the difference</h3>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">Feel the difference</h3>
                 </div>
-                <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                  Rate your mood after each reset and track your progress over time. Notice the shift from stressed to centered.
+                <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
+                  Rate your mood and track progress. Notice the shift from stressed to centered.
                 </p>
               </div>
               <div className="flex justify-center">
                 <img 
                   src={moodRatingImg} 
                   alt="Reset completion and mood rating" 
-                  className="w-full max-w-[320px] sm:max-w-md rounded-2xl shadow-2xl"
+                  className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-md rounded-2xl shadow-2xl"
                   data-testid="img-step-3"
                 />
               </div>
@@ -208,22 +208,22 @@ export default function Landing() {
       </section>
 
       {/* Business CTA Section */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16 bg-gradient-to-br from-pink-500 via-purple-500 to-teal-500">
+      <section className="px-4 sm:px-6 py-10 sm:py-16 bg-gradient-to-br from-pink-500 via-purple-500 to-teal-500">
         <div className="max-w-4xl mx-auto text-center">
-          <Users className="w-16 h-16 mx-auto mb-6 opacity-90 text-white" />
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white">
+          <Users className="w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-4 sm:mb-6 opacity-90 text-white" />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-white">
             Bring GetReset to your workplace
           </h2>
-          <p className="text-lg sm:text-xl mb-8 opacity-90 max-w-2xl mx-auto text-white">
-            Support your team's wellbeing with unlimited resets, usage analytics, and quarterly wellbeing training sessions.
+          <p className="text-sm sm:text-base md:text-lg mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto text-white">
+            Support your team's wellbeing with unlimited resets, usage analytics, and quarterly training.
           </p>
           <button
             onClick={() => window.location.href = '/business'}
-            className="inline-flex items-center justify-center bg-white text-teal-700 hover:bg-gray-50 hover:text-teal-800 text-base sm:text-lg px-10 py-6 shadow-xl hover:shadow-2xl transition-all duration-300 font-semibold rounded-full"
+            className="inline-flex items-center justify-center bg-white text-teal-700 hover:bg-gray-50 hover:text-teal-800 text-sm sm:text-base px-8 sm:px-10 py-5 sm:py-6 shadow-xl hover:shadow-2xl transition-all duration-300 font-semibold rounded-full"
             data-testid="button-business-cta"
           >
             Explore GetReset for Business
-            <ArrowRight className="w-5 h-5 ml-2" />
+            <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 ml-2" />
           </button>
         </div>
       </section>
