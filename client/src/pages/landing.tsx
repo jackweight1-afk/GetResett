@@ -45,7 +45,7 @@ export default function Landing() {
           </h1>
 
           <p className="text-lg sm:text-xl text-gray-700 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Short guided resets that build mental fitness and help you feel calmer, clearer, and more capable
+            Short guided wellbeing resets built to help you build mental fitness and find calm in a hectic day
           </p>
 
           {/* Dual CTAs */}
