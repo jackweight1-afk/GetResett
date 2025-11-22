@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { type EmotionalState, type Reset } from '@shared/resetData';
+import type { User } from '@shared/schema';
 import EmotionSelector from '@/components/emotion-selector';
 import ResetSelector from '@/components/reset-selector';
 import InteractiveResetPlayer from '@/components/interactive-reset-player';
@@ -9,7 +10,13 @@ import { useToast } from '@/hooks/use-toast';
 
 type FlowStep = 'emotion' | 'reset-select' | 'reset-play' | 'mood-rating' | 'complete';
 
-export default function Resets() {
+interface ResetsProps {
+  isAuthenticated?: boolean;
+  hasPremiumAccess?: boolean;
+  user?: User | null;
+}
+
+export default function Resets({ isAuthenticated = false, hasPremiumAccess = false, user = null }: ResetsProps) {
   const { toast } = useToast();
   
   const [step, setStep] = useState<FlowStep>('emotion');
@@ -67,6 +74,9 @@ export default function Resets() {
     return (
       <EmotionSelector 
         onSelect={handleEmotionSelect}
+        isAuthenticated={isAuthenticated}
+        hasPremiumAccess={hasPremiumAccess}
+        userName={user?.email?.split('@')[0] || ''}
       />
     );
   }

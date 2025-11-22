@@ -1,11 +1,14 @@
 import { EMOTIONAL_STATES, type EmotionalState } from '@shared/resetData';
 import { motion } from 'framer-motion';
-import { Heart, Zap, CloudRain, Battery, Sparkles, LogOut, User } from 'lucide-react';
+import { Heart, Zap, CloudRain, Battery, Sparkles, LogOut, User, Crown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 
 interface EmotionSelectorProps {
   onSelect: (emotion: EmotionalState) => void;
+  isAuthenticated?: boolean;
+  hasPremiumAccess?: boolean;
+  userName?: string;
 }
 
 const emotionIcons: Record<EmotionalState, typeof CloudRain> = {
@@ -16,7 +19,7 @@ const emotionIcons: Record<EmotionalState, typeof CloudRain> = {
   scattered: Sparkles,
 };
 
-export default function EmotionSelector({ onSelect }: EmotionSelectorProps) {
+export default function EmotionSelector({ onSelect, isAuthenticated = false, hasPremiumAccess = false, userName = '' }: EmotionSelectorProps) {
   const [, setLocation] = useLocation();
 
   const handleSignOut = () => {
@@ -30,30 +33,46 @@ export default function EmotionSelector({ onSelect }: EmotionSelectorProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-blue-50 p-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
-        {/* Header with account and sign out */}
-        <div className="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-3 mb-6">
-          <div className="flex gap-2 w-full sm:w-auto justify-end ml-auto">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleAccount}
-              className="bg-white/80 backdrop-blur-sm hover:bg-white text-xs sm:text-sm"
-              data-testid="button-account"
+        {/* Header with premium badge and user controls */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
+          {/* Premium Badge */}
+          {isAuthenticated && hasPremiumAccess && (
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-2 bg-gradient-to-r from-yellow-400 via-pink-400 to-teal-400 text-white px-4 py-2 rounded-full shadow-lg"
+              data-testid="badge-premium"
             >
-              <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-              Account
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleSignOut}
-              className="bg-white/80 backdrop-blur-sm hover:bg-white text-xs sm:text-sm"
-              data-testid="button-signout"
-            >
-              <LogOut className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-              Sign Out
-            </Button>
-          </div>
+              <Crown className="w-4 h-4" />
+              <span className="text-xs sm:text-sm font-bold">GetReset+ Premium</span>
+            </motion.div>
+          )}
+
+          {/* Account and Sign Out buttons */}
+          {isAuthenticated && (
+            <div className="flex gap-2 w-full sm:w-auto justify-end ml-auto">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleAccount}
+                className="bg-white/80 backdrop-blur-sm hover:bg-white text-xs sm:text-sm"
+                data-testid="button-account"
+              >
+                <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                Account
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleSignOut}
+                className="bg-white/80 backdrop-blur-sm hover:bg-white text-xs sm:text-sm"
+                data-testid="button-signout"
+              >
+                <LogOut className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                Sign Out
+              </Button>
+            </div>
+          )}
         </div>
 
         <motion.div

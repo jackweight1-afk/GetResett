@@ -3,6 +3,7 @@ import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Lock } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 import Resets from './resets';
 
 const DEMO_PASSWORD = 'GetReset123!';
@@ -13,14 +14,19 @@ export default function Demo() {
   const [error, setError] = useState('');
   const [hasAccess, setHasAccess] = useState(false);
   const [, setLocation] = useLocation();
+  const { isAuthenticated, isLoading, hasPremiumAccess, user } = useAuth();
 
-  // Check if user already has access
+  // Check if user already has access (either authenticated or has demo password)
   useEffect(() => {
-    const storedAccess = sessionStorage.getItem(STORAGE_KEY);
-    if (storedAccess === 'true') {
+    if (isAuthenticated) {
       setHasAccess(true);
+    } else {
+      const storedAccess = sessionStorage.getItem(STORAGE_KEY);
+      if (storedAccess === 'true') {
+        setHasAccess(true);
+      }
     }
-  }, []);
+  }, [isAuthenticated]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,9 +41,18 @@ export default function Demo() {
     }
   };
 
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-50 via-pink-50 to-teal-50">
+        <div className="text-gray-600">Loading...</div>
+      </div>
+    );
+  }
+
   // If has access, show the resets page
   if (hasAccess) {
-    return <Resets />;
+    return <Resets isAuthenticated={isAuthenticated} hasPremiumAccess={hasPremiumAccess} user={user} />;
   }
 
   // Show password screen
