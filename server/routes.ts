@@ -59,18 +59,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "User already exists" });
       }
 
-      // Check if email is in allowed employees list
+      // REQUIRED: Check if email is in allowed employees list
       const allowedEmployee = await storage.getEmployeeByEmail(email);
+      if (!allowedEmployee) {
+        return res.status(403).json({ 
+          error: "Access Denied",
+          message: "Your email is not authorized for GetReset+. Please contact your employer's HR department to be added to the employee list."
+        });
+      }
       
       // Hash password
       const passwordHash = await bcrypt.hash(password, 10);
       
-      // Create user with premium access if they're on the whitelist
+      // Create user with premium access (guaranteed since they're whitelisted)
       const user = await storage.createUser({
         email: email.toLowerCase(),
         passwordHash,
-        hasPremiumAccess: !!allowedEmployee,
-        companyId: allowedEmployee?.companyId || null,
+        hasPremiumAccess: true,
+        companyId: allowedEmployee.companyId,
       });
 
       // Log in the user after signup
