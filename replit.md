@@ -86,18 +86,16 @@ The application uses a simplified architecture focused on marketing and demos on
   - Optimized font loading
   - Mobile-first responsive design
 
-## Recent Changes (November 19, 2025)
-**Simplified to Marketing & Demo Web App:**
-- ✅ Removed all authentication systems (Replit Auth, Passport, email/password)
-- ✅ Removed user management (users, organizations, admin dashboards)
-- ✅ Removed corporate code system (moved to iOS app)
-- ✅ Removed session tracking and analytics
-- ✅ Simplified database to only `business_leads` table
-- ✅ Created password-protected `/demo` route with sessionStorage validation
-- ✅ Deleted user-facing pages (login, signup, account, admin, company dashboards)
-- ✅ Simplified routing to public pages + demo only
-- ✅ Removed all Stripe integration and subscription logic
-- ✅ Updated resets page to work without authentication
+## Recent Changes (November 22, 2025)
+**Implemented B2B Business Account System:**
+- ✅ Created full email/password authentication with Passport.js
+- ✅ Built database schema: users, companies, allowed_employees tables
+- ✅ Master admin dashboard for GetResett@gmail.com with company management
+- ✅ Employee email whitelist system with CSV bulk import
+- ✅ Auto-upgrade to GetReset+ premium when whitelisted employees sign up
+- ✅ Login/signup pages with proper validation and redirects
+- ✅ Removed all Stripe integration (billing handled externally via invoicing)
+- ✅ Seat-based licensing model managed through admin dashboard
 
 **Design & UX Updates:**
 - ✅ Updated entire color scheme from harsh purple/violet to soft yellow → pink → teal gradient (matching logo)

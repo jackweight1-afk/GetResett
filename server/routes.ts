@@ -6,6 +6,15 @@ import { storage } from "./storage";
 import { insertBusinessLeadSchema, insertUserSchema, insertCompanySchema, insertAllowedEmployeeSchema, type User } from "@shared/schema";
 import passport from "./auth";
 
+// Update schema for companies - only allow specific fields
+const updateCompanySchema = z.object({
+  name: z.string().min(1).optional(),
+  seatCount: z.number().int().positive().optional(),
+  contactEmail: z.string().email().optional().nullable(),
+  contactPhone: z.string().optional().nullable(),
+  notes: z.string().optional().nullable(),
+}).strict();
+
 // Extend Express Request to include user property
 declare global {
   namespace Express {
@@ -183,7 +192,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.put('/api/admin/companies/:id', isMasterAdmin, async (req, res) => {
     try {
-      const updateData = insertCompanySchema.partial().parse(req.body);
+      const updateData = updateCompanySchema.parse(req.body);
       const company = await storage.updateCompany(req.params.id, updateData);
       res.json(company);
     } catch (error) {
