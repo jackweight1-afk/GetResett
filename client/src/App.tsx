@@ -9,6 +9,9 @@ import Download from "@/pages/download";
 import Business from "@/pages/business";
 import BusinessContact from "@/pages/business-contact";
 import Demo from "@/pages/demo";
+import Login from "@/pages/login";
+import Signup from "@/pages/signup";
+import Admin from "@/pages/admin";
 import ErrorBoundary from "@/components/error-boundary";
 
 function Router() {
@@ -20,8 +23,13 @@ function Router() {
       <Route path="/business" component={Business} />
       <Route path="/business/contact" component={BusinessContact} />
       
-      {/* Password-protected Demo Area */}
+      {/* Auth Pages */}
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={Signup} />
+      
+      {/* Protected Pages */}
       <Route path="/demo" component={Demo} />
+      <Route path="/admin" component={Admin} />
       
       {/* 404 for everything else */}
       <Route component={NotFound} />

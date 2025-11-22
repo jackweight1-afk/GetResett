@@ -1,10 +1,135 @@
-import type { Express } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { z } from "zod";
+import bcrypt from "bcryptjs";
 import { storage } from "./storage";
-import { insertBusinessLeadSchema } from "@shared/schema";
+import { insertBusinessLeadSchema, insertUserSchema, insertCompanySchema, insertAllowedEmployeeSchema, type User } from "@shared/schema";
+import passport from "./auth";
+
+// Extend Express Request to include user property
+declare global {
+  namespace Express {
+    interface User {
+      id: string;
+      email: string;
+      hasPremiumAccess: boolean;
+      companyId: string | null;
+    }
+  }
+}
+
+// Middleware to check if user is authenticated
+function isAuthenticated(req: Request, res: Response, next: NextFunction) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ error: "Unauthorized" });
+}
+
+// Middleware to check if user is master admin
+function isMasterAdmin(req: Request, res: Response, next: NextFunction) {
+  if (req.isAuthenticated() && req.user?.email.toLowerCase() === "getresett@gmail.com") {
+    return next();
+  }
+  res.status(403).json({ error: "Forbidden - Admin access required" });
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Auth routes
+  app.post('/api/auth/signup', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required" });
+      }
+
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ error: "User already exists" });
+      }
+
+      // Check if email is in allowed employees list
+      const allowedEmployee = await storage.getEmployeeByEmail(email);
+      
+      // Hash password
+      const passwordHash = await bcrypt.hash(password, 10);
+      
+      // Create user with premium access if they're on the whitelist
+      const user = await storage.createUser({
+        email: email.toLowerCase(),
+        passwordHash,
+        hasPremiumAccess: !!allowedEmployee,
+        companyId: allowedEmployee?.companyId || null,
+      });
+
+      // Log in the user after signup
+      req.login(user, (err) => {
+        if (err) {
+          return res.status(500).json({ error: "Failed to log in after signup" });
+        }
+        
+        res.json({
+          user: {
+            id: user.id,
+            email: user.email,
+            hasPremiumAccess: user.hasPremiumAccess,
+            companyId: user.companyId,
+          },
+          isPremium: user.hasPremiumAccess,
+        });
+      });
+    } catch (error) {
+      console.error("Signup error:", error);
+      res.status(500).json({ error: "Failed to create account" });
+    }
+  });
+
+  app.post('/api/auth/login', (req, res, next) => {
+    passport.authenticate('local', (err: any, user: User, info: any) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.status(401).json({ error: info?.message || "Invalid credentials" });
+      }
+      req.login(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        res.json({
+          user: {
+            id: user.id,
+            email: user.email,
+            hasPremiumAccess: user.hasPremiumAccess,
+            companyId: user.companyId,
+          },
+        });
+      });
+    })(req, res, next);
+  });
+
+  app.post('/api/auth/logout', (req, res) => {
+    req.logout((err) => {
+      if (err) {
+        return res.status(500).json({ error: "Failed to log out" });
+      }
+      res.json({ success: true });
+    });
+  });
+
+  app.get('/api/auth/me', isAuthenticated, (req, res) => {
+    res.json({
+      user: {
+        id: req.user!.id,
+        email: req.user!.email,
+        hasPremiumAccess: req.user!.hasPremiumAccess,
+        companyId: req.user!.companyId,
+      },
+    });
+  });
+
   // Business leads - Contact form submissions
   app.post('/api/business-leads', async (req, res) => {
     try {
@@ -28,6 +153,120 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching business leads:", error);
       res.status(500).json({ error: "Failed to fetch leads" });
+    }
+  });
+
+  // Admin routes - Companies
+  app.get('/api/admin/companies', isMasterAdmin, async (_req, res) => {
+    try {
+      const companies = await storage.getAllCompanies();
+      res.json(companies);
+    } catch (error) {
+      console.error("Error fetching companies:", error);
+      res.status(500).json({ error: "Failed to fetch companies" });
+    }
+  });
+
+  app.post('/api/admin/companies', isMasterAdmin, async (req, res) => {
+    try {
+      const companyData = insertCompanySchema.parse(req.body);
+      const company = await storage.createCompany(companyData);
+      res.json(company);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors[0].message });
+      }
+      console.error("Error creating company:", error);
+      res.status(500).json({ error: "Failed to create company" });
+    }
+  });
+
+  app.put('/api/admin/companies/:id', isMasterAdmin, async (req, res) => {
+    try {
+      const updateData = insertCompanySchema.partial().parse(req.body);
+      const company = await storage.updateCompany(req.params.id, updateData);
+      res.json(company);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors[0].message });
+      }
+      console.error("Error updating company:", error);
+      res.status(500).json({ error: "Failed to update company" });
+    }
+  });
+
+  app.delete('/api/admin/companies/:id', isMasterAdmin, async (req, res) => {
+    try {
+      await storage.deleteCompany(req.params.id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting company:", error);
+      res.status(500).json({ error: "Failed to delete company" });
+    }
+  });
+
+  // Admin routes - Allowed Employees
+  app.get('/api/admin/employees/:companyId', isMasterAdmin, async (req, res) => {
+    try {
+      const employees = await storage.getEmployeesByCompany(req.params.companyId);
+      res.json(employees);
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+      res.status(500).json({ error: "Failed to fetch employees" });
+    }
+  });
+
+  app.post('/api/admin/employees', isMasterAdmin, async (req, res) => {
+    try {
+      const employeeData = insertAllowedEmployeeSchema.parse(req.body);
+      const employee = await storage.createAllowedEmployee(employeeData);
+      res.json(employee);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors[0].message });
+      }
+      console.error("Error adding employee:", error);
+      res.status(500).json({ error: "Failed to add employee" });
+    }
+  });
+
+  app.post('/api/admin/employees/bulk', isMasterAdmin, async (req, res) => {
+    try {
+      const bulkSchema = z.object({
+        companyId: z.string(),
+        emails: z.array(z.string().email()),
+      });
+      const { companyId, emails } = bulkSchema.parse(req.body);
+      const employees = emails.map((email: string) => ({ email, companyId }));
+      const created = await storage.bulkCreateAllowedEmployees(employees);
+      res.json({ success: true, count: created.length });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors[0].message });
+      }
+      console.error("Error bulk adding employees:", error);
+      res.status(500).json({ error: "Failed to bulk add employees" });
+    }
+  });
+
+  app.delete('/api/admin/employees/:id', isMasterAdmin, async (req, res) => {
+    try {
+      await storage.deleteAllowedEmployee(req.params.id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+      res.status(500).json({ error: "Failed to delete employee" });
+    }
+  });
+
+  // Admin routes - Usage Reporting
+  app.get('/api/admin/users', isMasterAdmin, async (_req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      res.json(users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ error: "Failed to fetch users" });
     }
   });
 
