@@ -71,6 +71,13 @@ export default function Business() {
           </div>
           <div className="flex items-center gap-3">
             <Button
+              onClick={() => window.location.href = '/signup'}
+              className="bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500 hover:from-pink-600 hover:via-purple-600 hover:to-teal-600 text-white text-sm font-semibold"
+              data-testid="button-employee-login-header"
+            >
+              Employee Login
+            </Button>
+            <Button
               variant="ghost"
               onClick={() => window.location.href = '/'}
               className="text-gray-700 hover:text-gray-900"
@@ -103,22 +110,22 @@ export default function Business() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
               size="lg"
-              onClick={() => window.location.href = '/business/contact'}
+              onClick={() => window.location.href = '/signup'}
               className="w-full sm:w-auto bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500 hover:from-pink-600 hover:via-purple-600 hover:to-teal-600 text-white text-base sm:text-lg px-10 py-6 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold rounded-full"
-              data-testid="button-enquire"
+              data-testid="button-employee-login"
             >
-              Enquire Now
+              Employee Login
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
             
             <Button 
               size="lg"
               variant="outline"
-              onClick={() => window.location.href = '/demo'}
+              onClick={() => window.location.href = '/business/contact'}
               className="w-full sm:w-auto border-2 border-teal-500 text-teal-700 hover:bg-teal-50 text-base sm:text-lg px-10 py-6 shadow-md hover:shadow-lg transition-all duration-300 font-semibold rounded-full"
-              data-testid="button-view-demo"
+              data-testid="button-enquire"
             >
-              View Demo
+              Enquire Now
             </Button>
           </div>
         </div>
