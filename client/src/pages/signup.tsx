@@ -42,29 +42,29 @@ export default function Signup() {
     try {
       const response: any = await apiRequest("POST", "/api/auth/signup", { email, password });
       
-      // Show premium upgrade notification if applicable
-      if (response.isPremium) {
-        toast({
-          title: "✨ Welcome to GetReset+!",
-          description: "Your company has given you premium access with unlimited resets and exclusive community content.",
-          duration: 5000,
-        });
-      } else {
-        toast({
-          title: "Account created!",
-          description: "Welcome to GetReset",
-        });
-      }
+      // All users get premium access since they must be whitelisted
+      toast({
+        title: "✨ Welcome to GetReset+!",
+        description: "Your company has given you premium access with unlimited resets and exclusive community content.",
+        duration: 5000,
+      });
 
       // Redirect to demo
       setTimeout(() => {
         setLocation("/demo");
       }, 1500);
     } catch (error: any) {
+      // Handle specific error for non-whitelisted emails
+      const errorMessage = error.message || "Could not create account";
+      const errorTitle = errorMessage.includes("not authorized") || errorMessage.includes("Access Denied")
+        ? "Access Denied"
+        : "Signup failed";
+      
       toast({
-        title: "Signup failed",
-        description: error.message || "Could not create account",
+        title: errorTitle,
+        description: errorMessage,
         variant: "destructive",
+        duration: 7000,
       });
     } finally {
       setIsLoading(false);
@@ -81,8 +81,8 @@ export default function Signup() {
               alt="GetReset Logo" 
               className="w-16 h-16 rounded-2xl shadow-lg mb-4"
             />
-            <h1 className="text-2xl font-bold text-gray-900">Create Your Account</h1>
-            <p className="text-sm text-gray-600 mt-2 text-center">Join GetReset and start your mental fitness journey</p>
+            <h1 className="text-2xl font-bold text-gray-900">Employee Login</h1>
+            <p className="text-sm text-gray-600 mt-2 text-center">Sign up with your work email to access GetReset+</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -99,7 +99,7 @@ export default function Signup() {
                 data-testid="input-email"
               />
               <p className="text-[11px] text-gray-500">
-                Use your work email if your company provides GetReset+
+                Your email must be authorized by your employer
               </p>
             </div>
 
