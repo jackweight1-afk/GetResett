@@ -338,19 +338,3 @@ img[loading="lazy"].loaded {
   }
 }
 
-/* Express Checkout Styling */
-.express-checkout-wrapper {
-  min-height: 60px;
-}
-
-.express-checkout-wrapper .StripeElement {
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Apple Pay / Google Pay button styling */
-.express-checkout-wrapper [data-testid="payment-element"] {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
-  padding: 4px;
-}

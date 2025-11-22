@@ -104,6 +104,14 @@ The application uses a simplified architecture focused on marketing and demos on
 - ✅ Mobile-optimized layout with responsive padding, typography, and image sizing (280px max on mobile)
 - ✅ Replaced AI-generated mockups with actual UI captures from demo flow
 
+**Business Page & Signup Flow (November 22, 2025):**
+- ✅ Changed "View Demo" button to "Employee Login" routing to /signup
+- ✅ Added "Employee Login" button in business page header
+- ✅ Enforced whitelist-only signup: backend rejects non-whitelisted emails with 403
+- ✅ Updated signup page copy to clarify employee-only access
+- ✅ All signups automatically receive GetReset+ premium access (since they must be whitelisted)
+- ✅ Completely removed all Stripe code, styling, and external API references
+
 **Architecture Pivot:**
 - Web app is now purely for marketing and demos
 - iOS app will handle corporate employee access with codes
@@ -122,6 +130,8 @@ The application uses a simplified architecture focused on marketing and demos on
 - **Radix UI**: Component primitives
 - **Lucide Icons**: Icon library
 - **Class Variance Authority**: Component variant management
+- **Passport.js**: Local authentication strategy
+- **bcryptjs**: Password hashing
 
 ## Future Development
 - iOS app development for corporate employee platform
