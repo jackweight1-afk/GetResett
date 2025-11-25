@@ -63,6 +63,8 @@ The application uses a simplified architecture focused on marketing and demos on
   - **Landing Page** (`/`): Hero section, benefits overview, CTA to business page
   - **Business Page** (`/business`): B2B marketing content, pricing information, CTA to contact form
   - **Contact Page** (`/business/contact`): Lead generation form for business inquiries
+  - **Privacy Policy** (`/privacy`): UK GDPR compliant privacy policy
+  - **Terms & Conditions** (`/terms`): Full terms of service including health disclaimer
   
 - **Demo Access** (`/demo`):
   - Password-protected area (password: "GetReset123!")
@@ -111,6 +113,12 @@ The application uses a simplified architecture focused on marketing and demos on
 - ✅ Updated signup page copy to clarify employee-only access
 - ✅ All signups automatically receive GetReset+ premium access (since they must be whitelisted)
 - ✅ Completely removed all Stripe code, styling, and external API references
+
+**Legal Pages (November 25, 2025):**
+- ✅ Added Privacy Policy page at /privacy with UK GDPR compliance
+- ✅ Added Terms & Conditions page at /terms with health disclaimers
+- ✅ Footer links on landing page for easy access to legal pages
+- ✅ Consistent design matching site aesthetic (gradient backgrounds, card styling)
 
 **Architecture Pivot:**
 - Web app is now purely for marketing and demos
