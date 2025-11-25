@@ -239,9 +239,13 @@ export default function Landing() {
             />
             <span className="text-xl font-bold">GetReset</span>
           </div>
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-400 text-sm mb-4">
             © 2025 GetReset. Science-backed wellbeing resets for busy minds.
           </p>
+          <div className="flex justify-center gap-6">
+            <a href="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors" data-testid="link-privacy">Privacy Policy</a>
+            <a href="/terms" className="text-gray-400 hover:text-white text-sm transition-colors" data-testid="link-terms">Terms & Conditions</a>
+          </div>
         </div>
       </footer>
     </div>
