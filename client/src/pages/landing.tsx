@@ -215,7 +215,7 @@ export default function Landing() {
             Bring GetReset to your workplace
           </h2>
           <p className="text-sm sm:text-base md:text-lg mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto text-white">
-            Support your team's wellbeing with unlimited resets, usage analytics, and quarterly training.
+            Support your teams wellbeing with unlimited resets, access to content from industry professionals, usage analytics & team training
           </p>
           <button
             onClick={() => window.location.href = '/business'}
