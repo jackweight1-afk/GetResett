@@ -4,11 +4,6 @@
   "outputDirectory": "dist/public",
   "framework": "vite",
   "installCommand": "npm install",
-  "build": {
-    "env": {
-      "NODE_VERSION": "20.x"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -21,7 +16,7 @@
   ],
   "functions": {
     "api/index.ts": {
-      "runtime": "@vercel/node@3.0.0"
+      "runtime": "@vercel/node"
     }
   }
 }
