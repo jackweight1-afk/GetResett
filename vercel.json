@@ -4,6 +4,11 @@
   "outputDirectory": "dist/public",
   "framework": "vite",
   "installCommand": "npm install",
+  "build": {
+    "env": {
+      "NODE_VERSION": "20.x"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
