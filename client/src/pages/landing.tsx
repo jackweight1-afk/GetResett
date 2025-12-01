@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Heart, Brain, Zap, Shield, Users, Building2, Timer } from "lucide-react";
+import { ArrowRight, Heart, Brain, Zap, Shield, Users, Building2, Timer, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import logoUrl from "@assets/getreset_logo.jpg";
 import moodSelectionImg from '@assets/screenshots/mood-selection-real.png';
@@ -71,6 +71,58 @@ export default function Landing() {
               GetReset for Business
             </Button>
           </div>
+        </div>
+      </section>
+
+      {/* Visual Transition - Floating Graphics & Scroll Indicator */}
+      <section className="relative px-4 sm:px-6 py-8 sm:py-12 overflow-hidden">
+        {/* Floating decorative shapes */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Large gradient circle - left */}
+          <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-40 h-40 sm:w-64 sm:h-64 rounded-full bg-gradient-to-br from-pink-300/40 to-purple-300/40 blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+          {/* Large gradient circle - right */}
+          <div className="absolute -right-20 top-1/3 w-48 h-48 sm:w-72 sm:h-72 rounded-full bg-gradient-to-br from-teal-300/40 to-cyan-300/40 blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
+          {/* Small accent circles */}
+          <div className="absolute left-1/4 top-1/4 w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-yellow-400/60 to-pink-400/60 blur-xl animate-bounce" style={{ animationDuration: '3s' }} />
+          <div className="absolute right-1/3 bottom-1/4 w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-purple-400/60 to-teal-400/60 blur-xl animate-bounce" style={{ animationDuration: '4s', animationDelay: '0.5s' }} />
+        </div>
+
+        {/* Scroll indicator with text */}
+        <div className="relative z-10 flex flex-col items-center">
+          <p className="text-gray-500 text-sm sm:text-base font-medium mb-2">Discover more</p>
+          <div className="flex flex-col items-center animate-bounce" style={{ animationDuration: '2s' }}>
+            <ChevronDown className="w-6 h-6 sm:w-8 sm:h-8 text-purple-500" />
+            <ChevronDown className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400 -mt-3" />
+          </div>
+        </div>
+
+        {/* Decorative line/wave */}
+        <div className="relative z-10 mt-6 sm:mt-8">
+          <svg viewBox="0 0 1200 60" className="w-full h-8 sm:h-12" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#f472b6" stopOpacity="0.3" />
+                <stop offset="50%" stopColor="#a855f7" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#14b8a6" stopOpacity="0.3" />
+              </linearGradient>
+            </defs>
+            <path 
+              d="M0,30 Q150,10 300,30 T600,30 T900,30 T1200,30" 
+              stroke="url(#waveGradient)" 
+              strokeWidth="3" 
+              fill="none"
+              className="animate-pulse"
+              style={{ animationDuration: '3s' }}
+            />
+            <path 
+              d="M0,35 Q150,55 300,35 T600,35 T900,35 T1200,35" 
+              stroke="url(#waveGradient)" 
+              strokeWidth="2" 
+              fill="none"
+              className="animate-pulse"
+              style={{ animationDuration: '3s', animationDelay: '0.5s' }}
+            />
+          </svg>
         </div>
       </section>
 
