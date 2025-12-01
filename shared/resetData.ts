@@ -170,8 +170,8 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-6',
         title: 'Reset Complete',
         lines: [
-          'Your body should feel lighter & calmer.',
-          'Reset complete.'
+          'Your body should feel lighter and calmer now.',
+          'Well done, reset complete.'
         ]
       }
     ]
@@ -189,8 +189,8 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Grounding Walk',
         lines: [
           'We\'ll take a short guided walk in your mind to settle your system.',
-          'Keep your eyes open and imagine it vividly—no need to move.',
-          'Click Continue on each page.'
+          'Keep your eyes open and imagine it vividly, there\'s no need to move.',
+          'Just click Continue on each page when you\'re ready.'
         ]
       },
       {
@@ -199,7 +199,7 @@ const NEW_RESETS: ResetSpec[] = [
         lines: [
           'Picture a clear, open path ahead. Firm ground, easy to walk on.',
           'Hold your phone comfortably and let your shoulders drop.',
-          'Imagine taking your first step—feel the rhythm. Click Continue.'
+          'Imagine taking your first step and feel the rhythm of it. Click Continue when you\'re ready.'
         ]
       },
       {
@@ -208,7 +208,7 @@ const NEW_RESETS: ResetSpec[] = [
         lines: [
           'Walk at a calm, even pace in your mind.',
           'Match your steps to breathing: inhale over 2 steps, exhale over 3.',
-          'Repeat once more. Let the body feel heavier, the mind quieter.'
+          'Repeat once more and let your body feel heavier, your mind a little quieter.'
         ]
       },
       {
@@ -217,7 +217,7 @@ const NEW_RESETS: ResetSpec[] = [
         lines: [
           'Let the scene become clearer. Notice three things:',
           'The colour of the sky, the texture of the path, something at the edge.',
-          'Ordinary is safe. Take one breath: in for 2, out for 3.'
+          'Ordinary things feel safe. Take one breath, in for 2, out for 3.'
         ]
       },
       {
@@ -225,7 +225,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'What You Hear',
         lines: [
           'Pick up two layers of sound: far (wind, traffic) and near (footsteps).',
-          'Hold far and near together—like two gentle lines.',
+          'Hold far and near together, like two gentle lines running through the space.',
           'Breathe with your steps: in for 2, out for 3.'
         ]
       },
@@ -234,7 +234,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'What You Feel',
         lines: [
           'Sense weight through your heels and toes as each step lands.',
-          'The ground carries you—steady, predictable, solid.',
+          'The ground carries you, steady, predictable, and solid beneath your feet.',
           'Relax your hands, soften your jaw. Take one longer exhale down through your legs.'
         ]
       },
@@ -242,7 +242,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-7',
         title: 'Space Ahead',
         lines: [
-          'Lift your gaze to the horizon—the path opens out.',
+          'Lift your gaze gently to the horizon, where the path opens out before you.',
           'With the next three breaths, think about what matters: family, friends, things you hold close.',
           'Imagine them waiting at the end of your path. Feel the joy, relief, calm.'
         ]
@@ -252,7 +252,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Reset Complete',
         lines: [
           'Let the path slow to a comfortable stop.',
-          'Notice: breathing steadier, shoulders softer, head clearer.',
+          'Take a moment to notice how your breathing feels steadier, your shoulders feel softer, and your head feels clearer.',
           'Carry this pace into the next thing you do. Reset complete.'
         ]
       }
@@ -298,7 +298,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Orient the Room',
         lines: [
           'Touch your gaze to each corner: top-left, top-right, bottom-right, bottom-left.',
-          'Notice any door or window. Corners mean structure; structure feels safe.',
+          'Notice any door or window nearby. Corners mean structure, and structure feels safe.',
           'Tap Continue.'
         ]
       },
@@ -307,7 +307,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Depth of Field',
         lines: [
           'Focus on something near (phone, hand), then something far across the room.',
-          'Back to middle distance. Your world has depth—and room.',
+          'Now back to middle distance. Your world has depth, and plenty of room to breathe.',
           'Tap Continue.'
         ]
       },
@@ -317,7 +317,7 @@ const NEW_RESETS: ResetSpec[] = [
         lines: [
           'Choose one ordinary thing in view: a cup, chair, frame, or wall.',
           'Hold a soft gaze there for a few seconds.',
-          'Ordinary means familiar; familiar means safe. Tap Continue.'
+          'Ordinary means familiar, and familiar means safe. Tap Continue.'
         ]
       },
       {
@@ -334,7 +334,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Reset Complete',
         lines: [
           'You\'ve scanned, oriented, and anchored.',
-          'Notice: breathing steadier, shoulders softer, head clearer.',
+          'Take a moment to notice how your breathing feels steadier, your shoulders feel softer, and your head feels clearer.',
           'Carry this steadiness into whatever comes next. Reset complete.'
         ]
       }
@@ -369,7 +369,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-3',
         title: 'Choose the Anchor',
         lines: [
-          'Think of one thing that truly matters today—a task, chore, or call.',
+          'Think of one thing that truly matters today, whether it\'s a task, a chore, or a call.',
           'Picture placing it on the Now tray. Watch the tray glow green.',
           'This is your priority. Completing just this one thing means success.',
           'Hold that thought for one easy breath, then tap Continue.'
@@ -491,7 +491,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Open & Enter',
         lines: [
           'The door opens easily. Step into a quiet room: soft light, calm air, fresh breeze.',
-          'With three exhales, release: 1—the noise, 2—the what-ifs, 3—keep only what matters now.',
+          'With three gentle exhales, release the noise... then the what-ifs... and keep only what matters right now.',
           'Wrapped in light and safety. Tap Continue.'
         ]
       },
@@ -547,7 +547,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-4',
         title: 'Heartbeat = Information',
         lines: [
-          'Rest one hand on your chest. Feel your heartbeat—fast or slow is okay.',
+          'Rest one hand gently on your chest. Feel your heartbeat, whether it\'s fast or slow, it\'s okay.',
           'Use longer breaths to settle it: in for 3, out for 5.',
           'Notice the beat soften. As your heart slows, so does your breath. Tap Continue.'
         ]
@@ -584,7 +584,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Reset Complete',
         lines: [
           'You\'ve moved from alarm to total awareness.',
-          'Breath steadier, body heavier, mind clearer.',
+          'Your breath is steadier, your body feels heavier, and your mind is clearer.',
           'Carry this calmer pace into the next thing you do. Reset complete.'
         ]
       }
@@ -612,7 +612,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'What\'s on Repeat?',
         lines: [
           'Think of the single worry looping in your mind. Just one.',
-          'Keep it in mind—you don\'t need to fix it yet, just name it.',
+          'Keep it in mind, you don\'t need to fix it yet, just name it for now.',
           'Tap Continue.'
         ]
       },
@@ -640,7 +640,7 @@ const NEW_RESETS: ResetSpec[] = [
         lines: [
           'IN YOUR CONTROL: Picture the smallest move you could take after this reset. Visualize starting it.',
           'OUT OF YOUR CONTROL: Imagine a solid box. Place your worry inside, shut the lid. It\'s labeled "Parked."',
-          'Not gone—just not carried at this moment. Tap Continue.'
+          'It\'s not gone, just not being carried at this moment. Tap Continue.'
         ]
       },
       {
@@ -740,7 +740,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Land the Rhythm',
         lines: [
           'Let the taps get softer... slower... then stop. Hands open on your thighs.',
-          'Feel the rhythm echo in your chest—steady, not hurried.',
+          'Feel the rhythm echo gently in your chest, steady and not hurried.',
           'One last breath: in for 4, out for 6. Tap Continue.'
         ]
       },
@@ -767,7 +767,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-1',
         title: 'The Focus Path',
         lines: [
-          'Restless mind, busy eyes—let\'s give them one steady route.',
+          'When your mind feels restless and your eyes feel busy, let\'s give them one steady route to follow.',
           'Hold your phone comfortably, shoulders easy. Eyes will follow a moving point.',
           'Head stays still. When ready, tap Continue.'
         ]
@@ -777,7 +777,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Find Your Start',
         lines: [
           'Sit tall or stand with feet planted. Soften jaw, drop shoulders.',
-          'Keep head quiet—only eyes will travel.',
+          'Keep your head still and quiet, only your eyes will travel.',
           'Small inhale... longer exhale. Tap Continue.'
         ]
       },
@@ -786,7 +786,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Side to Side',
         lines: [
           'Imagine a soft light at the left edge of your screen.',
-          'Let eyes follow it slowly to the right—smooth, no rush.',
+          'Let your eyes follow it slowly to the right, smooth and without any rush.',
           'Breathe naturally as it moves. Tap Continue.'
         ]
       },
@@ -794,7 +794,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-4',
         title: 'Return Pass',
         lines: [
-          'The light drifts back to the left. Keep gaze fluid—no jumps.',
+          'Now the light drifts back to the left. Keep your gaze fluid, no jumps or jerky movements.',
           'Notice your out-breath lengthen as it comes home.',
           'Repeat one more gentle pass. Tap Continue.'
         ]
@@ -867,7 +867,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-2',
         title: 'Grip & Let Go',
         lines: [
-          'Make soft fists with both hands—about 40% effort. Hold for 3... 2... 1...',
+          'Make soft fists with both hands, about 40% effort is all you need. Hold for 3... 2... 1...',
           'Open hands slowly. Shake them out once or twice.',
           'Repeat once more: hold 3... 2... 1... open and shake. Notice warmth in fingers. Tap Continue.'
         ]
@@ -885,8 +885,8 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-4',
         title: 'Open, Then Ease',
         lines: [
-          'Small breath in—let chest open a touch.',
-          'Out-breath—let upper back soften towards neutral.',
+          'Take a small breath in, and let your chest open just a touch.',
+          'Now breathe out, and let your upper back soften towards neutral.',
           'Repeat once: gentle open... gentle ease. Smooth and tidy. Tap Continue.'
         ]
       },
@@ -894,7 +894,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-5',
         title: 'Centre Release',
         lines: [
-          'Tighten stomach lightly for 3 seconds—just enough to notice.',
+          'Tighten your stomach lightly for 3 seconds, just enough to notice the sensation.',
           'Release and let breath drop lower.',
           'One more light tighten... and release. Feel slack return to the middle. Tap Continue.'
         ]
@@ -949,7 +949,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-2',
         title: 'Left to Right',
         lines: [
-          'Start a slow sway from left to right—only a few centimetres.',
+          'Start a slow, gentle sway from left to right, only a few centimetres is fine.',
           'Feel weight move across feet (or hips if seated).',
           'Shoulders soft, face loose. Tap Continue.'
         ]
@@ -959,7 +959,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Forward and Return',
         lines: [
           'Lean a touch forward... then come back to centre.',
-          'Small, smooth range—controlled, not wobbly.',
+          'Keep it small and smooth, controlled and not wobbly.',
           'Do gently 8-10 times. Breathe naturally. Tap Continue.'
         ]
       },
@@ -967,7 +967,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-4',
         title: 'Easy Loops',
         lines: [
-          'Let upper body draw a slow circle—once clockwise, once anticlockwise.',
+          'Let your upper body draw a slow, gentle circle, once clockwise, then once anticlockwise.',
           'Keep it tidy and relaxed. Head stays easy on top.',
           'Seated: movement from ribs and hips. Do 8-10 times. Tap Continue.'
         ]
@@ -985,7 +985,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-6',
         title: 'Neutral Balance',
         lines: [
-          'Find the point where you\'re barely moving—balanced but not stiff.',
+          'Find the point where you\'re barely moving, balanced but not stiff.',
           'Let breath flow slowly on its own. Notice your heartbeat.',
           'On next out-breath, relax grip on phone by 5%. Tap Continue.'
         ]
@@ -1005,15 +1005,15 @@ const NEW_RESETS: ResetSpec[] = [
         lines: [
           'Stay in that comfortable stillness for a few seconds.',
           'Sink softly into stable position. Feet (or seat) holding you firm.',
-          'If a small wobble appears, let it pass—you\'re steady. Tap Continue.'
+          'If a small wobble appears, just let it pass, you\'re steady. Tap Continue.'
         ]
       },
       {
         id: 'step-9',
         title: 'Reset Complete',
         lines: [
-          'Movement has eased into calm.',
-          'Notice: posture taller, breathing smoother, mind quieter. Reset complete.'
+          'Your movement has now eased into a gentle calm.',
+          'Take a moment to notice how your posture feels taller, your breathing smoother, and your mind quieter. Reset complete.'
         ]
       }
     ],
@@ -1068,7 +1068,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Let the ribs breathe',
         lines: [
           'Inhale and feel yourself widen like an umbrella. Exhale, push air out, keep the form.',
-          'You\'ve made space—a position of calm and confidence. Feel powerful and alert.',
+          'You\'ve made space for yourself, a position of calm and confidence. Feel powerful and alert.',
           'Tap Continue.'
         ]
       },
@@ -1094,7 +1094,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Wrap up',
         lines: [
           'One clean breath in through the nose... longer breath out through the mouth.',
-          'Calm body, awake mind. Reset complete.'
+          'Your body is calm and your mind is awake. Reset complete.'
         ]
       }
     ]
@@ -1111,7 +1111,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-1',
         title: 'Set the screen',
         lines: [
-          'Hold the phone arm\'s length away. Head fairly still—eyes do the traveling.',
+          'Hold the phone at arm\'s length away. Keep your head fairly still, your eyes will do the traveling.',
           'Shoulders loose, face soft. Tap Continue.'
         ]
       },
@@ -1128,7 +1128,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Left and right',
         lines: [
           'Jump gaze to far left, then far right. Pause each side. One rep = 4 jumps.',
-          'Complete 5-10 sets. Notice heart rate and breath increase—nervous system waking.',
+          'Complete 5-10 sets. Notice your heart rate and breath increase as your nervous system wakes up.',
           'Tap Continue.'
         ]
       },
@@ -1219,7 +1219,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Gentle spine wave',
         lines: [
           'Soft inhale: lift breastbone a few millimetres. Exhale: ease back to neutral.',
-          'Three smooth waves—no crunching or slumping. Tap Continue.'
+          'Three smooth waves, no crunching or slumping. Tap Continue.'
         ]
       },
       {
@@ -1243,7 +1243,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Wrap up',
         lines: [
           'Breathe in through the nose; out a fraction longer through the mouth.',
-          'Warm, switched on, ready. Reset complete.'
+          'You\'re feeling warm, switched on, and ready. Reset complete.'
         ]
       }
     ],
@@ -1309,7 +1309,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-7',
         title: 'Snap the focus',
         lines: [
-          'Choose a tiny detail on the screen—a letter, an icon corner.',
+          'Choose a tiny detail on the screen, like a letter or an icon corner.',
           'Hold it clearly for 3 seconds, then soften your gaze. Attention sharpens. Tap Continue.'
         ]
       },
@@ -1318,7 +1318,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Wrap up',
         lines: [
           'Sit or stand a touch taller. Short clean inhale; longer steady exhale.',
-          'Senses on, mind clear. Reset complete.'
+          'Your senses are switched on and your mind feels clear. Reset complete.'
         ]
       }
     ]
@@ -1373,7 +1373,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-5',
         title: 'One Small Point',
         lines: [
-          'Pick a tiny detail — a letter, a corner, an icon.',
+          'Pick a tiny detail, like a letter, a corner, or an icon.',
           'Keep a soft, steady gaze on it. Jaw loose. Shoulders easy.',
           'Tap Continue.'
         ]
@@ -1401,7 +1401,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Finish',
         lines: [
           'You\'ve brought your attention back in.',
-          'One steady point, one clear mind. Reset complete.'
+          'One steady point, one clear mind. Well done, reset complete.'
         ]
       }
     ]
@@ -1481,8 +1481,8 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-8',
         title: 'Finish',
         lines: [
-          'Rhythm restored. Mind calmer and more settled.',
-          'Reset complete.'
+          'Your rhythm is restored and your mind feels calmer and more settled.',
+          'Well done, reset complete.'
         ]
       }
     ],
@@ -1500,7 +1500,7 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-1',
         title: 'Picture the Grid',
         lines: [
-          'Imagine a 3×3 grid on your screen — like a noughts-and-crosses board.',
+          'Imagine a 3×3 grid on your screen, like a noughts-and-crosses board.',
           'Keep your head still and move only your eyes.',
           'Tap Continue.'
         ]
@@ -1563,8 +1563,8 @@ const NEW_RESETS: ResetSpec[] = [
         id: 'step-8',
         title: 'Finish',
         lines: [
-          'Your attention is steadier. The noise has dropped.',
-          'Reset complete.'
+          'Your attention is steadier now and the noise has dropped away.',
+          'Well done, reset complete.'
         ]
       }
     ]
@@ -1645,7 +1645,7 @@ const NEW_RESETS: ResetSpec[] = [
         title: 'Finish',
         lines: [
           'You\'ve moved from many things to just one.',
-          'Carry this steady focus into whatever you do next. Reset complete.'
+          'Carry this steady focus with you into whatever you do next. Well done, reset complete.'
         ]
       }
     ]
