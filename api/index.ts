@@ -306,33 +306,52 @@ app.post('/api/auth/signup', async (req, res) => {
   }
 });
 
-app.post('/api/auth/login', (req, res) => {
+app.post('/api/auth/login', async (req, res) => {
   console.log("Login attempt for:", req.body?.email);
-  console.log("Session exists:", !!req.session);
-  console.log("Environment:", { NODE_ENV: process.env.NODE_ENV, VERCEL: process.env.VERCEL, isProduction });
   
-  passport.authenticate('local', (err: any, user: User, info: any) => {
-    if (err) {
-      console.error("Login authentication error:", err);
-      return res.status(500).json({ error: "An error occurred during login. Please try again." });
-    }
-    if (!user) {
+  try {
+    // Wrap passport.authenticate in a promise for clean async/await flow
+    const authResult = await new Promise<{ user: User | null; info: any }>((resolve, reject) => {
+      passport.authenticate('local', (err: any, user: User | null, info: any) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve({ user, info });
+        }
+      })(req, res, () => {});
+    });
+
+    if (!authResult.user) {
       console.log("User not found or invalid password");
-      return res.status(401).json({ error: info?.message || "Invalid email or password" });
+      return res.status(401).json({ error: authResult.info?.message || "Invalid email or password" });
     }
-    console.log("User authenticated, creating session for:", user.email);
-    req.login(user, (loginErr) => {
-      if (loginErr) {
-        console.error("Session login error:", loginErr);
-        console.error("Error details:", JSON.stringify(loginErr, Object.getOwnPropertyNames(loginErr)));
-        return res.status(500).json({ error: "Failed to create session. Please try again." });
-      }
-      console.log("Session created successfully for:", user.email);
-      res.json({
-        user: { id: user.id, email: user.email, hasPremiumAccess: user.hasPremiumAccess, companyId: user.companyId },
+
+    console.log("User authenticated:", authResult.user.email);
+
+    // Wrap req.login in a promise
+    await new Promise<void>((resolve, reject) => {
+      req.login(authResult.user!, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
       });
     });
-  })(req, res, () => {});
+
+    console.log("Session created successfully");
+    return res.json({
+      user: { 
+        id: authResult.user.id, 
+        email: authResult.user.email, 
+        hasPremiumAccess: authResult.user.hasPremiumAccess, 
+        companyId: authResult.user.companyId 
+      },
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    return res.status(500).json({ error: "An error occurred during login. Please try again." });
+  }
 });
 
 app.post('/api/auth/logout', (req, res) => {
@@ -496,8 +515,13 @@ app.get('/api/admin/users', isMasterAdmin, async (_req, res) => {
   }
 });
 
-// Error handler
+// Error handler - check if headers already sent to avoid double response
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  console.error("Error handler caught:", err);
+  if (res.headersSent) {
+    console.error("Headers already sent, skipping error response");
+    return;
+  }
   const status = err.status || err.statusCode || 500;
   const message = err.message || "Internal Server Error";
   res.status(status).json({ message });
