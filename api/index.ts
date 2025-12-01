@@ -214,13 +214,15 @@ app.use(express.urlencoded({ extended: false }));
 
 // Use cookie-session for serverless compatibility
 // Session data is stored in an encrypted cookie, no database connection needed
+// On Vercel, always use secure cookies since it's always HTTPS
+const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
 app.use(
   cookieSession({
     name: "session",
     keys: [process.env.SESSION_SECRET || "getreset-secret-key-change-in-production"],
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isProduction,
     sameSite: "lax" as const,
   })
 );
@@ -305,19 +307,27 @@ app.post('/api/auth/signup', async (req, res) => {
 });
 
 app.post('/api/auth/login', (req, res) => {
+  console.log("Login attempt for:", req.body?.email);
+  console.log("Session exists:", !!req.session);
+  console.log("Environment:", { NODE_ENV: process.env.NODE_ENV, VERCEL: process.env.VERCEL, isProduction });
+  
   passport.authenticate('local', (err: any, user: User, info: any) => {
     if (err) {
       console.error("Login authentication error:", err);
       return res.status(500).json({ error: "An error occurred during login. Please try again." });
     }
     if (!user) {
+      console.log("User not found or invalid password");
       return res.status(401).json({ error: info?.message || "Invalid email or password" });
     }
+    console.log("User authenticated, creating session for:", user.email);
     req.login(user, (loginErr) => {
       if (loginErr) {
         console.error("Session login error:", loginErr);
+        console.error("Error details:", JSON.stringify(loginErr, Object.getOwnPropertyNames(loginErr)));
         return res.status(500).json({ error: "Failed to create session. Please try again." });
       }
+      console.log("Session created successfully for:", user.email);
       res.json({
         user: { id: user.id, email: user.email, hasPremiumAccess: user.hasPremiumAccess, companyId: user.companyId },
       });
