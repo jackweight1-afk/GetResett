@@ -36,20 +36,20 @@ export default function Landing() {
       </header>
 
       {/* Hero Section */}
-      <section className={`px-4 sm:px-6 py-10 sm:py-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
+      <section className={`px-4 sm:px-6 min-h-[calc(100vh-88px)] sm:min-h-0 sm:py-16 flex items-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className="max-w-4xl mx-auto text-center w-full">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-5 sm:mb-6 leading-tight">
             Because Sometimes,
             <br />
             <span className="block">You Just Need A Minute</span>
           </h1>
 
-          <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-10 sm:mb-10 max-w-2xl mx-auto leading-relaxed">
             Short guided wellbeing resets built to help you build mental fitness and find calm in a hectic day
           </p>
 
           {/* Dual CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
               size="lg"
               onClick={() => window.location.href = '/download'}
