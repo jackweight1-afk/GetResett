@@ -57,35 +57,40 @@ export default function Business() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-pink-50 to-teal-50">
       {/* Header */}
-      <header className="px-4 sm:px-6 py-6">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-3">
-            <img 
-              src={logoUrl} 
-              alt="GetReset Logo" 
-              className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-lg object-cover"
-            />
-            <span className="text-2xl sm:text-3xl font-bold text-gray-900">
-              GetReset
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button
-              onClick={() => window.location.href = '/signup'}
-              className="bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500 hover:from-pink-600 hover:via-purple-600 hover:to-teal-600 text-white text-sm font-semibold"
-              data-testid="button-employee-login-header"
-            >
-              Employee Login
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={() => window.location.href = '/'}
-              className="text-gray-700 hover:text-gray-900"
-              data-testid="button-back"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
+      <header className="px-4 sm:px-6 py-4 sm:py-6">
+        <div className="max-w-7xl mx-auto">
+          {/* Mobile: Stack vertically, Desktop: Side by side */}
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+            <div className="flex items-center space-x-3">
+              <img 
+                src={logoUrl} 
+                alt="GetReset Logo" 
+                className="w-10 h-10 sm:w-14 sm:h-14 rounded-2xl shadow-lg object-cover"
+              />
+              <span className="text-xl sm:text-3xl font-bold text-gray-900">
+                GetReset
+              </span>
+            </div>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Button
+                onClick={() => window.location.href = '/signup'}
+                size="sm"
+                className="bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500 hover:from-pink-600 hover:via-purple-600 hover:to-teal-600 text-white text-xs sm:text-sm font-semibold"
+                data-testid="button-employee-login-header"
+              >
+                Employee Login
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => window.location.href = '/'}
+                className="text-gray-700 hover:text-gray-900 text-xs sm:text-sm"
+                data-testid="button-back"
+              >
+                <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                Back
+              </Button>
+            </div>
           </div>
         </div>
       </header>

@@ -295,17 +295,25 @@ app.post('/api/auth/signup', async (req, res) => {
   }
 });
 
-app.post('/api/auth/login', (req, res, next) => {
+app.post('/api/auth/login', (req, res) => {
   passport.authenticate('local', (err: any, user: User, info: any) => {
-    if (err) return next(err);
-    if (!user) return res.status(401).json({ error: info?.message || "Invalid credentials" });
-    req.login(user, (err) => {
-      if (err) return next(err);
+    if (err) {
+      console.error("Login authentication error:", err);
+      return res.status(500).json({ error: "An error occurred during login. Please try again." });
+    }
+    if (!user) {
+      return res.status(401).json({ error: info?.message || "Invalid email or password" });
+    }
+    req.login(user, (loginErr) => {
+      if (loginErr) {
+        console.error("Session login error:", loginErr);
+        return res.status(500).json({ error: "Failed to create session. Please try again." });
+      }
       res.json({
         user: { id: user.id, email: user.email, hasPremiumAccess: user.hasPremiumAccess, companyId: user.companyId },
       });
     });
-  })(req, res, next);
+  })(req, res, () => {});
 });
 
 app.post('/api/auth/logout', (req, res) => {
