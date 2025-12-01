@@ -173,7 +173,9 @@ passport.use(new LocalStrategy(
   { usernameField: 'email' },
   async (email, password, done) => {
     try {
-      const user = await storage.getUserByEmail(email);
+      // Normalize email to lowercase for consistent lookup
+      const normalizedEmail = email.trim().toLowerCase();
+      const user = await storage.getUserByEmail(normalizedEmail);
       if (!user) {
         return done(null, false, { message: 'Invalid email or password' });
       }
