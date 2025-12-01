@@ -1,8 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
-import session from "express-session";
-import { Pool, neon } from "@neondatabase/serverless";
+import cookieSession from "cookie-session";
+import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
-import connectPgSimple from "connect-pg-simple";
 import bcrypt from "bcryptjs";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
@@ -206,30 +205,40 @@ passport.deserializeUser(async (id: string, done) => {
 
 // ============ EXPRESS APP ============
 const app = express();
+
+// Trust proxy for Vercel - required for secure cookies behind reverse proxy
+app.set('trust proxy', 1);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const PgSession = connectPgSimple(session);
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-
+// Use cookie-session for serverless compatibility
+// Session data is stored in an encrypted cookie, no database connection needed
 app.use(
-  session({
-    store: new PgSession({
-      pool: pool,
-      tableName: "session",
-      createTableIfMissing: true,
-    }),
-    secret: process.env.SESSION_SECRET || "getreset-secret-key-change-in-production",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-    },
+  cookieSession({
+    name: "session",
+    keys: [process.env.SESSION_SECRET || "getreset-secret-key-change-in-production"],
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax" as const,
   })
 );
+
+// Regenerate session for passport compatibility with cookie-session
+app.use((req: Request, _res: Response, next: NextFunction) => {
+  if (req.session && !(req.session as any).regenerate) {
+    (req.session as any).regenerate = (cb: (err?: any) => void) => {
+      cb();
+    };
+  }
+  if (req.session && !(req.session as any).save) {
+    (req.session as any).save = (cb: (err?: any) => void) => {
+      cb();
+    };
+  }
+  next();
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
