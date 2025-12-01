@@ -36,8 +36,8 @@ export default function Login() {
       }
     } catch (error: any) {
       toast({
-        title: "Login failed",
-        description: error.message || "Invalid email or password",
+        title: "Couldn't sign you in",
+        description: error.message || "Please check your email and password and try again.",
         variant: "destructive",
       });
     } finally {

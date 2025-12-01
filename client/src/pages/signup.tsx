@@ -24,7 +24,7 @@ export default function Signup() {
     if (password !== confirmPassword) {
       toast({
         title: "Passwords don't match",
-        description: "Please make sure both passwords are the same",
+        description: "Please make sure you've entered the same password in both fields.",
         variant: "destructive",
       });
       return;
@@ -32,8 +32,8 @@ export default function Signup() {
 
     if (password.length < 6) {
       toast({
-        title: "Password too short",
-        description: "Password must be at least 6 characters",
+        title: "Choose a stronger password",
+        description: "Your password needs to be at least 6 characters long.",
         variant: "destructive",
       });
       return;
@@ -58,13 +58,13 @@ export default function Signup() {
     } catch (error: any) {
       // Handle specific error for non-whitelisted emails
       const errorMessage = error.message || "Could not create account";
-      const errorTitle = errorMessage.includes("not authorized") || errorMessage.includes("Access Denied")
-        ? "Access Denied"
-        : "Signup failed";
+      const isAccessDenied = errorMessage.includes("not authorized") || errorMessage.includes("Access Denied");
       
       toast({
-        title: errorTitle,
-        description: errorMessage,
+        title: isAccessDenied ? "Email Not Registered" : "Couldn't create your account",
+        description: isAccessDenied 
+          ? "Your work email hasn't been added yet. Please ask your HR team to add you to the GetReset+ employee list."
+          : errorMessage,
         variant: "destructive",
         duration: 7000,
       });
