@@ -254,12 +254,18 @@ app.post('/api/auth/signup', async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password are required" });
     }
-    const existingUser = await storage.getUserByEmail(email);
+    // Normalize email once for all operations
+    const normalizedEmail = email.trim().toLowerCase();
+    
+    const existingUser = await storage.getUserByEmail(normalizedEmail);
     if (existingUser) {
       return res.status(400).json({ error: "User already exists" });
     }
-    const allowedEmployee = await storage.getEmployeeByEmail(email);
-    if (!allowedEmployee) {
+    // Check if this is the master admin email (special case - can sign up without whitelist)
+    const isMasterAdminEmail = normalizedEmail === "getresett@gmail.com";
+    
+    const allowedEmployee = await storage.getEmployeeByEmail(normalizedEmail);
+    if (!allowedEmployee && !isMasterAdminEmail) {
       return res.status(403).json({ 
         error: "Access Denied",
         message: "Your email is not authorized for GetReset+. Please contact your employer's HR department to be added to the employee list."
@@ -267,10 +273,10 @@ app.post('/api/auth/signup', async (req, res) => {
     }
     const passwordHash = await bcrypt.hash(password, 10);
     const user = await storage.createUser({
-      email: email.toLowerCase(),
+      email: normalizedEmail,
       passwordHash,
       hasPremiumAccess: true,
-      companyId: allowedEmployee.companyId,
+      companyId: allowedEmployee?.companyId || null,
     });
     req.login(user, (err) => {
       if (err) {
